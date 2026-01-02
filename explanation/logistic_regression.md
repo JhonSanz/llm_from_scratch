@@ -19,15 +19,12 @@ Por ejemplo en esta tabla hay datos de varias casas y cada casa tiene valores pa
 
 así pues
 
-$$
-
-X = \begin{bmatrix}
+$$X = \begin{bmatrix}
 x_1^{(1)} & x_2^{(1)} & x_3^{(1)} & x_4^{(1)} & x_5^{(1)} \\
 x_1^{(2)} & x_2^{(2)} & x_3^{(2)} & x_4^{(2)} & x_5^{(2)} \\
 x_1^{(3)} & x_2^{(3)} & x_3^{(3)} & x_4^{(3)} & x_5^{(3)} \\
 x_1^{(4)} & x_2^{(4)} & x_3^{(4)} & x_4^{(4)} & x_5^{(4)}
-\end{bmatrix}
-$$
+\end{bmatrix}$$
 
 osea
 
