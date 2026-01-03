@@ -100,8 +100,13 @@ x_n \\
 Como vimos al inicio las catacterísticas se definieron con $x_1, x_2, \dots, x_5, \dots, x_n$, pero... 👀 ahí no está $x_0$, es justo que agregamos recientemente. A partir de ahora siempre $x_0 = 1$. De esta manera podemos hacer esto
 
 $$\theta^T \cdot X = \begin{bmatrix} \theta_0 & \theta_1 & \theta_2 & \dots & \theta_n \end{bmatrix}  \cdot
-\begin{bmatrix} x_0 = 1 \\ x_1 \\ x_2 \\ \vdots \\ x_n \end{bmatrix} = 
-\theta_0 + \theta_1 x_1 + \theta_2 x_2 + \dots + \theta_n x_n$$
+\begin{bmatrix}
+x_0 = 1 \\
+x_1 \\
+x_2 \\
+\vdots \\ 
+x_n \\
+\end{bmatrix} = \theta_0 + \theta_1 x_1 + \theta_2 x_2 + \dots + \theta_n x_n$$
 
 Y esto se conoce como la forma vectorial de la hipótesis.
 
