@@ -208,10 +208,25 @@ $$f(x) \text{ es continua en } a \iff \lim_{x \to a} f(x) = f(a)$$
 Esto nos dice que el limite tiene que existir, $f(a)$ tiene que existir y ambos el limite y la función en a tienen que ser iguales.
 
 
-Para demostrar que $g(z) = \frac{1}{1 + e^{-z}}$ es continua en un punto $c$, debemos probar que:$$\forall \epsilon > 0, \exists \delta > 0 \text{ tal que } |z - c| < \delta \implies |g(z) - g(c)| < \epsilon$$
+Para demostrar que $g(z) = \frac{1}{1 + e^{-z}}$ es continua en un punto $c$, debemos probar que: $$\forall \epsilon > 0, \exists \delta > 0 \text{ tal que } |z - c| < \delta \implies |g(z) - g(c)| < \epsilon$$
 
 
-Demostración formal de continuidad ($\epsilon - \delta$)Para demostrar que $g(z)$ es continua en cualquier punto $c \in \mathbb{R}$, analizamos la diferencia:$$|g(z) - g(c)| = \left| \frac{1}{1+e^{-z}} - \frac{1}{1+e^{-c}} \right|$$Al operar la resta de fracciones obtenemos:$$|g(z) - g(c)| = \left| \frac{(1+e^{-c}) - (1+e^{-z})}{(1+e^{-z})(1+e^{-c})} \right| = \frac{|e^{-z} - e^{-c}|}{(1+e^{-z})(1+e^{-c})}$$Sabemos que para cualquier $z$, el denominador $(1+e^{-z})(1+e^{-c})$ es siempre mayor que $1$ (ya que cada término es $> 1$). Por lo tanto:$$\frac{|e^{-z} - e^{-c}|}{(1+e^{-z})(1+e^{-c})} < |e^{-z} - e^{-c}|$$Ahora, apelamos a la continuidad de la función exponencial $f(z) = e^{-z}$. Por definición de continuidad de la exponencial, para cualquier $\epsilon > 0$, existe un $\delta > 0$ tal que si $|z - c| < \delta$, entonces $|e^{-z} - e^{-c}| < \epsilon$.Como hemos establecido que $|g(z) - g(c)| < |e^{-z} - e^{-c}|$, basta con elegir el mismo $\delta$ que satisface la condición para la exponencial. Así:$$|z - c| < \delta \implies |g(z) - g(c)| < |e^{-z} - e^{-c}| < \epsilon$$Esto demuestra que la función Sigmoide es continua en todo su dominio.
+Demostración formal de continuidad ($\epsilon - \delta$) Para demostrar que $g(z)$ es continua en cualquier punto $c \in \mathbb{R}$, analizamos la diferencia:
+$$|g(z) - g(c)| = \left| \frac{1}{1+e^{-z}} - \frac{1}{1+e^{-c}} \right|$$
+
+Al operar la resta de fracciones obtenemos:
+
+$$|g(z) - g(c)| = \left| \frac{(1+e^{-c}) - (1+e^{-z})}{(1+e^{-z})(1+e^{-c})} \right| = \frac{|e^{-z} - e^{-c}|}{(1+e^{-z})(1+e^{-c})}$$
+
+Sabemos que para cualquier $z$, el denominador $(1+e^{-z})(1+e^{-c})$ es siempre mayor que $1$ (ya que cada término es $> 1$). Por lo tanto:
+
+$$\frac{|e^{-z} - e^{-c}|}{(1+e^{-z})(1+e^{-c})} < |e^{-z} - e^{-c}|$$
+
+Ahora, apelamos a la continuidad de la función exponencial $f(z) = e^{-z}$. Por definición de continuidad de la exponencial, para cualquier $\epsilon > 0$, existe un $\delta > 0$ tal que si $|z - c| < \delta$, entonces $|e^{-z} - e^{-c}| < \epsilon$.Como hemos establecido que $|g(z) - g(c)| < |e^{-z} - e^{-c}|$, basta con elegir el mismo $\delta$ que satisface la condición para la exponencial. Así:
+
+$$|z - c| < \delta \implies |g(z) - g(c)| < |e^{-z} - e^{-c}| < \epsilon$$
+
+Esto demuestra que la función Sigmoide es continua en todo su dominio.
 
 
 #### Primera derivada de la función
