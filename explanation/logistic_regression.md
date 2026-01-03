@@ -283,3 +283,17 @@ ahora veamos en donde es concava hacia arriba y concava hacia abajo:
 Cóncava hacia arriba ($g''(z) > 0$) Ocurre cuando $1 - 2g(z) > 0$, es decir, cuando $g(z) < 0.5$.Esto sucede cuando $z < 0$.
 
 Cóncava hacia abajo ($g''(z) < 0$) Ocurre cuando $1 - 2g(z) < 0$, es decir, cuando $g(z) > 0.5$.
+
+
+Con este análisis ya estamos seguros de que cualquier valor de x que le pasemos a la función, será mapeado a un rango entre 0 y 1, por eso se le conoce también como filtro o embudo.
+
+También tenemos claro que en $x = 0$ es el punto de inflexión, y este se llama Decisión boundary, que es precisamente el término que utilizamos anteriormente para la recta. En este punto entendemos el valor retornado 0.5 como indecisión (probabilidad de 0.5 para aplicar a una u otra categoría).
+
+Por lo tanto, **el objetivo de todo esto es encontrar una frontera que logre clasificar los datos correctamente, es decir, que estén los mas alejados posible de la frontera de decisión o punto de inflexión.**
+
+> Cuando entrenamos el modelo, lo que buscamos es ajustar los parámetros $\theta$ para que la "recta" $\theta^T x$ se posicione de tal forma que:
+>
+> Para los ejemplos donde la etiqueta real es $y=1$, el valor de $\theta^T x$ sea un número positivo muy grande. Esto empuja la probabilidad $h_\theta(x)$ hacia 1 (lejos del 0.5).
+>
+> Para los ejemplos donde la etiqueta real es $y=0$, el valor de $\theta^T x$ sea un número negativo muy grande. Esto empuja la probabilidad $h_\theta(x)$ hacia 0 (también lejos del 0.5).
+
