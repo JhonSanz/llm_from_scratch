@@ -2,7 +2,7 @@
 
 Después de entender como funciona linear regression, vamos a rescatar algunos conceptos clave que nos serviran como punto de partida para logistic regression.
 
-#### Ejemplos de entrenamiento
+### Ejemplos de entrenamiento
 
 Los ejemplos de entrenamiento son vectores n dimensionales que representan caracteristicas con valores numericos. Al tener varios ejemplos de entrenamiento y varias características podemos acomodar todo en una matriz.
 
@@ -45,7 +45,7 @@ $$x^{(2)} = \begin{bmatrix}
 \end{bmatrix} \quad x_3^{(2)} = 2$$
 
 
-#### Variable salida / objetivo
+### Variable salida / objetivo
 
 Ahora analicemos la ultima columna, en este ejemplo es el precio de la casa. Esto es lo que queremos inferir para un nuevo ejemplo después de realizar el entrenamiento. Es también un vector, y aunque la nomenclatura sea un poco confusa, obtenemos los datos de la siguiente manera
 
@@ -56,7 +56,7 @@ $$y= \begin{bmatrix}
 123
 \end{bmatrix} \quad y^{(2)} = 232$$
 
-#### Hipótesis
+### Hipótesis
 
 Ahora que tenemos los datos de entrenamiento, vamos a formular una hipótesis. Esta es una función que nos servirá para **describir** nuestros datos, por lo tanto, despendiendo de lo que querramos hacer la hipótesis va a ser diferente.
 
@@ -64,7 +64,7 @@ En la regresión lineal utilizabamos una recta, la cual "acomodabamos" para que 
 
 $$h_\theta(x) = \theta_0 + \theta_1 x$$
 
-#### Parámetros
+### Parámetros
 
 Como podemos observar, la recta depende de unos valores $\theta$ que definen la pendiente y posición de la recta. Estos son los parámetros que se optmizan durante la fase de entrenamiento y de esta manera el modelo "aprende".
 
@@ -88,7 +88,7 @@ $$h_\theta(x) = \theta_0 + \theta_1 x_1 + \theta_2 x_2 + \theta_3 x_3 + \dots + 
 
 donde vemos que aparecen ambas $X$ y $\theta$, y como sigue siendo una recta, el parámetro $\theta_0$ sigue siendo el desplazamiento de la recta, y esta no depende de $X$.
 
-#### Sesgo
+### Sesgo
 
 Así que, como nos gusta la elegancia y la facilidad vamos a hacer lo siguiente: Definamos de nuevo a X, y hagamos un producto de vectores
 
@@ -122,7 +122,7 @@ x_n \\
 
 Y esto se conoce como la forma vectorial de la hipótesis.
 
-#### Función de costo
+### Función de costo
 
 Ahora que tenemos todos los elementos para escribir matemáticamente nuestro problema, se introduce la función que sirve para **saber qué tan buenos son nuestros parámetros $\theta$**, es decir, necesitamos medir qué tan lejos están nuestras predicciones $h_\theta(x)$ de los valores reales $y$. Por lo tanto, podemos decir que el costo es un único valor, entre mas cerca a cero mejor son las predicciones.
 
@@ -132,7 +132,7 @@ $$J(\theta_0, \theta_1, \dots, \theta_n) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta
 
 Queríamos encontrar el error cuadratico medio, es decir, qué tan lejos estaba nuestra hipótesis (nuestra linea recta) de los puntos. Eso está mejor explicado en el tutorial anterior
 
-#### Optimización
+### Optimización
 
 Ya tenemos todos los componentes, solo falta el algoritmo que hace mínimo el costo. Para que el costo sea mínimo los parámetros $\theta$ deben ajustarse. Dependiendo del problema el movimiento de los parámetros cumplira un objetivo diferente, si es regresión los parametros ajustarán la recta los datos, si es clasificación la recta separará mejor los datos.
 
@@ -165,21 +165,21 @@ $$h_\theta(x) = \theta_0 + \theta_1 x$$
 
 Pero aquí no nos sirve, porque la recta por si sola no puede darnos la información de la clasificación. Es decir, no hay una manera clara en que esta ecuación nos diga si un ejemplo pertenece o no pertenece a una categoría. **Osea, esta ecuación no nos retorna un valor 0 o 1** sino que su rango es $-\infty$ hasta $+\infty$, y por tanto no responde a la pregunta de **qué tan probable es...** ya que la probabilidad se da entre 0 y 1
 
-#### Decision boundary
+### Decision boundary
 
 Intuitivamente y visualmente podemos ver algo en lo que la recta es muy buena, sirve como límite para decir "aqui empieza una categoría y aqui termina la otra". Por eso se le llama decision boundary, porque es la frontera, el límite. Por lo cual conservaremos la recta para nuestro estudio
 
-#### Sigmoid function
+### Sigmoid function
 
 Entonces estamos en el dilema de elegir una hipótesis que nos diga **la probabilidad** de si un ejemplo de entrenamiento pertenece o no pertenece a una categoría. Y hay una función bella que nos ayuda a esto, es la sigmoid function:
 
 $$g(z) = \frac{1}{1 + e^{-z}}$$
 
-#### "Disección" analítica de la Sigmoid function
+### "Disección" analítica de la Sigmoid function
 
 Antes de presentar esta función graficada pensemos un poco...
 
-##### Dominio de la función:
+#### Dominio de la función:
 
 Analizando el denominador encontramos que 
 
@@ -188,4 +188,83 @@ $$1+e^{-z} \neq 0 \forall z \in \mathbb{R}$$
 ya que $e^{x}, x \in \mathbb{R}$ nunca es -1 ya que $ln(-1)$ no está definido
 
 
-##### Rango de la función
+#### Rango de la función
+
+Podemos justificar que el rango de la función está entre 0 y 1 de esta manera
+
+Cuando $z \to \infty$: $e^{-z}$ se vuelve casi $0$. Entonces $g(z) \approx \frac{1}{1+0} = 1$.
+
+Cuando $z \to -\infty$: $e^{-z}$ se vuelve un número gigantesco. Entonces $g(z) \approx \frac{1}{\text{infinito}} = 0$.
+
+Cuando $z = 0$: $e^{0} = 1$, por lo que $g(0) = \frac{1}{1+1} = 0.5$
+
+
+#### Continuidad de la función
+
+Una función es continua si
+
+$$f(x) \text{ es continua en } a \iff \lim_{x \to a} f(x) = f(a)$$
+
+Esto nos dice que el limite tiene que existir, $f(a)$ tiene que existir y ambos el limite y la función en a tienen que ser iguales.
+
+
+Para demostrar que $g(z) = \frac{1}{1 + e^{-z}}$ es continua en un punto $c$, debemos probar que:$$\forall \epsilon > 0, \exists \delta > 0 \text{ tal que } |z - c| < \delta \implies |g(z) - g(c)| < \epsilon$$
+
+
+Demostración formal de continuidad ($\epsilon - \delta$)Para demostrar que $g(z)$ es continua en cualquier punto $c \in \mathbb{R}$, analizamos la diferencia:$$|g(z) - g(c)| = \left| \frac{1}{1+e^{-z}} - \frac{1}{1+e^{-c}} \right|$$Al operar la resta de fracciones obtenemos:$$|g(z) - g(c)| = \left| \frac{(1+e^{-c}) - (1+e^{-z})}{(1+e^{-z})(1+e^{-c})} \right| = \frac{|e^{-z} - e^{-c}|}{(1+e^{-z})(1+e^{-c})}$$Sabemos que para cualquier $z$, el denominador $(1+e^{-z})(1+e^{-c})$ es siempre mayor que $1$ (ya que cada término es $> 1$). Por lo tanto:$$\frac{|e^{-z} - e^{-c}|}{(1+e^{-z})(1+e^{-c})} < |e^{-z} - e^{-c}|$$Ahora, apelamos a la continuidad de la función exponencial $f(z) = e^{-z}$. Por definición de continuidad de la exponencial, para cualquier $\epsilon > 0$, existe un $\delta > 0$ tal que si $|z - c| < \delta$, entonces $|e^{-z} - e^{-c}| < \epsilon$.Como hemos establecido que $|g(z) - g(c)| < |e^{-z} - e^{-c}|$, basta con elegir el mismo $\delta$ que satisface la condición para la exponencial. Así:$$|z - c| < \delta \implies |g(z) - g(c)| < |e^{-z} - e^{-c}| < \epsilon$$Esto demuestra que la función Sigmoide es continua en todo su dominio.
+
+
+#### Primera derivada de la función
+
+Para que sea derivable debe ser continua en a y sus derivadas laterales deben existir. Ya sabemos que es continua y también sabemos que la función exponencial es derivable en todo su dominio, entonces la sigmoide también es derivable
+
+$$g(z) = \frac{1}{1 + e^{-z}}$$
+$$g(z) = (1 + e^{-z})^{-1}$$
+$$g'(z) = -1 \cdot (1 + e^{-z})^{-2} \cdot (-e^{-z})$$
+$$g'(z) = \frac{e^{-z}}{(1 + e^{-z})^2}$$
+$$g'(z) = \frac{1}{1 + e^{-z}} \cdot \frac{e^{-z}}{1 + e^{-z}}$$
+$$g'(z) = \frac{1}{1 + e^{-z}} \cdot \left( \frac{1 + e^{-z} - 1}{1 + e^{-z}} \right)$$
+$$g'(z) = \frac{1}{1 + e^{-z}} \cdot \left( \frac{1 + e^{-z}}{1 + e^{-z}} - \frac{1}{1 + e^{-z}} \right)$$
+$$g'(z) = g(z)(1 - g(z))$$
+
+> **Conclusión importante:** Como $g(z)$ es siempre un valor entre $0$ y $1$, su derivada $g'(z)$ siempre será un valor real positivo
+
+Y haciendo algunos cálculos, la derivada es cero cuando $z \to  \pm \infty$ y su valor es $0.5$ cuando $z = 0$
+
+#### Segunda derivada y concavidad
+
+Esto es especialmente importante en nuestro contexto
+
+
+$$g'(z) = g(z)(1 - g(z))$$
+$$g''(z) = g'(z)(1 - g(z)) + g(z)(-g'(z))$$
+$$g''(z) = g'(z) [ (1 - g(z)) - g(z) ]$$
+$$g''(z) = g'(z) (1 - 2g(z))$$
+$$g''(z) = g(z)(1 - g(z))(1 - 2g(z))$$
+
+ya sabemos que $g''(z) = g(z)(1 - g(z))$ es positivo, entonces todo depende de $(1 - 2g(z))$
+
+##### Punto de inflexión
+
+veamos donde la concavidad es cero, para eso tomemos el termino que analizamos anteriormente (ya que es el único que )
+
+$$1 - 2g(z) = 0$$
+$$g(z) = 0.5$$
+
+y esto ocurre cuando z es cero, ya que 
+
+
+$$g(z) = \frac{1}{1 + e^0}$$
+$$g(z) = \frac{1}{1 + 1}$$
+$$g(z) = \frac{1}{2}$$
+
+
+> Entonces, en el z = 0 cambia la concavidad de la función
+
+##### Concavidad
+
+ahora veamos en donde es concava hacia arriba y concava hacia abajo:
+
+Cóncava hacia arriba ($g''(z) > 0$) Ocurre cuando $1 - 2g(z) > 0$, es decir, cuando $g(z) < 0.5$.Esto sucede cuando $z < 0$.
+
+Cóncava hacia abajo ($g''(z) < 0$) Ocurre cuando $1 - 2g(z) < 0$, es decir, cuando $g(z) > 0.5$.
