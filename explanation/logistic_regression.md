@@ -229,7 +229,7 @@ $$g'(z) = g(z)(1 - g(z))$$
 
 > **Conclusión importante:** Como $g(z)$ es siempre un valor entre $0$ y $1$, su derivada $g'(z)$ siempre será un valor real positivo
 
-Y haciendo algunos cálculos, la derivada es cero cuando $z \to  \pm \infty$ y su valor es $0.5$ cuando $z = 0$
+Y haciendo algunos cálculos, la derivada es cero cuando $z \to  \pm \infty$ y su valor es $0.25$ cuando $z = 0$
 
 #### Segunda derivada y concavidad
 
