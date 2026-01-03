@@ -261,7 +261,7 @@ ya sabemos que $g''(z) = g(z)(1 - g(z))$ es positivo, entonces todo depende de $
 
 ##### Punto de inflexión
 
-veamos donde la concavidad es cero, para eso tomemos el termino que analizamos anteriormente (ya que es el único que )
+veamos donde la concavidad es cero, para eso tomemos el termino que analizamos anteriormente (ya que es el único que puede ser negativo ya que el 2 hace que cambie la amplitud de la sigmoide)
 
 $$1 - 2g(z) = 0$$
 $$g(z) = 0.5$$
@@ -297,3 +297,5 @@ Por lo tanto, **el objetivo de todo esto es encontrar una frontera que logre cla
 >
 > Para los ejemplos donde la etiqueta real es $y=0$, el valor de $\theta^T x$ sea un número negativo muy grande. Esto empuja la probabilidad $h_\theta(x)$ hacia 0 (también lejos del 0.5).
 
+
+![alt text](img/sigmoid_derivates.png)
