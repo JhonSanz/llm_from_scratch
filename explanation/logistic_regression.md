@@ -297,5 +297,16 @@ Por lo tanto, **el objetivo de todo esto es encontrar una frontera que logre cla
 >
 > Para los ejemplos donde la etiqueta real es $y=0$, el valor de $\theta^T x$ sea un número negativo muy grande. Esto empuja la probabilidad $h_\theta(x)$ hacia 0 (también lejos del 0.5).
 
+#### Resumen
+
+La función: 
+
+- Es continua
+- Es derivable
+- Es monotona creciente
+- Tiene un punto de inflexión en x = 0 y su concavidad cambia de cóncava hacia arriba a cóncava hacia abajo
+- En x = 0 tiene el punto de crecimiento
+
+
 
 ![alt text](img/sigmoid_derivates.png)
