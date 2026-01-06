@@ -310,3 +310,40 @@ La función:
 
 
 ![alt text](img/sigmoid_derivates.png)
+
+
+### Eligiendo la función de costo
+
+Ya vimos los beneficios de usar la **función sigmoide como hipótesis**. Esta nos puede decir la **probabilidad** de que un ejemplo de entrenamiento pertenezca a una categoría. Ahora necesitamos la función de costo, que sirve para **saber qué tan buenos son nuestros parámetros $\theta$**, es decir, necesitamos medir qué tan lejos están nuestras predicciones $h_\theta(x)$ de los valores reales $y$. Por lo tanto, podemos decir que el costo es un único valor, entre mas cerca a cero mejor son las predicciones.
+
+Como comentamos al inicio, usamos la función de minimos cuadrados para linear regression
+
+$$J(\theta_0, \theta_1, \dots, \theta_n) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2$$
+
+
+**Y aqui analizaremos los problemas de usar mínimos cuadrados + sigmoid function.**
+
+
+#### Castigo
+
+Como vimos anteriormente, la función sigmoide tiene rango $(0, 1)$ por lo cual, es bastante mala diciendo si un ejemplo de entrenamiento está mal clasificado. Veamoslo con un ejemplo
+
+
+Imaginemos un ejemplo de entrenamiento donde **la respuesta real es $y = 1$ (por ejemplo, "Es Spam").**
+
+
+| Escenario          | Predicción $h_\theta(x)$ | ¿Qué tan lejos está? | Cálculo del Costo $(h - y)^2$ | Resultado |
+|--------------------|--------------------------|----------------------|-------------------------------|-----------|
+| Acierto total      | 0.99                     | Muy cerca            | (0.99 − 1)²                   | 0.0001    |
+| Error leve         | 0.50                     | Indeciso             | (0.50 − 1)²                   | 0.25      |
+| Error catastrófico | 0.01                     | Totalmente opuesto   | (0.01 − 1)²                   | 0.9801    |
+
+
+Para el caso del error catastrófico. Vemos que la hipótesis **dijo que no era spam** porque la predicción es 0.01 y como estamos validando la clasificación de la clase $y = 1$ es un error y **debe ser CASTIGADO**. Es decir estamos preguntando si el ejemplo de entrenamiento es spam y la hipoitesis dijo que es muy poco probable, entonces el error debe ser grande, de tal manera que haya una señal clara de esta situación
+
+Vemos que el resultado es 0.9801 y eso no es lo suficientemente agresivo para que el algoritmo gradient descent tome impulso y cambie de rumbo
+
+En conclusión, usar mínimos cuadrados + sigmoid function nos dará señales débiles cuando los ejemplos de entrenamiento sean errores de clasificación, como vimos en este ejemplo.
+
+#### Función convexa
+
