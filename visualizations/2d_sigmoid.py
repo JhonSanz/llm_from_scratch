@@ -20,7 +20,7 @@ def compute_cost_mse(X, y, theta):
 
 # 2. Entrenamiento con inicialización extrema (Saturación)
 # Pesos grandes y opuestos para forzar a la sigmoide a estar en zona plana
-theta = np.array([0.0, 7.0, -7.0]) 
+theta = np.array([1.0, -2.0, -2.0]) 
 lr = 2.0 
 history = []
 grad_norms = []
@@ -48,9 +48,14 @@ ax4 = fig.add_subplot(224)                  # Magnitud Gradiente
 xx, yy = np.meshgrid(np.linspace(-10, 10, 40), np.linspace(-10, 10, 40))
 grid_points = np.c_[np.ones(xx.ravel().shape), xx.ravel(), yy.ravel()]
 
-# Pre-calculamos superficie de costo (Panel 3)
-t1_v, t2_v = np.linspace(-8, 8, 40), np.linspace(-8, 8, 40)
+# Ampliamos el rango para ver más porción de la superficie
+t1_v = np.linspace(-15, 15, 60) 
+t2_v = np.linspace(-15, 15, 60)
 T1, T2 = np.meshgrid(t1_v, t2_v)
+# t1_v, t2_v = np.linspace(-8, 8, 40), np.linspace(-8, 8, 40)
+# T1, T2 = np.meshgrid(t1_v, t2_v)
+
+# Pre-calculamos superficie de costo (Panel 3)
 Z_cost_mse = np.array([compute_cost_mse(X, y, np.array([history[0][0][0], t1, t2])) 
                       for t1, t2 in zip(np.ravel(T1), np.ravel(T2))]).reshape(T1.shape)
 
