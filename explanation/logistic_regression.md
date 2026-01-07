@@ -365,12 +365,10 @@ Teniendo en cuenta las dificultades de nuestra función de costo anterior, es ma
 
 $$h_\theta(x) = g(z) = \frac{1}{1 + e^{-z}}$$
 
-$$f(x) = \left \{
-\begin{array}{ll}
-  -\log(h_\theta(x)) & \text{if } y = 1 \\
-  -\log(1 - h_\theta(x)) & \text{if } y = 0
-\end{array}
-\right.$$
+$$f(x) = \begin{cases} 
+  -\log(h_\theta(x)) & \text{if } y = 1 \\ 
+  -\log(1 - h_\theta(x)) & \text{if } y = 0 
+\end{cases}$$
 
 
 👀 ¿Qué es esto? Vamos por partes...
