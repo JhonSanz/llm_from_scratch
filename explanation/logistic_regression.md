@@ -347,3 +347,13 @@ En conclusión, usar mínimos cuadrados + sigmoid function nos dará señales d�
 
 #### Función convexa
 
+Una buena analogía es una bolita que baja por una superficie. Imaginemos esta superficie... qué pasaría si es una calle inclinada, llena de huecos y baches? bueno, la bolita tendrá muchas dificultades para llegar hasta abajo. Y si la superficie es una rampa de stake lisa? en este caso la bolita bajará feliz sin dificultades
+
+Eso mismo pasa con nuestra función de costo, y es el segundo motivo por el cual minimos cuadrados + sigmoid function no es la mejor alternativa. Observemos como se ve esta combinacion de funciones
+
+
+![alt text](img/mse_sigmoid.png)
+
+Para ver este comportamiento el código del archivo `python visualizations/2d_sigmoid.py` muestra como el gradiente y la sigmoide evolucionan a medida que cambian los parámetros. En el código está deliberadamente puesta la bolita en un punto donde cae facilmente, pero si se ajustan los parámetros iniciales en el valle, la bolita no tendrá impulso para moverse.
+
+Estas son las dificultades de tener minimos cuadrados + sigmoid function
