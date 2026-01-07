@@ -357,3 +357,52 @@ Eso mismo pasa con nuestra función de costo, y es el segundo motivo por el cual
 Para ver este comportamiento el código del archivo `python visualizations/2d_sigmoid.py` muestra como el gradiente y la sigmoide evolucionan a medida que cambian los parámetros. En el código está deliberadamente puesta la bolita en un punto donde cae facilmente, pero si se ajustan los parámetros iniciales en el valle, la bolita no tendrá impulso para moverse.
 
 Estas son las dificultades de tener minimos cuadrados + sigmoid function
+
+#### Función Log Loss
+
+Teniendo en cuenta las dificultades de nuestra función de costo anterior, es mas o menos logico pensar que tenemos que quitar los minimos cuadrados. Y efectivamente eso fue lo que hicieron, e introdujeron lo siguiente:
+
+
+$$h_\theta(x) = g(z) = \frac{1}{1 + e^{-z}}$$
+
+$$f(x) = \left\{
+\begin{array}{ll}
+  -\log(h_\theta(x)) & \text{if } y = 1 \\
+  -\log(1 - h_\theta(x)) & \text{if } y = 0
+\end{array}
+\right.$$
+
+
+👀 ¿Qué es esto? Vamos por partes...
+
+Para introducir el logaritmo este video es especialmente bueno https://www.youtube.com/watch?v=ZEvUDcr8LDw
+
+veamos la gráfica de estas funciones logaritmo para analizar algunas cuestiones importantes
+
+![alt text](img/logloss.png)
+
+
+$-\log(h_\theta(x)) \to \infty$ cuando $x \to 0$ y $-\log(h_\theta(x)) = 0$ cuando $x = 1$ 
+
+> recordando que este es el caso $y = 1$
+
+Esto recuerda a algo, no? Esto es mas o menos lo que hace la sigmoide con minimos cuadrados pero con una gran diferencia para la penalización. Anteriormente cuando la predicción de la sigmoide era $\approx 1$ la función de minimos cuadrados hacia bien su trabajo, porque el costo que retornaba era casi cero
+
+Pero, para cuando la sigmoide retornaba $\approx 0$ minimos cuadrados retornaba $\approx 1$, lo cual era una señan debil. Pero aquí viene la diferencia, $-\log(h_\theta(x)) \to \infty$ arreglando justo lo que queríamos, esto si es una señal clara de que la clasificación es errónea
+
+> ahora para el caso $y = 0$
+
+Para el caso contrario también sirve, si la sigmoide $\approx 0$ entonces el costo retornado por $-\log(1 - h_\theta(x))$ es $\approx 0$, pero si sigmoide dice $\approx 1$ entonces $-\log(1 - h_\theta(x)) \to \infty$
+
+
+#### El truco matemático 🔮
+
+La función a trozos se ve prometedora basados en nuestro análisis previo. Así que algún mago decidió hacer un truco y llegó a esta función
+
+$$J(\theta) = -\frac{1}{m} \sum_{i=1}^{m} \left[ y^{(i)} \log(h_\theta(x^{(i)})) + (1 - y^{(i)}) \log(1 - h_\theta(x^{(i)})) \right]$$
+
+Esta función es muy especial, no solamente sirve para castigar adecuadamente la mala clasificación sino que **también es convexa!**
+
+Probar esto es mucho mas complejo y lo haremos en un tutorial aparte
+
+Por ahora podemos graficarla
