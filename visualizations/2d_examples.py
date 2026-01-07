@@ -44,7 +44,7 @@ xx, yy = np.meshgrid(np.linspace(-5, 5, 40), np.linspace(-5, 5, 40))
 grid_points = np.c_[np.ones(xx.ravel().shape), xx.ravel(), yy.ravel()]
 
 # Pre-calculamos superficie de costo (Panel Derecho)
-t1_v, t2_v = np.linspace(-4, 4, 40), np.linspace(-4, 4, 40)
+t1_v, t2_v = np.linspace(-10, 10, 10), np.linspace(-10, 10, 10)
 T1, T2 = np.meshgrid(t1_v, t2_v)
 Z_cost = np.array([compute_cost(X, y, np.array([history[-1][0][0], t1, t2])) 
                   for t1, t2 in zip(np.ravel(T1), np.ravel(T2))]).reshape(T1.shape)

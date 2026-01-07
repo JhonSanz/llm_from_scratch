@@ -49,11 +49,11 @@ xx, yy = np.meshgrid(np.linspace(-10, 10, 40), np.linspace(-10, 10, 40))
 grid_points = np.c_[np.ones(xx.ravel().shape), xx.ravel(), yy.ravel()]
 
 # Ampliamos el rango para ver más porción de la superficie
-t1_v = np.linspace(-15, 15, 60) 
-t2_v = np.linspace(-15, 15, 60)
-T1, T2 = np.meshgrid(t1_v, t2_v)
-# t1_v, t2_v = np.linspace(-8, 8, 40), np.linspace(-8, 8, 40)
+# t1_v = np.linspace(-15, 15, 60) 
+# t2_v = np.linspace(-15, 15, 60)
 # T1, T2 = np.meshgrid(t1_v, t2_v)
+t1_v, t2_v = np.linspace(-10, 10, 40), np.linspace(-10, 10, 40)
+T1, T2 = np.meshgrid(t1_v, t2_v)
 
 # Pre-calculamos superficie de costo (Panel 3)
 Z_cost_mse = np.array([compute_cost_mse(X, y, np.array([history[0][0][0], t1, t2])) 

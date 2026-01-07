@@ -404,3 +404,5 @@ Esta función es muy especial, no solamente sirve para castigar adecuadamente la
 Probar esto es mucho mas complejo y lo haremos en un tutorial aparte
 
 Por ahora podemos graficarla
+
+![alt text](img/logscost_suave.png)
