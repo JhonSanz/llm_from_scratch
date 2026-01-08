@@ -406,3 +406,15 @@ Probar esto es mucho mas complejo y lo haremos en un tutorial aparte
 Por ahora podemos graficarla
 
 ![alt text](img/logscost_suave.png)
+
+visualmente se ve mejor, suave y sin "accidentes geográficos". Pero lo mejor siempre es hacer los cálculos analíticos para confirmar la convexidad.
+
+### Ahora un poema
+
+Aqui viene un momento importante, vamos a calcular la derivada de nuestra nueva función de costo
+
+
+
+$$h_\theta(x) = g(z) = \frac{1}{1 + e^{-z}}$$
+$$J(\theta) = -\frac{1}{m} \sum [ y \ln(h) + (1-y) \ln(1-h) ]$$
+Donde $z = \theta^T x$
