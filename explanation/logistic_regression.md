@@ -411,10 +411,152 @@ visualmente se ve mejor, suave y sin "accidentes geográficos". Pero lo mejor si
 
 ### Ahora un poema
 
-Aqui viene un momento importante, vamos a calcular la derivada de nuestra nueva función de costo
-
-
+Aqui viene un momento importante, si calculamos la derivada de nuestra nueva función de costo
 
 $$h_\theta(x) = g(z) = \frac{1}{1 + e^{-z}}$$
-$$J(\theta) = -\frac{1}{m} \sum [ y \ln(h) + (1-y) \ln(1-h) ]$$
+
+$$J(\theta) = -\frac{1}{m} \sum_{i=1}^{m} \left[ y^{(i)} \log(h_\theta(x^{(i)})) + (1 - y^{(i)}) \log(1 - h_\theta(x^{(i)})) \right]$$
+
 Donde $z = \theta^T x$
+
+> Es muy importante tener en cuenta que $\theta$ es un vector. Por lo tanto nuestra función de costo es un campo escalar. Debido al algoritmo de optimización que vamos a utilizar (gradient descent), necesitamos calcular las derivadas parciales $\theta_j$, ya que el algoritmo actualiza uno a uno los parámetros entonces de la misma manera se calcula la derivada con respecto a cada dirección del vector
+
+Esto se explicará con detalle en los tutoriales de cálculo multivariado, pero haremos aqui el desarrollo, vamos a obtener algo muy particular
+
+
+$$\frac{d}{dz} g(z) = g(z)(1 - g(z))$$
+
+esto ya lo habíamos calculado antes
+
+
+
+Queremos hallar $\frac{\partial}{\partial \theta_j} J(\theta)$.
+
+Para simplificar, derivemos primero el término dentro del sumatorio para un solo ejemplo $i$:
+
+$$Loss = y \log(h_\theta(x)) + (1 - y) \log(1 - h_\theta(x))$$
+
+Derivamos respecto a $\theta_j$ usando la regla de la cadena, sabiendo que $\frac{\partial h}{\partial \theta_j} = \frac{\partial h}{\partial z} \cdot \frac{\partial z}{\partial \theta_j}$:
+
+Derivada del primer término
+
+$$\frac{\partial}{\partial \theta_j} [y \log(h_\theta(x))] = y \cdot \frac{1}{h_\theta(x)} \cdot \frac{\partial h_\theta(x)}{\partial \theta_j}$$
+
+Derivada del segundo término
+
+$$\frac{\partial}{\partial \theta_j} [(1 - y) \log(1 - h_\theta(x))] = (1 - y) \cdot \frac{1}{1 - h_\theta(x)} \cdot (-1) \cdot \frac{\partial h_\theta(x)}{\partial \theta_j}$$
+
+Sustituimos $\frac{\partial h}{\partial \theta_j} = h_\theta(x)(1 - h_\theta(x))x_j$ en ambos términos:
+
+
+$$\frac{\partial Loss}{\partial \theta_j} = \left[ \frac{y}{h_\theta(x)} - \frac{1 - y}{1 - h_\theta(x)} \right] \cdot h_\theta(x)(1 - h_\theta(x))x_j$$
+
+
+Al distribuir los términos dentro del corchete:
+
+
+$$\frac{\partial Loss}{\partial \theta_j} = \left[ y(1 - h_\theta(x)) - (1 - y)h_\theta(x) \right] x_j$$
+
+$$\frac{\partial Loss}{\partial \theta_j} = \left[ y - y h_\theta(x) - h_\theta(x) + y h_\theta(x) \right] x_j$$
+
+
+$$\frac{\partial Loss}{\partial \theta_j} = (y - h_\theta(x))x_j$$
+
+resultado final
+
+$$\frac{\partial J(\theta)}{\partial \theta_j} = \frac{1}{m} \sum_{i=1}^{m} \left( h_\theta(x^{(i)}) - y^{(i)} \right) x_j^{(i)}$$
+
+
+Si, al final nos dio igual que con minimos cuadrados 🎆
+
+Entonces, podemos usar el algoritmo y queda igual que antes
+
+$$\theta_j := \theta_j - \alpha \frac{\partial J(\theta)}{\partial \theta_j}$$
+
+se actualizan los parámetros con $j = 0, 1, 2, ..., n$
+
+### Ya tenemos todo
+
+Perfecto, en este punto podemos concluir nuestro viaje y hacer la consolidación de todo esto:
+
+
+Queremos trazar una frontera de decisión lineal para separar los datos en dos categorías diferentes, la ecuación de una recta la podemos poner así 
+
+$$\theta^T \cdot X = \begin{bmatrix} \theta_0 & \theta_1 & \theta_2 & \dots & \theta_n \end{bmatrix}  \cdot
+\begin{bmatrix}
+x_0 = 1 \\
+x_1 \\
+x_2 \\
+\vdots \\ 
+x_n \\
+\end{bmatrix} = \theta_0 + \theta_1 x_1 + \theta_2 x_2 + \dots + \theta_n x_n$$
+
+Y a la recta le llamamos frontera de decisión.
+
+Decimos qué tan probable es que un ejemplo de entrenamiento pertenezca o no  a una categoría usando la función sigmoide
+
+Por lo tanto, **el objetivo de todo esto es encontrar una frontera que logre clasificar los datos correctamente, es decir, que estén los mas alejados posible de la frontera de decisión o punto de inflexión.**
+
+> Cuando entrenamos el modelo, lo que buscamos es ajustar los parámetros $\theta$ para que la "recta" $\theta^T x$ se posicione de tal forma que:
+>
+> Para los ejemplos donde la etiqueta real es $y=1$, el valor de $\theta^T x$ sea un número positivo muy grande. Esto empuja la probabilidad $h_\theta(x)$ hacia 1 (lejos del 0.5).
+>
+> Para los ejemplos donde la etiqueta real es $y=0$, el valor de $\theta^T x$ sea un número negativo muy grande. Esto empuja la probabilidad $h_\theta(x)$ hacia 0 (también lejos del 0.5).
+
+Para validar que todo está bien usamos la función de costo 
+
+$$J(\theta) = -\frac{1}{m} \sum_{i=1}^{m} \left[ y^{(i)} \log(h_\theta(x^{(i)})) + (1 - y^{(i)}) \log(1 - h_\theta(x^{(i)})) \right]$$
+
+entre mas cerca a cero significa que la clasificación es mejor
+
+y finalmente para optmizar usamos su derivada
+
+$$\frac{\partial J(\theta)}{\partial \theta_j} = \frac{1}{m} \sum_{i=1}^{m} \left( h_\theta(x^{(i)}) - y^{(i)} \right) x_j^{(i)}$$
+
+
+suponiendo que vamos a utilizar gradient descent.
+
+
+En resumen: definimos una frontera ($\theta^T x$), la pasamos por el filtro de la función sigmoide para obtener una probabilidad, medimos el error con una función convexa (log loss) y ajustamos los parámetros moviéndonos en dirección contraria al error (gradient descent).
+
+
+ejemplo
+
+
+Rectas:
+
+- Recta 1: $1 - x$
+- Recta 2: $2 - x$
+
+Puntos de entrenamiento: 
+
+- $P_1 = (0.5, 0.5)$
+- $P_2 = (3, 3)$
+
+Cual recta es mejor para clasificar estos puntos, considerando la clase y = 1?
+
+
+Cálculos para la Recta 1
+
+$$g(z) = \frac{1}{1 + e^{-z}}$$
+
+$$\theta_0 + \theta_1 x_1 = [1, -1] \cdot \begin{bmatrix} x_0=1 \\ x_1 \end{bmatrix} = 1 - x$$
+
+$$g(\theta^T X) = g(1-x) = \frac{1}{1 + e^{-(1-x)}}$$
+
+Para $P_1$: $\frac{1}{1 + e^{-(1-0.5)}} = 0.62245$
+
+Para $P_2$: $\frac{1}{1 + e^{-(1-3)}} = 0.11920$
+
+
+Cálculos para la Recta 2
+
+$$\theta_0 + \theta_1 x_1 = [2, -1] \cdot \begin{bmatrix} x_0=1 \\ x_1 \end{bmatrix} = 2 - x$$
+
+$$g(2-x) = \frac{1}{1 + e^{-(2-x)}}$$
+
+
+Para $P_1$: $\frac{1}{1 + e^{-(2-0.5)}} = 0.81757$
+
+Para $P_2$: $\frac{1}{1 + e^{-(2-3)}} = 0.26894$
+
