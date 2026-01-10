@@ -520,7 +520,7 @@ suponiendo que vamos a utilizar gradient descent.
 En resumen: definimos una frontera ($\theta^T x$), la pasamos por el filtro de la función sigmoide para obtener una probabilidad, medimos el error con una función convexa (log loss) y ajustamos los parámetros moviéndonos en dirección contraria al error (gradient descent).
 
 
-Ejemplo
+# Ejemplo
 
 Cual recta es mejor para clasificar estos puntos, considerando la clase y = 1?
 
@@ -541,7 +541,7 @@ Puntos de entrenamiento:
 
 
 
-Cálculos para L1
+#### Cálculos para L1
 
 $$g(z) = \frac{1}{1 + e^{-z}}$$
 
@@ -554,7 +554,7 @@ Para $A$: $\frac{1}{1 + e^{-(1.5 - 0.5 - 0.5)}} = 0.62245$
 Para $B$: $\frac{1}{1 + e^{-(1.5 - 3 - 3)}} = 0.01098$
 
 
-Cálculos para L2
+#### Cálculos para L2
 
 $$\theta_0 + \theta_1 x_1 \theta_2 x_2 = [2, -1, -1] \cdot \begin{bmatrix} x_0=1 \\ x_1 \\ x_2 \end{bmatrix} = 2 - x_1 - x_2$$
 
@@ -566,24 +566,22 @@ Para $A$: $\frac{1}{1 + e^{-(2 - 0.5 - 0.5)}} = 0.73105$
 Para $B$: $\frac{1}{1 + e^{-(2 - 3 - 3)}} = 0.01798$
 
 
-Analicemos los valores que encontramos:
+### Analicemos los valores que encontramos:
 
-Para L1 
+#### Para L1 
 
 El punto $A$ es de la clase $y = 0$ y dijo que tiene un 62.245% de probabilidad de pertenecer a la clase $y = 1$ 
 
 El punto $B$ es de la clase $y = 1$ y dijo que tiene un 1.098% de probabilidad de pertenecer a la clase $y = 1$
 
-Para L2 
+#### Para L2 
 
 El punto $A$ es de la clase $y = 0$ y dijo que tiene un 73.105% de probabilidad de pertenecer a la clase $y = 1$ 
 
 El punto $B$ es de la clase $y = 1$ y dijo que tiene un 1.798% de probabilidad de pertenecer a la clase $y = 1$
 
 
-Todo está mal! pero... visualmente las rectas si separan bien los datos. 
-
-> El problema es que pusimos signos negativos a la recta
+> Todo está mal! pero... visualmente las rectas si separan bien los datos.  El problema es que pusimos signos negativos a la recta
 
 Reescribamos las rectas y hagamos de nuevo los cálculos
 
@@ -593,14 +591,14 @@ Rectas:
 - **L2**: $-2 + x_1 + x_2 = 0$
 
 
-Cálculos para L1
+#### Cálculos para L1
 
 Para $A$: $\frac{1}{1 + e^{-(-1.5 + 0.5 + 0.5)}} = 0.377540$
 
 Para $B$: $\frac{1}{1 + e^{-(-1.5 + 3 + 3)}} = 0.989013$
 
 
-Cálculos para L2
+#### Cálculos para L2
 
 Para $A$: $\frac{1}{1 + e^{-(-2 + 0.5 + 0.5)}} = 0.268941$
 
@@ -609,13 +607,13 @@ Para $B$: $\frac{1}{1 + e^{-(-2 + 3 + 3)}} = 0.982013$
 
 entonces...
 
-Para L1 
+#### Para L1 
 
 El punto $A$ es de la clase $y = 0$ y dijo que tiene un 37.754% de probabilidad de pertenecer a la clase $y = 1$ 
 
 El punto $B$ es de la clase $y = 1$ y dijo que tiene un 98.9013% de probabilidad de pertenecer a la clase $y = 1$
 
-Para L2 
+#### Para L2 
 
 El punto $A$ es de la clase $y = 0$ y dijo que tiene un 26.89415% de probabilidad de pertenecer a la clase $y = 1$ 
 
