@@ -583,7 +583,7 @@ El punto $B$ es de la clase $y = 1$ y dijo que tiene un 1.798% de probabilidad d
 
 > Todo está mal! pero... visualmente las rectas si separan bien los datos.  El problema es que pusimos signos negativos a la recta
 
-Reescribamos las rectas y hagamos de nuevo los cálculos
+## Reescribamos las rectas y hagamos de nuevo los cálculos
 
 Rectas:
 
@@ -622,4 +622,5 @@ El punto $B$ es de la clase $y = 1$ y dijo que tiene un 98.2013% de probabilidad
 
 Perfecto! aqui ya podríamos sacar algunas conclusiones pero para eso está la función de costo. Esta nos ayuda a saber qué tan cerca estamos de cero y saber cuál recta es mejor
 
+### Función de costo
 
