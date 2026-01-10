@@ -520,43 +520,108 @@ suponiendo que vamos a utilizar gradient descent.
 En resumen: definimos una frontera ($\theta^T x$), la pasamos por el filtro de la función sigmoide para obtener una probabilidad, medimos el error con una función convexa (log loss) y ajustamos los parámetros moviéndonos en dirección contraria al error (gradient descent).
 
 
-ejemplo
-
-
-Rectas:
-
-- Recta 1: $1 - x$
-- Recta 2: $2 - x$
-
-Puntos de entrenamiento: 
-
-- $P_1 = (0.5, 0.5)$
-- $P_2 = (3, 3)$
+Ejemplo
 
 Cual recta es mejor para clasificar estos puntos, considerando la clase y = 1?
 
+Siendo el color azul la clase $y = 1$ y el color rojo la clase $y = 0$
 
-Cálculos para la Recta 1
+
+![alt text](img/example.png)
+
+Rectas:
+
+- **L1**: $1.5 - x_1 - x_2 = 0$
+- **L2**: $2 - x_1 - x_2 = 0$
+
+Puntos de entrenamiento: 
+
+- $A = (0.5, 0.5)$
+- $B = (3, 3)$
+
+
+
+Cálculos para L1
 
 $$g(z) = \frac{1}{1 + e^{-z}}$$
 
-$$\theta_0 + \theta_1 x_1 = [1, -1] \cdot \begin{bmatrix} x_0=1 \\ x_1 \end{bmatrix} = 1 - x$$
+$$\theta_0 + \theta_1 x_1 + \theta_2 x_2= [1.5, -1, -1] \cdot \begin{bmatrix} x_0=1 \\ x_1 \\ x_2 \end{bmatrix} = 1.5 - x_1 - x_2$$
 
-$$g(\theta^T X) = g(1-x) = \frac{1}{1 + e^{-(1-x)}}$$
+$$g(\theta^T X) = g(1-x) = \frac{1}{1 + e^{-(1.5 - x_1 - x_2)}}$$
 
-Para $P_1$: $\frac{1}{1 + e^{-(1-0.5)}} = 0.62245$
+Para $A$: $\frac{1}{1 + e^{-(1.5 - 0.5 - 0.5)}} = 0.62245$
 
-Para $P_2$: $\frac{1}{1 + e^{-(1-3)}} = 0.11920$
-
-
-Cálculos para la Recta 2
-
-$$\theta_0 + \theta_1 x_1 = [2, -1] \cdot \begin{bmatrix} x_0=1 \\ x_1 \end{bmatrix} = 2 - x$$
-
-$$g(2-x) = \frac{1}{1 + e^{-(2-x)}}$$
+Para $B$: $\frac{1}{1 + e^{-(1.5 - 3 - 3)}} = 0.01098$
 
 
-Para $P_1$: $\frac{1}{1 + e^{-(2-0.5)}} = 0.81757$
+Cálculos para L2
 
-Para $P_2$: $\frac{1}{1 + e^{-(2-3)}} = 0.26894$
+$$\theta_0 + \theta_1 x_1 \theta_2 x_2 = [2, -1, -1] \cdot \begin{bmatrix} x_0=1 \\ x_1 \\ x_2 \end{bmatrix} = 2 - x_1 - x_2$$
+
+$$g(2-x) = \frac{1}{1 + e^{-(2 - x_1 - x_2)}}$$
+
+
+Para $A$: $\frac{1}{1 + e^{-(2 - 0.5 - 0.5)}} = 0.73105$
+
+Para $B$: $\frac{1}{1 + e^{-(2 - 3 - 3)}} = 0.01798$
+
+
+Analicemos los valores que encontramos:
+
+Para L1 
+
+El punto $A$ es de la clase $y = 0$ y dijo que tiene un 62.245% de probabilidad de pertenecer a la clase $y = 1$ 
+
+El punto $B$ es de la clase $y = 1$ y dijo que tiene un 1.098% de probabilidad de pertenecer a la clase $y = 1$
+
+Para L2 
+
+El punto $A$ es de la clase $y = 0$ y dijo que tiene un 73.105% de probabilidad de pertenecer a la clase $y = 1$ 
+
+El punto $B$ es de la clase $y = 1$ y dijo que tiene un 1.798% de probabilidad de pertenecer a la clase $y = 1$
+
+
+Todo está mal! pero... visualmente las rectas si separan bien los datos. 
+
+> El problema es que pusimos signos negativos a la recta
+
+Reescribamos las rectas y hagamos de nuevo los cálculos
+
+Rectas:
+
+- **L1**: $-1.5 + x_1 + x_2 = 0$
+- **L2**: $-2 + x_1 + x_2 = 0$
+
+
+Cálculos para L1
+
+Para $A$: $\frac{1}{1 + e^{-(-1.5 + 0.5 + 0.5)}} = 0.377540$
+
+Para $B$: $\frac{1}{1 + e^{-(-1.5 + 3 + 3)}} = 0.989013$
+
+
+Cálculos para L2
+
+Para $A$: $\frac{1}{1 + e^{-(-2 + 0.5 + 0.5)}} = 0.268941$
+
+Para $B$: $\frac{1}{1 + e^{-(-2 + 3 + 3)}} = 0.982013$
+
+
+entonces...
+
+Para L1 
+
+El punto $A$ es de la clase $y = 0$ y dijo que tiene un 37.754% de probabilidad de pertenecer a la clase $y = 1$ 
+
+El punto $B$ es de la clase $y = 1$ y dijo que tiene un 98.9013% de probabilidad de pertenecer a la clase $y = 1$
+
+Para L2 
+
+El punto $A$ es de la clase $y = 0$ y dijo que tiene un 26.89415% de probabilidad de pertenecer a la clase $y = 1$ 
+
+El punto $B$ es de la clase $y = 1$ y dijo que tiene un 98.2013% de probabilidad de pertenecer a la clase $y = 1$
+
+
+Perfecto! aqui ya podríamos sacar algunas conclusiones pero para eso está la función de costo. Esta nos ayuda a saber qué tan cerca estamos de cero y saber cuál recta es mejor
+
 
