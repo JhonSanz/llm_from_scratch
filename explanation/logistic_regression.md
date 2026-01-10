@@ -622,5 +622,52 @@ El punto $B$ es de la clase $y = 1$ y dijo que tiene un 98.2013% de probabilidad
 
 Perfecto! aqui ya podríamos sacar algunas conclusiones pero para eso está la función de costo. Esta nos ayuda a saber qué tan cerca estamos de cero y saber cuál recta es mejor
 
-### Función de costo
+## Función de costo
+
+Ya casi acabamos... Utilicemos la función de costo para dar el veredicto final.
+
+$$J(\theta) = -\frac{1}{m} \sum_{i=1}^{m} \left[ y^{(i)} \log(h_\theta(x^{(i)})) + (1 - y^{(i)}) \log(1 - h_\theta(x^{(i)})) \right]$$
+
+#### Para L1
+
+Parámetros: $\theta = [-1.5, 1, 1]$
+
+Predicciones: $h(x^{(A)}) = 0.377540$ y $h(x^{(B)}) = 0.989013$
+
+$$J(L1) = -\frac{1}{2} \left[ \underbrace{(0 \cdot \log(0.377540) + (1-0) \cdot \log(1-0.377540))}_{\text{Punto A (Rojo)}} + \underbrace{(1 \cdot \log(0.989013) + (1-1) \cdot \log(1-0.989013))}_{\text{Punto B (Azul)}} \right]$$
+
+$$J(L1) = -\frac{1}{2} \left[ \log(0.622460) + \log(0.989013) \right]$$
+
+$$J(L1) = -\frac{1}{2} \left[ -0.474075 - 0.011047 \right]$$
+
+$$J(L1) = -\frac{1}{2} [-0.485122]$$
+
+Resultado L1: $J(\theta) = 0.242561$
+
+#### Para L2
+
+Parámetros: $\theta = [-2, 1, 1]$
+
+Predicciones: $h(x^{(A)}) = 0.268941$ y $h(x^{(B)}) = 0.982013$
+
+$$J(L2) = -\frac{1}{2} \left[ \underbrace{(0 \cdot \log(0.268941) + (1-0) \cdot \log(1-0.268941))}_{\text{Punto A (Rojo)}} + \underbrace{(1 \cdot \log(0.982013) + (1-1) \cdot \log(1-0.982013))}_{\text{Punto B (Azul)}} \right]$$
+
+$$J(L2) = -\frac{1}{2} \left[ \log(0.731059) + \log(0.982013) \right]$$
+
+$$J(L2) = -\frac{1}{2} \left[ -0.313262 - 0.018151 \right]$$
+
+$$J(L2) = -\frac{1}{2} [-0.331413]$$
+
+Resultado L2: $J(\theta) = 0.165706$
+
+La mejor es L2 porque está mas cerca de cero.
+
+
+---
+
+El ejemplo del final es particularmente bello porque pudimos ver como el valor y signo de los parámetros afecta el resultado final. Precisamente esto que hicimos hace el algoritmo, trata de mejorar los parámetros para obtener un menor costo.
+
+
+Fin 😊
+
 
