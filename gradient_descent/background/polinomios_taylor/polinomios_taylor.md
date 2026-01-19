@@ -220,12 +220,41 @@ $$T_{2n}(cos(x)) = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots
 
 ### Algunas curiosidades
 
+Recordando la regla de la derivación 
+
+$$ f(x) = sen(x), f'(x) = cos(x)$$
+
+y si vemos lo que pasó con la serie generada por el Polinomio de Taylor fue exactamente lo mismo, si derivamos $T_{2n + 1}(sen(x))$ nos da como resultado $T_{2n}(cos(x))$
+
+##### Función tan(x)
+
+¿Cómo podríamos encontrar la serie para la función $tan(x)$?, claro que podríamos hacer el mismo razonamiento que hicimos para $sen(x)$ y $cos(x)$, pero hagamos algo diferente...
+
+Recordando los conceptos de trigonometría tenemos que:
+
+$$tan(x) = \frac{sen(x)}{cos(x)}$$
 
 
+la pregunta es, ¿podemos hacer lo mismo con las series y obtener la serie para la función tangente?
 
+Si, y aquí hay un video donde lo hacen https://www.youtube.com/watch?v=ET3qjWs7g7w
+
+De hecho lo podemos hacer con wolframalpha 
+
+![alt text](img/wolfram_1.png)
+
+Por lo que podemos intuir que hay muchas propiedades que se pueden aplicar a los polinomios. Aqui no las voy a mencionar porque están en los libros, puedes revisar Cálculo de Tom Apostol Vol. 1 pag 337 en adelante
+
+También encontraremos algo muy loco que nos revela también la importancia del centro utilizado para calcular el polinomio. 
+
+![alt text](img/geogebra_1.png)
+
+La función $tan(x)$ tiene un comportamiento asintótico y el polinomio nunca va a llegar, ya que los polinomios tienen dominio de $(-\infty, \infty)$. Por lo cual queda una vez mas justificado de que **estamos hablando de aproximaciones**
 
 
 # Polinomio de Taylor con resto
+
+¿Qué tan buena es nuestra aproximación?
 
 ### Demostración
 
