@@ -71,31 +71,39 @@ $x = 0$
 
 ---
 
-$P(0) = c_0 \rightarrow f(0) = c_0 \\
-\text{ya que } P(0) = c_0 + c_1x + c_2(0)^2 + c_3(0)^3 + c_4(0)^4 + ... + (n-1) \\
-\text{osea } P(0) = c_1 \text{ y además } P(0) = f(0) \\
-\text{entonces } f(0) = c_0$
+$\begin{aligned}
+& P(0) = c_0 \rightarrow f(0) = c_0 \\
+& \text{ya que } P(0) = c_0 + c_1x + c_2(0)^2 + c_3(0)^3 + c_4(0)^4 + ... + c_nx^{n} \\
+& \text{osea } P(0) = c_0 \text{ y además } P(0) = f(0) \\
+& \text{entonces } f(0) = c_0
+\end{aligned}$
 
 ---
 
-$P'(0) = c_1 \rightarrow f'(0) = c_1 \\
-\text{ya que } P'(0) = 0 + c_1 + 2c_2(0) + 3c_3(0)^2 + 4c_4(0)^3 + ... + nc_nx^{n - 1}\\
-\text{osea } P'(0) = c_1 \text{ y además } P'(0) = f'(0) \\
-\text{entonces } f'(0) = c_1$
+$\begin{aligned}
+& P'(0) = c_1 \rightarrow f'(0) = c_1 \\
+& \text{ya que } P'(0) = 0 + c_1 + 2c_2(0) + 3c_3(0)^2 + 4c_4(0)^3 + ... + nc_nx^{n - 1}\\
+& \text{osea } P'(0) = c_1 \text{ y además } P'(0) = f'(0) \\
+& \text{entonces } f'(0) = c_1
+\end{aligned}$
 
 ---
 
-$P''(0) = 2c_2 \\
-\text{ya que } P''(0) = 0 + 0 + 2c_2 + 6c_3(0) + 12c_4(0)^2 + ... + nc_nx^{n - 1} \\
-\text{osea } P''(0) = 2c_2 \text{ y además } P''(0) = f''(0) \\
-\text{entonces } \frac{f''(0)}{2} = c_2$
+$\begin{aligned}
+& P''(0) = 2c_2 \\
+& \text{ya que } P''(0) = 0 + 0 + 2c_2 + 6c_3(0) + 12c_4(0)^2 + ... + nc_nx^{n - 1} \\
+& \text{osea } P''(0) = 2c_2 \text{ y además } P''(0) = f''(0) \\
+& \text{entonces } \frac{f''(0)}{2} = c_2
+\end{aligned}$
 
 ---
 
-$P'''(0) = 6c_3 \\
-\text{ya que } P'''(0) = 0 + 0 + 0 + 6c_3 + 24c_4(0) +... + nc_nx^{n - 1} \\
-\text{osea } P'''(0) = 6c_3 \text{ y además } P'''(0) = f'''(0) \\
-\text{entonces } \frac{f'''(0)}{6} = c_3$
+$\begin{aligned}
+& P'''(0) = 6c_3 \\
+& \text{ya que } P'''(0) = 0 + 0 + 0 + 6c_3 + 24c_4(0) +... + nc_nx^{n - 1} \\
+& \text{osea } P'''(0) = 6c_3 \text{ y además } P'''(0) = f'''(0) \\
+& \text{entonces } \frac{f'''(0)}{6} = c_3
+\end{aligned}$
 
 
 y en general $P^{(k)}(0) = k!c_k$
@@ -103,3 +111,17 @@ y en general $P^{(k)}(0) = k!c_k$
 osea que podemos determinar las constantes así
 
 > $$c_k = \frac{f^{(k)}(0)}{k!} $$
+
+Este razonamiento demuestra que existe un polinomio de grado $\leq n$ que satisface las $n+1$ condiciones en el punto $x = 0$
+
+
+$$P(0) = f(0)$$
+$$P'(0) = f'(0)$$
+$$P^{(n)}(0) = f^{(n)}(0)$$
+
+Este polinomio viene dado por 
+
+$$ P(x) = \sum_{k = 0}^{n} \frac{f^{k}(0)}{k!}x^k$$
+
+Similarmente podemos demostrar que existe un polinomio de grado  $\leq n$ que coincide con $f$ y sus $n$ primeras derivadas en el punto $x = a$
+
