@@ -129,7 +129,7 @@ $$P^{(n)}(0) = f^{(n)}(0)$$
 
 Este polinomio viene dado por 
 
-> $$ P(x) = \sum_{k = 0}^{n} \frac{f^{k}(0)}{k!}x^k$$
+> $$ P(x) = \sum_{k = 0}^{n} \frac{f^{(k)}(0)}{k!}x^k$$
 
 Similarmente podemos demostrar que existe un polinomio de grado  $\leq n$ que coincide con $f$ y sus $n$ primeras derivadas en el punto $x = a$
 
@@ -172,7 +172,7 @@ $\text{entonces } f'(a) = c_1$
 
 Podemos seguir con el mismo razonamiento que antes y vamos a encontrar que 
 
-> $$ P(x) = \sum_{k = 0}^{n} \frac{f^{k}(a)}{k!}(x - a)^k$$
+> $$ P(x) = \sum_{k = 0}^{n} \frac{f^{(k)}(a)}{k!}(x - a)^k$$
 
 Satisface las condiciones, y se llama Polinomio de Taylor de grado $n$ generado por $f$ en el punto $a$.
 
@@ -254,7 +254,53 @@ La función $tan(x)$ tiene un comportamiento asintótico y el polinomio nunca va
 
 # Polinomio de Taylor con resto
 
-¿Qué tan buena es nuestra aproximación?
+¿Qué tan buena es nuestra aproximación? Es necesario tener un mecanismo que nos **permita medir el error** que cometemos en la aproximación, también se le llama resto
+
+Entonces, haciendo el experimento mental podemos decir que el error es equivalente a decir algo como "que tan lejos/diferente está el error del valor real de la función", para esto podemos expresar 
+
+$$E_n(x) = f(x) - T_nf(x)$$
+
+Resalta el signo $-$ sin valor absoluto, esto es porque el signo puede darnos información valiosa. Si el error es negativo no está diciendo que la aproximación es mayor al valor de la función, por ejemplo
+
+$T_n(cos(x)) = 1 - \frac{x^2}{2} + \frac{x^4}{4!} - \cdots$
+
+---
+
+$T_0(x) = 1$
+
+$cos(1) = 0.5403$
+
+$T_0(1) = 1$
+
+$E_0(1) = -0.4597$
+
+---
+
+$T_1(x) = 1 - \frac{x^2}{2}$
+
+$cos(1) = 0.5403$
+
+$T_1(1) = 0.50$
+
+$E_1(1) = 0.0403$
+
+Podemos ver que si aproximamos con el polinomio de grado $0$ la aproximación está por encima de la función entonces el error es negativo
+
+Perfecto, ahora viene un momento importante. Sabemos que estamos aproximando una función $f$ y que cometemos un error en la aproximación. Entonces podemos afirmar que tenemos todo para saber cuanto es exactamente $f$, si sumamos la aproximación mas el error
+
+
+De igual manera podemos "despejar" de la función $E_n(x) = f(x) - T_nf(x)$ y obtenemos
+
+> $$f(x) = \sum_{k = 0}^{n} \frac{f^{(k)}(a)}{k!}(x - a)^k + E_n(x)$$
+
+Esa se llama fórmula de Taylor con resto $E_n(x)$, y es util cuando podemos estimar la magnitud de $E_n(x)$, vamos a demostrar que se puede expresar como una integral
+
+$$E_1(x) = \int_{a}^{x} (x-t)f''(t)dt$$
+
+y en general
+
+$$E_n(x) = \frac{1}{n!}\int_{a}^{x} (x-t)^{n}f^{(n+1)}(t)dt$$
+
 
 ### Demostración
 
