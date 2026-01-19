@@ -71,21 +71,18 @@ $x = 0$
 
 ---
 
-$$\begin{aligned}
-& P(0) = c_0 \rightarrow f(0) = c_0 \\
-& \text{ya que } P(0) = c_0 + c_1x + c_2(0)^2 + c_3(0)^3 + c_4(0)^4 +  \cdots + c_nx^{n} \\
-& \text{osea } P(0) = c_0 \text{ y además } P(0) = f(0) \\
-& \text{entonces } f(0) = c_0
-\end{aligned}$$
+
+$P(0) = c_0 \rightarrow f(0) = c_0 \\$
+$\text{ya que } P(0) = c_0 + c_1x + c_2(0)^2 + c_3(0)^3 + c_4(0)^4 +  \cdots + c_nx^{n} \\$
+$\text{osea } P(0) = c_0 \text{ y además } P(0) = f(0) \\$
+$\text{entonces } f(0) = c_0$
 
 ---
 
-$$\begin{aligned}
-& P'(0) = c_1 \rightarrow f'(0) = c_1 \\
-& \text{ya que } P'(0) = 0 + c_1 + 2c_2(0) + 3c_3(0)^2 + 4c_4(0)^3 +  \cdots + nc_n(0)^{n - 1}\\
-& \text{osea } P'(0) = c_1 \text{ y además } P'(0) = f'(0) \\
-& \text{entonces } f'(0) = c_1
-\end{aligned}$$
+$P'(0) = c_1 \rightarrow f'(0) = c_1 \\$
+$\text{ya que } P'(0) = 0 + c_1 + 2c_2(0) + 3c_3(0)^2 + 4c_4(0)^3 +  \cdots + nc_n(0)^{n - 1}\\$
+$\text{osea } P'(0) = c_1 \text{ y además } P'(0) = f'(0) \\$
+$\text{entonces } f'(0) = c_1$
 
 ---
 
