@@ -44,9 +44,62 @@ $$h''(x) = 1 \rightarrow h''(0) = 1$$
 
 #### Grafiquemos estas tres funciones
 
-![alt text](img/ex_1.png)
+<!-- ![alt text](img/ex_1.png) -->
 
 vemos como $h$ se empieza a parecer visualmente a $f$
 
 # Encontrando el polinomio
 
+> Cálculo de Tom Apostol Vol. 1 pag 335
+>
+>Supongamos que $f$ tiene derivadas hasta el orden $n$ el en punto $x = 0$, siendo $n \geq 1$, e intentemos encontrar un polinomio $P$ que coincida con $f$ y sus $n$ primeras derivadas en $0$, deben satisfacerse $n + 1$ condiciones, a saber
+>
+>$$P(0) = f(0)$$
+>$$P'(0) = f'(0)$$
+>$$P^{(n)}(0) = f^{(n)}(0)$$
+>
+>
+>Así que ensayamos un polinomio de grado $n$, por ejemplo
+>
+>$$P(x) = c_0 + c_1x + c_2x^2 + \dots + c_nx^n$$
+>
+> con $n + 1$ coeficientes por determinar
+
+Veamos el varios pasos sucesivos
+
+$x = 0$
+
+---
+
+$P(0) = c_0 \rightarrow f(0) = c_0 \\
+\text{ya que } P(0) = c_0 + c_1x + c_2(0)^2 + c_3(0)^3 + c_4(0)^4 + ... + (n-1) \\
+\text{osea } P(0) = c_1 \text{ y además } P(0) = f(0) \\
+\text{entonces } f(0) = c_0$
+
+---
+
+$P'(0) = c_1 \rightarrow f'(0) = c_1 \\
+\text{ya que } P'(0) = 0 + c_1 + 2c_2(0) + 3c_3(0)^2 + 4c_4(0)^3 + ... + nc_nx^{n - 1}\\
+\text{osea } P'(0) = c_1 \text{ y además } P'(0) = f'(0) \\
+\text{entonces } f'(0) = c_1$
+
+---
+
+$P''(0) = 2c_2 \\
+\text{ya que } P''(0) = 0 + 0 + 2c_2 + 6c_3(0) + 12c_4(0)^2 + ... + nc_nx^{n - 1} \\
+\text{osea } P''(0) = 2c_2 \text{ y además } P''(0) = f''(0) \\
+\text{entonces } \frac{f''(0)}{2} = c_2$
+
+---
+
+$P'''(0) = 6c_3 \\
+\text{ya que } P'''(0) = 0 + 0 + 0 + 6c_3 + 24c_4(0) +... + nc_nx^{n - 1} \\
+\text{osea } P'''(0) = 6c_3 \text{ y además } P'''(0) = f'''(0) \\
+\text{entonces } \frac{f'''(0)}{6} = c_3$
+
+
+y en general $P^{(k)}(0) = k!c_k$
+
+osea que podemos determinar las constantes así
+
+> $$c_k = \frac{f^{(k)}(0)}{k!} $$
