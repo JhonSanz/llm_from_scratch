@@ -56,6 +56,7 @@ vemos como $h$ se empieza a parecer visualmente a $f$
 >
 >$$P(0) = f(0)$$
 >$$P'(0) = f'(0)$$
+>$$\vdots$$
 >$$P^{(n)}(0) = f^{(n)}(0)$$
 >
 >
@@ -92,7 +93,7 @@ $\text{entonces } f'(0) = c_1$
 
 ---
 
-$ P''(0) = 2c_2$
+$P''(0) = 2c_2 $
 
 $\text{ya que } P''(0) = 0 + 0 + 2c_2 + 6c_3(0) + 12c_4(0)^2 +  \cdots + nc_n(0)^{n - 1}$
 
@@ -123,11 +124,104 @@ Este razonamiento demuestra que existe un polinomio de grado $\leq n$ que satisf
 
 $$P(0) = f(0)$$
 $$P'(0) = f'(0)$$
+$$\vdots$$
 $$P^{(n)}(0) = f^{(n)}(0)$$
 
 Este polinomio viene dado por 
 
-$$ P(x) = \sum_{k = 0}^{n} \frac{f^{k}(0)}{k!}x^k$$
+> $$ P(x) = \sum_{k = 0}^{n} \frac{f^{k}(0)}{k!}x^k$$
 
 Similarmente podemos demostrar que existe un polinomio de grado  $\leq n$ que coincide con $f$ y sus $n$ primeras derivadas en el punto $x = a$
+
+Hagamos de nuevo un par de iteraciones, esta vez probando este polinomio
+
+$$P(x) = c_0 + c_1(x - a) + c_2(x - a)^2 + c_3(x - a)^3 + \dots + c_n(x - a)^n$$
+
+y estas condiciones
+
+$$P(a) = f(a)$$
+$$P'(a) = f'(a)$$
+$$\vdots$$
+$$P^{(n)}(a) = f^{(n)}(a)$$
+
+Entonces
+
+$x = a$
+
+---
+
+
+$P(a) = c_0 \rightarrow f(a) = c_0$
+
+$\text{ya que } P(a) = c_0 + c_1\cancel{((a) - a)} + c_2\cancel{((a) - a)}^2 + c_3\cancel{((a) - a)}^3 + c_4\cancel{((a) - a)}^4 +  \cdots + c_n\cancel{((a) - a)}^{n}$
+
+$\text{osea } P(a) = c_0 \text{ y además } P(a) = f(a)$
+
+$\text{entonces } f(a) = c_0$
+
+---
+
+$P'(a) = c_1 \rightarrow f'(a) = c_1 $
+
+$\text{ya que } P'(a) = 0 + c_1 + 2c_2\cancel{((a) - a)} + 3c_3\cancel{((a) - a)}^2 + 4c_4\cancel{((a) - a)}^3 +  \cdots + nc_n\cancel{((a) - a)}^{n - 1}$
+
+$\text{osea } P'(a) = c_1 \text{ y además } P'(a) = f'(a) $
+
+$\text{entonces } f'(a) = c_1$
+
+
+Podemos seguir con el mismo razonamiento que antes y vamos a encontrar que 
+
+> $$ P(x) = \sum_{k = 0}^{n} \frac{f^{k}(a)}{k!}(x - a)^k$$
+
+Satisface las condiciones, y se llama Polinomio de Taylor de grado $n$ generado por $f$ en el punto $a$.
+
+
+### Notación
+
+
+Es conveniente tener una notación que indique la dependencia del polinomio de Taylor $P$ respecto de $f$ y $n$. Así que utilizaremos el símbolo $T_nf$, $T_nf(x)$ o $T_n(f(x))$ y se denomina operador de Taylor de grado $n$
+
+Cuando el operador se aplica a una función $f$ genera una nueva función $T_nf$
+
+El valor de esta función en $x$ se representa con $T_nf$, y con respecto de $a$ es $T_nf(x ; a)$
+
+
+### Ahora el ejemplo de toda la vida (pero que es muy útil)
+
+Encontremos el polinmio de taylor para la función $sen(x)$
+
+$f(x) = sen(x) \rightarrow f(0) = 0$
+
+$f'(x) = cos(x) \rightarrow f'(0) = 1$
+
+$f''(x) = -sen(x) \rightarrow f''(0) = 0$
+
+$f'''(x) = -cos(x) \rightarrow f'''(0) = -1$
+
+$f^{4}(x) = sen(x) \rightarrow f^{4}(0) = 0$
+
+$\vdots$
+
+$etc$
+
+entonces $f^{(2n + 1)}(0) = (-1)^n$ y a su vez $f^{(2n)}(0) = 0$
+
+
+Osea solo aparecen potencias impares de $x$ en los polinomios de Taylor generados por la función $sen(x)$ en $x = 0$. Entonces
+
+$$T_{2n + 1}(sen(x)) = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots + (-1)^n \frac{x^{2n + 1}}{(2n + 1)!}$$
+
+
+Si hacemos el mismo razonamiento para la función $cos(x)$ (de hecho funciona el razonamiento de arriba) vemos que los polinomios de taylor generados por la función $cos(x)$ en $x = 0$ solo contiene potencias pares de $x$. Entonces
+
+$$T_{2n}(sen(x)) = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots + (-1)^n \frac{x^{2n}}{(2n)!}$$
+
+
+### Algunas curiosidades
+
+
+
+
+
 
