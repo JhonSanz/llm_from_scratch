@@ -73,8 +73,11 @@ $x = 0$
 
 
 $P(0) = c_0 \rightarrow f(0) = c_0 \\$
+
 $\text{ya que } P(0) = c_0 + c_1x + c_2(0)^2 + c_3(0)^3 + c_4(0)^4 +  \cdots + c_nx^{n} \\$
+
 $\text{osea } P(0) = c_0 \text{ y además } P(0) = f(0) \\$
+
 $\text{entonces } f(0) = c_0$
 
 ---
