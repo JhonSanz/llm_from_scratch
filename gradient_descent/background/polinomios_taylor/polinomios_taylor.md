@@ -215,7 +215,7 @@ $$T_{2n + 1}(sen(x)) = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \c
 
 Si hacemos el mismo razonamiento para la función $cos(x)$ (de hecho funciona el razonamiento de arriba) vemos que los polinomios de taylor generados por la función $cos(x)$ en $x = 0$ solo contiene potencias pares de $x$. Entonces
 
-$$T_{2n}(sen(x)) = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots + (-1)^n \frac{x^{2n}}{(2n)!}$$
+$$T_{2n}(cos(x)) = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots + (-1)^n \frac{x^{2n}}{(2n)!}$$
 
 
 ### Algunas curiosidades
@@ -225,3 +225,12 @@ $$T_{2n}(sen(x)) = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots
 
 
 
+# Polinomio de Taylor con resto
+
+### Demostración
+
+![alt](img/dem_1.jpg)
+![alt](img/dem_2.jpg)
+![alt](img/dem_3.jpg)
+![alt](img/dem_4.jpg)
+![alt](img/dem_5.jpg)
