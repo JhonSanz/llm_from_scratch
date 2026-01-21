@@ -304,11 +304,11 @@ $$E_n(x) = \frac{1}{n!}\int_{a}^{x} (x-t)^{n}f^{(n+1)}(t)dt$$
 
 ### Demostración
 
-<!-- ![alt](img/dem_1.jpg)
+![alt](img/dem_1.jpg)
 ![alt](img/dem_2.jpg)
 ![alt](img/dem_3.jpg)
 ![alt](img/dem_4.jpg)
-![alt](img/dem_5.jpg) -->
+![alt](img/dem_5.jpg)
 
 
 # Estimación del error en la fórmula de Taylor
