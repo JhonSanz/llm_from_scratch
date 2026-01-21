@@ -304,8 +304,81 @@ $$E_n(x) = \frac{1}{n!}\int_{a}^{x} (x-t)^{n}f^{(n+1)}(t)dt$$
 
 ### Demostración
 
-![alt](img/dem_1.jpg)
+<!-- ![alt](img/dem_1.jpg)
 ![alt](img/dem_2.jpg)
 ![alt](img/dem_3.jpg)
 ![alt](img/dem_4.jpg)
-![alt](img/dem_5.jpg)
+![alt](img/dem_5.jpg) -->
+
+
+# Estimación del error en la fórmula de Taylor
+
+Ya que $E_n(x)$ ha sido expresado en forma de integral que afecta a lad erivada de ordne $n+1$ de $f$ necesitamos mas información acerca de $f^{(n+1)}$ antes de poder estimar la magnitud de $E_n(x)$
+
+
+Un buen ejemplo es que nos planteen este problema: "La velocidad de un auto es $v(t)$ y la distancia recorrida es $\int_0^T v(t)dt$ ¿Qué tan lejos llegó el auto?"
+
+Con esa información no podemos responder la pregunta porque $v(t)$ podría ser cualquier función
+
+$v(y) = 1$
+
+$v(y) = 1/\sqrt{t}$
+
+$v(y) = 10sen(t)$
+
+y resolver esa integral no nos dará la respuesta, la única manera sería decir algo como $0 \leq v(t) \leq 100T$. Ahí ya podemos decir algo sobre la distancia aunque no conocemos $v(t)$ ni la función que la origina
+
+Lo mismo pasa con Taylor, de hecho todo lo que hemos visto se puede hacer sin conocer $f$. Hay ejemplos donde se puede construir el polinomio de Taylor solamente conociendo las derivadas de $f$ y un punto de $f(a)$, con eso basta. Por eso el error se debe acotar, conocemos solamente un entorno de a mas no toda la fución 
+
+Al inicio usamos funciones como $e^x$ $sin(x)$ de forma pedagógica pero no necesitamos conocerlas 
+
+"Para cualquier función suficientemente regular, aunque no sepamos como es, su comportamiento cerca de un punto está determinada por sus derivadas"
+
+Así que vamos a acotar el error para poder estimarlo.
+
+
+### Cotas m M
+
+Si la derivada $(n+1)$-ésima de $f$ satisface las desigualdades 
+
+
+$$m \leq f^{(n+1})(t) \leq M$$
+
+Para todo $t$ en un cierto intervalo que contenga a $a$, entonces para todo $x$ de ese intervalo tenemos la estimación 
+
+
+$$m \frac{(x-a)^{n+1}}{(n+1)!} \leq E_n(x) \leq M\frac{(x-a)^{n+1}}{(n+1)!} \text{ si x > a}$$
+
+$$m \frac{(a-x)^{n+1}}{(n+1)!} \leq (-1)^{n+1} E_n(x) \leq M\frac{(a-x)^{n+1}}{(n+1)!} \text{ si x < a}$$
+
+
+Demostración para x > a
+
+$m \leq f^{(n+1})(t) \leq M$ multiplicamos por $\frac{(x - a)^n}{n!}$
+
+
+$m \frac{(x-a)^n}{n!} \leq \frac{(x-a)^n}{n!} f^{(n+1})(t) \leq M\frac{(x-a)^n}{n!}$
+
+integramos en las desigualdades
+
+$\frac{m}{n!} \int_a^x (x-t)^ndt \leq E_n(x) \leq \frac{M}{n!} \int_a^x (x-t)^ndt$
+
+resolvemos $\int_a^x (x-t)^ndt$  integrando por partes 
+
+$u = x-t$
+
+$du = -dt$
+
+$\int_a^x (x-t)^ndt = \int_a^{x-a} u^ndu = \frac{(x-a)^{n+1}}{n+1}$
+
+reemplazamos y obtenemos lo que estábamos buscando
+
+$m \frac{(x-a)^{n+1}}{(n+1)!} \leq E_n(x) \leq M\frac{(x-a)^{n+1}}{(n+1)!} \text{ si x > a}$
+
+
+Se puede demostrar para $x < a$
+
+
+## Ejemplo
+
+
