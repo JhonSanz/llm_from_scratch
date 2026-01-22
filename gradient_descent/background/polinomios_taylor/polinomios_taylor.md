@@ -313,7 +313,7 @@ $$E_n(x) = \frac{1}{n!}\int_{a}^{x} (x-t)^{n}f^{(n+1)}(t)dt$$
 
 # Estimación del error en la fórmula de Taylor
 
-Ya que $E_n(x)$ ha sido expresado en forma de integral que afecta a lad erivada de ordne $n+1$ de $f$ necesitamos mas información acerca de $f^{(n+1)}$ antes de poder estimar la magnitud de $E_n(x)$
+Ya que $E_n(x)$ ha sido expresado en forma de integral que afecta a la derivada de orden $n+1$ de $f$ necesitamos mas información acerca de $f^{(n+1)}$ antes de poder estimar la magnitud de $E_n(x)$
 
 
 Un buen ejemplo es que nos planteen este problema: "La velocidad de un auto es $v(t)$ y la distancia recorrida es $\int_0^T v(t)dt$ ¿Qué tan lejos llegó el auto?"
@@ -427,3 +427,10 @@ Ahora la prueba de fuego, calculemos $n = 11$ términos de la serie y veamos el 
 ![alt text](img/taylor_n11.png)
 
 el valor es $2.7182818261985$ y si lo comparamos con el valor real $2.71828182845904523536...$ podemos comprobar que cumplen las 8 cifras de precisión
+
+#### ejemplos para el futuro
+
+- Estimar $cos(666)$
+
+
+# Resto de Lagrange
