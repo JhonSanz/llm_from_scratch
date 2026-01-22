@@ -381,4 +381,49 @@ Se puede demostrar para $x < a$
 
 ## Ejemplo
 
+Queremos encontrar el valor de $e$. Tenemos la función $f(x) = e^x$ y $a = 0$. Tenemos el polinomio de taylor
 
+$$T_n(e^x) = \sum_{k = 0}^{n} \frac{x^k}{k!} + E_n(x)$$
+
+sabemos que todas las derivadas $f^{(n+1)}(x) = e^x$ y además  $f^{(n+1)}(x)$ es monotona creciente en cualquier intervalo, entonces $e^b \leq  f^{(n+1)}(x) \leq e^c$
+
+Podemos estimar las cotas así $m = e^b$ y $M = e^c$ porque nuestro objetivo es estimar $e$, entonces tiene sentido acotarlo así.
+
+Ahora tomamos estos valores $b = 0$ $c = 1$ y $x = 1$. Recordando que queremos estimar $e$ entonces $x = 1$ para tener $f(1) = e^1 = e$, y recordando que $a = 0$. Entonces
+
+
+$$\frac{\cancel{e^0}x^{n+1}}{(n+1)!} \leq E_n(x) \leq \frac{e^1x^{n+1}}{(n+1)!}$$
+
+$$\frac{1}{(n+1)!} \leq E_n(x) \leq \frac{1}{(n+1)!}$$
+
+Sin embargo tenemos claro de analisis anteriores  previos a este tutorial que $e < 3$ entonces tiene mucho sentido que elijamos esta cota de una vez, porque sabemos que eso es verdad. Asi que tendremos
+
+$$\frac{1}{(n+1)!} \leq E_n(x) \leq \frac{3}{(n+1)!}$$
+
+De hecho podríamos utilizar cualquier otro valor, pero poniendo uno mas grande nos afectará la precisión, entre mas cerca mejor
+
+Ahora, queremos estimar $e$ con una precisión de 8 decimales. La pregunta es ¿Cuántos términos $n$ en la serie necesitamos para tener esta precisión?. Por lo tanto necesitamos resolver esta desigualdad
+
+
+$$\frac{3}{(n+1)!} \leq 10^{-8}$$
+
+probemos valores
+
+
+| n  | $(n+1)!$        | $\frac{3}{(n+1)!}$​ | decimales |
+|----|-----------------|---------------------|-----------|
+| 9  | $10!=3628800$   | $≈0.000000826$        | 6         |
+| 10 | $11!=39916800$  | $≈0.000000075$        | 7         |
+| 11 | $12!=479001600$ | $≈0.000000006$        | 8         |
+
+En el ejemplo del libro utilizan $\frac{1}{2}10^{-8}$ para efectos de redondeo
+
+![apostol](img/apostol_1.png)
+
+pero en nuestro mini ejemplo podemos observar que la desigualdad se cumple. 
+
+Ahora la prueba de fuego, calculemos $n = 11$ términos de la serie y veamos el resultado
+
+![alt text](img/taylor_n11.png)
+
+el valor es $2.7182818261985$ y si lo comparamos con el valor real $2.71828182845904523536...$ podemos comprobar que cumplen las 8 cifras de precisión
