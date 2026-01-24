@@ -410,27 +410,79 @@ $$\frac{3}{(n+1)!} \leq 10^{-8}$$
 probemos valores
 
 
-| n  | $(n+1)!$        | $\frac{3}{(n+1)!}$​ | decimales |
-|----|-----------------|---------------------|-----------|
-| 9  | $10!=3628800$   | $≈0.000000826$        | 6         |
-| 10 | $11!=39916800$  | $≈0.000000075$        | 7         |
-| 11 | $12!=479001600$ | $≈0.000000006$        | 8         |
+| n  | $(n+1)!$        | $\frac{3}{(n+1)!}$​    | decimales |
+|----|-----------------|------------------------|-----------|
+| 9  | $10!=3628800$   | $ \approx 0.000000826$ | 6         |
+| 10 | $11!=39916800$  | $ \approx 0.000000075$ | 7         |
+| 11 | $12!=479001600$ | $ \approx 0.000000006$ | 8         |
 
 En el ejemplo del libro utilizan $\frac{1}{2}10^{-8}$ para efectos de redondeo
 
-![apostol](img/apostol_1.png)
+<!-- ![apostol](img/apostol_1.png) -->
 
 pero en nuestro mini ejemplo podemos observar que la desigualdad se cumple. 
 
 Ahora la prueba de fuego, calculemos $n = 11$ términos de la serie y veamos el resultado
 
-![alt text](img/taylor_n11.png)
+<!-- ![alt text](img/taylor_n11.png) -->
 
 el valor es $2.7182818261985$ y si lo comparamos con el valor real $2.71828182845904523536...$ podemos comprobar que cumplen las 8 cifras de precisión
 
-#### ejemplos para el futuro
+## Ejemplo 2
+
+Estimar $cos(0.1)$. Entonces $f(x) = cos(x)$ y $a = 0.1$
+
+Sabemos que 
+
+$$T_{2n}(cos(x)) = \sum_{k=0}^{n} (-1)^n \frac{x^{2k}}{(2k)!}$$
+
+$$E_{2n} = \frac{1}{2n!} \int_{0}^{x} (x-t)^{2n} f^{(2n + 1)}(t)dt$$
+
+Sabemos que el rango de $sen(x)$ y $cos(x)$ está entre $-1$ y $1$ para cualquier $t$, entonces tiene sentido que las cotas sean esos valores
+
+
+$$|E_{2n}(x)| \leq \frac{|x|^{2n+1}}{(2n+1)!}$$
+
+
+Por lo tanto para determinar $8$ decimales de precisión tenemos que resolver la desigualdad, y probar valores de manera similar al ejemplo anterior.
+
+$$\frac{(0.1)^{2n+1}}{(2n+1)!} \leq 10^{-8}$$
+
+con $n=3$ funcionará 
+
+$$\frac{(0.1)^{7}}{(7)!} = \frac{10^{-7}}{5040}  \approx 2 \times 10^{-11}$$
+
+Entonces
+
+$$cos(0.1) = 1 - \frac{0.1^{2}}{2!} + \frac{0.1^{4}}{4!} - \frac{0.1^{6}}{6!}$$
+
+$$cos(0.1) = 1 - 0.005 + 0.0000041667 - 0.0000000013889$$
+
+$$cos(0.1) = 0.9950041653$$
+
+
+## Ejemplos para el futuro
 
 - Estimar $cos(666)$
 
 
 # Resto de Lagrange
+
+"Hemos expresado el error en la fórmula de taylor como una integral 
+
+
+$$E_{n} = \frac{1}{n!} \int_{0}^{x} (x-t)^{n} f^{(n + 1)}(t)dt$$
+
+Puede expresarse en muchas otras formas. Como el factor $(x-t)^{n}$ del integrando nunca cambia de signo en el intevalo de integracion, y como $f^{(n+1)}$ es continua en ese intevalo, el teorema del valor medio ponderado para integrales nos da
+
+
+$$\int_{0}^{x} (x-t)^{n} f^{(n + 1)}(t)dt = f^{(n + 1)}(c) \int_{0}^{x} (x-t)^{n}dt = f^{(n + 1)}(c) \frac{(x-a)^{n+1}}{n+1}$$
+
+Estando c en el intervalo cerrado que une $a$ con $x$. Por lo tanto el error puede escribirse en la forma
+
+
+$$E_n(x) = \frac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1}$$
+
+Esta es la llamda forma de Lagrange del resto. Se parece a los anteriores términos de la fórmula de Taylor pero $f^{(n+1)}(c)$ está calculada en un cierto punto $c$ desconocido y no en el punto $a$
+
+El punto $c$ depende de $x$ y de $n$, tanto como de $f$" Cálculo de Tom Apostol Vol 1 pag 347
