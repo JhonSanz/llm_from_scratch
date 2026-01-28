@@ -43,6 +43,27 @@ Hasta aqui hay una semejanza indistinguible entre un número complejo y un vecto
 
 ## Interpretación geométrica en $\reals^2$
 
-
+En esta primera imagen tenemos dos vectores libres. De hecho, la palabra libre suena muy bien, ya que en esta primera aproximación solo podemos analizaros "morfológicamente". Podríamos en lugar de imaginarnos dos flechas, pensar que son dos renacuajos. Para ambos casos la cabeza es B y la cola es A
 
 ![alt text](img/vec_1.png)
+
+Por lo tanto, podríamos afirmar que el renacuajo "va" hacia una dirección, ya que la cabeza guía a la cola. Por lo tanto, con esta comparación en mente, nuestra flecha va desde A a B, de la cola a la cabeza, de punto inicial al punto final. Para indicar esta idea utilizamos la notación $\overrightarrow{AB}$, el vector a A a B.
+
+Ahora que conocemos nuestros vectores, vamos a introducir el sistema coordenado
+
+
+![alt text](img/vec_2.png)
+
+podemos ver en la imagen que al introducir el sistema coordenado podemos empezar a utilizar las propiedades vistas anteriormente. Vemos que el vector $\overrightarrow{AB}$ se descompone en dos componentes que podemos escribir como se muestra en la imagen. 
+
+De igual manera si comparamos el vector $v$ con el vector $u$ y comparamos sus componentes en maginitud encontraremos que ambos tienen la misma longitud y dirección. Por lo tanto los llamamos vectores geométricos equivalentes. Osea
+
+$$\overrightarrow{AB} = \overrightarrow{CD}$$
+
+$$B-A = D - C$$
+
+Si se cumple que 
+
+$$a_2 - a_1 = c_2 - c_1$$
+
+$$b_2 - b_1 = d_2 - d_1$$

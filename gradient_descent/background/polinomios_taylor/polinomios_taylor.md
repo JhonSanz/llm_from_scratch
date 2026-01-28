@@ -44,7 +44,7 @@ $$h''(x) = 1 \rightarrow h''(0) = 1$$
 
 #### Grafiquemos estas tres funciones
 
-<!-- ![alt text](img/ex_1.png) -->
+![alt text](img/ex_1.png)
 
 vemos como $h$ se empieza a parecer visualmente a $f$
 
@@ -418,13 +418,13 @@ probemos valores
 
 En el ejemplo del libro utilizan $\frac{1}{2}10^{-8}$ para efectos de redondeo
 
-<!-- ![apostol](img/apostol_1.png) -->
+![apostol](img/apostol_1.png)
 
 pero en nuestro mini ejemplo podemos observar que la desigualdad se cumple. 
 
 Ahora la prueba de fuego, calculemos $n = 11$ términos de la serie y veamos el resultado
 
-<!-- ![alt text](img/taylor_n11.png) -->
+![alt text](img/taylor_n11.png)
 
 el valor es $2.7182818261985$ y si lo comparamos con el valor real $2.71828182845904523536...$ podemos comprobar que cumplen las 8 cifras de precisión
 
