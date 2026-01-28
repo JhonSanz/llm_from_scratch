@@ -1,3 +1,4 @@
+$\gdef\reals{\mathbb{R}}$
 # Interpretación
 
 Existen tres métodos escencialmente distintos para introducir el álgebra vectorial:
@@ -22,7 +23,7 @@ La historia es que al inicio de todo, los griegos conocían como situar un punto
 
 Entonces aquí tenemos nuestra primera idea, podemos considerar una n-pla $(a_1, a_2, \dots, a_n)$ como un punto n-dimensional. Dependiendo de la cantidad de componentes es el lugar donde vive, por ejemplo si nuestro punto n-dimensional es:
 
-- $x = (a_1, a_2)$ entonces este es un punto del plano, o mejor dicho de $\mathbb{R}^2$
+- $x = (a_1, a_2)$ entonces este es un punto del plano, o mejor dicho de $\reals^2$
 - $x = (a_1, a_2, a_3)$ entonces este es un punto del espacio, o mejor dicho de $\reals^3$
 - etc
 
@@ -41,7 +42,7 @@ Por ahora, vale la pena enunciar los axiomas para $V_n$. Sean $A = (a_1, a_2, \d
 
 Hasta aqui hay una semejanza indistinguible entre un número complejo y un vector de dos dimensiones, ambos se diferencian al introducir el producto.
 
-## Interpretación geométrica en $\mathbb{R}^2$
+## Interpretación geométrica en $\reals^2$
 
 En esta primera imagen tenemos dos vectores libres. De hecho, la palabra libre suena muy bien, ya que en esta primera aproximación solo podemos analizaros "morfológicamente". Podríamos en lugar de imaginarnos dos flechas, pensar que son dos renacuajos. Para ambos casos la cabeza es B y la cola es A
 
