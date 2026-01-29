@@ -67,3 +67,36 @@ Si se cumple que
 $$a_2 - a_1 = c_2 - c_1$$
 
 $$b_2 - b_1 = d_2 - d_1$$
+
+### Ley del paralelogramo
+
+También encontramos una curiosidad geométrica, observemos este ejemplo donde $A$ es el origen
+
+![alt text](img/vec_3.png)
+
+si sumamos los vectores $b$ y $c$ obtenemos el vector $w$. Sin embargo, si nos fijamos en los vértices $A, B, C, D$ vemos que dibujan un paralelogramo, donde $\overrightarrow{AB}$ es equivalente a $\overrightarrow{CD}$ siempre que
+
+$$B - A = D - C$$
+$$A + D = B + C$$
+
+lo que nos dice que los vértices opuestos del paralelogramos tienen la misma suma
+
+# Producto escalar
+
+No tengo claro como descubrieron esto... el caso es que lo hicieron y se define de esta manera
+
+"Si $A = (a_1, \dots, a_n)$ y $B = (b_1, \dots, b_n)$ dos vectores de $V_n$ entonces su producto escalar se representa con $A \cdot B$, y se define con la igualdad"
+
+$$A \cdot B = \sum_{k=1}^{n} a_k b_k$$
+
+es decir, esta operación nos da como resultado un número real.
+
+"Para todos los vectores $A, B, C$ de $V_n$ y todos los escalares $c$ tenemos las siguientes propiedades"
+
+- $A \cdot B = B \cdot A$
+- $A \cdot (B + C) = (A \cdot B) + (A \cdot C)$
+- $c(A \cdot B) = cA \cdot B = A \cdot cB$
+- $A \cdot A \gt 0 \text{ si } A \neq O$
+- $A \cdot A = 0 \text{ si } A = O$
+
+# Desigualdad de Cauchy-Schwarz
