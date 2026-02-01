@@ -206,3 +206,82 @@ $$||A|| = \left( A \cdot A\right)^{\frac{1}{2}} = \sqrt{A \cdot A} =  \sqrt{a_1^
 
 funciona para $n$ dimensiones
 
+- $||A|| \gt 0$ si $A \neq O$
+- $||A|| = 0$ si $A = O$
+- $||cA|| = |c| ||A||$
+
+# Desigualdad Triangular
+
+La longitud de un lado de un triángulo no supera la suma de las longitudes de los otros lados.
+
+Si $A$ y $B$ son vectores de $V_n$ tenemos que
+
+$$||A + B|| \leq ||A|| + ||B||$$
+
+![alt text](img/vec_4.png)
+
+Si hacemos:
+
+$$||A + B||^2 \leq (||A|| + ||B||)^2$$
+
+$$(A+B) \cdot (A+B) = ||A||^2 + 2||A||||B|| + ||B||^2$$
+
+$$A \cdot A + 2A \cdot B + B \cdot B = ||A||^2 + 2||A||||B|| + ||B||^2$$
+
+$$||A||^2 + 2A \cdot B + ||B||^2= ||A||^2 + 2||A||||B|| + ||B||^2$$
+
+$$A \cdot B \leq ||A||||B||$$
+
+lo cual es la desigualdad de Cauchy-Schwartz y ya sabemos que es válida.
+
+El razonamiento completo es:
+
+1. Queremos probar la desigualdad triangular
+2. La reducimos a una desigualdad con producto interno
+3. Esa desigualdad es Cauchy–Schwarz
+4. Cauchy–Schwarz ya está demostrada
+
+# Ortogonalidad de vectores
+
+En medio de la demostración anterior, viendo solo el desarrollo de la parte izquierda de la igualdad, llegamos a esto:
+
+$$||A + B||^2 = ||A||^2 + 2A \cdot B + ||B||^2$$
+
+Retomando de nuevo la identidad pitagórica, podemos formar un **triángulo rectángulo**, como vimos anteriormente, esta vez considerando la magnitud de sus partes, así:
+
+$$||A+B||^2 = ||A||^2 + ||B||^2$$
+
+ambas expresiones se diferencian por el término $2A \cdot B$, es decir, este es el término que describe el triángulo cuando es **no rectángulo**. Por lo cual, cuando el término es cero induscutiblemente el triángulo es rectángulo. 
+
+Entonces este término es cero cuando $2A \cdot B = 0$ osea cuando $A \cdot B = 0$
+
+> En otras palabras, cuando el producto punto entre dos vectores es cero nos indica que hacen parte de un triángulo rectángulo, o mejor dicho, **ambos vectores son perpendiculares**
+
+Gracias a esto podemos sacar un resultado muy importante y muy utilizado
+
+# Proyecciones y ángulos entre dos vectores
+
+Observemos el siguiente gráfico
+
+![alt text](img/vec_5.png)
+
+vemos que la proyección es una especie de "sombra" que hace el vector $A$ sobre el $B$. Para ello, queremos encontrar el escalar $t$, asi que asumimos el vector $C$ que forma un triángulo rectángulo con $tB$, de esta manera podemos definir A. Por lo tanto:
+
+$$tB + C = A$$
+
+multiplicamos por $B$
+
+$tB \cdot B + C \cdot B = A \cdot B$
+
+como $C$ y $B$ son perpendiculares entonces $C \cdot B = 0$ osea que
+
+$tB \cdot B = A \cdot B$
+
+$t = \frac{A \cdot B}{B \cdot B}$ osea que 
+
+$$t = \frac{A \cdot B}{||B||^2}$$
+
+De hecho, aqui tenemos un ejemplo que no es tan visual, pero vemos que funciona
+
+![alt text](img/vec_6.png)
+
