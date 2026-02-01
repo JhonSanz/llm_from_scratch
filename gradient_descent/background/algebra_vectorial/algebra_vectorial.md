@@ -263,7 +263,7 @@ Gracias a esto podemos sacar un resultado muy importante y muy utilizado
 
 Observemos el siguiente gráfico
 
-<!-- ![alt text](img/vec_5.png) -->
+![alt text](img/vec_5.png)
 
 vemos que la proyección es una especie de "sombra" que hace el vector $A$ sobre el $B$. Para ello, queremos encontrar el escalar $t$, asi que asumimos el vector $C$ que forma un triángulo rectángulo con $tB$, de esta manera podemos definir A. Por lo tanto:
 
@@ -283,7 +283,7 @@ $$t = \frac{A \cdot B}{||B||^2}$$
 
 De hecho, aqui tenemos un ejemplo que no es tan visual, pero vemos que funciona
 
-<!-- ![alt text](img/vec_6.png) -->
+![alt text](img/vec_6.png)
 
 ### Ángulos
 
