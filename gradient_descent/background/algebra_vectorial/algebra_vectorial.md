@@ -208,7 +208,7 @@ funciona para $n$ dimensiones
 
 - $\lVert A \rVert \gt 0$ si $A \neq O$
 - $\lVert A \rVert = 0$ si $A = O$
-- $||cA|| = |c| \lVert A \rVert$
+- $\lVert cA \rVert = |c| \lVert A \rVert$
 
 # Desigualdad Triangular
 
@@ -216,13 +216,13 @@ La longitud de un lado de un triángulo no supera la suma de las longitudes de l
 
 Si $A$ y $B$ son vectores de $V_n$ tenemos que
 
-$$||A + B|| \leq \lVert A \rVert + \lVert B \rVert$$
+$$\lVert A + B \rVert \leq \lVert A \rVert + \lVert B \rVert$$
 
 ![alt text](img/vec_4.png)
 
 Si hacemos:
 
-$$||A + B||^2 \leq (\lVert A \rVert + \lVert B \rVert)^2$$
+$$\lVert A + B \rVert^2 \leq (\lVert A \rVert + \lVert B \rVert)^2$$
 
 $$(A+B) \cdot (A+B) = \lVert A \rVert^2 + 2\lVert A \rVert \lVert B \rVert + \lVert B \rVert^2$$
 
@@ -245,11 +245,11 @@ El razonamiento completo es:
 
 En medio de la demostración anterior, viendo solo el desarrollo de la parte izquierda de la igualdad, llegamos a esto:
 
-$$||A + B||^2 = \lVert A \rVert^2 + 2A \cdot B + \lVert B \rVert^2$$
+$$\lVert A + B \rVert^2 = \lVert A \rVert^2 + 2A \cdot B + \lVert B \rVert^2$$
 
 Retomando de nuevo la identidad pitagórica, podemos formar un **triángulo rectángulo**, como vimos anteriormente, esta vez considerando la magnitud de sus partes, así:
 
-$$||A+B||^2 = \lVert A \rVert^2 + \lVert B \rVert^2$$
+$$\lVert A + B \rVert^2 = \lVert A \rVert^2 + \lVert B \rVert^2$$
 
 ambas expresiones se diferencian por el término $2A \cdot B$, es decir, este es el término que describe el triángulo cuando es **no rectángulo**. Por lo cual, cuando el término es cero induscutiblemente el triángulo es rectángulo. 
 
@@ -289,7 +289,7 @@ De hecho, aqui tenemos un ejemplo que no es tan visual, pero vemos que funciona
 
 Gracias a esto podemos encontrar un resultado muy útil
 
-$$cos(\theta) = \frac{||tB||}{\lVert A \rVert}$$
+$$cos(\theta) = \frac{\lVert tB \rVert}{\lVert A \rVert}$$
 
 $$cos(\theta) = \frac{t\lVert B \rVert}{\lVert A \rVert}$$
 
