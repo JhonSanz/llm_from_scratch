@@ -202,13 +202,13 @@ La desigualdad de Cauchy-Schwarz es muy importante y se utiliza en diversas demo
 Cuando introdujimos los vectores observamos que estos tenían forma triangular al analizar sus componentes. En este momento podemos usar el teorema de pitágoras para definir la norma del vector. De igual manera que en un triángulo, lo utilizamos para saber la longitud de la hipotenusa
 
 
-$$||A|| = \left( A \cdot A\right)^{\frac{1}{2}} = \sqrt{A \cdot A} =  \sqrt{a_1^2 + a_2^2 + \cdots + a_n^2}$$
+$$\lVert A \rVert = \left( A \cdot A\right)^{\frac{1}{2}} = \sqrt{A \cdot A} =  \sqrt{a_1^2 + a_2^2 + \cdots + a_n^2}$$
 
 funciona para $n$ dimensiones
 
-- $||A|| \gt 0$ si $A \neq O$
-- $||A|| = 0$ si $A = O$
-- $||cA|| = |c| ||A||$
+- $\lVert A \rVert \gt 0$ si $A \neq O$
+- $\lVert A \rVert = 0$ si $A = O$
+- $||cA|| = |c| \lVert A \rVert$
 
 # Desigualdad Triangular
 
@@ -216,21 +216,21 @@ La longitud de un lado de un triángulo no supera la suma de las longitudes de l
 
 Si $A$ y $B$ son vectores de $V_n$ tenemos que
 
-$$||A + B|| \leq ||A|| + ||B||$$
+$$||A + B|| \leq \lVert A \rVert + \lVert B \rVert$$
 
 ![alt text](img/vec_4.png)
 
 Si hacemos:
 
-$$||A + B||^2 \leq (||A|| + ||B||)^2$$
+$$||A + B||^2 \leq (\lVert A \rVert + \lVert B \rVert)^2$$
 
-$$(A+B) \cdot (A+B) = ||A||^2 + 2||A||||B|| + ||B||^2$$
+$$(A+B) \cdot (A+B) = \lVert A \rVert^2 + 2\lVert A \rVert \lVert B \rVert + \lVert B \rVert^2$$
 
-$$A \cdot A + 2A \cdot B + B \cdot B = ||A||^2 + 2||A||||B|| + ||B||^2$$
+$$A \cdot A + 2A \cdot B + B \cdot B = \lVert A \rVert^2 + 2\lVert A \rVert \lVert B \rVert + \lVert B \rVert^2$$
 
-$$||A||^2 + 2A \cdot B + ||B||^2= ||A||^2 + 2||A||||B|| + ||B||^2$$
+$$\lVert A \rVert^2 + 2A \cdot B + \lVert B \rVert^2= \lVert A \rVert^2 + 2\lVert A \rVert \lVert B \rVert + \lVert B \rVert^2$$
 
-$$A \cdot B \leq ||A||||B||$$
+$$A \cdot B \leq \lVert A \rVert \lVert B \rVert$$
 
 lo cual es la desigualdad de Cauchy-Schwartz y ya sabemos que es válida.
 
@@ -245,11 +245,11 @@ El razonamiento completo es:
 
 En medio de la demostración anterior, viendo solo el desarrollo de la parte izquierda de la igualdad, llegamos a esto:
 
-$$||A + B||^2 = ||A||^2 + 2A \cdot B + ||B||^2$$
+$$||A + B||^2 = \lVert A \rVert^2 + 2A \cdot B + \lVert B \rVert^2$$
 
 Retomando de nuevo la identidad pitagórica, podemos formar un **triángulo rectángulo**, como vimos anteriormente, esta vez considerando la magnitud de sus partes, así:
 
-$$||A+B||^2 = ||A||^2 + ||B||^2$$
+$$||A+B||^2 = \lVert A \rVert^2 + \lVert B \rVert^2$$
 
 ambas expresiones se diferencian por el término $2A \cdot B$, es decir, este es el término que describe el triángulo cuando es **no rectángulo**. Por lo cual, cuando el término es cero induscutiblemente el triángulo es rectángulo. 
 
@@ -279,7 +279,7 @@ $tB \cdot B = A \cdot B$
 
 $t = \frac{A \cdot B}{B \cdot B}$ osea que 
 
-$$t = \frac{A \cdot B}{||B||^2}$$
+$$t = \frac{A \cdot B}{\lVert B \rVert^2}$$
 
 De hecho, aqui tenemos un ejemplo que no es tan visual, pero vemos que funciona
 
@@ -289,23 +289,23 @@ De hecho, aqui tenemos un ejemplo que no es tan visual, pero vemos que funciona
 
 Gracias a esto podemos encontrar un resultado muy útil
 
-$$cos(\theta) = \frac{||tB||}{||A||}$$
+$$cos(\theta) = \frac{||tB||}{\lVert A \rVert}$$
 
-$$cos(\theta) = \frac{t||B||}{||A||}$$
+$$cos(\theta) = \frac{t\lVert B \rVert}{\lVert A \rVert}$$
 
 ya conocemos $t$ así que reemplacemos 
 
-$$cos(\theta) = \frac{\frac{A\cdot B}{||B||^2}||B||}{||A||}$$
+$$cos(\theta) = \frac{\frac{A\cdot B}{\lVert B \rVert^2}\lVert B \rVert}{\lVert A \rVert}$$
 
-$$cos(\theta) = \frac{\frac{A\cdot B}{||B||}}{||A||}$$
+$$cos(\theta) = \frac{\frac{A\cdot B}{\lVert B \rVert}}{\lVert A \rVert}$$
 
-$$cos(\theta) = \frac{A\cdot B}{||A||||B||}$$
+$$cos(\theta) = \frac{A\cdot B}{\lVert A \rVert \lVert B \rVert}$$
 
-$$A \cdot B = ||A||||B||cos(\theta)$$
+$$A \cdot B = \lVert A \rVert \lVert B \rVert cos(\theta)$$
 
 y de igual manera 
 
-$$\theta = cos^{-1}\left( \frac{A \cdot B}{||A||||B||} \right)$$
+$$\theta = cos^{-1}\left( \frac{A \cdot B}{\lVert A \rVert \lVert B \rVert} \right)$$
 
 
 Esto es un resultado muy importante y muy usado, de hecho, muchos sistemas de recomendación se apoyan en esta idea para comparar vectores. En varios lugares lo llaman "cosine similarity", es prácticamente encontrar el ángulo entre dos vectores
