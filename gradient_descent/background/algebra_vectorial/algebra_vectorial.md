@@ -100,3 +100,109 @@ es decir, esta operación nos da como resultado un número real.
 - $A \cdot A = 0 \text{ si } A = O$
 
 # Desigualdad de Cauchy-Schwarz
+
+Si $A$ y $B$ son vectores de un espacio $V_n$ tenemos que
+
+$$(A \cdot B)^2 \leq (A \cdot A) (B \cdot B)$$
+
+
+$$\left( \sum_{i=1}^{n} a_i b_i \right)^2 \leq \left( \sum_{i=1}^{n} a_i^2 \right) \left( \sum_{i=1}^{n} b_i^2 \right)$$
+
+el signo de igualdad es válido si y solo si hay un número real $x$ tal que $a_kx + b_k = 0 \forall k = 1, 2, \dots, n$, es decir, uno es múltiplo escalar del otro. En este caso si despejamos 
+
+$$a_kx + b_k = 0$$
+
+$$a_kx = -b_k$$
+
+Ejemplo:
+
+Si $A = (1, 2)$ y $B = (2, 4)$ entonces cuanto vale $x$? $1x = -2$, $2x = -4$ Entonces $x = -2$.
+
+Asi que si reemplazaramos $-2A + B = 0$ se cumple. Por lo cual, introducir $a_kx + b_k = 0$ en la demostración nos ayuda a probar la igualdad, ya que al mismo tiempo es una forma de indicar cuando ambos vectores son múltiplos escalares, pero eso lo veremos más a fondo más adelante.
+
+
+continuando... para todo real $x$ se tiene que
+
+$$\sum_{k=1}^{n} (a_k x + b_k)^2 \geq 0$$
+
+porque una suma de cuadrados nunca es negativa. En este paso elevamos al cuadrado nuestra expresión y efectivamente esto nos sirve para probar que siempre es mayor que cero. Entonces de esta manera tenemos las herramientras para probar ambos casos.
+
+
+Esto se puede poner en la forma
+
+$$\sum_{k=1}^{n}(a_k x + b_k)^2 =\sum_{k=1}^{n}(a_k^2x^2 + 2a_kb_kx +b_k^2)$$
+
+$$Ax^2 + 2Bx + C \geq 0$$
+
+Donde
+
+$$A=\sum_{k=1}^{n}a_k^2 \text{ ; } B=\sum_{k=1}^{n}a_kb_k \text{ ; } C=\sum_{k=1}^{n}b_k^2$$
+
+Queremos demostrar que 
+
+$$\left( \sum_{k=1}^{n}a_kb_k \right)^2 \leq \left( \sum_{k=1}^{n}a_k^2  \right) \left( \sum_{k=1}^{n}b_k^2 \right)$$
+
+$$B^2 \leq AC$$
+
+Si $A=0$ cada $a_k = 0$ con lo que $B=0$ y el resultado es trivial. Si $A \neq 0$ podemos completar el cuadrado y escribir
+
+$$Ax^2 + 2Bx + C = A \left( x + \frac{B}{A} \right)^2 + \frac{AC-B^2}{A}$$
+
+para completarlo dividimos todo entre $A$
+
+$Ax^2 + 2Bx + C = 0$
+
+$x^2 + \frac{2B}{A}x + \frac{C}{A} = 0$
+
+Sabemos que $(x + \alpha)^2 = x^2 + 2\alpha x + \alpha^2$
+
+Nosotros tenemos $\alpha = \frac{B}{A}$ 
+
+Entonces podemos escribir $x^2 + 2\alpha x = \left(x + \frac{B}{A} \right)^2 - \left(\frac{B}{A} \right)^2$
+
+Entonces reescribirmos
+
+$$Ax^2 + 2Bx + C = A \left[ \left(x + \frac{B}{A} \right)^2 - \left(\frac{B}{A} \right)^2 \right] + C$$
+
+$$ = A \left(x + \frac{B}{A} \right)^2 -\frac{B^2}{A} + C$$
+
+$$ = A \left(x + \frac{B}{A} \right)^2 + \left( C - \frac{B^2}{A} \right)$$
+
+$$ Ax^2 + 2Bx + C  = A \left(x + \frac{B}{A} \right)^2 + \frac{AC - B^2}{A}$$
+
+
+Aqui ya podemos ver varias cosas:
+
+- $A \gt 0$
+- $\left(x + \frac{B}{A} \right)^2 \gt 0$
+
+Entonces
+
+- $\frac{AC - B^2}{A} \to B^2 \leq AC$, la cual es la desigualdad del inicio
+
+
+Para probar la igualdad observemos
+
+$$ Ax^2 + 2Bx + C  = A \left(x + \frac{B}{A} \right)^2 + \frac{AC - B^2}{A}$$
+
+el segundo miembro de la igualdad es mínimo cuando $x = \frac{-B}{A}$, hemos dicho que el valor mínimo es cero entonces verifiquemos
+
+$A \left( \frac{-B}{A} \right)^2 + 2B\left( \frac{-B}{A} \right) + C = 0$
+
+$\frac{B^2}{A} - \frac{-2B^2}{A} + C = 0$
+
+$- \frac{-B^2}{A} + C = 0$
+
+$B^2 \leq AC$
+
+La desigualdad de Cauchy-Schwarz es muy importante y se utiliza en diversas demostraciones
+
+# Longitud o norma de un vector
+
+Cuando introdujimos los vectores observamos que estos tenían forma triangular al analizar sus componentes. En este momento podemos usar el teorema de pitágoras para definir la norma del vector. De igual manera que en un triángulo, lo utilizamos para saber la longitud de la hipotenusa
+
+
+$$||A|| = \left( A \cdot A\right)^{\frac{1}{2}} = \sqrt{A \cdot A} =  \sqrt{a_1^2 + a_2^2 + \cdots + a_n^2}$$
+
+funciona para $n$ dimensiones
+
