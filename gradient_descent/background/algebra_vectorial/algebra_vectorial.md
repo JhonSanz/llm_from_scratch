@@ -410,5 +410,55 @@ si usamos $c_1 = 0, c_2 = 0, c_3 = -2, c_4 = 1$ habremos generado el vector nulo
 
 # Independencia Lineal
 
+Entonces retomando el ejemplo anterior, podemos decir que un conjunto $S = \{A_1, \dots, A_n \}$ que engendra con unicidad el vector cero se denomina conjunto de vectores linealmente independientes. Es decir, engendra el vector nulo solo con la representación trivial.
+
+# Ortogonalidad
+
+Y a su vez, como ningún vector del envolvente lineal es producto escalar del otro, podemos con seguridad decir que todos son ortogonales entre si, es decir 
+
+$$A_i \cdot A_j = 0$$
+
+siempre que $i \neq j$
+
+Como vimos anteriormente podemos generar el vector a partir de una combinación lineal
+
+$$X = \sum_{i = 1}^{k} C_iA_i$$
+
+De igual manera podemos encontrar las constantes si hacemos lo siguiente
+
+$X = \sum_{i = 1}^{k} C_iA_i$
+
+$X \cdot A_j = C_j(A_j \cdot A_j)$
+
+$C_j = \frac{X \cdot A_j}{(A_j \cdot A_j)}$
+
+esto recuerda al término que encontramos cuando hablamos de las proyecciones.
+
+Ejemplo: sea  $S = \{(2, 0), (0,2) \}$
+
+y un vector generado de este conjunto $X = (6, 4)$, ¿qué constantes se utilizaron para generarlo?
+
+$c_1 = \frac{(6,4) \cdot (2,0)}{(2,0) \cdot (2,0)}$
+
+$c_1 = \frac{12}{4} = 3$
+
+$c_2 = \frac{(6,4) \cdot (0,2)}{(0,2) \cdot (0,2)}$
+
+$c_1 = \frac{8}{4} = 2$
 
 
+Finalmente, si todos los vectores tuvieran norma $1$ podemos encontrar las constantes así
+
+$$c_j = X \cdot A_j$$
+
+y esto se demonina un conjunto de vectores ortonormales $\{A_1, \dots, A_k\}$
+
+
+# Bases
+
+Finalmente un conjunto $S = \{A_1, \dots, A_n \}$ de vectores de $V_n$ es una base para $V_n$ si $S$ genera todo vector de $V_n$ con unicidad, si además $S$ es ortogonal entonces se denomina base ortogonal.
+
+Una base es un conjunto linealmente independiente que genera todo el espacio $V_n$
+
+
+Algunos de estos temas serán revisados a fondo en textos posteriores.
