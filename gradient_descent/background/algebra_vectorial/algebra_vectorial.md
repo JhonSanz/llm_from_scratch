@@ -309,3 +309,106 @@ $$\theta = cos^{-1}\left( \frac{A \cdot B}{\lVert A \rVert \lVert B \rVert} \rig
 
 
 Esto es un resultado muy importante y muy usado, de hecho, muchos sistemas de recomendación se apoyan en esta idea para comparar vectores. En varios lugares lo llaman "cosine similarity", es prácticamente encontrar el ángulo entre dos vectores
+
+# Vectores coordenados unitarios
+
+A lo largo de este texto hemos escrito los vectores como tuplas, pero hay otra forma de escribirlos
+
+$$(a, b) = a(1, 0) + b(0, 1)$$
+
+$$(a, b) = (a, 0) + (0, b)$$
+
+$$(a, b) = (a + 0, b + 0)$$
+
+esto recuerda bastante a las distintas maneras en las que se puede escribir un número complejo. Aquí, estamos utilizando dos vectores muy especiales para representar $(a, b)$ ya que, recordando las propiedades, encontramos que estamos multiplicando un escalar por un vector.
+
+Los vectores $(1, 0)$ y $(0, 1)$ que multiplican los componentes $a$, $b$ se llaman vectores coordenados unitarios. El k-ésimo componente de $E_k$ es $1$ y los demás son cero, así:
+
+$$E_1 = (1, 0, 0, \dots, 0)$$
+$$E_2 = (0, 1, 0, \dots, 0)$$
+$$\vdots$$
+$$E_n = (0, 0, 0, \dots, 1)$$
+
+se llama vector unitario ya que cada vector $E_k$ tiene longitud $1$ y todos ellos son ortogonales entre si
+
+$$E_k \cdot E_j = 0 \text{ si } k \neq j$$
+
+Por lo tanto, todo vector $X = (X_1, \dots, X_n)$ de $V_n$ puede expresarse de la forma 
+
+$$X = X_1E_1 + \cdots + X_nE_n = \sum_{k=1}^{n} X_kE_k$$
+
+Esto lo conocemos como una **combinación lineal**, multiplicar cada componente por una constante y luego sumar los términos.
+
+Los vectores coordenados unitarios $E_1, \dots, E_n$ generan el espacio $V_n$ y a su vez lo generan con unicidad. Esto empieza a abrir campo para otros temas pero veamoslo rápidamente
+
+Consideremos $V_3$ y observemos los tres vectores unitarios
+
+
+$$i = (1, 0, 0)$$
+$$j = (0, 1, 0)$$
+$$k = (0, 0, 1)$$
+
+Esos son tres vectores que apuntan en dirección de los ejes coordenados y tiene magnitud 1. Puedo generar cualquier otro vector de $V_3$ haciendo la combinación lineal de $i, j, k$ con otras tres constantes cualquieras $c_1, c_2, c_3$
+
+Por ejemplo $c_1 = 3, c_2 = 1, c_3 = 2$ me generan el vector 
+
+$$q = 3(1,0,0) + 1(0,1,0) + 2(0,0,1)$$
+
+$$q = (3,0,0) + (0,1,0) + (0,0,2)$$
+
+$$q = (3,1,2)$$
+
+Ahora bien, decimos que se genera con unicidad porque no hay otras tres constantes que me generen el vector $q$, la única manera es con $c_1 = 3, c_2 = 1, c_3 = 2$, esto lo escriben en los libros como 
+
+$W = \sum_{k=1}^{n} X_kE_k$
+
+$W= \sum_{k=1}^{n} Y_kE_k $
+
+esto solo es cierto si
+
+$X_k = Y_k$ para cada valor $k = 1, 2, ..., n$
+
+# Envolvente lineal de un conjunto finito de vectores
+
+Lo anterior nos da el insumo para generalizar el concepto. Vimos que a partir de un conjunto de vectores podemos generar todo un espacio. Para nuestro ejemplo anterior el conjunto fueron los vectores $i,j,k$ y con ellos pudimos generar todo $V_3$, haciendo la combinación lineal de ellos con tres constantes
+
+Aqui vamos a decir que si tenemos un conjunto no vacio de $k$ vectores $S = \{A_1, \dots, A_n \}$ y un vector $V_n$ puede representarse como una combinación lineal de los vectores en el conjunto
+
+$$X = \sum_{i = 1}^{k} C_iA_i$$
+
+recordando que también necesitamos $k$ constantes. Entonces decimos que $S$ genera al vector $X$
+
+> Entonces,  el conjunto de todos los vectores generados por $S$ se denomina **envolvente lineal de S** y se designa por $L(S)$
+
+Ejemplo 1: un buen ejemplo fue el que vimos anteriormente para $V_3$
+
+Ejemplo 2: Todo conjunto $S = \{A_1, \dots, A_n \}$ genera el vector nulo ya que
+
+$$O = 0A_1 + \dots + 0A_k$$
+
+Esta representación donde todos los coeficientes $c_1, \dots, c_2$ son cero se llama **representación trivial del vector nulo**.
+
+Sin embargo pueden existir combinaciones no triviales que representen $O$. Por ejemplo si uno de los vectores del envolvente lineal es múltiplo escalar del otro
+
+$i = (1, 0, 0)$
+
+$j = (0, 1, 0)$
+
+$k = (0, 0, 1)$
+
+$h = (0, 0, 2)$ aquí $h = 2k$
+
+si definimos el conjunto $S = \{i, j, k, h\}$ y generamos un vector
+
+$$W = c_1(1,0,0) + c_2(0,1,0) + c_3(0,0,1) + c_4(0,0,2)$$
+
+$$W = (c_1,0,0) + (0,c_2,0) + (0,0,c_3) + (0,0,2c_4)$$
+
+$$W = (c_1, c_2, c_3 + 2c_4)$$
+
+si usamos $c_1 = 0, c_2 = 0, c_3 = -2, c_4 = 1$ habremos generado el vector nulo con la representación **no trivial**, ya que sin usar todas las constantes en cero pudimos llegar al vector nulo.
+
+# Independencia Lineal
+
+
+
