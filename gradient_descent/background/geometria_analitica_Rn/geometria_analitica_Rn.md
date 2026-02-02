@@ -27,7 +27,14 @@ En $L(P; A)$
 
 ## Propiedades de las rectas
 
-Podemos reemplazar el vector de dirección $A$ por uno paralelo a este. Es decir $A = cB$ o en otras palabras, $B$ es un múltiplo escalar de $A$ con $c \neq 0$
+1. Podemos reemplazar el vector de dirección $A$ por uno paralelo a este. Es decir $A = cB$ o en otras palabras, $B$ es un múltiplo escalar de $A$ con $c \neq 0$. Por lo tanto, dos rectas $L(P;A)$ y $L(P;B)$ que pasan por el mismo punto son iguales si los vectores de dirección $A$ y $B$ son paralelos
+
+2. Dos rectas $L(P;A)$ y $L(Q;A)$ con el mismo vector de dirección $A$ son iguales si $Q$ está en $L(P;A)$. Ya que, si $Q$ no está en $L(P;A)$, $L(Q;A)$ es una recta paralela pero no igual
 
 
+![alt text](img/rec_2.png)
+
+3. Dadas $L$ y un punto $Q \notin L$, existe solo una recta $L'$ que contiene $Q$ y es paralela a $L$. Como se ve en el gráfico, la única manera es que se elija el vector director paralelo a $L$, ya que por $Q$ pasan infinitas rectas diferentes
+
+![alt text](image.png)
 
