@@ -38,7 +38,7 @@ En $L(P; A)$
 
 ![alt text](image.png)
 
-4. Dos puntos distintos determinan una recta. Es decir, si $P \neq Q$ existe solo una recta que contiene $P$ y $Q$. Puede describirse como el conjunto $\{ P + t(Q - P) \}$. De esta manera podemos averiguar si un punto $Q$ está en una recta dada $L(P;A)$. $Q$ está en $$L(P;A)$ si $Q-P$ es paralelo a $A$.
+4. Dos puntos distintos determinan una recta. Es decir, si $P \neq Q$ existe solo una recta que contiene $P$ y $Q$. Puede describirse como el conjunto $\{ P + t(Q - P) \}$. De esta manera podemos averiguar si un punto $Q$ está en una recta dada $L(P;A)$. $Q$ está en $L(P;A)$ si $Q-P$ es paralelo a $A$.
 
     Ejemplo:
 
