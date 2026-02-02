@@ -23,9 +23,4 @@ En $L(P; A)$
 
 ![alt text](img/rec_1.png)
 
-<iframe 
-  src="https://www.geogebra.org/m/wnzeuzcw"
-  width="800"
-  height="500"
-  style="border:0;">
-</iframe>
+[Ver en geogebra]("https://www.geogebra.org/m/wnzeuzcw")
