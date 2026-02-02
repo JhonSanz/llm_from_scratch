@@ -38,3 +38,18 @@ En $L(P; A)$
 
 ![alt text](image.png)
 
+4. Dos puntos distintos determinan una recta. Es decir, si $P \neq Q$ existe solo una recta que contiene $P$ y $Q$. Puede describirse como el conjunto $\{ P + t(Q - P) \}$. De esta manera podemos averiguar si un punto $Q$ está en una recta dada $L(P;A)$. $Q$ está en $$L(P;A)$ si $Q-P$ es paralelo a $A$.
+
+    Ejemplo:
+
+    $P = (1,2,3)$ $A = (2,-1,5)$ $Q_1 = (1,1,4)$ $Q_2 = (5,0,13)$
+
+    - $Q_1 - P = (0,-1,1)$ por lo tanto $Q_1 \notin L(P;A)$
+    - $Q_2 - P = (4,-2,10) = 2A$ por lo tanto $Q_2 \in L(P;A)$
+
+5. Los vectores $A$ y $B$ de un $V_n$ son linealmente dependientes si están en la misma recta que pasa por el origen. La dependencia lineal de dos vectores en $V_n$ puede expresarse geométricamente.
+
+# Rectas y Funciones Vectoriales
+
+
+
