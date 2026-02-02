@@ -23,4 +23,11 @@ En $L(P; A)$
 
 ![alt text](img/rec_1.png)
 
-[Ver en geogebra]("https://www.geogebra.org/m/wnzeuzcw")
+[Ver en geogebra](https://www.geogebra.org/m/wnzeuzcw)
+
+## Propiedades de las rectas
+
+Podemos reemplazar el vector de dirección $A$ por uno paralelo a este. Es decir $A = cB$ o en otras palabras, $B$ es un múltiplo escalar de $A$ con $c \neq 0$
+
+
+
