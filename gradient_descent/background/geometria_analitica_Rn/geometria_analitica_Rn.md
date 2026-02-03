@@ -36,7 +36,7 @@ En $L(P; A)$
 
 3. Dadas $L$ y un punto $Q \notin L$, existe solo una recta $L'$ que contiene $Q$ y es paralela a $L$. Como se ve en el gráfico, la única manera es que se elija el vector director paralelo a $L$, ya que por $Q$ pasan infinitas rectas diferentes
 
-![alt text](image.png)
+![alt text](img/rec_3.png)
 
 4. Dos puntos distintos determinan una recta. Es decir, si $P \neq Q$ existe solo una recta que contiene $P$ y $Q$. Puede describirse como el conjunto $\{ P + t(Q - P) \}$. De esta manera podemos averiguar si un punto $Q$ está en una recta dada $L(P;A)$. $Q$ está en $L(P;A)$ si $Q-P$ es paralelo a $A$.
 
@@ -51,5 +51,109 @@ En $L(P; A)$
 
 # Rectas y Funciones Vectoriales
 
+Ya vimos como generar el envolvente lineal $L(P; A) = \{ P + tA | t \in  \mathbb{R}\}$ genera la recta en el momento en que $t$ toma valores diferentes. Podemos extrapolar esta idea y escribirlo como una función, la cual tiene $t$ como argumento, y genera como salida un vector
+
+$$x(t) = P + tA$$
+
+Entonces, el dominio es $\mathbb{R}$ y el recorrido es la recta $L(P; A)$
+
+> - Le llamamos **función vectorial de variable real**
+> - $t$ es el parámetro
+> - También le llamamos ecuación paramétrica o ecuación vectorial de la recta
+
+### Algunas consideraciones importantes
+
+- Dos puntos $x(a)$ y $x(b)$ de $L(P; A)$ son iguales si y solo si $P + aA = P + bA$  o $(a-b)A = O$; como $A \neq O$ la igualdad se cumple si $a = b$
+- Valores distintos de $t$ conducen a puntos distintos de la recta
+- Tres puntos $x(a)$ $x(b)$ $x(c)$ siendo $a<b$; $x(c)$ **está entre $x(a)$ y $x(b)$** si $a < c < b$. Esto nos da la idea de que son puntos sucesivos y de hecho reafirma la forma de la recta.
+- Un par de puntos $P, Q$ se llama congruente a $P', Q'$ si $\lVert P - Q \rVert = \lVert P' - Q' \rVert$, es decir la distancia entre ambos pares es igual
+- Si una recta pasa por dos puntos distintos $P, Q$ podemos utilizar $P-Q$ como vector dirección 
+
+    $x(t) = P + t(Q-P)$ o $x(t) = tQ + (1-t)P$
+
+    De hecho esto lo encontramos con la definición como conjunto
+
+### Ecuación vectorial en función de los componentes y ecuación cartesiana
+
+Suponiendo dos puntos cualquiera 
+
+$P = (p,q,r)$
+
+$A = (a,b,c)$
+
+Y sumamos ambos como lo hacemos para la recta, obtenemos
+
+$(x,y,z) = (p,q,r) + t(a,b,c)$
+
+$(x,y,z) = (p+ta, q+tb, r+tc)$
+
+Y ahora hacemos la igualdad entre las componentes, entonces:
+
+$$x = p+ta$$
+
+$$y = q+tb$$
+
+$$z = r+tc$$
 
 
+ok ahora hagamos algo bien loco, y utilicemos solo $x$ y $y$, es decir hagamos el análisis para $\mathbb{R}^2$
+
+$x = p+ta$ despejamos $t = \frac{(x-p)}{a}$
+
+$y = q+tb$ despejamos $t = \frac{(y-q)}{b}$
+
+igualamos 
+
+$\frac{(x-p)}{a} = \frac{(y-q)}{b}$
+
+$b(x-p) = a(y-q)$
+
+$b(x-p) - a(y-q) = 0$
+
+y vemos que es la ecuación cartesiana de la recta. Si $a \neq 0$ podemos escribir
+
+$$y-q = \frac{b}{a}(x-p)$$
+
+El punto $(p, q)$ está en la recta, y $\frac{b}{a}$ es la pendiente. Esa es la ecuación que nos enseñaron toda la vida, sin que nos dijeran que $\frac{b}{a}$ aparece gracias al vector director. Y pues, tiene total sentido que funcione
+
+Y para ir mas allá, vamos a ratificar la frase que dice "para dibujar una linea solo se necesitan dos puntos". Hace un momento aprendimos que dos puntos $P, Q$ están en la recta si su diferencia es paralela a $A$. Esto nos sirve entonces para saber $A$ a partir de $P, Q$. Es decir, que vamos a justificar la otra fórmula bien conocida de la pendiente 
+
+$$m = \frac{y_2 - y_1}{x_2 -x_1}$$
+
+Esa es la que enseñan, pero ¿de dónde viene?. Recordemos esta expresión
+
+$$x(t) = P + t(Q-P)$$
+
+y hacemos el mismo razonamiento
+
+$P = (p,q,r)$
+
+$Q = (p_2,q_2,r_2)$
+
+$A = (p_2 - p, q_2 - q, r_2 - r)$
+
+$(x,y,z) = (p+t(p_2 - p), q+t(q_2 - q), r+t(r_2 - r))$ y tomamos solo $x,y$
+
+depejamos $t$, igualamos y resolvemos
+
+$x = p+t(p_2 - p)$ despejamos $t = \frac{(x-p)}{(p_2 - p)}$
+
+$y = q+t(q_2 - q)$ despejamos $t = \frac{(y-q)}{(q_2 - q)}$
+
+$(q_2 - q)(x-p) - (p_2 - p)(y-q) = 0$
+
+$y-q = \frac{(q_2 - q)}{(p_2 - p)}(x-p)$
+
+es decir, la pendiente que aprendimos en la escuela es el vector director. 
+
+Otra de las preguntas que me hacía era las rectas verticales. Estas se escriben de la forma $y = ?$, porque se rompe la ecuación de la recta, ya que la pendiente es indeterminada ya que $\frac{b}{a}$ no se puede calcular porque $a$ es la componente en $x$ y si la recta es vertical $a = 0$
+
+si lo hacemos con el vector director vemos que 
+
+$A = (0 , 1)$ es decir apunta solo en el eje $y$
+
+y un punto por ejemplo $P = (3, 2)$
+
+![alt text](img/rec_4.png)
+
+y de esta manera podemos escribirla como una función.
