@@ -195,9 +195,9 @@ $d = \lVert \frac{P \cdot N}{N \cdot N} N \rVert$
 
 $d = |\frac{P \cdot N}{N \cdot N}| \lVert N \rVert$
 
-$d = \frac{P \cdot N}{\lVert N \rVert^2} \lVert N \rVert$
+$d = \frac{|P \cdot N|}{\lVert N \rVert^2} \lVert N \rVert$
 
-$d = \frac{P \cdot N}{\lVert N \rVert}$
+$d = \frac{|P \cdot N|}{\lVert N \rVert}$
 
 Todo $X$ de $L$ tiene longitud $\lVert X \rVert \ge d$. Además $\lVert X \rVert = d$ si $X$  es la proyección de $P$ sobre $N$
 
