@@ -212,14 +212,26 @@ $$M = \{ P + sA + tB | s, t \in \mathbb{R} \}$$
 
 ![alt text](img/pl_1.png)
 
-Aqui podemos ver algo interesante, al tener dos vectores se generan todos los puntos simultaneamente para ambos vectores, lo cual genera la superficie plana
+Aqui podemos ver algo interesante, al tener dos vectores se generan todos los puntos simultaneamente para ambos vectores, lo cual genera la superficie plana. Y aún mas interesante, si los vectores fueran linealmente dependientes caeríamos al caso de la recta.
 
 > - Si $s = t = 0$ vemos que $P$ está en el plano
 > - Cuando $P$ es el origen, el plano es el envolvente lineal de $A$ y $B$
 
-## Propiedades de los planos
+### Algunas consideraciones importantes
 
-Dos planos $M = \{ P + sA + tB \}$ y $M' = \{ P + sC + tD \}$ que pasa por el mismo punto $P$ son iguales si la envolvente lineal de $A$ y $B$ coincide con la de $C$ y $D$. Para que esto pase, tendrían que ser un producto escalar de los otros. También esto ayuda a ver que ambos vectores le dan la inclinación al plano.
+- Dos planos $M = \{ P + sA + tB \}$ y $M' = \{ P + sC + tD \}$ que pasa por el mismo punto $P$ son iguales si la envolvente lineal de $A$ y $B$ coincide con la de $C$ y $D$. Para que esto pase, tendrían que ser un producto escalar de los otros. También esto ayuda a ver que ambos vectores le dan la inclinación al plano.
 
-Siguiendo esta idea, también decimos que dos planos $M = \{ P + sA + tB \}$ y $M' = \{ Q + sC + tD \}$ son paralelos si la envolvente de ambos $A, B$ coincide con la de $C, D$. Y de la misma manera, podemos decir que solo existe un plano $M'$ que pasa por $Q$ que es paralelo a $M$
+    Siguiendo esta idea, también decimos que dos planos $M = \{ P + sA + tB \}$ y $M' = \{ Q + sC + tD \}$ son paralelos si la envolvente de ambos $A, B$ coincide con la de $C, D$. Y de la misma manera, podemos decir que solo existe un plano $M'$ que pasa por $Q$ que es paralelo a $M$
+
+- También podemos intuir que si tenemos dos planos  $M = \{ P + sA + tB \}$ y $M' = \{ Q + sA + tB \}$ generados por los mismos vectores $A,B$, entonces $M, M'$ coiciden si $Q$ está en $M$
+
+- Si $P, Q, R$ son tres puntos no situados en la misma recta, existe un plano $M$ que contiene esos tres puntos. Tal plano está dado por el conjunto
+
+    $$M = \{ P + s(Q-P) + t(R-P) \}$$
+
+    "como dos puntos de terminan una recta, tres puntos determinan un plano"
+
+    Es importante que no estén en la misma recta para poder generar los dos vectores directores. Es mas, al inicio mencionamos eso, que deben ser linealmente independientes.
+
+# Planos y funciones vectoriales
 
