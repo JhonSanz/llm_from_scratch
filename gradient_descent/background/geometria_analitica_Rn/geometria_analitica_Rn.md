@@ -235,3 +235,66 @@ Aqui podemos ver algo interesante, al tener dos vectores se generan todos los pu
 
 # Planos y funciones vectoriales
 
+Similarmente a como definimos una función para generar las rectas podemos hacerlo para los planos. En este caso los valores de los reales $s$ y $t$ son los que generan una corespondencia para $M = \{ P + sA + tB \}$
+
+Es decir, podemos escribir una función que reciba estos dos parámetros y nos dibuje una superficie, en este caso el plano. Por lo tanto, estamos hablando de una función de $\mathbb{R}^2 \to \mathbb{R}^3$, es decir, una función que toma como entrada un vector de dos dimensiones y su salida es un vector de tres dimensiones
+
+$$x(s,t) = P + sA + tB$$
+
+> - $x$ es una función vectorial de variables reales
+> - $x$ es la ecuación paramétrica o vectorial del plano
+
+### Ecuación cartesiana
+
+Algo similar podemos hacer con los planos, para escribir esto de otra manera, veamos:
+
+$P = (p_1, p_2, p_3)$
+
+$A = (a_1, a_2, a_3)$
+
+$B = (b_1, b_2, b_3)$
+
+
+$(x,y,z) = (p_1, p_2, p_3) + s(a_1, a_2, a_3) + t(b_1, b_2, b_3)$
+
+Osea que
+
+$x = p_1 + sa_1 + tb_1$
+
+$y = p_2 + sa_2 + tb_2$
+
+$z = p_3 + sa_3 + tb_3$
+
+
+Ejemplo: Supongamos estos valores
+
+$P = (1, 2, 3)$
+
+$A = (1,2,1)$
+
+$B = (1,4,-1)$
+
+Entonces
+
+① $x = 1 + s + t$ despejando $x - 1 = s + t$
+ 
+② $y = 2 + 2s + 4t$
+
+③ $z = 3 + s -t$ despejando $z - 3 = s - t$
+
+
+① + ③ $x + z - 4 = 2s$
+
+① - ③ $x - z - 2 = 2t$
+
+reemplazamos en ②
+
+$y = 2 + (x + z - 4) + (2x - 2z - 4)$
+
+$y = 3x - z -12 $
+
+$3x -y - z = 12 $
+
+Y así queda la ecuación cartesiana
+
+# Producto vectorial
