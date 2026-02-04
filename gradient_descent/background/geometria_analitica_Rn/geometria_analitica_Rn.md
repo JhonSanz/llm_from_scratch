@@ -202,3 +202,24 @@ $d = \frac{|P \cdot N|}{\lVert N \rVert}$
 Todo $X$ de $L$ tiene longitud $\lVert X \rVert \ge d$. Además $\lVert X \rVert = d$ si $X$  es la proyección de $P$ sobre $N$
 
 # Planos en el espacio n-dimensional
+
+Anteriormente vimos la manera en que podíamos escribir una recta con el conjunto $\{ P + tA \}$ en la cual sumábamos el punto $P$ a todos los vectores del envolvente lineal de un vector $A$ no nulo
+
+Pues bien, para generar un plano sumamos $P$ con todos los vectores del envolvente lineal de dos vectores $A$ y $B$ linealmente independientes.
+
+$$M = \{ P + sA + tB | s, t \in \mathbb{R} \}$$
+
+
+![alt text](img/pl_1.png)
+
+Aqui podemos ver algo interesante, al tener dos vectores se generan todos los puntos simultaneamente para ambos vectores, lo cual genera la superficie plana
+
+> - Si $s = t = 0$ vemos que $P$ está en el plano
+> - Cuando $P$ es el origen, el plano es el envolvente lineal de $A$ y $B$
+
+## Propiedades de los planos
+
+Dos planos $M = \{ P + sA + tB \}$ y $M' = \{ P + sC + tD \}$ que pasa por el mismo punto $P$ son iguales si la envolvente lineal de $A$ y $B$ coincide con la de $C$ y $D$. Para que esto pase, tendrían que ser un producto escalar de los otros. También esto ayuda a ver que ambos vectores le dan la inclinación al plano.
+
+Siguiendo esta idea, también decimos que dos planos $M = \{ P + sA + tB \}$ y $M' = \{ Q + sC + tD \}$ son paralelos si la envolvente de ambos $A, B$ coincide con la de $C, D$. Y de la misma manera, podemos decir que solo existe un plano $M'$ que pasa por $Q$ que es paralelo a $M$
+
