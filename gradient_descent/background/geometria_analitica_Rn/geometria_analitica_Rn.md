@@ -157,3 +157,48 @@ y un punto por ejemplo $P = (3, 2)$
 ![alt text](img/rec_4.png)
 
 y de esta manera podemos escribirla como una función.
+
+#### Vector normal a la recta
+
+Hay otra forma de escribir la recta utilizando algunas de las propiedades que vimos en el episodio de Geometría Analítica.
+
+Retomando $b(x-p) - a(y-q) = 0$, podemos escribirla utilizando productos escalares así
+
+$N = (b, -a)$
+
+$(x-p) \cdot N = 0$ o también $x \cdot N = p \cdot N$
+
+puesto que 
+
+$(x,y) \cdot (p,q) \cdot (b,-a) = 0$
+
+$(x-p, y-q) \cdot (b,-a) = 0$
+
+$b(x-p) + (-a)(y-q) = 0$
+
+esto es posible ya que el vector $N$ es perpendicular a $A$, y se llama vector normal a la recta
+
+$N \cdot A = 0$ porque $(b,-a) \cdot (a,b) = 0$
+
+![alt text](img/rec_5.png)
+
+En la imagen podemos ver (aunque no esté la ecuación para la recta debido a la herramienta) que $(X-P)$ genera el vector director $A$ y todos los puntos que cumplen la relación $(x-p) \cdot N = 0$ están en la recta. Es algo así como prolongar el vector director, el vector normal siempre será el mismo y ahí es donde se dibujan los puntos de la recta. 
+
+Entonces $P,X \in L(P;A)$ y $N$ es ortogonal a $(P-X)$. Además podemos ver en la figura que de todos los puntos $x$ de la recta el de menor longitud $\lVert X \rVert$ se obtiene cuando $X$ es la proyección de $P$ sobre $N$
+
+Así que finalmente podemos deducir la distancia del origen a la recta. Aprovechándonos de lo que encontramos con la proyección, vamos a hacer lo siguiente
+
+$$\operatorname{proj}_{N} P = \frac{P \cdot N}{N \cdot N} N$$
+
+
+$d = \lVert \frac{P \cdot N}{N \cdot N} N \rVert$
+
+$d = |\frac{P \cdot N}{N \cdot N}| \lVert N \rVert$
+
+$d = \frac{P \cdot N}{\lVert N \rVert^2} \lVert N \rVert$
+
+$d = \frac{P \cdot N}{\lVert N \rVert}$
+
+Todo $X$ de $L$ tiene longitud $\lVert X \rVert \ge d$. Además $\lVert X \rVert = d$ si $X$  es la proyección de $P$ sobre $N$
+
+# Planos en el espacio n-dimensional
