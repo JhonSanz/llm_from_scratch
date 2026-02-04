@@ -188,7 +188,7 @@ Entonces $P,X \in L(P;A)$ y $N$ es ortogonal a $(P-X)$. Además podemos ver en l
 
 Así que finalmente podemos deducir la distancia del origen a la recta. Aprovechándonos de lo que encontramos con la proyección, vamos a hacer lo siguiente
 
-$$\operatorname{proj}_{N} P = \frac{P \cdot N}{N \cdot N} N$$
+$$\text{proj}_{N} P = \frac{P \cdot N}{N \cdot N} N$$
 
 
 $d = \lVert \frac{P \cdot N}{N \cdot N} N \rVert$
