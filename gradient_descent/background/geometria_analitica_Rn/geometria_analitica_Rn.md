@@ -298,3 +298,33 @@ $3x -y - z = 12 $
 Y así queda la ecuación cartesiana
 
 # Producto vectorial
+
+Sería muy util un método fácil para obtener **un vector perpendicular** a cada uno de los vectores dados $A$ y $B$
+
+Esto se consigue con el producto vectorial. Sean dos vectores de $V_3$ $A = (a_1, a_2, a_3)$ y $B = (b_1, b_2, b_3)$
+
+$$A \times B = (a_2b_3 - a_3b_2, a_3b_1-a_1b_3, a_1b_2-a_2b_1)$$
+
+Es decir, el producto vectorial producirá un nuevo vector. Hagamos un ejemplo:
+
+Calcular $A \cdot (A \times B)$
+
+$A \cdot (A \times B) = (a_1, a_2, a_3) \cdot (a_2b_3 - a_3b_2, a_3b_1-a_1b_3, a_1b_2-a_2b_1)$
+
+$A \cdot (A \times B) = a_1 (a_2b_3 - a_3b_2) + a_2(a_3b_1-a_1b_3) + a_3(a_1b_2-a_2b_1)$
+
+$A \cdot (A \times B) = a_1a_2b_3 - a_1a_3b_2 + a_2a_3b_1 - a_2a_1b_3 + a_3a_1b_2 - a_3a_2b_1$
+
+$A \cdot (A \times B) = 0$
+
+funciona! ahora veamos algunas propiedades
+
+- $A \times B = -(B \times A)$
+- $A \times (B + C) = (A \times B) + (A \times C)$
+- $c(A \times B) = (cA) \times B$
+- $A \cdot (A \times B) = 0$
+- $B \cdot (A \times B) = 0$
+- $A \times B = 0$ si $A$ y $B$ son linealmente dependientes
+- $\lVert A \times B \rVert^2 = \lVert A \rVert^2 \lVert B \rVert^2 - (A \cdot B)^2$ es la identidad de Lagrange
+
+![alt](img/pl_2.jpeg)
