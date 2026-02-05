@@ -325,6 +325,24 @@ funciona! ahora veamos algunas propiedades
 - $A \cdot (A \times B) = 0$
 - $B \cdot (A \times B) = 0$
 - $A \times B = 0$ si $A$ y $B$ son linealmente dependientes
+- Algo importante es que el producto vectorial no es asociativo
 - $\lVert A \times B \rVert^2 = \lVert A \rVert^2 \lVert B \rVert^2 - (A \cdot B)^2$ es la identidad de Lagrange
 
-![alt](img/pl_2.jpeg)
+<!-- ![alt](img/pl_2.jpeg) -->
+
+De igual manera la identidad de Lagrange nos muestra que $A \times B = 0$. Esto ocurre cuando $(A \cdot B)^2 = \lVert A \rVert^2 \lVert B \rVert^2$ y segun la desigualdad de Cauchy-Schwartz esto pasa solamente cuando los vectores son linealmente dependientes. Es decir, podemos usar $A \times B = 0$ para verificar si dos vectores son linealmente dependientes.
+
+Ahora, podemos obtener la norma de $\lVert A \times B \rVert$ utilizando el resultado que obtuvimos para saber el ángulo entre dos vectores y reemplazandolo en la identidad de Lagrange así:
+
+$A \cdot B = \lVert A \rVert \lVert B \rVert cos(\theta)$ esto fue lo que encontramos en el tutorial pasado
+
+$\lVert A \times B \rVert^2 = \lVert A \rVert^2 \lVert B \rVert^2 - (\lVert A \rVert \lVert B \rVert cos(\theta))^2$
+
+$\lVert A \times B \rVert^2 = \lVert A \rVert^2 \lVert B \rVert^2 - \lVert A \rVert^2 \lVert B \rVert^2 cos^2(\theta)$
+
+$\lVert A \times B \rVert^2 = \lVert A \rVert^2 \lVert B \rVert^2 (1 - cos^2(\theta))$
+
+$\lVert A \times B \rVert^2 = \lVert A \rVert^2 \lVert B \rVert^2 sen^2(\theta)$
+
+$\lVert A \times B \rVert = \lVert A \rVert \lVert B \rVert sen(\theta)$
+
