@@ -346,3 +346,21 @@ $\lVert A \times B \rVert^2 = \lVert A \rVert^2 \lVert B \rVert^2 sen^2(\theta)$
 
 $\lVert A \times B \rVert = \lVert A \rVert \lVert B \rVert sen(\theta)$
 
+Es bien conocido que el producto vectorial puede expresarse como un determinante, sin embargo quiero dejar eso para otro estudio donde se converse sobre matrices a profundidad.
+
+# Vectores normales a planos
+
+Para las rectas encontramos un vector que era perpendicular al vector director. En el caso de planos ya introdujimos el producto vectorial, el cual nos sirve para obtener un vector perpendicular a un par de vectores $A$ y $B$. Entonces, vamos a utilizar esto para expresar el plano de la misma manera, con un vector normal $N$, así:
+
+$M = \{ P + sA + tB \}$ con $N = A \times B$
+
+es bueno ver que 
+
+$N \cdot A = N \cdot B = 0$ o lo que es lo mismo $N \cdot (sA + tB) = 0$. Es decir, ya sabemos que la envolvente lineal de $A$ mas la de $B$ general un plano, como $N$ es perpendicular a ambos vectores, entonces $N$ es perpendicular al plano
+
+Osea que podemos escribir la escuación del plano de esta manera
+
+$$(X - P) \cdot N = 0$$
+
+y todos los puntos que la satisfagan son los que conforman el plano. Recordando lo que pasó con las rectas, si hacemos $X - P$ esto nos dará la misma dirección del vector director
+
