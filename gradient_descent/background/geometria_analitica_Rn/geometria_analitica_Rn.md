@@ -328,7 +328,7 @@ funciona! ahora veamos algunas propiedades
 - Algo importante es que el producto vectorial no es asociativo
 - $\lVert A \times B \rVert^2 = \lVert A \rVert^2 \lVert B \rVert^2 - (A \cdot B)^2$ es la identidad de Lagrange
 
-<!-- ![alt](img/pl_2.jpeg) -->
+![alt](img/pl_2.jpeg)
 
 De igual manera la identidad de Lagrange nos muestra que $A \times B = 0$. Esto ocurre cuando $(A \cdot B)^2 = \lVert A \rVert^2 \lVert B \rVert^2$ y segun la desigualdad de Cauchy-Schwartz esto pasa solamente cuando los vectores son linealmente dependientes. Es decir, podemos usar $A \times B = 0$ para verificar si dos vectores son linealmente dependientes.
 
