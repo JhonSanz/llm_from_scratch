@@ -455,3 +455,6 @@ osea que efectivamente el vector normal es $N = 2i + 6j + 3k$ y además $|P \cdo
 $d = \frac{|P \cdot N|}{\lVert N \rVert}$
 
 $d = \frac{|6|}{\sqrt{2^2 + 6^2 + 3^2}} = \frac{6}{7}$
+
+
+Estas fueron algunas aplicaciones de los conceptos de Álgebra Vectorial, hay otros temas interesantes que siguen en el texto pero quedan para lecturas futuras
