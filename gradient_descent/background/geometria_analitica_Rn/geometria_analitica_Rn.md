@@ -348,6 +348,8 @@ $\lVert A \times B \rVert = \lVert A \rVert \lVert B \rVert sen(\theta)$
 
 Es bien conocido que el producto vectorial puede expresarse como un determinante, sin embargo quiero dejar eso para otro estudio donde se converse sobre matrices a profundidad.
 
+Finalmente, vale la pena recalcar que el producto vectorial está definido únicamente para $\mathbb{R}^3$
+
 # Vectores normales a planos
 
 Para las rectas encontramos un vector que era perpendicular al vector director. En el caso de planos ya introdujimos el producto vectorial, el cual nos sirve para obtener un vector perpendicular a un par de vectores $A$ y $B$. Entonces, vamos a utilizar esto para expresar el plano de la misma manera, con un vector normal $N$, así:
@@ -356,11 +358,100 @@ $M = \{ P + sA + tB \}$ con $N = A \times B$
 
 es bueno ver que 
 
-$N \cdot A = N \cdot B = 0$ o lo que es lo mismo $N \cdot (sA + tB) = 0$. Es decir, ya sabemos que la envolvente lineal de $A$ mas la de $B$ general un plano, como $N$ es perpendicular a ambos vectores, entonces $N$ es perpendicular al plano
+$N \cdot A = N \cdot B = 0$ o lo que es lo mismo $N \cdot (sA + tB) = 0$. Es decir, ya sabemos que la envolvente lineal de $A$ mas la de $B$ genera un plano, como $N$ es perpendicular a ambos vectores, entonces $N$ es perpendicular al plano
 
 Osea que podemos escribir la escuación del plano de esta manera
 
 $$(X - P) \cdot N = 0$$
 
-y todos los puntos que la satisfagan son los que conforman el plano. Recordando lo que pasó con las rectas, si hacemos $X - P$ esto nos dará la misma dirección del vector director
+y todos los puntos que la satisfagan son los que conforman el plano. Y aqui hay algo importante y bonito... Supongamos que tenemos un punto $X$ cualquiera del plano, lo podríamos escribir así
 
+$$X =  P + sA + tB $$
+
+y si restamos $P$ obtenemos
+
+$$X - P = sA + tB $$
+
+esto que vemos es muy importante porque $X - P$ nos está diciendo que es paralelo a la envolvente lineal de $A$ mas $B$, no uno de los vectores directores individualmente
+
+
+### Distancia del origen al plano
+
+Siguiendo el mismo razonamiento que hicimos para las rectas, vamos a tomar la proyección de un punto P del plano sobre el vector normal al plano
+
+$$\text{proj}_{N} P = \frac{P \cdot N}{N \cdot N} N$$
+
+calculamos la norma de la misma manera como hicimos para las rectas y obtendremos
+
+$$d = \frac{|P \cdot N|}{\lVert N \rVert}$$
+
+Todo $X$ de $M$ tiene longitud $\lVert X \rVert \ge d$. Además $\lVert X \rVert = d$ si $X$  es la proyección de $P$ sobre $N$
+
+# Ecuaciones lineales cartesianas para planos
+
+Anteriormente vimos uqe podemos expresar el plano en función de sus componentes
+
+$N = (a,b,c)$
+
+$P = (x_1,y_1,z_1)$
+
+$X = (x,y,z)$
+
+Ahora que conocemos esta forma $(X - P) \cdot N = 0$ veamos como queda
+
+
+$((x,y,z) - (x_1, y_1, z_1)) \cdot N = 0$ 
+
+$(x - x_1, y - y_1, z - z_1) \cdot (a,b,c) = 0$
+
+$a(x - x_1) + b(y - y_1) + c(z - z_1) = 0$
+
+Esta es la ecuación cartesiana del plano y solo se satisface para aquellos puntos $(x,y,z)$ que están en el plano
+
+Tenemos también esta forma alternativa que sale de 
+
+$(X - P) \cdot N = 0$
+
+$X \cdot N = P \cdot N$
+
+Entonces
+
+$ax + by + cz = ax_1 + by_1 + cz_1$
+
+asignemos el lado derecho con una variable $d_1$
+
+$ax + by + cz = d_1$
+
+$d_1 = ax_1 + by_1 + cz_1$
+
+
+podemos observar que $d_1$, osea el lado derecho de la igualdad original es $P \cdot N$, y si tomamos
+
+
+$d = \frac{|P \cdot N|}{\lVert N \rVert}$ esta es la distancia del origen al plano
+
+$d{\lVert N \rVert} = |P \cdot N|$
+
+$d{\lVert N \rVert} = |d_1|$
+
+En particular $|d_1| = d$ si la normal $N$ tiene longitud $1$, el plano pasa por el origen si $d_1 = 0$
+
+Ejemplo (aqui esto va a quedar claro):
+
+
+La ecuación cartesiana $2x + 6y + 3z = 6$ representa un plano con vector normal $N = 2i + 6j + 3k$
+
+entonces comparando con lo que aprendimos 
+
+$X \cdot N = P \cdot N$
+
+$ax + by + cz = ax_1 + by_1 + cz_1$
+
+$a=2 \text{ , } b=6 \text{ , } c=3$
+
+
+osea que efectivamente el vector normal es $N = 2i + 6j + 3k$ y además $|P \cdot N| = 6$. Entonces podemos calcular la distancia del origen al plano
+
+$d = \frac{|P \cdot N|}{\lVert N \rVert}$
+
+$d = \frac{|6|}{\sqrt{2^2 + 6^2 + 3^2}} = \frac{6}{7}$

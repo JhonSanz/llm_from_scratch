@@ -1,0 +1,2 @@
+# producto cruz
+# producto mixto
