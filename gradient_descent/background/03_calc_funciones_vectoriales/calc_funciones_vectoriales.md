@@ -71,16 +71,30 @@ $$\lim_{t \to p}{f(t)} = (\lim_{t \to p}{f_1(t)}, \dots, \lim_{t \to p}{f_n(t)})
 
 ### Continuidad
 
-Como vimos en las funciones $f: \mathbb{R} \to \mathbb{R}$ pensabamos en la continuidad como dibujar la gráfica sin levantar la mano y sin dibujar picos. Aquí aplica lo mismo, y podemos usar el ejemplo clásico del valor absoluto, pero escrito como función vectorial
+Como vimos en las funciones $f: \mathbb{R} \to \mathbb{R}$ pensabamos en la continuidad como dibujar la gráfica sin levantar la mano. Aquí aplica lo mismo, y podemos usar esta función para ejemplificar
+
+$$f(t) = (t, \frac{1}{|t|})$$
 
 ![alt text](img/fvec_2.png)
 
+
 si calculamos el límite por izquierda y por derecha
 
-$$\lim_{t \to 0^-}{f(t)} = (-0.000001, 0.000001)$$
+$$\lim_{t \to 0^-}{f(t)} = (-0, \infty)$$
 
-$$\lim_{t \to 0^+}{f(t)} = (0.000001, 0.000001)$$
+$$\lim_{t \to 0^+}{f(t)} = (0, \infty)$$
 
-> Recordemos que en el contexto de límites $t$ **no es cero!** sino que **tiende a cero**
+La segunda componente diverge en ambos casos
 
-Y debido a esto vemos que el vector resultante al evaluar el límite es diferente por izquierda y por derecha, por lo tanto el límite no existe.
+> Recordemos que en el contexto de límites $t$ **no es cero** sino que **tiende a cero**. Y también, que $\infty$ no es un número, sino un concepto
+
+En este ejemplo vemos que los vectores resultantes en el límite son imposibles y el límite no existe. En resumen, se debe cumplir
+
+
+$$\lim_{t \to a}{f(t)} = f(a)$$
+
+El límite debe existir, la función en ese punto debe existir y ambos resultados tienen que coincidir. En ese caso decimos que es continua
+
+### Derivada
+
+![alt text](img/fvec_3.png)
