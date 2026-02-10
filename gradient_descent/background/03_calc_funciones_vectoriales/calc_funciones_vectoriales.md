@@ -84,7 +84,7 @@ $$\lim_{t \to 0^-}{f(t)} = (-0, \infty)$$
 
 $$\lim_{t \to 0^+}{f(t)} = (0, \infty)$$
 
-La segunda componente diverge en ambos casos
+La segunda componente diverge en ambos casos, por lo tanto el límite no existe
 
 > Recordemos que en el contexto de límites $t$ **no es cero** sino que **tiende a cero**. Y también, que $\infty$ no es un número, sino un concepto
 
@@ -99,9 +99,12 @@ El límite debe existir, la función en ese punto debe existir y ambos resultado
 
 Similarmente, como vimos en el caso de funciones reales la derivada se define igual para funciones vectoriales. Devido al parámetro $t \in \mathbb{R}$ podemos pensar la derivada como la recta que pasa sobre la curva entre los puntos $f(x+h) - f(x)$, lo que pasa es que en este caso son vectores, pero podemos tratarlos indistintamente en este contexto
 
-$$f'(x) = \lim_{h \to 0}{\frac{f(x+h) - f(x)}{h}}$$
-
 Hay un video muy bueno donde se explica la idea detrás de la derivada y como ese límite dibuja una recta tangente en las funciones reales https://www.youtube.com/watch?v=_6-zwdrqD3U
+
+Como estamos en funciones vectoriales, la derivada surge del límite de los vectores secantes, y ese límite define el vector director de la recta tangente
+
+$$f'(t) = \lim_{h \to 0}{\frac{f(t+h) - f(t)}{h}}$$
+
 
 Recordemos algo útil y es la diferencia de vectores, y la ley del paralelogramo, en la imagen puede verse como al acercar estos dos vectores, la diferencia $f(x+h) - f(x)$ se acerca a un único punto. La división entre 
 $h$ es necesaria porque la derivada no mide desplazamiento, sino cambio por unidad de parámetro.
@@ -110,17 +113,24 @@ $h$ es necesaria porque la derivada no mide desplazamiento, sino cambio por unid
 
 [Ver en Geogebra](https://www.geogebra.org/m/hw8hn4g9)
 
-De igual manera, operamos entre componentes porque seguimos con la idea de "el vector tiene un poquito de derivada en $x$ y otro poco en $y$", entonces a medida que la separación $h$ entre los vectores de ese límite se acercan aparecerá la recta tangente. 
+> Lo importante es que ese vector no es la derivada, solo dice "cuánto me moví" al variar $h$
+
+De igual manera, operamos entre componentes porque seguimos con la idea de "el vector tiene un poquito de derivada en $x$ y otro poco en $y$", entonces a medida que la separación $h$ entre los vectores de ese límite se acercan aparecerá el vector director de la recta tangente. 
+
+De igual manera, el parámetro $h$ nos sirve para escalar el vector. Esto es muy importante, y sobre todo el hecho de 
 
 De hecho, la recta aparece cuando utilizamos lo que aprendimos antes de las rectas. Ejemplo:
 
-sea r la función vectorial $r(t) = (t, t^2, sen(t))$ con $t = \frac{\pi}{2}$
+sea r la función vectorial $r(t) = (t, t^2, sen(t))$ en $p = \frac{\pi}{2}$
 
 su derivada es $r'(t) = (1, 2t, cos(t))$
 
 entonces podemos escribir la recta tangente así
 
-$L(t) = (\frac{\pi}{2}, \frac{\pi^2}{4}, 1) + t(1, \pi, 0)$
+$L(s) = r(p) + s \cdot r'(p)$
 
+$L(s) = (\frac{\pi}{2}, \frac{\pi^2}{4}, 1) + s(1, \pi, 0)$
+
+La derivada de una función vectorial en un punto es un vector tangente a la curva en ese punto. Dicho vector surge como el límite del cociente incremental y permite construir la recta tangente mediante la ecuación $L(s) = r(p) + s \cdot r'(p)$
 
 ![alt text](img/fvec_3.png)
