@@ -57,7 +57,7 @@ La pregunta es, ¿cómo se entiende el límite? en el ejemplo de la imagen tenem
 
 $$f(t) = (t, t^2)$$
 
-que dibuja una bella parábola. Vemos que a medida que movemos el parámetro $t$ se empieza a dibujar la parábola de derecha a izquierda, y si dijeramos algo como "Calculemos el límite cuando $t$ tiende a 2" por ejemplo, al mismo tiempo estamos diciendo que el vector que dibuja la parábola **tiende también a algún vector** que también está siendo dibujado a medida que se mueve $t$, en este caso
+que dibuja una bella parábola. Vemos que a medida que movemos el parámetro $t$ se empieza a dibujar la parábola de izquierda a derecha, y si dijeramos algo como "Calculemos el límite cuando $t$ tiende a 2" por ejemplo, al mismo tiempo estamos diciendo que el vector que dibuja la parábola **tiende también a algún vector** que también está siendo dibujado a medida que se mueve $t$, en este caso
 
 $$\lim_{t \to 2}{f(t)} = (2,4)$$
 
@@ -96,5 +96,22 @@ $$\lim_{t \to a}{f(t)} = f(a)$$
 El límite debe existir, la función en ese punto debe existir y ambos resultados tienen que coincidir. En ese caso decimos que es continua
 
 ### Derivada
+
+Similarmente, como vimos en el caso de funciones reales la derivada se define igual para funciones vectoriales. Devido al parámetro $t \in \mathbb{R}$ podemos pensar la derivada como la recta que pasa sobre la curva entre los puntos $f(x+h) - f(x)$, lo que pasa es que en este caso son vectores, pero podemos tratarlos indistintamente en este contexto
+
+$$f'(x) = \lim_{h \to 0}{\frac{f(x+h) - f(x)}{h}}$$
+
+Hay un video muy bueno donde se explica la idea detrás de la derivada y como ese límite dibuja una recta tangente en las funciones reales https://www.youtube.com/watch?v=_6-zwdrqD3U
+
+Recordemos algo útil y es la diferencia de vectores, y la ley del paralelogramo, en la imagen puede verse como al acercar estos dos vectores, la diferencia $f(x+h) - f(x)$ se acerca a un único punto. La división entre 
+$h$ es necesaria porque la derivada no mide desplazamiento, sino cambio por unidad de parámetro.
+
+![alt text](img/fvec_4.png)
+
+[Ver en Geogebra](https://www.geogebra.org/m/hw8hn4g9)
+
+De igual manera, operamos entre componentes porque seguimos con la idea de "el vector tiene un poquito de derivada en $x$ y otro poco en $y$", entonces a medida que la separación $h$ entre los vectores de ese límite se acercan aparecerá la recta tangente. 
+
+
 
 ![alt text](img/fvec_3.png)
