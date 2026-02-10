@@ -112,6 +112,15 @@ $h$ es necesaria porque la derivada no mide desplazamiento, sino cambio por unid
 
 De igual manera, operamos entre componentes porque seguimos con la idea de "el vector tiene un poquito de derivada en $x$ y otro poco en $y$", entonces a medida que la separación $h$ entre los vectores de ese límite se acercan aparecerá la recta tangente. 
 
+De hecho, la recta aparece cuando utilizamos lo que aprendimos antes de las rectas. Ejemplo:
+
+sea r la función vectorial $r(t) = (t, t^2, sen(t))$ con $t = \frac{\pi}{2}$
+
+su derivada es $r'(t) = (1, 2t, cos(t))$
+
+entonces podemos escribir la recta tangente así
+
+$L(t) = (\frac{\pi}{2}, \frac{\pi^2}{4}, 1) + t(1, \pi, 0)$
 
 
 ![alt text](img/fvec_3.png)
