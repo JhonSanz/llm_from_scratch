@@ -177,6 +177,7 @@ Entonces: $F'(t) \cdot G(t) + F(t) \cdot G'(t)$
 Todas estas propiedades se pueden demostrar usando la definción de la derivada, pero no lo vamos a hacer en este momento.
 
 
+#### La norma constante
 
 
 
