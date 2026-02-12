@@ -135,3 +135,6 @@ La derivada de una función vectorial en un punto es un vector tangente a la cur
 De igual manera se cumple todo lo que aprendimos para las funciones reales. Por ejemplo, para el valor absoluto en $0$ la derivada no existe
 
 ![alt text](img/fvec_3.png)
+
+Con lo que acabamos de ver sobre la derivada reafirmamos la idea de que este tipo de funciones describen movimiento y su derivada la velocidad.
+
