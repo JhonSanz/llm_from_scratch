@@ -138,3 +138,45 @@ De igual manera se cumple todo lo que aprendimos para las funciones reales. Por 
 
 Con lo que acabamos de ver sobre la derivada reafirmamos la idea de que este tipo de funciones describen movimiento y su derivada la velocidad.
 
+### Algunas propiedades y resultados para la derivada
+
+#### Operaciones Algebráicas 
+
+Si $F$ y $G$ son derivables en un intervalo
+
+- $(F + G)'(t) = F'(t) + G'(t)$
+
+- $(uF)' = u'F + uF'$
+
+- $(F \cdot G)' = F' \cdot G + F \cdot G'$
+
+Si $F$ y $G \in \mathbb{R}^3$ 
+
+- $(F \times G)' = F' \times G + F \times G'$ Aquí es vital mantener el orden ya que el producto cruz no es conmutativo
+
+
+por ejemplo para la propiedad del producto punto
+
+$$\lim_{h \to 0} \frac{F(t+h) \cdot G(t+h) - F(t) \cdot G(t)}{h}$$
+
+Sumamos cero:
+
+$$\lim_{h \to 0} \frac{F(t+h) \cdot G(t+h) \mathbf{- F(t) \cdot G(t+h) + F(t) \cdot G(t+h)} - F(t) \cdot G(t)}{h}$$
+
+$$\lim_{h \to 0} \left[ \left( \frac{F(t+h) - F(t)}{h} \right) \cdot G(t+h) + F(t) \cdot \left( \frac{G(t+h) - G(t)}{h} \right) \right]$$
+
+Al aplicar el límite: $\frac{F(t+h) - F(t)}{h} \to F'(t)$ 
+
+$G(t+h) \to G(t)$ (porque asumimos que es derivable y por tanto continua)
+
+$\frac{G(t+h) - G(t)}{h} \to G'(t)$
+
+Entonces: $F'(t) \cdot G(t) + F(t) \cdot G'(t)$
+
+
+Todas estas propiedades se pueden demostrar usando la definción de la derivada, pero no lo vamos a hacer en este momento.
+
+
+
+
+
