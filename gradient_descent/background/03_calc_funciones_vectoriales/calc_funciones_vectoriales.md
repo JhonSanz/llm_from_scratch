@@ -32,7 +32,7 @@ En este caso es importante resaltar que solo podemos componer funciones vectoria
 
 $$G(t) = f(u(t)) \forall t \in D_u$$
 
-$D_u$ es el dominio de la función $u$.
+$D_u$ es el dominio de la función $u$. Siendo la función $u$ continua en $t$ y $F$ es continua en $u(t)$ entonces $G$ es continua en $t$
 
 ### Componentes
 
@@ -179,5 +179,29 @@ Todas estas propiedades se pueden demostrar usando la definción de la derivada,
 
 #### La norma constante
 
+Si una función vectorial es derivable y es de longitud constante en un intervalo abierto $I$, entonces $F \cdot F' = 0$ en $I$, es decir $F'(t)$ es perpendicular a $F(t) \forall t \in I$ 
 
 
+
+Si $\lVert F(t) \rVert  = c$, entonces $\lVert F(t) \rVert ^2 = c^2$
+
+$\lVert F(t) \rVert ^2 = F(t) \cdot F(t)$
+
+$(F(t) \cdot F(t))' = (c^2)'$
+
+$F'(t) \cdot F(t) + F(t) \cdot F'(t) = 0$
+
+$2(F(t) \cdot F'(t)) = 0 \implies F(t) \cdot F'(t) = 0$
+
+Ejemplo
+
+$r(t) = (cos(t), sen(t))$
+
+$r'(t) = (-sen(t), cos(t))$
+
+$\lVert r(t) \rVert = 1$
+
+$r(t) \cdot r'(t) = (cos(t), sen(t)) \cdot (-sen(t), cos(t)) = 0$
+
+
+#### Regla de la cadena
