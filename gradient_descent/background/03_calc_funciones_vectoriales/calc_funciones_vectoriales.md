@@ -205,3 +205,35 @@ $r(t) \cdot r'(t) = (cos(t), sen(t)) \cdot (-sen(t), cos(t)) = 0$
 
 
 #### Regla de la cadena
+
+Si $u'(t)$ y $F'(t)$ existe $G'(t)$ y viene dada por la regla de la cadena 
+
+
+$$G'(t) = F'(u(t)) u'(t)$$
+
+Esto también es un resultado de aplicar la definción de derivada con la función constante así:
+
+Sea $G(t) = F(u(t))$, donde $u: \mathbb{R} \to \mathbb{R}$ es una función escalar y $F: \mathbb{R} \to \mathbb{R}^n$ es una función vectorial. Entonces partimos de la definición de derivada
+
+
+$$G'(t) = \lim_{h \to 0} \frac{G(t+h) - G(t)}{h} = \lim_{h \to 0} \frac{F(u(t+h)) - F(u(t))}{h}$$
+
+Veamos este término que se introduce para demostrar
+
+$$k = u(t+h) - u(t)$$
+
+Este es el incremento de la función escalar, es decir, lo que tomaríamos como numerador para "derivar" la función $u$. Vamos a "multiplicar por $1$" utilizando esta expresión. Y también usaremos la versión $u(t) +k = u(t+h)$ en el numerador
+
+$$G'(t) = \lim_{h \to 0} \left[ \frac{F(u(t) + k) - F(u(t))}{k} \cdot \frac{k}{h} \right]$$
+
+Ahora analicemos esto separadamente, empecemos por la segunda parte. Vemos que cuando $h \to 0$ el cociente es $u'(t)$
+
+$$\lim_{h \to 0} \frac{k}{h} = \lim_{h \to 0} \frac{u(t+h) - u(t)}{h} = u'(t)$$
+
+Y para la primera parte. Observemos que anteriormente teníamos el límite para $h \to 0$ pero con la sustitución $k$ tiene sentido que cambiemos la variable de límite a $k$, ya que nuestra expresión se convierte en la variación de $F$ cuando movemos $k$, es decir, es prácticamente lo mismo que $h$ pero con otro nombre
+
+$$\lim_{k \to 0} \frac{F(u(t) + k) - F(u(t))}{k} = F'(u(t))$$
+
+Por lo tanto, si unimos ambos resultados tenemos la regla de la cadena
+
+$$G'(t) = F'(u(t)) u'(t)$$
