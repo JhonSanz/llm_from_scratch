@@ -95,7 +95,7 @@ El límite debe existir, la función en ese punto debe existir y ambos resultado
 
 ### Derivada
 
-Similarmente, como vimos en el caso de funciones reales la derivada se define igual para funciones vectoriales. Devido al parámetro $t \in \mathbb{R}$ podemos pensar la derivada como la recta que pasa sobre la curva entre los puntos $f(x+h) - f(x)$, en este caso son vectores, pero podemos tratarlos indistintamente en este contexto
+Similarmente, como vimos en el caso de funciones reales la derivada se define igual para funciones vectoriales. Devido al parámetro $t \in \mathbb{R}$ podemos pensar la derivada como la recta que pasa sobre la curva entre los puntos $f(t+h) - f(t)$, en este caso son vectores, pero podemos tratarlos indistintamente en este contexto
 
 Hay un video muy bueno donde se explica la idea detrás de la derivada y como ese límite dibuja una recta tangente en las funciones reales https://www.youtube.com/watch?v=_6-zwdrqD3U
 
@@ -104,7 +104,7 @@ Como estamos en funciones vectoriales, la derivada surge del límite de los vect
 $$f'(t) = \lim_{h \to 0}{\frac{f(t+h) - f(t)}{h}}$$
 
 
-Recordemos algo útil y es la diferencia de vectores, y la ley del paralelogramo, en la imagen puede verse como al acercar estos dos vectores, la diferencia $f(x+h) - f(x)$ se acerca a un único punto.
+Recordemos algo útil y es la diferencia de vectores, y la ley del paralelogramo, en la imagen puede verse como al acercar estos dos vectores, la diferencia $f(t+h) - f(t)$ se acerca a un único punto.
 
 ![alt text](img/fvec_4.png)
 
@@ -287,13 +287,15 @@ para parametrizar esto podemos seguir el mismo razonamiento
 
 $x = t$
 
-$y = b\sqrt{1 - \frac{y^2}{a^2}}$
+$y = b\sqrt{1 - \frac{x^2}{a^2}}$
 
 osea que 
 
-$$\delta(t) = (t, b\sqrt{1 - \frac{y^2}{a^2}})$$
+$$\delta(t) = (t, b\sqrt{1 - \frac{x^2}{a^2}})$$
 
-funcionará, pero podemos hacer este "truco"...
+Esta parametrización solo recorre la parte superior de la elipse y además tiene problemas en los extremos
+
+Podemos hacer este "truco"...
 
 ① $\frac{x}{a} = cos(t)$
 
@@ -311,4 +313,46 @@ La idea es encontrar un valor para $x$ y $y$ para construir la función vectoria
 
 #### Invarianza frente a un cambio de parámetro: funciones distintas pueden tener la misma gráfica
 
-"Supongamos que $r$ es una función vectorial, continua definida en un intervalo $I$ y que $u$ es una función real derivable con $u' \neq 0$ en un intervalo $J$, y el recorrido de $u$ es $I$" ¿Por qué necesitamos que $u' \neq 0$?
+"Supongamos que $r$ es una función vectorial, continua definida en un intervalo $I$ y que $u$ es una función real derivable con $u' \neq 0$ en un intervalo $J$, y el recorrido de $u$ es $I$
+
+Entonces la función $Y$ definida en $J$ por la ecuación 
+
+$$Y(t) = X[u(t)]$$
+
+Es una función vectorial continua, que tiene la misma gráfica que $X$. 
+
+$X$ y $Y$ así relacionadas se llaman equivalentes, y proporcionan representaciones paramétricas distintas de la misma curva. La función $u$ define el cambio de parámetro" - Cálculo de Tom Apostol Vol 1 - pag 635
+
+
+Veamos este ejemplo, tenemos dos parametrizaciones distintas para 
+
+$$X(t) = (t, t^2)$$
+
+1. $u_1(s) = s + 1$ entonces $X_1(t) = X(u_1(t)) = (t+1, (t+1)^2)$
+2. $u_2(s) = s^3$ entonces $X_2(t) = X(u_2(t)) = (t^3, t^6)$
+
+![alt text](img/parametrizacion.png)
+
+Primero que todo, es importante ver que la función y ambas parametrizaciones dibujan la misma trayectoria
+
+Si ejecutamos la animación en geogebra vamos a observar algo interesante. Tenemos tres puntos que recorren la función original, la primera y la segunda parametrización. Cuando el punto correspondiente a la parametrización 1 y la función original recorren la curva, ambas parecen ir a la misma velocidad sobre todo el recorrido
+
+PERO, la parametrización 2 no se comporta igual, cuando se empieza a acercar a $(0,0)$ se ve disminuyendo la velocidad
+
+Calculemos la derivada de todo esto
+
+0. $X'(t) = (1, 2t)$
+1. $X_1'(t) = (1, 2(t+1))$
+2. $X_2'(t) = (3t^2, 6t^5)$
+
+Evaluamos en $0$
+
+0. $X'(0) = (1, 0)$
+1. $X_1'(0) = (1, 2)$
+2. $X_2'(0) = (0, 0)$
+
+¿que quiere decir todo esto? Bueno... $u' \neq 0$ significa que la curva es regular, es decir, el movimiento sobre la curva nunca se detiene, siempre tiene el vector tangente definido.
+
+Esto impacta el movimiento, porque $X_2$ se detiene en $t = 0$, sin embargo para $X$ y $X_1$ esto no pasa, es decir, la curva se recorre sin detenerse, el vector tangente siempre está definido. Por eso decimos que tanto $X$ como $X_1$ son regulares
+
+La parametrización define dos cosas distintas: la trayectoria geométrica de la curva y la manera (velocidad y sentido) en que esa curva es recorrida.
