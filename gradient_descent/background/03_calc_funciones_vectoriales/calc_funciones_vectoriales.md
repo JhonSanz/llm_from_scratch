@@ -237,3 +237,78 @@ $$\lim_{k \to 0} \frac{F(u(t) + k) - F(u(t))}{k} = F'(u(t))$$
 Por lo tanto, si unimos ambos resultados tenemos la regla de la cadena
 
 $$G'(t) = F'(u(t)) u'(t)$$
+
+### Teorema fundamental del cálculo para funciones vectoriales
+
+<!-- TODO: hacerlo luego -->
+
+### Parametrización
+
+Anteriormente vimos un ejemplo en el cuál poniamos la función que dibujaba una parábola. Veamos como llegamos a ese resultado, la expresión
+
+$$y = x^2$$
+
+dibuja una parábola en el plano. Sin embargo podemos escribir esto mismo como una función vectorial. De nuevo pensando en el movimiento podemos hacer una tabla de valores
+
+| $x$  | $y$ |   | $t$  | $(t,t^2)$ |
+|------|-----|---|------|-----------|
+| $0$  | $0$ |   | $0$  | $(0,0)$   |
+| $1$  | $1$ |   | $1$  | $(1,1)$   |
+| $-1$ | $1$ |   | $-1$ | $(-1,1)$  |
+| $2$  | $4$ |   | $2$  | $(2,4)$   |
+
+si dibujamos ambas cosas vamos a ver la parábola, una dibujada como una función real y otra como una función vectorial. Practicamente esto es:
+
+$$\delta: [a,b] \to \mathbb{R}^n$$
+
+La función $\delta$ en el intervalo $[a, b]$ cuyos valores están en $\mathbb{R}^n$, es decir tomamos un numero real $t$ entre $a,b$ y la función devuelve un vector de $n$ dimensiones
+
+$$t \to \delta(t) = (f_1(t), f_2(t), \dots, f_n(t))$$
+
+Y a cada $t$ le asignamos un vector cuyas componentes son funciones reales. Es decir que escribimos $\delta$ como un vector de varias funciones reales
+
+$$\delta(t) = (f_1(t), f_2(t))$$
+
+En nuestro ejemplo de la parábola y como vimos con la tabla de valores podremos escribir
+
+$$\delta(t) = (t, t^2)$$
+
+De igual manera esto nos da la noción de movimiento, ya que el parámetro $t$ se mueve y los vectores que retorna la función dibujan el movimiento del vector en forma de parábola.
+
+También podemos verlo así 
+
+$x = t$ entonces $y=t^2$ por lo tanto escribimos la función asi mismo en base a las coordenadas $x,y$ como $\delta(t) = (t, t^2)$
+
+Veamos otro ejemplo: Tenemos esta función que dibuja una elipse
+
+$$\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$$
+
+para parametrizar esto podemos seguir el mismo razonamiento
+
+$x = t$
+
+$y = b\sqrt{1 - \frac{y^2}{a^2}}$
+
+osea que 
+
+$$\delta(t) = (t, b\sqrt{1 - \frac{y^2}{a^2}})$$
+
+funcionará, pero podemos hacer este "truco"...
+
+① $\frac{x}{a} = cos(t)$
+
+② $\frac{y}{b} = sen(t)$
+
+porque 
+
+$①^2 + ②^2 = 1$
+
+entonces podemos escribir
+
+$$\delta(t) = (a \cdot cos(t), b \cdot sen(t)) \text{  } \forall t \in [0, 2\pi]$$
+
+La idea es encontrar un valor para $x$ y $y$ para construir la función vectorial.
+
+#### Invarianza frente a un cambio de parámetro: funciones distintas pueden tener la misma gráfica
+
+"Supongamos que $r$ es una función vectorial, continua definida en un intervalo $I$ y que $u$ es una función real derivable con $u' \neq 0$ en un intervalo $J$, y el recorrido de $u$ es $I$" ¿Por qué necesitamos que $u' \neq 0$?
