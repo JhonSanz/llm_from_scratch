@@ -356,3 +356,66 @@ Evaluamos en $0$
 Esto impacta el movimiento, porque $X_2$ se detiene en $t = 0$, sin embargo para $X$ y $X_1$ esto no pasa, es decir, la curva se recorre sin detenerse, el vector tangente siempre está definido. Por eso decimos que tanto $X$ como $X_1$ son regulares
 
 La parametrización define dos cosas distintas: la trayectoria geométrica de la curva y la manera (velocidad y sentido) en que esa curva es recorrida.
+
+### Aplicaciones al movimiento curvilineo: Vector velocidad, velocidad y aceleración
+
+Hemos visto que este tipo de funciones nos sirve para describir el movimiento. Suponiendo una partícula que se mueve en $\mathbb{R}^2$ o $\mathbb{R}^3$ de modo que su posición en el instante $t$ referida a cierto sistema coordenado venga dado por un vector $x(t)$.
+
+Cuando varía $t$, el camino recorrido es la gráfica de $x$. Entonces llamamos a $x$ la función posición
+
+Entonces, dada la función vectorial $x$:
+
+1. $x'(t)$ es el vector velocidad en el instante $t$. Es el vector geométrico ligado a la curva $x(t)$ situado en la recta tangente
+2. $\lVert x'(t) \rVert$ es la velocidad. La longitud del vector nos dice la rapidez con que la partícula se mueve en cada instante, y su dirección nos indica hacia donde va
+3. $x''(t)$ es el vector aceleración. El vector velocidad cambiará si modificamos la rapidez o la dirección del movimiento. El vector aceleración es una medida de este cambio.
+
+
+#### Movimiento rectilíneo
+
+Ya sabemos como escribir una recta
+
+$$r(t) = P + f(t)A$$
+
+en este caso la función $f(t)$ describe la velocidad del movimiento "behind the sceens". Si $f(t) = t$ estaremos en el caso de movimiento rectilíneo uniforme. Veamoslo con un ejemplo
+
+Supongamos que $P$ es el origen y $A$ cualquier vector $(a,b)$
+
+Para $f(t) = t$ entonces $r(t) = tA$ 
+
+- $r'(t) = A$
+- $r''(t) = 0$
+
+Es decir, la aceleración es cero, por lo tanto la velocidad es constante
+
+
+Ahora probemos para $f(t) = t^2$ entonces $r(t) = t^2A$ 
+
+- $r'(t) = 2tA$
+- $r''(t) = 2A$
+
+La aceleración es constante e igual a $2A$, lo que implica que la velocidad cambia linealmente con el tiempo. Es decir, en cada unidad de tiempo la velocidad aumenta en $2A$
+
+En este tipo de movimiento si la velocidad ni la aceleración son el vector cero, podemos observar que ambos son paralelos ya que uno es múltiplo escalar del otro.
+
+Esto que acabamos de hacer recuerda lo que vimos de la invarianza frente al cambio de parámetro. Aquí estamos componiendo la función de la recta con otra función para describir la velocidad. Veamos:
+
+- Ecuación de la recta $L(s) = P + sA$
+- Componemos con alguna función $f(t)$
+
+Entonces
+
+$$L(f(t)) = r(t) = P + f(t)A$$
+
+derivemos la función compuesta con la regla de la cadena
+
+$$r'(t) = L'(f(t))f'(t)$$
+
+Sabemos que $L'(t) = A$ ya que la derivada con respecto a $s$ de $P + sA$ es $A$. Entonces
+
+$$r'(t) = Af'(t)$$
+
+Es decir, efectivamente la velocidad está dada por la función $f$ como mencionamos antes
+
+
+#### Movimiento circular
+
