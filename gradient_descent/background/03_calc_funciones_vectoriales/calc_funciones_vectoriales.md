@@ -419,3 +419,16 @@ Es decir, efectivamente la velocidad está dada por la función $f$ como mencion
 
 #### Movimiento circular
 
+Si un punto $(x,y) \in \mathbb{R}^2$ se representa con sus coordenadas polares, así como vimos antes en la parametrización. Entonces hacemos:
+
+$x = r \cdot cos(\theta)$ $y = r \cdot sen(\theta)$
+
+si $\theta = f(t)$ entonces
+
+$$r(t) = a \cdot cos(f(t))i + a \cdot sen(f(t))j$$
+
+$$r'(t) = -af'(t) \cdot sen(f(t))i + af'(t) \cdot cos(f(t))j$$
+
+$$\lVert r'(t) \rVert = a|f'(t)|$$
+
+El factor $|f'(t)| = |\frac{d\theta}{dt}|$ se llama velocidad angular de la partícula
