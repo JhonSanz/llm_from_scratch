@@ -453,3 +453,19 @@ Aqui podemos ver que la velocidad se vuelve mas rápida a medida que $t$ es mas 
 
 #### Movimiento sobre una hélice
 
+Si un punto $(x,y,z)$ gira alrededor del eje $z$ de manera que su componente $z$ es proporcional al ángulo girado, el camino resultante se llama hélice circular
+
+- $x = a \cdot cos(\theta)$
+- $y = a \cdot sen(\theta)$
+- $z = b \theta$
+- con $a, b \neq 0$
+
+Este caso es interesante, si observamos las componentes $x, y$ vemos que ambas dibujan una circunferencia en el plano. Cuando introducimos el eje $z$ la circunferencia empieza a "estirarse hacia arriba" generando el cilindro circular recto.
+
+Supongamos $\theta = wt$ y escribamoslo como una función vectorial
+
+- $r(t) = (a \cdot cos(wt), a \cdot sen(wt), bwt)$
+- $r'(t) = (-wa \cdot sen(wt), wa \cdot cos(wt), bw)$
+- $r''(t) = (-w^2a \cdot cos(wt), -w^2a \cdot sen(wt), 0)$
+
+### Vector tangente unitario, normal principal y plano osculador a una curva
