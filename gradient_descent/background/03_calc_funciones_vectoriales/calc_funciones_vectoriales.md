@@ -432,3 +432,11 @@ $$r'(t) = -af'(t) \cdot sen(f(t))i + af'(t) \cdot cos(f(t))j$$
 $$\lVert r'(t) \rVert = a|f'(t)|$$
 
 El factor $|f'(t)| = |\frac{d\theta}{dt}|$ se llama velocidad angular de la partícula
+
+También pasa que $f(t)$ se encarga de "decir" que tan rápido avanza la partícula. Osea, es el factor del cual depende la velocidad
+
+( -2*a*(sen(r^2) + 2*r^2*cos(r^2)) , 2*a*(cos(r^2) - 2*r^2*sen(r^2))) 
+
+(a*cos(r), a*sen(r))
+
+(-a*sen(r), a*cos(r))
