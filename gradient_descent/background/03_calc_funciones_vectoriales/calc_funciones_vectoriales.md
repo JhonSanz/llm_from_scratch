@@ -433,10 +433,23 @@ $$\lVert r'(t) \rVert = a|f'(t)|$$
 
 El factor $|f'(t)| = |\frac{d\theta}{dt}|$ se llama velocidad angular de la partícula
 
-También pasa que $f(t)$ se encarga de "decir" que tan rápido avanza la partícula. Osea, es el factor del cual depende la velocidad
+También pasa que $f(t)$ se encarga de "decir" que tan rápido avanza la partícula. Osea, es el factor del cual depende la velocidad. Veamos dos ejemplos muy interesantes.
 
-( -2*a*(sen(r^2) + 2*r^2*cos(r^2)) , 2*a*(cos(r^2) - 2*r^2*sen(r^2))) 
+Con $f(t) = wt$ donde $w$ es una constante
 
-(a*cos(r), a*sen(r))
+- $r(t) = (a \cdot cos(wt), a \cdot sen(wt))$
+- $r'(t) = (-aw \cdot sen(wt), aw \cdot cos(wt))$
+- $r''(t) = (-aw^2 \cdot cos(wt), -aw^2 \cdot sen(wt))$
 
-(-a*sen(r), a*cos(r))
+Como aprendimos antes, si hacemos $\lVert r(t) \rVert$ el resultado es constante, así que el vector posición y velocidad son perpendiculares. Además, el vector aceleración va en sentido contrario al vector posición, hacia el centro de la circunferencia, a esto se le llama aceleración centrípeta. Y el movimiento se da con velocidad constante ya que $\lVert r'(t) \rVert = |aw|$ es decir, no depende de $t$
+
+Ahora con $f(t) = t^2$ 
+
+- $r(t) = (a \cdot cos(t^2), a \cdot sen(t^2))$
+- $r'(t) = (-2at \cdot sen(t^2), 2at \cdot cos(t^2))$
+- $r''(t) = (-2a \cdot (sen(t^2) + 2t^2 \cdot cos(t^2)) , 2a \cdot (cos(t^2) - 2t^2 \cdot sen(t^2))) $
+
+Aqui podemos ver que la velocidad se vuelve mas rápida a medida que $t$ es mas grande, es decir empieza a acelerar
+
+#### Movimiento sobre una hélice
+
