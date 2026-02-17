@@ -509,4 +509,6 @@ Y como aprendimos anteriormente en el texto de geometría analítica, podemos co
 
 $$x(s,t) = P + sA + tB$$
 
-Donde los vectores directores son el vector tangente unitario y el vector normal, el punto $P$ es el movimiento sobre la trayectoria en un instante $t$. A este plano lo llamaremos **plano osculador**
+Donde los vectores directores son el vector tangente unitario y el vector normal, el punto $P$ es el movimiento sobre la trayectoria en un instante $t$. A este plano lo llamaremos **plano osculador**, este plano es el que mejor se ajusta a la curva en cada instante $t$. Si la curva es plana, el plano osculador coincide con el plano de la curva
+
+#### El vector aceleración está en el plano osculador
