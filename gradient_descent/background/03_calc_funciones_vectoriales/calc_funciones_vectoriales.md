@@ -230,7 +230,7 @@ Ahora analicemos esto separadamente, empecemos por la segunda parte. Vemos que c
 
 $$\lim_{h \to 0} \frac{k}{h} = \lim_{h \to 0} \frac{u(t+h) - u(t)}{h} = u'(t)$$
 
-Y para la primera parte. Observemos que anteriormente teníamos el límite para $h \to 0$ pero con la sustitución $k$ tiene sentido que cambiemos la variable de límite a $k$, ya que nuestra expresión se convierte en la variación de $F$ cuando movemos $k$, es decir, es prácticamente lo mismo que $h$ pero con otro nombre
+Y para la primera parte. Observemos que anteriormente teníamos el límite para $h \to 0$ pero con la sustitución $k$ tiene sentido que cambiemos la variable de límite a $k$, ya que nuestra expresión se convierte en la variación de $F$ cuando movemos $k$, es decir, es prácticamente lo mismo que $h$ pero con otro nombre. Con la salvedad que $u(t)$ es derivable y $u'(t) \neq 0$
 
 $$\lim_{k \to 0} \frac{F(u(t) + k) - F(u(t))}{k} = F'(u(t))$$
 
@@ -287,11 +287,11 @@ para parametrizar esto podemos seguir el mismo razonamiento
 
 $x = t$
 
-$y = b\sqrt{1 - \frac{x^2}{a^2}}$
+$y = b\sqrt{1 - \frac{t^2}{a^2}}$
 
 osea que 
 
-$$\delta(t) = (t, b\sqrt{1 - \frac{x^2}{a^2}})$$
+$$\delta(t) = (t, b\sqrt{1 - \frac{t^2}{a^2}})$$
 
 Esta parametrización solo recorre la parte superior de la elipse y además tiene problemas en los extremos
 
