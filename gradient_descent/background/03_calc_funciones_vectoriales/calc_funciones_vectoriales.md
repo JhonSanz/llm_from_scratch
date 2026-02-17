@@ -512,3 +512,19 @@ $$x(s,t) = P + sA + tB$$
 Donde los vectores directores son el vector tangente unitario y el vector normal, el punto $P$ es el movimiento sobre la trayectoria en un instante $t$. A este plano lo llamaremos **plano osculador**, este plano es el que mejor se ajusta a la curva en cada instante $t$. Si la curva es plana, el plano osculador coincide con el plano de la curva
 
 #### El vector aceleración está en el plano osculador
+
+Con el resultado anterior podemos efectuar lo siguiente
+
+$T(t) = \frac{x'(t)}{\lVert x'(t) \rVert}$
+
+$T(t)\lVert x'(t) \rVert = x'(t)$
+
+llamemos $s(t)$ a $\lVert x'(t) \rVert$
+
+$T(t)s(t) = x'(t)$ Entonces, derivamos para obtener la aceleración
+
+$x''(t) = s'(t)T(t) + s(t)T'(t)$
+
+Con la forma que obtuvimos podemos ver que el vector aceleración es una combinación lineal de $T$ y $T'$. Esto demuestra que el vector aceleración está siempre en el plano osculador.
+
+Estos son algunos temas que se tocan en el texto, pero hay muchos mas. Por ahora creo que está bien hasta aqui
