@@ -136,7 +136,7 @@ De igual manera se cumple todo lo que aprendimos para las funciones reales. Por 
 
 ![alt text](img/fvec_3.png)
 
-Con lo que acabamos de ver sobre la derivada reafirmamos la idea de que este tipo de funciones describen movimiento y su derivada la velocidad.
+Con lo que acabamos de ver sobre la derivada reafirmamos la idea de que este tipo de funciones describen movimiento y su derivada la velocidad. Y muy importante, **la velocidad va en dirección del movimiento**
 
 ### Algunas propiedades y resultados para la derivada
 
@@ -365,8 +365,8 @@ Cuando varía $t$, el camino recorrido es la gráfica de $x$. Entonces llamamos 
 
 Entonces, dada la función vectorial $x$:
 
-1. $x'(t)$ es el vector velocidad en el instante $t$. Es el vector geométrico ligado a la curva $x(t)$ situado en la recta tangente
-2. $\lVert x'(t) \rVert$ es la velocidad. La longitud del vector nos dice la rapidez con que la partícula se mueve en cada instante, y su dirección nos indica hacia donde va
+1. $x'(t)$ es el vector velocidad en el instante $t$. Es el vector geométrico ligado a la curva $x(t)$ situado en la recta tangente, es decir, **la velocidad va en dirección del movimiento**
+2. $\lVert x'(t) \rVert$ es la velocidad. La longitud del vector nos dice la rapidez con que la partícula se mueve en cada instante, y su dirección nos indica hacia donde va.
 3. $x''(t)$ es el vector aceleración. El vector velocidad cambiará si modificamos la rapidez o la dirección del movimiento. El vector aceleración es una medida de este cambio.
 
 
@@ -469,3 +469,44 @@ Supongamos $\theta = wt$ y escribamoslo como una función vectorial
 - $r''(t) = (-w^2a \cdot cos(wt), -w^2a \cdot sen(wt), 0)$
 
 ### Vector tangente unitario, normal principal y plano osculador a una curva
+
+" 
+- En elmovimiento rectilíneo el vector aceleración es paralelo al vector velocidad
+- En el movimiento circular con velicudad angular constante el vector aceleración es perpendicular al vector velocidad
+
+Para un movimiento de tipo general el vector aceleración **es la suma de dos vectores perpendiculares**, uno paralelo y otro perpendicular al vector velocidad. Si el movimiento no es rectilíneo ambos vectores determinan un plano que pasa por el ponto correspondiente de la curva y que llamamos plano osculador" Cálculo Tom Apostol Vol 1 Pag 643
+
+El texto nos presenta el vector tangente unitario así
+
+$$T(t) = \frac{x'(t)}{\lVert x'(t) \rVert}$$
+
+- Siempre que $\lVert x'(t) \rVert \neq 0$
+- $\lVert T(t) \rVert = 1 \forall t$
+
+Esto es un resultado importante y de hecho funciona para cualquier vector. Vamos a verlo utilizando las propiedades de los vectores:
+
+Suponemos un vector $V$ de $n$ dimensiones
+
+$\|\mathbf{u}\|^2 = \mathbf{u} \cdot \mathbf{u}$
+
+$\|\mathbf{u}\|^2 = \left( \frac{\mathbf{V}}{\|\mathbf{V}\|} \right) \cdot \left( \frac{\mathbf{V}}{\|\mathbf{V}\|} \right)$
+
+El término $\frac{1}{\|\mathbf{V}\|}$ es un escalar. Una propiedad fundamental del producto punto es que los escalares pueden "salir" de la operación: $(c\mathbf{A}) \cdot (k\mathbf{B}) = (ck) (\mathbf{A} \cdot \mathbf{B})$.
+
+$\|\mathbf{u}\|^2 = \frac{1}{\|\mathbf{V}\|} \frac{1}{\|\mathbf{V}\|} (\mathbf{V} \cdot \mathbf{V})$
+
+$\|\mathbf{u}\|^2 = \frac{1}{\|\mathbf{V}\|^2} \cdot \|\mathbf{V}\|^2$
+
+$\|\mathbf{u}\|^2 = 1 \implies \|\mathbf{u}\| = 1$
+
+Esto es muy bueno, ya que el vector tangente va a cambiar únicamente la dirección puesto que su magnitud es constante. Y aún mejor, como es de magnitud constante podemos aprovecharnos de $F' \cdot F = 0$ como enunciamos anteriormente. Es decir, si derivamos el vector tangente unitario obtendremos un vector **penpendicular al movimiento** y este se llamará vector normal.
+
+Es importante resaltar que la forma de la trayectoria influye en la dirección, si es una trayectoria recta $T' = 0$. Si la trayectoria es curva, el vector tangente cambia de dirección, y ese cambio es lo que medimos con el vector normal.
+
+$$N(t) = \frac{T'(t)}{\lVert T'(t) \rVert}$$
+
+Y como aprendimos anteriormente en el texto de geometría analítica, podemos construir un plano utilizando dos vectores
+
+$$x(s,t) = P + sA + tB$$
+
+Donde los vectores directores son el vector tangente unitario y el vector normal, el punto $P$ es el movimiento sobre la trayectoria en un instante $t$. A este plano lo llamaremos **plano osculador**
