@@ -114,11 +114,9 @@ $$1 \cdot x = (1 \cdot x_i) = (x_i) = x$$
 
 La idea central de todas estas demostraciones es la misma: como las operaciones en $V_n$ se definen componente a componente, heredamos directamente las propiedades del cuerpo $\mathbb{R}$. Entonces, ¿cómo se demuestran los axiomas de $\mathbb{R}$?, bueno... ese es un dilema, simplemente aceptamos que son verdaderos y los usamos para demostrar en otros contextos. No todo se puede demostrar
 
-ahora, el texto propone el siguiente ejercicio
+"Estos ejemplos y muchos otros hacen patente cómo el concepto de espacio
+lineal está extendido por el Álgebra, la Geometría y el Análisis."
 
-Sea $V$ el conjunto de todos los vectores $V_n$ ortogonales a un
-vector no nulo dado $N$. Si $n = 2$, este espacio lineal es una recta que pasa por $O$ con $N$ como vector normal. Si $n = 3$, es un plano que pasa por $O$ con $N$ como vector normal.
-
-Aqui estamos hablando también de $V_n$ como en el caso anterior, por lo tanto no es necesario demostrar todos los axiomas porque las propiedades se heredan y solo es necesario verificar unos axiomas en específico
+En los ejemplos que vimos no es necesario demostrar todos los axiomas porque las propiedades se **heredan** y solo es necesario verificar algunos en específico
 
 ### Subespacio
