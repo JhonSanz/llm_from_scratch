@@ -51,72 +51,75 @@ El texto nos recalca que los axiomas funcionan indistintamente para escalares re
 
 ##### Algunos ejemplos que me gustaron
 
-Sea $V = V_n$, el espacio vectorial de todas las n-plas de números reales, con la adición y la multiplicación por escalares definidas en la forma ordinaria en función de los componentes.
+- [n-plas de numeros reales](ax_nplas.md)
+- [polinomios](ax_pol.md)
+- [Polinomios menor y igual a n](ax_pol_leq_n.md)
+- [Funciones](ax_func.md)
+- [Derivadas e integrales](ax_derivadas_integrales.md)
 
-Primero dejemos claro el escenario: estamos en $V_n$, el conjunto de todas las n-plas de números reales, con las operaciones:
-
-$$x + y = (x_1 + y_1, \, x_2 + y_2, \, \ldots, \, x_n + y_n)$$
-$$ax = (ax_1, \, ax_2, \, \ldots, \, ax_n)$$
-
-donde $x = (x_1, \ldots, x_n)$, $y = (y_1, \ldots, y_n)$ y $a \in \mathbb{R}$.
-
-###### Axioma 1 — Clausura respecto de la adición
-
-Dados $x, y \in V_n$, su suma es $(x_1 + y_1, \ldots, x_n + y_n)$. Como cada $x_i, y_i \in \mathbb{R}$ y los reales son cerrados bajo la suma, cada componente $x_i + y_i \in \mathbb{R}$, por lo tanto $x + y \in V_n$. La unicidad viene de que la suma de reales es única.
-
-###### Axioma 2 — Clausura respecto de la multiplicación por escalar
-
-Dado $x \in V_n$ y $a \in \mathbb{R}$, el producto es $(ax_1, \ldots, ax_n)$. Como cada $ax_i \in \mathbb{R}$, el resultado pertenece a $V_n$.
-
-###### Axioma 3 — Ley conmutativa
-
-$$x + y = (x_i + y_i) = (y_i + x_i) = y + x$$
-
-donde usamos que la suma de números reales es conmutativa componente a componente.
-
-###### Axioma 4 — Ley asociativa de la adición
-
-$$(x + y) + z = ((x_i + y_i) + z_i) = (x_i + (y_i + z_i)) = x + (y + z)$$
-
-usando asociatividad de $\mathbb{R}$ en cada componente.
-
-###### Axioma 5 — Existencia del elemento cero
-
-El elemento cero es $O = (0, 0, \ldots, 0)$. Entonces:
-
-$$x + O = (x_i + 0) = (x_i) = x$$
-
-###### Axioma 6 — Existencia de opuestos
-
-Para cada $x \in V_n$, tomamos $(-1)x = (-x_1, \ldots, -x_n)$. Entonces:
-
-$$x + (-1)x = (x_i + (-x_i)) = (0, \ldots, 0) = O$$
-
-###### Axioma 7 — Ley asociativa de la multiplicación por escalares
-
-$$a(bx) = a(bx_i) = (abx_i) = (ab)x$$
-
-usando asociatividad de la multiplicación en $\mathbb{R}$.
-
-###### Axioma 8 — Ley distributiva respecto de la adición en $V$
-
-$$a(x + y) = a(x_i + y_i) = (ax_i + ay_i) = ax + ay$$
-
-usando distributividad en $\mathbb{R}$.
-
-###### Axioma 9 — Ley distributiva respecto de la adición de escalares
-
-$$(a + b)x = ((a+b)x_i) = (ax_i + bx_i) = ax + bx$$
-
-###### Axioma 10 — Existencia del elemento idéntico
-
-$$1 \cdot x = (1 \cdot x_i) = (x_i) = x$$
 
 La idea central de todas estas demostraciones es la misma: como las operaciones en $V_n$ se definen componente a componente, heredamos directamente las propiedades del cuerpo $\mathbb{R}$. Entonces, ¿cómo se demuestran los axiomas de $\mathbb{R}$?, bueno... ese es un dilema, simplemente aceptamos que son verdaderos y los usamos para demostrar en otros contextos. No todo se puede demostrar
 
 "Estos ejemplos y muchos otros hacen patente cómo el concepto de espacio
 lineal está extendido por el Álgebra, la Geometría y el Análisis."
 
-En los ejemplos que vimos no es necesario demostrar todos los axiomas porque las propiedades se **heredan** y solo es necesario verificar algunos en específico
+Ahora bien, uno de los aprendizajes importantes es que la validez de los axiomas no depende de los elementos del espacio sino del espacio mismo, es decir, aplicaron para polnomios, funciones etc. Y es por eso que podemos llegar a estas tres conclusiones a aprtir de los axiomas que utilizamos
 
-### Subespacio
+---
+
+Tomado de Calculo de Tom Apostol Vol 2 Pag 7
+
+#### TEOREMA 1.1. UNICIDAD DEL ELEMENTO CERO. *En cualquier espacio lineal existe un elemento cero y sólo uno.*
+
+*Demostración.* El axioma 5 nos asegura que existe por lo menos un elemento cero. Supongamos que existan dos, sean $O_1$ y $O_2$. Haciendo $x = O_1$ y $O = O_2$ en el axioma 5, obtenemos $O_1 + O_2 = O_1$. Análogamente, haciendo $x = O_2$ y $O = O_1$, encontramos $O_2 + O_1 = O_2$. Pero $O_1 + O_2 = O_2 + O_1$ por la ley conmutativa, así que $O_1 = O_2$.
+
+#### TEOREMA 1.2. UNICIDAD DE ELEMENTOS OPUESTOS. *En cualquier espacio lineal todo elemento tiene exactamente un opuesto. Esto es, para todo $x$ existe un $y$, y sólo uno tal que $x + y = O$.*
+
+*Demostración.* El axioma 6 nos dice que cada $x$ tiene por lo menos un opuesto, a saber $(-1)x$. Supongamos que $x$ tenga dos opuestos, sean $y_1$ e $y_2$. Entonces $x + y_1 = O$ y $x + y_2 = O$. Sumando $y_2$ a los dos miembros de la primera igualdad y aplicando los axiomas 5, 4 y 3, obtenemos que
+
+$$y_2 + (x + y_1) = y_2 + O = y_2 ,$$
+
+y
+
+$$y_2 + (x + y_1) = (y_2 + x) + y_1 = O + y_1 = y_1 + O = y_1 .$$
+
+Por consiguiente $y_1 = y_2$, con lo que $x$ tiene exactamente un opuesto, el elemento $(-1)x$.
+
+*Notación.* El opuesto de $x$ se designa por $-x$. La diferencia $y - x$ se define como la suma $y + (-x)$.
+
+El teorema siguiente muestra un conjunto de propiedades que rigen los cálculos algebraicos elementales en un espacio lineal.
+
+#### TEOREMA 1.3. *En un espacio lineal, designemos con $x$ e $y$ dos elementos cualesquiera y con $a$ y $b$ dos escalares cualesquiera. Tenemos entonces las propiedades siguientes:*
+
+a) $0x = O$.
+b) $aO = O$.
+c) $(-a)x = -(ax) = a(-x)$.
+d) *Si $ax = O$, entonces $a = 0$ o $x = O$, o los dos.*
+e) *Si $ax = ay$ y $a \neq 0$ entonces $x = y$.*
+f) *Si $ax = bx$ y $x \neq O$, entonces $a = b$.*
+g) $-(x + y) = (-x) + (-y) = -x - y$.
+h) $x + x = 2x$, $x + x + x = 3x$, *y en general,* $\sum_{i=1}^{n} x = nx$.
+
+Demostraremos a), b) y c) y dejamos como ejercicios las demostraciones de las otras propiedades.
+
+*Demostración de a).* Sea $z = 0x$. Deseamos demostrar que $z = O$. Sumando $z$ a sí mismo y aplicando el axioma 9, encontramos que
+
+$$z + z = 0x + 0x = (0 + 0)x = 0x = z .$$
+
+Sumemos ahora $-z$ a ambos miembros y obtenemos $z = O$.
+
+*Demostración de b).* Sea $z = aO$, sumar $z$ a sí mismo, y aplicar el axioma 8.
+
+*Demostración de c).* Sea $z = (-a)x$. Sumando $z$ a $ax$ y aplicando el axioma 9, encontramos que
+
+$$z + ax = (-a)x + ax = (-a + a)x = 0x = O ,$$
+
+así que $z$ es el opuesto de $ax$, $z = -(ax)$. Análogamente, si sumamos $a(-x)$ a $ax$ y aplicamos el axioma 8 y la propiedad b), encontramos que $a(-x) = -(ax)$.
+
+---
+
+Esas demostraciones fundamentan mucho de lo que damos por sentado como cierto. Como vimos pudimos partir de los axiomas de $\mathbb{R}$ y apartir de ahí extender las propiedades hacia otros conjuntos. Se dice que solo hay necesidad de demostrar una vez y justamente eso pasa aqui, probamos para las funciones y los polinomios y cada vez nos vamos adentrando mas en casos particulares, los cuales no necesitan probar todos los axiomas porque los extendimos de casos mas generales, vamos a ver que solo se necesitan unos cuantos para ver si el espacio es lineal
+
+### Subespacios
+
+![dependencia de axiomas con clausura](img/dependencia_axiomas.png)
