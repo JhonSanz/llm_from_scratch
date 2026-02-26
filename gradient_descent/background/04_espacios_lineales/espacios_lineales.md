@@ -122,4 +122,18 @@ Esas demostraciones fundamentan mucho de lo que damos por sentado como cierto. C
 
 ### Subespacios
 
+Si observamos el siguiente gráfico encontraremos que el subespacio $S$ es un subconjunto del espacio $V_n$:
+
 ![dependencia de axiomas con clausura](img/dependencia_axiomas.png)
+
+El teorema dice:
+
+Sea $S$ un subconjunto no vacío de un espacio lineal $V$. Tal subconjunto $S$ es un subespacio **si y solo si satisface las siguientes tres condiciones**:
+
+1. $O \in S$ (el elemento cero pertenece a $S$)
+2. Si $x \in S$ e $y \in S$, entonces $x + y \in S$ (clausura bajo la adición)
+3. Si $x \in S$ y $a \in \mathbb{R}$, entonces $ax \in S$ (clausura bajo multiplicación por escalar)
+
+Osea, queremos probar que validando solo estas tres condiciones todos los axiomas 3–10 son válidos automáticamente. Esto funciona porque esos axiomas se **heredan** del espacio mayor $V$: si una propiedad vale para todos los elementos de $V$, vale en particular para los de $S$.
+
+De hecho esto es bastante útil, porque como vimos anteriormente muchos de los ejemplos que hicimos eran subespacios de $\mathbb{R}$, entonces con esta nueva herramienta no tendríamos que validar todos los axiomas sino solo estas tres condiciones.
