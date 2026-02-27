@@ -91,30 +91,30 @@ El teorema siguiente muestra un conjunto de propiedades que rigen los cálculos 
 
 #### TEOREMA 1.3. En un espacio lineal, designemos con $x$ e $y$ dos elementos cualesquiera y con $a$ y $b$ dos escalares cualesquiera. Tenemos entonces las propiedades siguientes:
 
-a) $0x = O$.
-b) $aO = O$.
-c) $(-a)x = -(ax) = a(-x)$.
-d) *Si $ax = O$, entonces $a = 0$ o $x = O$, o los dos.*
-e) *Si $ax = ay$ y $a \neq 0$ entonces $x = y$.*
-f) *Si $ax = bx$ y $x \neq O$, entonces $a = b$.*
-g) $-(x + y) = (-x) + (-y) = -x - y$.
-h) $x + x = 2x$, $x + x + x = 3x$, *y en general,* $\sum_{i=1}^{n} x = nx$.
+1. $0x = O$.
+2. $aO = O$.
+3. $(-a)x = -(ax) = a(-x)$.
+4. *Si $ax = O$, entonces $a = 0$ o $x = O$, o los dos.*
+5. *Si $ax = ay$ y $a \neq 0$ entonces $x = y$.*
+6. *Si $ax = bx$ y $x \neq O$, entonces $a = b$.*
+7. $-(x + y) = (-x) + (-y) = -x - y$.
+8. $x + x = 2x$, $x + x + x = 3x$, *y en general,* $\sum_{i=1}^{n} x = nx$.
 
-Demostraremos a), b) y c) y dejamos como ejercicios las demostraciones de las otras propiedades.
+Demostraremos 1, 2 y 3 y dejamos como ejercicios las demostraciones de las otras propiedades.
 
-*Demostración de a).* Sea $z = 0x$. Deseamos demostrar que $z = O$. Sumando $z$ a sí mismo y aplicando el axioma 9, encontramos que
+*Demostración de 1.* Sea $z = 0x$. Deseamos demostrar que $z = O$. Sumando $z$ a sí mismo y aplicando el axioma 9, encontramos que
 
 $$z + z = 0x + 0x = (0 + 0)x = 0x = z .$$
 
 Sumemos ahora $-z$ a ambos miembros y obtenemos $z = O$.
 
-*Demostración de b).* Sea $z = aO$, sumar $z$ a sí mismo, y aplicar el axioma 8.
+*Demostración de 2.* Sea $z = aO$, sumar $z$ a sí mismo, y aplicar el axioma 8.
 
-*Demostración de c).* Sea $z = (-a)x$. Sumando $z$ a $ax$ y aplicando el axioma 9, encontramos que
+*Demostración de 3.* Sea $z = (-a)x$. Sumando $z$ a $ax$ y aplicando el axioma 9, encontramos que
 
 $$z + ax = (-a)x + ax = (-a + a)x = 0x = O ,$$
 
-así que $z$ es el opuesto de $ax$, $z = -(ax)$. Análogamente, si sumamos $a(-x)$ a $ax$ y aplicamos el axioma 8 y la propiedad b), encontramos que $a(-x) = -(ax)$.
+así que $z$ es el opuesto de $ax$, $z = -(ax)$. Análogamente, si sumamos $a(-x)$ a $ax$ y aplicamos el axioma 8 y la propiedad 2, encontramos que $a(-x) = -(ax)$.
 
 ---
 
