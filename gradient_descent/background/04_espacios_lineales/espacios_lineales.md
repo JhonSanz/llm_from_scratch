@@ -91,14 +91,14 @@ El teorema siguiente muestra un conjunto de propiedades que rigen los cálculos 
 
 #### TEOREMA 1.3. En un espacio lineal, designemos con $x$ e $y$ dos elementos cualesquiera y con $a$ y $b$ dos escalares cualesquiera. Tenemos entonces las propiedades siguientes:
 
-1. $0x = O$.
-2. $aO = O$.
-3. $(-a)x = -(ax) = a(-x)$.
-4. *Si $ax = O$, entonces $a = 0$ o $x = O$, o los dos.*
-5. *Si $ax = ay$ y $a \neq 0$ entonces $x = y$.*
-6. *Si $ax = bx$ y $x \neq O$, entonces $a = b$.*
-7. $-(x + y) = (-x) + (-y) = -x - y$.
-8. $x + x = 2x$, $x + x + x = 3x$, *y en general,* $\sum_{i=1}^{n} x = nx$.
+1. $0x = O$
+2. $aO = O$
+3. $(-a)x = -(ax) = a(-x)$
+4. Si $ax = O$, entonces $a = 0$ o $x = O$, o los dos.
+5. Si $ax = ay$ y $a \neq 0$ entonces $x = y$
+6. Si $ax = bx$ y $x \neq O$, entonces $a = b$
+7. $-(x + y) = (-x) + (-y) = -x - y$
+8. $x + x = 2x$, $x + x + x = 3x$, *y en general,* $\sum_{i=1}^{n} x = nx$
 
 Demostraremos 1, 2 y 3 y dejamos como ejercicios las demostraciones de las otras propiedades.
 
