@@ -150,15 +150,24 @@ De hecho esto es bastante útil, porque como vimos anteriormente muchos de los e
 
 Tomado de Cálculo de Tom Apostol Vol 2 Pág 8.
 
-Los axiomas 3, 4 y 7–10 se satisfacen automáticamente en $S$ porque son válidos para todos los elementos de $V$. Falta comprobar los axiomas 5 y 6.
+Los 10 axiomas se dividen en dos tipos, y esa diferencia determina cuáles hay que probar en $S$ y cuáles no:
 
-¿Por qué se heredan automáticamente? Porque estos axiomas son **igualdades**, no afirmaciones de pertenencia. Por ejemplo, el axioma 3 dice $x + y = y + x$ para todo $x, y \in V$. Si $x, y \in S$, entonces en particular $x, y \in V$ (ya que $S \subseteq V$), y la igualdad sigue siendo cierta — $S$ no define operaciones nuevas, usa exactamente las mismas que $V$. En cambio los axiomas de clausura sí pueden fallar en $S$, porque afirman que el *resultado pertenece al conjunto*, y pertenecer a $V$ no garantiza pertenecer a $S$.
+**Axiomas 3, 4 y 7–10 — son igualdades.** Dicen cosas como $x + y = y + x$ o $a(x+y) = ax + ay$. Si $x, y \in S$, entonces en particular $x, y \in V$ (ya que $S \subseteq V$), y la igualdad sigue siendo cierta porque $S$ no define operaciones nuevas — usa exactamente las mismas que $V$. Estas se heredan automáticamente, sin necesidad de probarlas.
+
+**Axiomas 5 y 6 — son existenciales dentro del conjunto.** No dicen que algo sea igual a algo; dicen que cierto elemento **existe dentro de $S$**:
+
+- Axioma 5: existe un $O$ **en $S$** tal que $x + O = x$
+- Axioma 6: para cada $x \in S$, existe $(-1)x$ **en $S$** tal que $x + (-1)x = O$
+
+Que $O$ exista en $V$ ya lo sabemos — pero podría no estar en $S$. Que $(-1)x$ exista en $V$ también lo sabemos — pero igualmente podría no estar en $S$. Por eso no se pueden heredar: hay que demostrar que esos elementos caen dentro de $S$.
+
+Y se demuestra usando la clausura escalar, tomando valores concretos de $a$:
 
 **Axioma 5 — Existencia del elemento cero en $S$:**
 
-Sea $x$ un elemento cualquiera de $S$ (existe porque $S$ no es vacío). Por la condición 3 (clausura bajo multiplicación por escalar), $ax \in S$ para todo escalar $a$. Tomando $a = 0$, resulta que $0x \in S$. Pero por el Teorema 1.3(a), $0x = O$, con lo cual $O \in S$ y se satisface el axioma 5.
+Sea $x$ un elemento cualquiera de $S$ (existe porque $S$ no es vacío). Por la condición 3, $ax \in S$ para todo escalar $a$. Tomando $a = 0$, resulta que $0x \in S$. Por el Teorema 1.3(a), $0x = O$, con lo cual $O \in S$.
 
 **Axioma 6 — Existencia de opuestos en $S$:**
 
-Tomando $a = -1$ en la condición 3, resulta que $(-1)x \in S$. Pero $x + (-1)x = O$ ya que $x$ y $(-1)x$ están ambos en $V$ y $V$ satisface el axioma 6. Por consiguiente el axioma 6 se satisface en $S$.
+Tomando $a = -1$ en la condición 3, resulta que $(-1)x \in S$. Y la igualdad $x + (-1)x = O$ se hereda de $V$ (es una igualdad, no una afirmación de pertenencia). Por consiguiente el axioma 6 se satisface en $S$.
 
