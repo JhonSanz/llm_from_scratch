@@ -12,7 +12,7 @@ Según la RAE:
 
 ok, entonces para redondear esto. Los axiomas son la receta **para las operaciones** que se pueden realizar sobre unos elementos cualquiera
 
-### Definición de espacio lineal
+## Definición de espacio lineal
 
 "Sea $V$ un conjunto no vacío de objetos llamados *elementos*. El conjunto $V$ se llama espacio lineal si satisface los diez axiomas siguientes:"
 
@@ -63,7 +63,7 @@ La idea central de todas estas demostraciones es la misma: como las operaciones 
 "Estos ejemplos y muchos otros hacen patente cómo el concepto de espacio
 lineal está extendido por el Álgebra, la Geometría y el Análisis."
 
-Ahora bien, uno de los aprendizajes importantes es que la validez de los axiomas no depende de los elementos del espacio sino del espacio mismo, es decir, aplicaron para polnomios, funciones etc. Y es por eso que podemos llegar a estas tres conclusiones a aprtir de los axiomas que utilizamos
+Ahora bien, uno de los aprendizajes importantes es que la validez de los axiomas no depende de los elementos del espacio sino del espacio mismo, es decir, aplicaron para polinomios, funciones etc. Y es por eso que podemos llegar a estas tres conclusiones a aprtir de los axiomas que utilizamos
 
 ---
 
@@ -120,7 +120,7 @@ así que $z$ es el opuesto de $ax$, $z = -(ax)$. Análogamente, si sumamos $a(-x
 
 Esas demostraciones fundamentan mucho de lo que damos por sentado como cierto. Como vimos pudimos partir de los axiomas de $\mathbb{R}$ y apartir de ahí extender las propiedades hacia otros conjuntos. Se dice que solo hay necesidad de demostrar una vez y justamente eso pasa aqui, probamos para las funciones y los polinomios y cada vez nos vamos adentrando mas en casos particulares, los cuales no necesitan probar todos los axiomas porque los extendimos de casos mas generales, vamos a ver que solo se necesitan unos cuantos para ver si el espacio es lineal
 
-### Subespacios
+## Subespacios
 
 Si observamos el siguiente gráfico encontraremos que el subespacio $S$ es un subconjunto del espacio $V_n$:
 
@@ -137,3 +137,28 @@ Sea $S$ un subconjunto no vacío de un espacio lineal $V$. Tal subconjunto $S$ e
 Osea, queremos probar que validando solo estas tres condiciones todos los axiomas 3–10 son válidos automáticamente. Esto funciona porque esos axiomas se **heredan** del espacio mayor $V$: si una propiedad vale para todos los elementos de $V$, vale en particular para los de $S$.
 
 De hecho esto es bastante útil, porque como vimos anteriormente muchos de los ejemplos que hicimos eran subespacios de $\mathbb{R}$, entonces con esta nueva herramienta no tendríamos que validar todos los axiomas sino solo estas tres condiciones.
+
+¿Por qué exactamente estas tres condiciones y no otras?
+
+**Las condiciones 2 y 3 (clausura) pueden fallar en un subconjunto.** Tomar dos elementos de $S$ y sumarlos podría producir un resultado que se sale de $S$ — el resultado existe en $V$, pero ya no está dentro de $S$. Eso es exactamente lo que vimos con los polinomios de grado exactamente $n$: la cancelación del término líder nos saca del conjunto. Por eso hay que verificarlas explícitamente.
+
+**Los axiomas 3–10 no pueden fallar.** Son igualdades sobre cómo se comportan las operaciones — cosas como $x + y = y + x$ o $a(x + y) = ax + ay$. Estas valen para *todos* los elementos de $V$, entonces valen en particular para los de $S$. $S$ no define operaciones nuevas; usa exactamente las mismas que $V$.
+
+**La condición 1 ($O \in S$) es consecuencia de las otras dos**, siempre que $S$ sea no vacío: si existe algún $x \in S$, entonces $0 \cdot x \in S$ por la condición 3 (clausura bajo multiplicación por escalar, con $a = 0$), y por el Teorema 1.3(a) sabemos que $0 \cdot x = O$. Se pone explícita porque sin ella el conjunto vacío $\emptyset$ cumpliría trivialmente las condiciones 2 y 3 — no hay elementos que violen nada — pero $\emptyset$ no es un subespacio.
+
+#### Demostración de que los axiomas 5 y 6 se satisfacen en $S$
+
+Tomado de Cálculo de Tom Apostol Vol 2 Pág 8.
+
+Los axiomas 3, 4 y 7–10 se satisfacen automáticamente en $S$ porque son válidos para todos los elementos de $V$. Falta comprobar los axiomas 5 y 6.
+
+¿Por qué se heredan automáticamente? Porque estos axiomas son **igualdades**, no afirmaciones de pertenencia. Por ejemplo, el axioma 3 dice $x + y = y + x$ para todo $x, y \in V$. Si $x, y \in S$, entonces en particular $x, y \in V$ (ya que $S \subseteq V$), y la igualdad sigue siendo cierta — $S$ no define operaciones nuevas, usa exactamente las mismas que $V$. En cambio los axiomas de clausura sí pueden fallar en $S$, porque afirman que el *resultado pertenece al conjunto*, y pertenecer a $V$ no garantiza pertenecer a $S$.
+
+**Axioma 5 — Existencia del elemento cero en $S$:**
+
+Sea $x$ un elemento cualquiera de $S$ (existe porque $S$ no es vacío). Por la condición 3 (clausura bajo multiplicación por escalar), $ax \in S$ para todo escalar $a$. Tomando $a = 0$, resulta que $0x \in S$. Pero por el Teorema 1.3(a), $0x = O$, con lo cual $O \in S$ y se satisface el axioma 5.
+
+**Axioma 6 — Existencia de opuestos en $S$:**
+
+Tomando $a = -1$ en la condición 3, resulta que $(-1)x \in S$. Pero $x + (-1)x = O$ ya que $x$ y $(-1)x$ están ambos en $V$ y $V$ satisface el axioma 6. Por consiguiente el axioma 6 se satisface en $S$.
+
