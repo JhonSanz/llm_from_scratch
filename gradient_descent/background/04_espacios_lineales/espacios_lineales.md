@@ -63,7 +63,7 @@ La idea central de todas estas demostraciones es la misma: como las operaciones 
 "Estos ejemplos y muchos otros hacen patente cómo el concepto de espacio
 lineal está extendido por el Álgebra, la Geometría y el Análisis."
 
-Ahora bien, uno de los aprendizajes importantes es que la validez de los axiomas no depende de los elementos del espacio sino del espacio mismo, es decir, aplicaron para polinomios, funciones etc. Y es por eso que podemos llegar a estas tres conclusiones a aprtir de los axiomas que utilizamos
+Ahora bien, uno de los aprendizajes importantes es que la validez de los axiomas no depende de los elementos del espacio sino del espacio mismo, es decir, aplicaron para polinomios, funciones etc. Y es por eso que podemos llegar a estas tres conclusiones **a partir de los axiomas** que utilizamos
 
 ---
 
@@ -171,3 +171,4 @@ Sea $x$ un elemento cualquiera de $S$ (existe porque $S$ no es vacío). Por la c
 
 Tomando $a = -1$ en la condición 3, resulta que $(-1)x \in S$. Y la igualdad $x + (-1)x = O$ se hereda de $V$ (es una igualdad, no una afirmación de pertenencia). Por consiguiente el axioma 6 se satisface en $S$.
 
+## Envolvente Lineal
