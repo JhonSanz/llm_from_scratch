@@ -146,7 +146,7 @@ De hecho esto es bastante útil, porque como vimos anteriormente muchos de los e
 
 **La condición 1 ($O \in S$) es consecuencia de las otras dos**, siempre que $S$ sea no vacío: si existe algún $x \in S$, entonces $0 \cdot x \in S$ por la condición 3 (clausura bajo multiplicación por escalar, con $a = 0$), y por el Teorema 1.3(a) sabemos que $0 \cdot x = O$. Se pone explícita porque sin ella el conjunto vacío $\emptyset$ cumpliría trivialmente las condiciones 2 y 3 — no hay elementos que violen nada — pero $\emptyset$ no es un subespacio.
 
-#### Demostración de que los axiomas 5 y 6 se satisfacen en $S$
+### Demostración de que los axiomas 5 y 6 se satisfacen en $S$
 
 Tomado de Cálculo de Tom Apostol Vol 2 Pág 8.
 
