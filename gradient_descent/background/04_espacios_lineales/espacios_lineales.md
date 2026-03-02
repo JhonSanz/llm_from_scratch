@@ -172,3 +172,54 @@ Sea $x$ un elemento cualquiera de $S$ (existe porque $S$ no es vacío). Por la c
 Tomando $a = -1$ en la condición 3, resulta que $(-1)x \in S$. Y la igualdad $x + (-1)x = O$ se hereda de $V$ (es una igualdad, no una afirmación de pertenencia). Por consiguiente el axioma 6 se satisface en $S$.
 
 ## Envolvente Lineal
+
+Este tema fue tratado en el tutorial de algebra vectorial. En esa ocasión tomábamos los vectores coordenados unitarios y creábamos un conjunto que nos servia para luego generar todo el espacio de $\mathbb{R}^3$. Entonces, tomábamos cada vector unitario 
+
+$i = (1,0,0)$ $j = (0,1,0)$ $k = (0,0,1)$ 
+
+y los multiplicabamos por 3 escalares cualquiera $a,b,c$, y luego sumábamos los tres resultados; obteniendo así un nuevo vector $l \in \mathbb{R}^3$, así
+
+$$l = ai + bj + ck$$
+
+por lo tanto para generalizar y pensando axiomáticamente, podemos prescindir de la condición de que son vectores en $\mathbb{R}^3$ y simplemente decir que:
+
+"Sea $S$ un subconjunto no vacío de un espacio lineal $V$. Un elemento $X$ de $V$ de la forma 
+
+$$X = \sum_{i = 1}^{k} c_ix_i$$
+
+en donde $x_1, \dots, x_n$ pertenecen todos a $S$ y $c_1, \dots, c_n$ son escalares se denomina **combinación lineal de elementos de $S$**.
+
+El conjunto de todas las combinaciones
+lineales finitas de elementos de $S$ satisface los axiomas de clausura y por tanto
+es un subespacio de $V$. Decimos de ese subespacio que está generado por $S$, o
+también le llamamos la envolvente lineal de $S$, y lo designamos por $L(S)$. Si $S$
+es vacío, definimos $L(S)$ como $\{O\}$, el conjunto consta del elemento cero.
+" Cálculo de Tom Apostol Vol 2 Pág 10
+
+Veamos que $X$ es de $V$, no de $S$, porque la combinación lineal puede producir algo que no estaba en $S$.
+
+Ejemplo:
+
+$V = \mathbb{R}^2$, $S = \{(1,0)\}$ — un solo vector.
+
+Eligiendo un escalar $a \in \mathbb{R}$ cualquiera se forma:
+
+$$X = a \cdot (1,0) = (a, 0)$$
+
+Cada valor de $a$ produce un $X$ distinto que vive en $V$:
+
+- $a = 2 \Rightarrow X = (2,0) \in V$
+- $a = -7 \Rightarrow X = (-7,0) \in V$
+- $a = 0 \Rightarrow X = (0,0) \in V$
+
+La colección de todos esos $X$ posibles forma $L(S)$, que resulta ser la recta horizontal — un subespacio de $V$. Los infinitos vectores de esa recta claramente no estaban en $S$.
+
+La jerarquía es:
+
+$$S \subseteq L(S) \subseteq V$$
+
+- $S$ es el conjunto original (puede ser cualquier subconjunto, no necesariamente un subespacio)
+- $L(S)$ es la envolvente lineal — todos los $X$ que se pueden formar combinando elementos de $S$
+- $V$ es el espacio ambiente que contiene todo
+
+Finalmente podemos ver que conjuntos distintos nos pueden generar el mismo subespacio, como vimos en el tutorial de algebra vectorial podíamos tener algo como $S = \{ i, j, i+j \}$ y también podremos generar $\mathbb{R}^2$ aunque con algunas implicaciones
