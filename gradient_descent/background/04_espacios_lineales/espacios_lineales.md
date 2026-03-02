@@ -193,14 +193,14 @@ El conjunto de todas las combinaciones
 lineales finitas de elementos de $S$ satisface los axiomas de clausura y por tanto
 es un subespacio de $V$. Decimos de ese subespacio que está generado por $S$, o
 también le llamamos la envolvente lineal de $S$, y lo designamos por $L(S)$. Si $S$
-es vacío, definimos $L(S)$ como $\{O\}$, el conjunto consta del elemento cero.
+es vacío, definimos $L(S)$ como $\\lbrace O rbrace$, el conjunto consta del elemento cero.
 " Cálculo de Tom Apostol Vol 2 Pág 10
 
 Veamos que $X$ es de $V$, no de $S$, porque la combinación lineal puede producir algo que no estaba en $S$.
 
 Ejemplo:
 
-$V = \mathbb{R}^2$, $S = \{(1,0)\}$ — un solo vector.
+$V = \mathbb{R}^2$, $S = \lbrace (1,0) \rbrace$ — un solo vector.
 
 Eligiendo un escalar $a \in \mathbb{R}$ cualquiera se forma:
 
@@ -222,4 +222,4 @@ $$S \subseteq L(S) \subseteq V$$
 - $L(S)$ es la envolvente lineal — todos los $X$ que se pueden formar combinando elementos de $S$
 - $V$ es el espacio ambiente que contiene todo
 
-Finalmente podemos ver que conjuntos distintos nos pueden generar el mismo subespacio, como vimos en el tutorial de algebra vectorial podíamos tener algo como $S = \{ i, j, i+j \}$ y también podremos generar $\mathbb{R}^2$ aunque con algunas implicaciones
+Finalmente podemos ver que conjuntos distintos nos pueden generar el mismo subespacio, como vimos en el tutorial de algebra vectorial podíamos tener algo como $S = \lbrace i, j, i+j \rbrace$ y también podremos generar $\mathbb{R}^2$ aunque con algunas implicaciones
