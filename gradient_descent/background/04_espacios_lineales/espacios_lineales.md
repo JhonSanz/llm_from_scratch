@@ -193,14 +193,14 @@ El conjunto de todas las combinaciones
 lineales finitas de elementos de $S$ satisface los axiomas de clausura y por tanto
 es un subespacio de $V$. Decimos de ese subespacio que está generado por $S$, o
 también le llamamos la envolvente lineal de $S$, y lo designamos por $L(S)$. Si $S$
-es vacío, definimos $L(S)$ como $\lVert O \rVert$, el conjunto consta del elemento cero.
+es vacío, definimos $L(S)$ como $\left\{ O \right\}$, el conjunto consta del elemento cero.
 " Cálculo de Tom Apostol Vol 2 Pág 10
 
 Veamos que $X$ es de $V$, no de $S$, porque la combinación lineal puede producir algo que no estaba en $S$.
 
 Ejemplo:
 
-$V = \mathbb{R}^2$, $S = \lVert (1,0) \rVert$ — un solo vector.
+$V = \mathbb{R}^2$, $S = \left\{ (1,0) \right\}$ — un solo vector.
 
 Eligiendo un escalar $a \in \mathbb{R}$ cualquiera se forma:
 
@@ -208,9 +208,9 @@ $$X = a \cdot (1,0) = (a, 0)$$
 
 Cada valor de $a$ produce un $X$ distinto que vive en $V$:
 
-- $a = 2 \Rightarrow X = (2,0) \in V$
-- $a = -7 \Rightarrow X = (-7,0) \in V$
-- $a = 0 \Rightarrow X = (0,0) \in V$
+- $a = 2 \Right\}arrow X = (2,0) \in V$
+- $a = -7 \Right\}arrow X = (-7,0) \in V$
+- $a = 0 \Right\}arrow X = (0,0) \in V$
 
 La colección de todos esos $X$ posibles forma $L(S)$, que resulta ser la recta horizontal — un subespacio de $V$. Los infinitos vectores de esa recta claramente no estaban en $S$.
 
@@ -222,4 +222,4 @@ $$S \subseteq L(S) \subseteq V$$
 - $L(S)$ es la envolvente lineal — todos los $X$ que se pueden formar combinando elementos de $S$
 - $V$ es el espacio ambiente que contiene todo
 
-Finalmente podemos ver que conjuntos distintos nos pueden generar el mismo subespacio, como vimos en el tutorial de algebra vectorial podíamos tener algo como $S = \lVert i, j, i+j \rVert$ y también podremos generar $\mathbb{R}^2$ aunque con algunas implicaciones
+Finalmente podemos ver que conjuntos distintos nos pueden generar el mismo subespacio, como vimos en el tutorial de algebra vectorial podíamos tener algo como $S = \left\{ i, j, i+j \right\}$ y también podremos generar $\mathbb{R}^2$ aunque con algunas implicaciones
