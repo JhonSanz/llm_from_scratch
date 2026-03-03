@@ -193,10 +193,12 @@ El conjunto de todas las combinaciones
 lineales finitas de elementos de $S$ satisface los axiomas de clausura y por tanto
 es un subespacio de $V$. Decimos de ese subespacio que está generado por $S$, o
 también le llamamos la envolvente lineal de $S$, y lo designamos por $L(S)$. Si $S$
-es vacío, definimos $L(S)$ como $\\lbrace O rbrace$, el conjunto consta del elemento cero.
+es vacío, definimos $L(S)$ como $\lbrace O \rbrace$, el conjunto consta del elemento cero.
 " Cálculo de Tom Apostol Vol 2 Pág 10
 
 Veamos que $X$ es de $V$, no de $S$, porque la combinación lineal puede producir algo que no estaba en $S$.
+
+![alt text](img/envolvente.png)
 
 Ejemplo:
 
