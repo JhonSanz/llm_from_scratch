@@ -240,6 +240,40 @@ también le llamamos la envolvente lineal de $S$, y lo designamos por $L(S)$. Si
 es vacío, definimos $L(S)$ como $\lbrace O \rbrace$, el conjunto consta del elemento cero.
 " Cálculo de Tom Apostol Vol 2 Pág 10
 
+#### ¿Por qué $L(S)$ es subespacio de $V$?
+
+Hay que verificar que $L(S)$ cumple los axiomas de clausura: cerrado bajo suma y cerrado bajo multiplicación por escalar.
+
+###### Cerrado bajo suma
+
+Tomamos dos elementos cualesquiera de $L(S)$. Por definición, cada uno es una combinación lineal de los vectores de $S$:
+
+$$u = a_1 x_1 + a_2 x_2 + \dots + a_k x_k$$
+
+$$v = b_1 x_1 + b_2 x_2 + \dots + b_k x_k$$
+
+Si los sumamos:
+
+$$u + v = (a_1 + b_1)x_1 + (a_2 + b_2)x_2 + \dots + (a_k + b_k)x_k$$
+
+Esto sigue siendo una combinación lineal de los elementos de $S$ (con escalares $a_1 + b_1$, $a_2 + b_2$, etc.), así que $u + v \in L(S)$.
+
+###### Cerrado bajo multiplicación por escalar
+
+Tomamos $u \in L(S)$ y un escalar $c$:
+
+$$c \cdot u = (c a_1)x_1 + (c a_2)x_2 + \dots + (c a_k)x_k$$
+
+De nuevo, es una combinación lineal de los elementos de $S$, así que $c \cdot u \in L(S)$.
+
+###### Vector cero
+
+El vector cero también está en $L(S)$: basta tomar todos los escalares iguales a $0$.
+
+$$0 \cdot x_1 + 0 \cdot x_2 + \dots + 0 \cdot x_k = \mathbf{0}$$
+
+---
+
 Veamos que $X$ es de $V$, no de $S$, porque la combinación lineal puede producir algo que no estaba en $S$.
 
 ![alt text](img/envolvente.png)
@@ -319,3 +353,5 @@ Ahora sabemos que la ecuación se reduce a $c_1 t + c_2 t^2 + \cdots + c_n t^n =
 El texto dice "repitiendo el proceso", que se puede interpretar de varias formas equivalentes. La más directa: derivamos la ecuación original y evaluamos en $t=0$ otra vez. La derivada nos da $c_1 + 2c_2 t + 3c_3 t^2 + \cdots = 0$, y al poner $t=0$ obtenemos $c_1 = 0$. Derivando de nuevo y evaluando en $t=0$, obtenemos $2c_2 = 0$, así que $c_2 = 0$. En general, la $k$-ésima derivada evaluada en cero da $k!\, c_k = 0$, lo que fuerza $c_k = 0$.
 
 La conclusión es que la única forma de que un polinomio sea idénticamente cero (para **todo** $t$) es que todos sus coeficientes sean cero. Eso es exactamente la definición de independencia lineal.
+
+#### Conjunto de $k + 1$ elementos de $L(S)$
