@@ -352,4 +352,4 @@ El texto dice "repitiendo el proceso", que se puede interpretar de varias formas
 
 La conclusión es que la única forma de que un polinomio sea idénticamente cero (para **todo** $t$) es que todos sus coeficientes sean cero. Eso es exactamente la definición de independencia lineal.
 
-#### Conjunto de $k + 1$ elementos de $L(S)$
+## Conjunto de $k + 1$ elementos de $L(S)$
