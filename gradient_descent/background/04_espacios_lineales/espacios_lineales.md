@@ -342,9 +342,7 @@ $$c_0 + c_1 t + c_2 t^2 + \cdots + c_n t^n = 0 \quad \text{para todo } t \text{ 
 
 entonces debemos demostrar que todos los $c_k$ son necesariamente cero.
 
-**¿Cómo se hace?**
-
-Evaluamos en $t = 0$:
+Veamos el desarrollo, Evaluamos en $t = 0$:
 
 $$c_0 + c_1(0) + c_2(0)^2 + \cdots = 0 \implies c_0 = 0$$
 
