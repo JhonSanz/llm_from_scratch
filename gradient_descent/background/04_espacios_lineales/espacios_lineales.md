@@ -289,4 +289,33 @@ En el tutorial de geometría analítica vimos varios ejemplos, como dos vectores
 
 Si bien los ejemplos que vimos en el tutorial de geometría analítica se centraron en $\mathbb{R}^n$ aquí no nos enfocamos en un único tipo de elementos. Adicionalmente podemos pensar en un espacio funcional, por ejemplo
 
-- Sean $u_1(t) = cos^2 t$, $\ u_2(t) = sen^2 t$, $\ u_3(t) = 1$ para todo número real $t$. La identidad pitagórica prueba que $u_1 + u_2 - u_3 = O$, así que las tres funciones $u_1$, $u_2$, $u_3$ son dependientes.
+#### Ejemplo 1:
+
+Sean $u_1(t) = cos^2 t$, $\ u_2(t) = sen^2 t$, $\ u_3(t) = 1$ para todo número real $t$. La identidad pitagórica prueba que $u_1 + u_2 - u_3 = O$, así que las tres funciones $u_1$, $u_2$, $u_3$ son dependientes.
+
+#### Ejemplo 2:
+
+Sea $u_k(t) = t^k$ para $k = 0, 1, 2, \ldots$, y $t$ real. El conjunto $S = \{u_0, u_1, u_2, \ldots\}$ es independiente. Para demostrar esto, basta demostrar que para cada $n$ los $n + 1$ polinomios $u_0, u_1, \ldots, u_n$ son independientes. Una relación de la forma $\sum c_k u_k = O$ significa que
+
+$$\sum_{k=0}^{n} c_k t^k = 0 \tag{1.1}$$
+
+para todo real $t$. Cuando $t = 0$, encontramos que $c_0 = 0$. Repitiendo el proceso, encontramos que cada coeficiente $c_k$ es cero.
+El ejemplo quiere demostrar que el conjunto infinito de funciones $S = \{1, t, t^2, t^3, \ldots\}$ es **linealmente independiente**.
+
+La estrategia es esta: si tomamos cualquier subconjunto finito de $n+1$ de esas funciones y suponemos que existe una combinación lineal igual a cero, es decir:
+
+$$c_0 + c_1 t + c_2 t^2 + \cdots + c_n t^n = 0 \quad \text{para todo } t \text{ real}$$
+
+entonces debemos demostrar que todos los $c_k$ son necesariamente cero.
+
+**¿Cómo se hace?**
+
+Evaluamos en $t = 0$:
+
+$$c_0 + c_1(0) + c_2(0)^2 + \cdots = 0 \implies c_0 = 0$$
+
+Ahora sabemos que la ecuación se reduce a $c_1 t + c_2 t^2 + \cdots + c_n t^n = 0$, que podemos factorizar como $t(c_1 + c_2 t + \cdots + c_n t^{n-1}) = 0$ para todo $t$.
+
+El texto dice "repitiendo el proceso", que se puede interpretar de varias formas equivalentes. La más directa: derivamos la ecuación original y evaluamos en $t=0$ otra vez. La derivada nos da $c_1 + 2c_2 t + 3c_3 t^2 + \cdots = 0$, y al poner $t=0$ obtenemos $c_1 = 0$. Derivando de nuevo y evaluando en $t=0$, obtenemos $2c_2 = 0$, así que $c_2 = 0$. En general, la $k$-ésima derivada evaluada en cero da $k!\, c_k = 0$, lo que fuerza $c_k = 0$.
+
+La conclusión es que la única forma de que un polinomio sea idénticamente cero (para **todo** $t$) es que todos sus coeficientes sean cero. Eso es exactamente la definición de independencia lineal.
