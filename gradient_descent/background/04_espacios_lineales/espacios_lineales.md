@@ -331,7 +331,7 @@ Sean $u_1(t) = cos^2 t$, $\ u_2(t) = sen^2 t$, $\ u_3(t) = 1$ para todo número 
 
 Sea $u_k(t) = t^k$ para $k = 0, 1, 2, \ldots$, y $t$ real. El conjunto $S = \{u_0, u_1, u_2, \ldots\}$ es independiente. Para demostrar esto, basta demostrar que para cada $n$ los $n + 1$ polinomios $u_0, u_1, \ldots, u_n$ son independientes. Una relación de la forma $\sum c_k u_k = O$ significa que
 
-$$\sum_{k=0}^{n} c_k t^k = 0 \tag{1.1}$$
+$$\sum_{k=0}^{n} c_k t^k = 0$$
 
 para todo real $t$. Cuando $t = 0$, encontramos que $c_0 = 0$. Repitiendo el proceso, encontramos que cada coeficiente $c_k$ es cero.
 El ejemplo quiere demostrar que el conjunto infinito de funciones $S = \{1, t, t^2, t^3, \ldots\}$ es **linealmente independiente**.
