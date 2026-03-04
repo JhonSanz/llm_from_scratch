@@ -270,3 +270,23 @@ $$S \subseteq L(S) \subseteq V$$
 
 Finalmente podemos ver que conjuntos distintos nos pueden generar el mismo subespacio, como vimos en el tutorial de algebra vectorial podíamos tener algo como $S = \lbrace i, j, i+j \rbrace$ y también podremos generar $\mathbb{R}^2$ aunque con algunas implicaciones
 
+
+## Conjuntos dependientes e independientes en un espacio lineal
+
+En el tutorial de geometria en $\mathbb{R}^n$ vimos varios ejemplos de conjuntos dependientes e independientes. 
+
+Básicamente, el conjunto es linealmente dependiente si tomamos un conjunto finito de elementos distintos cualquiera de $S$ $x_1, \dots, x_n$
+
+Y tomamos un conjunto de escalares cualquiera $c_1, \dots, c_n$ **NO TODOS CERO**, y al hacer la combinación lineal obtenemos
+
+$$\sum_{i = 1}^{k} c_ix_i = 0$$
+
+es decir, podemos generar $O$ mediante una combinación lineal de elementos del conjunto que no son la forma trivial de $O$, osea, **TODAS LAS CONSTANTES EN CERO**
+
+Osea, cuando todas las constantes son cero para generar $O$ se dice que el conjunto es **linealmente independiente**
+
+En el tutorial de geometría analítica vimos varios ejemplos, como dos vectores en la misma recta, los vectores directores de un plano, el producto cruz $A \times B = 0$ etc.
+
+Si bien los ejemplos que vimos en el tutorial de geometría analítica se centraron en $\mathbb{R}^n$ aquí no nos enfocamos en un único tipo de elementos. Adicionalmente podemos pensar en un espacio funcional, por ejemplo
+
+- Sean $u_1(t) = cos^2 t$, $\ u_2(t) = sen^2 t$, $\ u_3(t) = 1$ para todo número real $t$. La identidad pitagórica prueba que $u_1 + u_2 - u_3 = O$, así que las tres funciones $u_1$, $u_2$, $u_3$ son dependientes.
