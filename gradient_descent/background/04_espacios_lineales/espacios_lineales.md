@@ -146,6 +146,50 @@ De hecho esto es bastante útil, porque como vimos anteriormente muchos de los e
 
 **La condición 1 ($O \in S$) es consecuencia de las otras dos**, siempre que $S$ sea no vacío: si existe algún $x \in S$, entonces $0 \cdot x \in S$ por la condición 3 (clausura bajo multiplicación por escalar, con $a = 0$), y por el Teorema 1.3(a) sabemos que $0 \cdot x = O$. Se pone explícita porque sin ella el conjunto vacío $\emptyset$ cumpliría trivialmente las condiciones 2 y 3 — no hay elementos que violen nada — pero $\emptyset$ no es un subespacio.
 
+### Ejemplos
+
+**Ejemplo 1 — $S$ sí es subespacio.**
+
+Sea $V = \mathbb{R}^2$ y $S = \{(x, 2x) : x \in \mathbb{R}\}$ — la recta completa $y = 2x$, que pasa por el origen.
+
+Importante: $S$ no es una lista fija de vectores. Es **todos** los vectores de la forma $(x, 2x)$ para cualquier $x \in \mathbb{R}$ — infinitos vectores.
+
+1. $O \in S$: tomando $x = 0$ obtenemos $(0, 0) \in S$. ✓
+
+2. Clausura bajo adición: sean $(x_1, 2x_1)$ y $(x_2, 2x_2)$ en $S$. Su suma es:
+
+$$( x_1 + x_2,\ 2x_1 + 2x_2) = (x_1 + x_2,\ 2(x_1 + x_2))$$
+
+El resultado tiene la forma $(t, 2t)$ con $t = x_1 + x_2$, por lo tanto **sí pertenece a $S$**. ✓
+
+Numéricamente: $(1, 2) + (3, 6) = (4, 8)$. ¿Está $(4, 8)$ en $S$? Sí, porque $8 = 2 \cdot 4$. El vector sumado sigue sobre la recta $y = 2x$.
+
+3. Clausura bajo multiplicación escalar: $a(x, 2x) = (ax, 2ax)$, que tiene la forma $(t, 2t)$ con $t = ax$, por lo tanto **sí pertenece a $S$**. ✓
+
+Numéricamente: $3 \cdot (1, 2) = (3, 6)$. ¿Está $(3, 6)$ en $S$? Sí, porque $6 = 2 \cdot 3$.
+
+Las tres condiciones se satisfacen, por lo tanto $S$ es un subespacio de $\mathbb{R}^2$.
+
+---
+
+**Ejemplo 2 — $S$ no es subespacio.**
+
+Sea $V = \mathbb{R}^2$ y $S = \{(x, 2x + 1) : x \in \mathbb{R}\}$ — la recta $y = 2x + 1$, desplazada, que no pasa por el origen.
+
+1. $O \in S$: necesitaríamos que $(0, 0)$ tenga la forma $(x, 2x+1)$, pero $2(0) + 1 = 1 \neq 0$. Por lo tanto $O \notin S$. ✗
+
+Falla la primera condición. Para verlo también en la clausura:
+
+2. Clausura bajo adición: $(0, 1) \in S$ (con $x=0$) y $(1, 3) \in S$ (con $x=1$). Su suma:
+
+$$(0, 1) + (1, 3) = (1, 4)$$
+
+¿Está $(1, 4)$ en $S$? Necesitaría que $4 = 2(1) + 1 = 3$. No cumple — el resultado se salió de $S$. ✗
+
+La diferencia entre los dos ejemplos es geométricamente clara: la recta del ejemplo 1 pasa por el origen; la del ejemplo 2 no. Sumar dos puntos sobre una recta desplazada te lleva fuera de ella — el resultado "cae" sobre otra recta paralela. Un subespacio siempre debe contener el origen.
+
+---
+
 ### Demostración de que los axiomas 5 y 6 se satisfacen en $S$
 
 Tomado de Cálculo de Tom Apostol Vol 2 Pág 8.
@@ -225,3 +269,4 @@ $$S \subseteq L(S) \subseteq V$$
 - $V$ es el espacio ambiente que contiene todo
 
 Finalmente podemos ver que conjuntos distintos nos pueden generar el mismo subespacio, como vimos en el tutorial de algebra vectorial podíamos tener algo como $S = \lbrace i, j, i+j \rbrace$ y también podremos generar $\mathbb{R}^2$ aunque con algunas implicaciones
+
