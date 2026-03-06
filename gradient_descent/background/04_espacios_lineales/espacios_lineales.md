@@ -379,4 +379,50 @@ El enunciado de forma implicita nos dice que $S$ es un subconjunto de $V$, y es 
 
 Ahora, cuando dice que $S$ genera $V$ podemos hacer un procedimiento como antes, tomamos un elemento genérico $x$ de $V$, y mostrar que se puede expresar como combinación lineal de los elementos de $S$. Al tomar $x$ como un elemento arbitrario de $V$, sin asumir nada particular sobre él, cualquier cosa que demostremos vale para todos los elementos de $V$
 
+### Ejemplos
 
+**Ejemplo 1 — $S$ sí es base.**
+
+Sea $V = \mathbb{R}^2$ y $S = \{(1,0),\ (0,1)\}$.
+
+**Independencia:** suponemos que existe una combinación lineal igual a $O$:
+
+$$c_1(1,0) + c_2(0,1) = (0,0)$$
+
+$$(c_1,\ c_2) = (0,0)$$
+
+Entonces $c_1 = 0$ y $c_2 = 0$. La única forma de obtener el vector nulo es con todos los escalares en cero, por lo tanto $S$ es **linealmente independiente**. ✓
+
+**Genera $V$:** tomamos un elemento genérico $(a, b) \in \mathbb{R}^2$ y mostramos que se puede escribir como combinación lineal de los elementos de $S$:
+
+$$a(1,0) + b(0,1) = (a,\ b)$$
+
+Cualquier elemento de $\mathbb{R}^2$ se expresa así, por lo tanto $S$ **genera $V$**. ✓
+
+Las dos condiciones se satisfacen, por lo tanto $S$ es una base de $\mathbb{R}^2$.
+
+---
+
+**Ejemplo 2 — $S$ no es base porque es dependiente.**
+
+Sea $V = \mathbb{R}^2$ y $S = \{(1,0),\ (0,1),\ (1,1)\}$.
+
+Este conjunto **no es independiente**: podemos obtener el vector nulo con escalares no todos cero:
+
+$$1 \cdot (1,0) + 1 \cdot (0,1) + (-1) \cdot (1,1) = (1+0-1,\ 0+1-1) = (0,0)$$
+
+Falla la primera condición. $S$ no puede ser base aunque genere $V$.
+
+---
+
+**Ejemplo 3 — $S$ no es base porque no genera $V$.**
+
+Sea $V = \mathbb{R}^2$ y $S = \{(1,0)\}$.
+
+$S$ sí es independiente: $c_1(1,0) = (0,0)$ implica $c_1 = 0$. ✓
+
+Pero $S$ **no genera $\mathbb{R}^2$**: cualquier combinación lineal de sus elementos produce vectores de la forma $(a, 0)$, que solo cubre la recta horizontal. Un vector como $(0, 1)$ no se puede expresar como combinación lineal de $\{(1,0)\}$. ✗
+
+Falla la segunda condición. $S$ no puede ser base aunque sea independiente.
+
+---
