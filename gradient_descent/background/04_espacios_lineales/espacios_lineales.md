@@ -374,7 +374,9 @@ Un conjunto finito $S$ de elementos de un espacio lineal $V$ se llama base finit
 
 El espacio $V$ es de dimensión finita si tiene una base finita. De otro modo, $V$ es de infinitas dimensiones.
 
-
-DEFINICIÓN. Si un espacio lineal $V$ tiene una base de $n$ elementos, el entero $n$ se llama dimensión de V. Escribimos $n = dim V$
-
 Este es el momento para aclarar algunas cosas importantes.
+El enunciado de forma implicita nos dice que $S$ es un subconjunto de $V$, y es base cuando $S$ es linealmente independiente y genera $V$
+
+Ahora, cuando dice que $S$ genera $V$ podemos hacer un procedimiento como antes, tomamos un elemento genérico $x$ de $V$, y mostrar que se puede expresar como combinación lineal de los elementos de $S$. Al tomar $x$ como un elemento arbitrario de $V$, sin asumir nada particular sobre él, cualquier cosa que demostremos vale para todos los elementos de $V$
+
+
