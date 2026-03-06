@@ -368,4 +368,13 @@ Esto tiene demostración pero no la vamos a hacer. Ver en cálculo Tom Apostol V
 
 ## Bases y dimensión
 
+DEFINICIÓN. 
 
+Un conjunto finito $S$ de elementos de un espacio lineal $V$ se llama base finita de $V$ si $S$ es independiente y genera $V$.
+
+El espacio $V$ es de dimensión finita si tiene una base finita. De otro modo, $V$ es de infinitas dimensiones.
+
+
+DEFINICIÓN. Si un espacio lineal $V$ tiene una base de $n$ elementos, el entero $n$ se llama dimensión de V. Escribimos $n = dim V$
+
+Este es el momento para aclarar algunas cosas importantes.
