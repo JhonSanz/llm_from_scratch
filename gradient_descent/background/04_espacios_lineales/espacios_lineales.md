@@ -353,3 +353,19 @@ El texto dice "repitiendo el proceso", que se puede interpretar de varias formas
 La conclusión es que la única forma de que un polinomio sea idénticamente cero (para **todo** $t$) es que todos sus coeficientes sean cero. Eso es exactamente la definición de independencia lineal.
 
 ## Conjunto de $k + 1$ elementos de $L(S)$
+
+Veamos esto con un ejemplo. Supongamos que tengo un conjunto $S = \lbrace (1,0,0),(0,1,0) \rbrace$ de $V = \mathbb{R}^3$
+
+Podemos ver que este conjunto es independiente, porque si hacemos la combinación lineal la única forma de obtener el vector nulo es poniendo todas las constantes en cero.
+
+También podemos ver que la envolvente lineal $L(S)$ está conformada por todos los vectores de la forma $(a,b,0)$.
+
+Entonces lo que dice el teorema es que **si agregamos otro vector (o sea el $k + 1$) que pertenezca a $L(S)$**, el conjunto se vuelve dependiente. Si tomamos por ejemplo $(3,5,0) \in L(S)$ y formamos el conjunto $\lbrace (1,0,0),(0,1,0),(3,5,0) \rbrace$, cuyos tres elementos pertenecen a $L(S)$, entonces es dependiente, porque podemos obtener el vector nulo de forma no trivial:
+
+$$3(1,0,0) + 5(0,1,0) + (-1)(3,5,0) = O$$
+
+Esto tiene demostración pero no la vamos a hacer. Ver en cálculo Tom Apostol Vol 2 Pág 13
+
+## Bases y dimensión
+
+
