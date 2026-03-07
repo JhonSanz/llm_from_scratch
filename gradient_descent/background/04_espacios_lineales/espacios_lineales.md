@@ -481,3 +481,66 @@ Sea $V$ un espacio lineal de dimensión finita con $\dim V = n$. Se tiene:
 - Cualquier conjunto de $n$ elementos independientes es una base para $V$.
 
 
+## Componentes
+
+Sea $V$ un espacio lineal de dimensión $n$ y consideremos una base cuyos elementos $e_1, \ldots, e_n$ se toman en un cierto orden. Una tal base ordenada la consideramos como una $n$-pla $(e_1, \ldots, e_n)$. Si $x \in V$, podemos expresar $x$ como una combinación lineal de esos elementos base:
+
+$$x = \sum_{i=1}^{n} c_i e_i$$
+
+> Aqui es interesante ver que aunque los elementos de la base también están contenidos en $V$, construimos los componentes a partir de la base porque ella nos garantiza que son únicos y no redundantes, por la propia definición de base.
+
+Los coeficientes en la ecuación determinan una $n$-pla de números $(c_1, \ldots, c_n)$ que está **unívocamente determinada** por $x$.
+
+**Demostración:** Si tuviéramos otra representación de $x$ como combinación lineal de $e_1, \ldots, e_n$, por ejemplo $x = \sum_{i=1}^{n} d_i e_i$, restando de encontramos que:
+
+$$\sum_{i=1}^{n} (c_i - d_i) e_i = O$$
+
+Pero ya que los elementos base son **linealmente independientes**, eso implica que $c_i = d_i$ para cada $i$, con lo cual:
+
+$$(c_1, \ldots, c_n) = (d_1, \ldots, d_n)$$
+
+Los componentes de la $n$-pla ordenada $(c_1, \ldots, c_n)$ determinada por $(1.5)$ se llaman **componentes de $x$ respecto a la base ordenada** $(e_1, \ldots, e_n)$.
+
+##### Idea clave: la base y los escalares son objetos distintos
+
+En la ecuación $x = \sum_{i=1}^{n} c_i e_i$ conviven dos cosas de naturaleza diferente:
+
+- Los $e_i$ son **vectores** de $V$ (la base, que se fija una vez).
+- Los $c_i$ son **escalares** (números del cuerpo, típicamente $\mathbb{R}$).
+
+Una vez fijada la base, lo único que varía de un vector a otro es la $n$-pla de escalares. Por eso podemos "olvidarnos" de los vectores base y trabajar solo con listas de números.
+
+##### Ejemplo: la base canónica de $\mathbb{R}^3$
+
+Con la base canónica $\{(1,0,0),\, (0,1,0),\, (0,0,1)\}$, el vector $x = (1,2,3)$ se escribe:
+
+$$1(1,0,0) + 2(0,1,0) + 3(0,0,1) = (1,2,3)$$
+
+Los escalares $(1, 2, 3)$ **coinciden** con las entradas del vector. Por eso nunca notamos que hay una base detrás: los números "son los mismos". Esta es una particularidad de la base canónica, **no** algo que ocurra en general.
+
+##### Ejemplo: cambio de base en $\mathbb{R}^3$
+
+Consideremos la base $S = \{(1,1,0),\, (1,0,1),\, (0,1,1)\}$ de $\mathbb{R}^3$.
+
+Para el **mismo** vector $x = (1, 2, 3)$, buscamos escalares $c_1, c_2, c_3$ tales que:
+
+$$c_1(1,1,0) + c_2(1,0,1) + c_3(0,1,1) = (1,2,3)$$
+
+Esto da el sistema:
+
+$$c_1 + c_2 = 1$$
+
+$$c_1 + c_3 = 2$$
+
+$$c_2 + c_3 = 3$$
+
+Resolviendo: $c_1 = 0$, $c_2 = 1$, $c_3 = 2$.
+
+### Comparación
+
+| Base | Componentes de $x = (1,2,3)$ |
+|---|---|
+| Canónica: $\{(1,0,0), (0,1,0), (0,0,1)\}$ | $(1, 2, 3)$ |
+| $S = \{(1,1,0), (1,0,1), (0,1,1)\}$ | $(0, 1, 2)$ |
+
+**El vector $x$ no cambió.** Lo que cambió es el "idioma" con el que lo describimos. Elegir la base adecuada puede transformar un problema difícil en uno fácil, supongo que lo veremos en ejemplos mas adelante, por ahora sabemos que esto existe y que funciona
