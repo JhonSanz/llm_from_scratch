@@ -360,15 +360,13 @@ Podemos ver que este conjunto es independiente, porque si hacemos la combinació
 
 También podemos ver que la envolvente lineal $L(S)$ está conformada por todos los vectores de la forma $(a,b,0)$.
 
-Entonces lo que dice el teorema es que **si agregamos otro vector (o sea el $k + 1$) que pertenezca a $L(S)$**, el conjunto se vuelve dependiente. Si tomamos por ejemplo $(3,5,0) \in L(S)$ y formamos el conjunto $\lbrace (1,0,0),(0,1,0),(3,5,0) \rbrace$, cuyos tres elementos pertenecen a $L(S)$, entonces es dependiente, porque podemos obtener el vector nulo de forma no trivial:
+Entonces lo que dice el teorema es que **si formamos cualquier conjunto de $k + 1$ elementos que pertenezcan a $L(S)$**, ese conjunto es necesariamente dependiente. En nuestro caso $k = 2$, así que cualquier conjunto de 3 elementos de $L(S)$ será dependiente. Si tomamos por ejemplo $(3,5,0) \in L(S)$ y formamos el conjunto $\lbrace (1,0,0),(0,1,0),(3,5,0) \rbrace$, cuyos tres elementos pertenecen a $L(S)$, entonces es dependiente, porque podemos obtener el vector nulo de forma no trivial:
 
 $$3(1,0,0) + 5(0,1,0) + (-1)(3,5,0) = O$$
 
 Esto tiene demostración pero no la vamos a hacer. Ver en cálculo Tom Apostol Vol 2 Pág 13
 
 ## Bases y dimensión
-
-DEFINICIÓN. 
 
 Un conjunto finito $S$ de elementos de un espacio lineal $V$ se llama base finita de $V$ si $S$ es independiente y genera $V$.
 
@@ -377,9 +375,11 @@ El espacio $V$ es de dimensión finita si tiene una base finita. De otro modo, $
 Este es el momento para aclarar algunas cosas importantes.
 El enunciado de forma implicita nos dice que $S$ es un subconjunto de $V$, y es base cuando $S$ es linealmente independiente y genera $V$
 
-Ahora, cuando dice que $S$ genera $V$ podemos hacer un procedimiento como antes, tomamos un elemento genérico $x$ de $V$, y mostrar que se puede expresar como combinación lineal de los elementos de $S$. Al tomar $x$ como un elemento arbitrario de $V$, sin asumir nada particular sobre él, cualquier cosa que demostremos vale para todos los elementos de $V$
+Ahora, cuando dice que $S$ genera o engendra $V$ podemos hacer un procedimiento como antes, tomamos un elemento genérico $x$ de $V$, y mostrar que se puede expresar como combinación lineal de los elementos de $S$. Al tomar $x$ como un elemento arbitrario de $V$, sin asumir nada particular sobre él, cualquier cosa que demostremos vale para todos los elementos de $V$. Es decir **"engendra" o "genera" implicitamente nos está hablando del envolvente lineal**, osea, son dos formas de decir lo mismo: "$S$ engendra $V$" y "$V$ es la envolvente lineal de $S$" son equivalentes
 
-### Ejemplos
+> y **MUY IMPORTANTE!**, nos acabamos de dar cuenta que el envolvente lineal de una base $S$ es equivalente al espacio $V$
+
+#### Ejemplos
 
 **Ejemplo 1 — $S$ sí es base.**
 
@@ -391,13 +391,13 @@ $$c_1(1,0) + c_2(0,1) = (0,0)$$
 
 $$(c_1,\ c_2) = (0,0)$$
 
-Entonces $c_1 = 0$ y $c_2 = 0$. La única forma de obtener el vector nulo es con todos los escalares en cero, por lo tanto $S$ es **linealmente independiente**. ✓
+Entonces $c_1 = 0$ y $c_2 = 0$. La única forma de obtener el vector nulo es con todos los escalares en cero, por lo tanto $S$ es **linealmente independiente**
 
 **Genera $V$:** tomamos un elemento genérico $(a, b) \in \mathbb{R}^2$ y mostramos que se puede escribir como combinación lineal de los elementos de $S$:
 
 $$a(1,0) + b(0,1) = (a,\ b)$$
 
-Cualquier elemento de $\mathbb{R}^2$ se expresa así, por lo tanto $S$ **genera $V$**. ✓
+Cualquier elemento de $\mathbb{R}^2$ se expresa así, por lo tanto $S$ **genera $V$**
 
 Las dos condiciones se satisfacen, por lo tanto $S$ es una base de $\mathbb{R}^2$.
 
@@ -419,10 +419,65 @@ Falla la primera condición. $S$ no puede ser base aunque genere $V$.
 
 Sea $V = \mathbb{R}^2$ y $S = \lbrace(1,0)\rbrace$.
 
-$S$ sí es independiente: $c_1(1,0) = (0,0)$ implica $c_1 = 0$. ✓
+$S$ sí es independiente: $c_1(1,0) = (0,0)$ implica $c_1 = 0$
 
-Pero $S$ **no genera $\mathbb{R}^2$**: cualquier combinación lineal de sus elementos produce vectores de la forma $(a, 0)$, que solo cubre la recta horizontal. Un vector como $(0, 1)$ no se puede expresar como combinación lineal de $\lbrace(1,0)\rbrace$. ✗
+Pero $S$ **no genera $\mathbb{R}^2$**: cualquier combinación lineal de sus elementos produce vectores de la forma $(a, 0)$, que solo cubre la recta horizontal. Un vector como $(0, 1)$ no se puede expresar como combinación lineal de $\lbrace(1,0)\rbrace$
 
 Falla la segunda condición. $S$ no puede ser base aunque sea independiente.
 
 ---
+
+Podemos ver que la condición de la independencia lineal nos garantiza un conjunto sin redundancia. Entonces, intiutivamente podríamos pensar la base como el conjunto mas "económico" que genera un espacio lineal $V$
+
+### Número de elementos
+
+En esta sección empezamos a analizar la importancia de la cantidad de elementos y encontramos esta definición y este teorema 
+
+- Si un espacio lineal $V$ tiene una base de n elementos, el entero n se llama dimensión de $V$. Escribimos $n = dim V$
+
+- Sea $V$ un espacio lineal de dimensión finita. Entonces toda base finita de $V$ tiene el mismo número de elementos"
+
+La demostración propone tomar dos bases finitas $S$ y $T$ de $V$
+
+- $S$ tiene $k$ elementos
+- $T$ tiene $m$ elementos
+
+Ambas al ser base son linealmente independientes y generan $V$. Anteriormente vimos que todo conjunto de $k + 1$ elementos de $V$ es dependiente, y ojo aqui podemos decir "de $V$" porque como vimos anteriormente como $S$ es base de $V$ y el envolvente es equivaente $L(S) = V$
+
+Como $T$ es independiente entonces debe ser $m \leq k$. Osea, estamos descartando el caso $m \gt k$
+
+El mismo razonamiento aplica con $S$ y $T$ intercambiadas, y prueba que $k \leq m$. Por lo tanto $k = m$
+
+##### Ejemplo
+
+Sea $V = \mathbb{R}^3$ y consideremos dos bases:
+
+$$S = \{(1,0,0),\ (0,1,0),\ (0,0,1)\}$$
+
+$$T = \{(1,1,0),\ (1,0,1),\ (0,1,1)\}$$
+
+Ambas son bases de $V$, así que ambas son independientes y $L(S) = L(T) = V$.
+
+Ahora apliquemos el razonamiento de la demostración. $S$ tiene $k = 3$ elementos, $T$ tiene $m = 3$ elementos.
+
+**Primera dirección:** como $S$ es base con $k = 3$ elementos, el Teorema 1.5 dice que todo conjunto de 4 o más elementos de $V$ es dependiente. Como $T$ es independiente, debe tener a lo sumo 3 elementos, es decir $m \leq 3$.
+
+**Segunda dirección:** como $T$ es base con $m = 3$ elementos, el mismo argumento dice que todo conjunto de 4 o más elementos de $V$ es dependiente. Como $S$ es independiente, debe tener a lo sumo 3 elementos, es decir $k \leq 3$.
+
+Juntando: $m \leq k$ y $k \leq m$, por lo tanto $k = m = 3$.
+
+Esto confirma que no importa qué base elijamos para $\mathbb{R}^3$, siempre tendrá exactamente 3 elementos. Por eso $\dim \mathbb{R}^3 = 3$.
+
+##### Ejemplo de dimensión
+
+El espacio $V$ tiene dimensión $n$. Una base es el conjunto de los $n$ vectores coordenados unitarios.
+
+##### Finalmente
+
+Sea $V$ un espacio lineal de dimensión finita con $\dim V = n$. Se tiene:
+
+- Cualquier conjunto de elementos independiente de $V$ es un subconjunto de una cierta base para $V$.
+
+- Cualquier conjunto de $n$ elementos independientes es una base para $V$.
+
+
