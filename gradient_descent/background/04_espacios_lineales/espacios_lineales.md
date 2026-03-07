@@ -150,7 +150,7 @@ De hecho esto es bastante útil, porque como vimos anteriormente muchos de los e
 
 **Ejemplo 1 — $S$ sí es subespacio.**
 
-Sea $V = \mathbb{R}^2$ y $S = \{(x, 2x) : x \in \mathbb{R}\}$ — la recta completa $y = 2x$, que pasa por el origen.
+Sea $V = \mathbb{R}^2$ y $S = \lbrace(x, 2x) : x \in \mathbb{R}\rbrace$ — la recta completa $y = 2x$, que pasa por el origen.
 
 Importante: $S$ no es una lista fija de vectores. Es **todos** los vectores de la forma $(x, 2x)$ para cualquier $x \in \mathbb{R}$ — infinitos vectores.
 
@@ -174,7 +174,7 @@ Las tres condiciones se satisfacen, por lo tanto $S$ es un subespacio de $\mathb
 
 **Ejemplo 2 — $S$ no es subespacio.**
 
-Sea $V = \mathbb{R}^2$ y $S = \{(x, 2x + 1) : x \in \mathbb{R}\}$ — la recta $y = 2x + 1$, desplazada, que no pasa por el origen.
+Sea $V = \mathbb{R}^2$ y $S = \lbrace(x, 2x + 1) : x \in \mathbb{R}\rbrace$ — la recta $y = 2x + 1$, desplazada, que no pasa por el origen.
 
 1. $O \in S$: necesitaríamos que $(0, 0)$ tenga la forma $(x, 2x+1)$, pero $2(0) + 1 = 1 \neq 0$. Por lo tanto $O \notin S$. ✗
 
@@ -329,12 +329,12 @@ Sean $u_1(t) = cos^2 t$, $\ u_2(t) = sen^2 t$, $\ u_3(t) = 1$ para todo número 
 
 #### Ejemplo 2:
 
-Sea $u_k(t) = t^k$ para $k = 0, 1, 2, \ldots$, y $t$ real. El conjunto $S = \{u_0, u_1, u_2, \ldots\}$ es independiente. Para demostrar esto, basta demostrar que para cada $n$ los $n + 1$ polinomios $u_0, u_1, \ldots, u_n$ son independientes. Una relación de la forma $\sum c_k u_k = O$ significa que
+Sea $u_k(t) = t^k$ para $k = 0, 1, 2, \ldots$, y $t$ real. El conjunto $S = \lbrace u_0, u_1, u_2, \ldots \rbrace$ es independiente. Para demostrar esto, basta demostrar que para cada $n$ los $n + 1$ polinomios $u_0, u_1, \ldots, u_n$ son independientes. Una relación de la forma $\sum c_k u_k = O$ significa que
 
 $$\sum_{k=0}^{n} c_k t^k = 0$$
 
 para todo real $t$. Cuando $t = 0$, encontramos que $c_0 = 0$. Repitiendo el proceso, encontramos que cada coeficiente $c_k$ es cero.
-El ejemplo quiere demostrar que el conjunto infinito de funciones $S = \{1, t, t^2, t^3, \ldots\}$ es **linealmente independiente**.
+El ejemplo quiere demostrar que el conjunto infinito de funciones $S = \lbrace 1, t, t^2, t^3, \ldots \rbrace$ es **linealmente independiente**.
 
 La estrategia es esta: si tomamos cualquier subconjunto finito de $n+1$ de esas funciones y suponemos que existe una combinación lineal igual a cero, es decir:
 
@@ -383,7 +383,7 @@ Ahora, cuando dice que $S$ genera $V$ podemos hacer un procedimiento como antes,
 
 **Ejemplo 1 — $S$ sí es base.**
 
-Sea $V = \mathbb{R}^2$ y $S = \{(1,0),\ (0,1)\}$.
+Sea $V = \mathbb{R}^2$ y $S = \lbrace (1,0),\ (0,1) \rbrace$.
 
 **Independencia:** suponemos que existe una combinación lineal igual a $O$:
 
@@ -405,7 +405,7 @@ Las dos condiciones se satisfacen, por lo tanto $S$ es una base de $\mathbb{R}^2
 
 **Ejemplo 2 — $S$ no es base porque es dependiente.**
 
-Sea $V = \mathbb{R}^2$ y $S = \{(1,0),\ (0,1),\ (1,1)\}$.
+Sea $V = \mathbb{R}^2$ y $S = \lbrace (1,0),\ (0,1),\ (1,1) \rbrace$.
 
 Este conjunto **no es independiente**: podemos obtener el vector nulo con escalares no todos cero:
 
@@ -417,11 +417,11 @@ Falla la primera condición. $S$ no puede ser base aunque genere $V$.
 
 **Ejemplo 3 — $S$ no es base porque no genera $V$.**
 
-Sea $V = \mathbb{R}^2$ y $S = \{(1,0)\}$.
+Sea $V = \mathbb{R}^2$ y $S = \lbrace(1,0)\rbrace$.
 
 $S$ sí es independiente: $c_1(1,0) = (0,0)$ implica $c_1 = 0$. ✓
 
-Pero $S$ **no genera $\mathbb{R}^2$**: cualquier combinación lineal de sus elementos produce vectores de la forma $(a, 0)$, que solo cubre la recta horizontal. Un vector como $(0, 1)$ no se puede expresar como combinación lineal de $\{(1,0)\}$. ✗
+Pero $S$ **no genera $\mathbb{R}^2$**: cualquier combinación lineal de sus elementos produce vectores de la forma $(a, 0)$, que solo cubre la recta horizontal. Un vector como $(0, 1)$ no se puede expresar como combinación lineal de $\lbrace(1,0)\rbrace$. ✗
 
 Falla la segunda condición. $S$ no puede ser base aunque sea independiente.
 
