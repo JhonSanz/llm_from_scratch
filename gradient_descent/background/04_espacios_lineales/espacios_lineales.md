@@ -563,7 +563,7 @@ Entonces, **establecemos** unas propiedades que queremos que satisfagan los prod
 
 > Es decir, en este punto estamos creando los productos interiores a nuestras necesidades
 
-**DEFINICIÓN.** *Un espacio lineal real $V$ tiene un producto interior si a cada par de elementos $x$ y $y$ de $V$ corresponde un número real único $(x, y)$ que satisface los siguientes axiomas cualesquiera que sean $x$, $y$, $z$ de $V$ y para todos los escalares reales $c$.*
+**DEFINICIÓN.** Un espacio lineal real $V$ tiene un producto interior si a cada par de elementos $x$ y $y$ de $V$ corresponde un número real único $(x, y)$ que satisface los siguientes axiomas cualesquiera que sean $x$, $y$, $z$ de $V$ y para todos los escalares reales $c$.
 
 1. $(x, y) = (y, x)$ *(conmutatividad, o simetría).*
 2. $(x, y + z) = (x, y) + (x, z)$ *(distributividad, o linealidad).*
