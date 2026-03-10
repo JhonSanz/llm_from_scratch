@@ -544,3 +544,31 @@ Resolviendo: $c_1 = 0$, $c_2 = 1$, $c_3 = 2$.
 | $S = \{(1,1,0), (1,0,1), (0,1,1)\}$ | $(0, 1, 2)$ |
 
 **El vector $x$ no cambió.** Lo que cambió es el "idioma" con el que lo describimos. Elegir la base adecuada puede transformar un problema difícil en uno fácil, supongo que lo veremos en ejemplos mas adelante, por ahora sabemos que esto existe y que funciona
+
+## Productos interiores, espacios euclídeos, Normas
+
+En la Geometría euclídea ordinaria, aquellas propiedades que cuentan con la posibilidad de **medir longitudes de segmentos rectilíneos y ángulos formados por rectas** se llaman propiedades métricas.
+
+En nuestro estudio de $V_n$, definimos las longitudes y los ángulos en función del producto escalar. Resultados que salieron de aplicar el teorema de pitágoras para la norma, y la proyección de vectores para los ángulos.
+
+Queremos ahora extender esas ideas a espacios lineales más generales. Primero introduciremos una generalización del producto escalar, que llamaremos producto interior, y luego definiremos la longitud y el Angulo en función de este producto interior
+
+Anteriormente, para vectores definimos el producto escalar así
+
+$$x \cdot y = \sum_{i=1}^{n} x_i y_i$$
+
+En un espacio lineal general escribimos $(x,y)$ en lugar de $x \cdot y$ para los productos interiores y **definimos el producto axiomáticamente** y no mediante una fórmula
+
+Entonces, **establecemos** unas propiedades que queremos que satisfagan los productos interiores y los tomamos como **axiomas**
+
+> Es decir, en este punto estamos creando los productos interiores a nuestras necesidades
+
+**DEFINICIÓN.** *Un espacio lineal real $V$ tiene un producto interior si a cada par de elementos $x$ y $y$ de $V$ corresponde un número real único $(x, y)$ que satisface los siguientes axiomas cualesquiera que sean $x$, $y$, $z$ de $V$ y para todos los escalares reales $c$.*
+
+1. $(x, y) = (y, x)$ *(conmutatividad, o simetría).*
+2. $(x, y + z) = (x, y) + (x, z)$ *(distributividad, o linealidad).*
+3. $c(x, y) = (cx, y)$ *(asociatividad, u homogeneidad).*
+4. $(x, x) > 0$ si $x \neq 0$ *(positividad).*
+
+Un espacio lineal con un producto interior se llama *espacio real euclídeo*.
+
