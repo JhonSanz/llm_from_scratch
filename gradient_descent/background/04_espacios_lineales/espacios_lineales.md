@@ -567,8 +567,42 @@ Entonces, **establecemos** unas propiedades que queremos que satisfagan los prod
 
 1. $(x, y) = (y, x)$ *(conmutatividad, o simetría).*
 2. $(x, y + z) = (x, y) + (x, z)$ *(distributividad, o linealidad).*
-3. $c(x, y) = (cx, y)$ *(asociatividad, u homogeneidad).*
+3. $c(x, y) = (cx, y)$ *(asociatividad, u homogeneidad).* si $c = 0$ entonces $(O, y) = 0$
 4. $(x, x) > 0$ si $x \neq 0$ *(positividad).*
 
-Un espacio lineal con un producto interior se llama *espacio real euclídeo*.
+Un espacio lineal con un producto interior se llama *espacio real euclídeo*. Nos interesan en este momento principalmnente los espacios euclídeos reales, pero todo esto aplica también para complejos.
 
+#### Ejemplos
+
+Dados $x = (x_1, x_2)$ y $y = (y_1, y_2)$ dos vectores de $V_2$ definimos $(x,y)$ mediante:
+
+$$(x,y) = 2x_1​y_1 ​+ x_1​y_2 ​+ x_2​y_1 ​+ x_2​y_2​$$
+
+Entonces hay que comprobar que los axiomas se cumplen
+
+1. el primer axioma cumple ya que es igual calcularlo así $(y,x)=2y1​x1​+y1​x2​+y2​x1​+y2​x2​$
+2. Si introducimos otro vector $z  = (z_1, z_2)$
+
+    Los vectores se suman componente a componente entonces $y + z = (y_1 + z_1, y_2 + z_2)$ entonces reemplazamos
+
+    $(x, y + z) = (x, (y_1 + z_1, y_2 + z_2)) = 2x_1(​y_1 + z_1) ​+ x_1(​y_2 + z_2) ​+ x_2(​y_1 + z_1) ​+ x_2(​y_2 + z_2)​$
+
+    y probamos 
+
+    $(x,y) + (x,z) = 2x_1​y_1 ​+ x_1​y_2 ​+ x_2​y_1 ​+ x_2​y_2 + 2x_1z_1 ​+ x_1z_2 ​+ x_2z_1 ​+ x_2z_2$
+    
+    $(x,y) + (x,z) = 2x_1(​y_1 + z_1) ​+ x_1(​y_2 + z_2) ​+ x_2(​y_1 + z_1) ​+ x_2(​y_2 + z_2)​$
+
+3. $c(x,y) = c(2x_1​y_1 ​+ x_1​y_2 ​+ x_2​y_1 ​+ x_2​y_2)​ = c2x_1​y_1 ​+ cx_1​y_2 ​+ cx_2​y_1 ​+ cx_2​y_2$
+
+    y la forma alternativa
+
+    $(cx,y) = 2cx_1​y_1 ​+ cx_1​y_2 ​+ cx_2​y_1 ​+ cx_2​y_2$
+
+4. $(x,x) = 2x_1​x_1 ​+ x_1​x_2 ​+ x_2​x_1 ​+ x_2​x_2​$
+    
+    $(x,x) = 2x_1^2 ​+ 2x_1​x_2 ​​+ ​x_2​^2$
+
+    $x_1^2​ + (x_1^2 ​+ 2x_1​x_2 ​​+ ​x_2​^2​)$ completamos el cuadrado
+
+    $x_1^2 ​+ (x_1 ​+ x_2​)^2$ esto es una suma de cuadrados y los cuadrados son siempre positivos
