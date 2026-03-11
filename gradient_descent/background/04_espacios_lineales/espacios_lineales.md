@@ -606,3 +606,15 @@ Entonces hay que comprobar que los axiomas se cumplen
     $x_1^2​ + (x_1^2 ​+ 2x_1​x_2 ​​+ ​x_2​^2​)$ completamos el cuadrado
 
     $x_1^2 ​+ (x_1 ​+ x_2​)^2$ esto es una suma de cuadrados y los cuadrados son siempre positivos
+
+---
+
+Sea $C(a, b)$ el espacio lineal de todas las funciones reales continuas en un intervalo $[a, b]$. Definimos un producto interior de dos funciones $f$ y $g$ con la fórmula
+
+$$
+(f, g) = \int_a^b f(t)\,g(t)\,dt.
+$$
+
+Esta fórmula es análoga a la ecuación (1.6), que define el producto escalar de dos vectores en $V_n$. Los valores de las funciones $f(t)$ y $g(t)$ desempeñan el papel de los componentes $x_i$ e $y_i$, y la integración el de la suma.
+
+Como estamos hablando de funciones reales $f(t)$ y $g(t)$ retornan un único valor, y como ambas son continuas entonces son integrables. Osea, esto actúa similar a un vector: a cada valor de $t$ se le asigna un $f(t)$  y $g(t)$ en el continuo $[a,b]$ y al final todo se suma
