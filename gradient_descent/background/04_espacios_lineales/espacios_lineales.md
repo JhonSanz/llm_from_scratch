@@ -618,3 +618,43 @@ $$
 Esta fórmula es análoga a la ecuación (1.6), que define el producto escalar de dos vectores en $V_n$. Los valores de las funciones $f(t)$ y $g(t)$ desempeñan el papel de los componentes $x_i$ e $y_i$, y la integración el de la suma.
 
 Como estamos hablando de funciones reales $f(t)$ y $g(t)$ retornan un único valor, y como ambas son continuas entonces son integrables. Osea, esto actúa similar a un vector: a cada valor de $t$ se le asigna un $f(t)$  y $g(t)$ en el continuo $[a,b]$ y al final todo se suma
+
+---
+
+**TEOREMA 1.8.** *En un espacio euclídeo $V$, todo producto interior satisface la desigualdad de Cauchy-Schwarz:*
+
+$$|(x, y)|^2 \leq (x, x)(y, y) \quad \text{para todo } x \text{ y todo } y \text{ en } V.$$
+
+*Además, el signo de igualdad es válido si y sólo si $x$ e $y$ son dependientes.*
+
+
+## La Norma
+
+En anteriores capítulos sobre vectores vimos como la norma se definía con el teorema de pitágoras y nos daba la longitud del vector. En este caso vamos a generalizar el concepto, recordando que en este caso la notación $(x,y)$ es el producto interior en general
+
+En un espacio euclídeo $V$, el número no negativo $\lVert x \rVert$ definido por la ecuación
+
+$$\lVert x \rVert = (x,x)^{1/2}$$
+
+se denomina la norma de $x$. Podemos expresar la desigualdad de Cauchy-Schwarz como Normas así:
+
+$$|(x, y)| \leq \lVert x \rVert \lVert y \rVert \quad $$
+
+El texto menciona acertadamente que es posible elegir diferentes diferentes productos interiores para la norma, ya que como vimos anteriormente desde que el producto interior cumpla los axiomas este es válido. El ejemplo es que tenemos una vara y su longitud física es la misma, pero podemos medirla en diferentes unidades (metros, centimetros, pulgadas etc) lo cual nos lleva a diferentes valores numéricos pero la vara sigue siendo la misma. Lo mismo pasa aquí, y el autor acontinuación menciona como la norma no depende de la elección del producto interior:
+
+
+En un espacio euclídeo, toda norma tiene las propiedades siguientes para todos los elementos $x$ e $y$, y todos los escalares $c$:
+
+1. $\|x\| = 0$ si $x = O$.
+2. $\|x\| > 0$ si $x \neq O$ (positividad).
+3. $\|cx\| = |c| \, \|x\|$ (homogeneidad).
+4. $\|x + y\| \leq \|x\| + \|y\|$ (desigualdad triangular).
+
+El signo de igualdad es válido en la desigualdad triangular si y sólo si $x$ e $y$ son dependientes.
+
+En un espacio euclídeo real $V$, el ángulo formado por dos elementos no nulos $x$ e $y$ se define como el número $\theta$ del intervalo $0 \leq \theta \leq \pi$ que satisface la ecuación
+
+$$\cos \theta = \frac{(x, y)}{\|x\| \, \|y\|}$$
+
+## Ortogonalidad de un espacio Euclídeo
+
