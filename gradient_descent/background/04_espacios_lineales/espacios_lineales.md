@@ -645,16 +645,38 @@ El texto menciona acertadamente que es posible elegir diferentes diferentes prod
 
 En un espacio euclídeo, toda norma tiene las propiedades siguientes para todos los elementos $x$ e $y$, y todos los escalares $c$:
 
-1. $\|x\| = 0$ si $x = O$.
-2. $\|x\| > 0$ si $x \neq O$ (positividad).
-3. $\|cx\| = |c| \, \|x\|$ (homogeneidad).
-4. $\|x + y\| \leq \|x\| + \|y\|$ (desigualdad triangular).
+1. $\lVert x \rVert  = 0$ si $x = O$.
+2. $\lVert x \rVert  > 0$ si $x \neq O$ (positividad).
+3. $\lVert cx \rVert  = |c| \, \lVert x \rVert $ (homogeneidad).
+4. $\lVert x + y \rVert  \leq \lVert x \rVert  + \lVert y \rVert $ (desigualdad triangular).
 
 El signo de igualdad es válido en la desigualdad triangular si y sólo si $x$ e $y$ son dependientes.
 
 En un espacio euclídeo real $V$, el ángulo formado por dos elementos no nulos $x$ e $y$ se define como el número $\theta$ del intervalo $0 \leq \theta \leq \pi$ que satisface la ecuación
 
-$$\cos \theta = \frac{(x, y)}{\|x\| \, \|y\|}$$
+$$\cos \theta = \frac{(x, y)}{\lVert x \rVert \, \lVert y \rVert}$$
 
 ## Ortogonalidad de un espacio Euclídeo
 
+Recordando el resultado que obtivimos de la desigualdad triangular en el capítulo de álgebra vectorial, encontramos una propiedad muy importante del producto punto, donde este era cero cuando los vectores eran perpendiculares
+
+En esta ocasión ya sabemos que el producto punto es un producto interior, y para generalizar introducimos la ortogonalidad en los espacios euclídeos
+
+"En un espacio euclídeo $V$, dos elementos $x$ y $y$ se llaman ortogonales si su producto interior es cero. 
+
+Un subconjunto S de $V$ es un conjunto ortogonal si $(x, y) = O$ para todo par de elementos distintos $x$ y $y$ de $S$. Un conjunto ortogonal se llama ortonormal si cada uno de sus elementos tiene norma $1$. 
+
+El elemento cero es ortogonal a todo elemento de $V$; es el único elemento ortogonal a sí mismo.
+"
+
+Ahora analicemos el siguiente teorema:
+
+En un espacio euclídeo $V$, todo conjunto ortogonal de elementos no nulos es independiente.
+
+> Es decir, en un subconjunto $S$ de un espacio lineal $V$ con producto interior todos los elementos $x$ y $y$ son ortogonales entre si, osea que es mas o menos intuitivo pensar que al ser ortogonales no son dependientes unos de otros
+
+En particular, en un espacio euclídeo de dimensión finita con $dimV = n$, todo conjunto ortogonal que conste de n elementos no nulos es una base para $V$.
+
+> Esto basados en el teorema que vimos anteriormente, donde Cualquier conjunto de $n$ elementos independientes es una base para $V$ siendo $V$ un espacio lineal de dimensión finita
+
+Ambas cosas tienen demostración pero se basa en lo que acabamos de comentar
