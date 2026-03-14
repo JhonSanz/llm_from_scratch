@@ -348,7 +348,7 @@ $$c_0 + c_1(0) + c_2(0)^2 + \cdots = 0 \implies c_0 = 0$$
 
 Ahora sabemos que la ecuación se reduce a $c_1 t + c_2 t^2 + \cdots + c_n t^n = 0$, que podemos factorizar como $t(c_1 + c_2 t + \cdots + c_n t^{n-1}) = 0$ para todo $t$.
 
-El texto dice "repitiendo el proceso", que se puede interpretar de varias formas equivalentes. La más directa: derivamos la ecuación original y evaluamos en $t=0$ otra vez. La derivada nos da $c_1 + 2c_2 t + 3c_3 t^2 + \cdots = 0$, y al poner $t=0$ obtenemos $c_1 = 0$. Derivando de nuevo y evaluando en $t=0$, obtenemos $2c_2 = 0$, así que $c_2 = 0$. En general, la $k$-ésima derivada evaluada en cero da $k!\, c_k = 0$, lo que fuerza $c_k = 0$.
+El texto dice "repitiendo el proceso", que se puede interpretar de varias formas equivalentes. La más directa: derivamos la ecuación original y evaluamos en $t=0$ otra vez. La derivada nos da $c_1 + 2c_2 t + 3c_3 t^2 + \cdots = 0$, y al poner $t=0$ obtenemos $c_1 = 0$. Derivando de nuevo y evaluando en $t=0$, obtenemos $2c_2 = 0$, así que $c_2 = 0$. En general, la $k$-ésima derivada evaluada en cero da $k!\, c_k = 0$, lo que fuerza $c_k = 0$. Eso recuerda mucho al proceso de los polinomios de Taylor
 
 La conclusión es que la única forma de que un polinomio sea idénticamente cero (para **todo** $t$) es que todos sus coeficientes sean cero. Eso es exactamente la definición de independencia lineal.
 
@@ -685,3 +685,35 @@ Ambas cosas tienen demostración pero se basa en lo que acabamos de comentar
 
 ![alt text](img/ejemplo_ort_2.png)
 
+## Componentes de la base ortogonal / ortonormal
+
+El siguiente resultado es algo similar a lo que encontramos en el texto de álgebra vectorial con las proyecciones entre vectores. De igual manera lo conversamos superficialmente en ese mismo episodio en la sección de independencia lineal
+
+
+Sea $V$ un espacio euclídeo de dimensión finita $n$, y supongamos que $S = {e_1, \dots , e_N}$ es una base ortogonal para $V$. Si un elemento $x$ está
+expresado como una combinación lineal de los elementos de la base, sea ésta
+
+$$x = \sum_{i = 1}^{k} c_ie_i$$
+
+
+entonces sus componentes relativos a la base ordenada $(e_1, \dots , e_n)$ vienen dados por las fórmulas, al hacer el producto interior con $e_j$ en ambos miembros y despejando
+
+
+$$(x,ej​)=(\sum_{i = 1}^{k} c_ie_i​,ej​)$$
+
+$$(x,ej​)= \sum_{i = 1}^{k} c_i(e_i​,ej​)$$
+
+como la base es ortogonal, $(e_i,e_j)=0$ siempre que $i \neq j$. Entonces de todos los $n$ términos de la sumatoria, solo sobrevive el término donde $i = j$. Todos los demás son cero
+
+$$(x,e_j​)=c_j​(e_j​,e_j​)$$
+
+$$c_j = \frac{x \cdot e_j}{(e_j \cdot e_j)} \ \text{ para } j = 1,2, \dots , n$$
+
+En particular, si $S$ es una base ortonormal, cada $e_j$ viene dada por
+
+
+$$c_j = (x \cdot e_j)$$
+
+ya que $(e_j​, e_j​) = 1$ ya que su norma es 1. Y finalmente, si sustitumos en la primera expresión podemos obtener
+
+$$x = \sum_{i = 1}^{k}​(x,e_i​)e_i​$$
