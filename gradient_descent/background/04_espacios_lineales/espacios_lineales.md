@@ -680,3 +680,8 @@ En particular, en un espacio euclídeo de dimensión finita con $dimV = n$, todo
 > Esto basados en el teorema que vimos anteriormente, donde Cualquier conjunto de $n$ elementos independientes es una base para $V$ siendo $V$ un espacio lineal de dimensión finita
 
 Ambas cosas tienen demostración pero se basa en lo que acabamos de comentar
+
+![alt text](img/ejemplo_ort.png)
+
+![alt text](img/ejemplo_ort_2.png)
+
