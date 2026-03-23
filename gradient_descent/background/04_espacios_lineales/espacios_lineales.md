@@ -576,36 +576,36 @@ Un espacio lineal con un producto interior se llama *espacio real euclídeo*. No
 
 Dados $x = (x_1, x_2)$ y $y = (y_1, y_2)$ dos vectores de $V_2$ definimos $(x,y)$ mediante:
 
-$$(x,y) = 2x_1​y_1 ​+ x_1​y_2 ​+ x_2​y_1 ​+ x_2​y_2​$$
+$$(x,y) = 2x_1y_1 + x_1y_2 + x_2y_1 + x_2y_2$$
 
 Entonces hay que comprobar que los axiomas se cumplen
 
-1. el primer axioma cumple ya que es igual calcularlo así $(y,x)=2y1​x1​+y1​x2​+y2​x1​+y2​x2​$
+1. el primer axioma cumple ya que es igual calcularlo así $(y,x)=2y_1x_1 + y_1x_2 + y_2x_1 + y_2x_2$
 2. Si introducimos otro vector $z  = (z_1, z_2)$
 
     Los vectores se suman componente a componente entonces $y + z = (y_1 + z_1, y_2 + z_2)$ entonces reemplazamos
 
-    $(x, y + z) = (x, (y_1 + z_1, y_2 + z_2)) = 2x_1(​y_1 + z_1) ​+ x_1(​y_2 + z_2) ​+ x_2(​y_1 + z_1) ​+ x_2(​y_2 + z_2)​$
+    $(x, y + z) = (x, (y_1 + z_1, y_2 + z_2)) = 2x_1(y_1 + z_1) + x_1(y_2 + z_2) + x_2(y_1 + z_1) + x_2(y_2 + z_2)$
 
     y probamos 
 
-    $(x,y) + (x,z) = 2x_1​y_1 ​+ x_1​y_2 ​+ x_2​y_1 ​+ x_2​y_2 + 2x_1z_1 ​+ x_1z_2 ​+ x_2z_1 ​+ x_2z_2$
+    $(x,y) + (x,z) = 2x_1y_1 + x_1y_2 + x_2y_1 + x_2y_2 + 2x_1z_1 + x_1z_2 + x_2z_1 + x_2z_2$
     
-    $(x,y) + (x,z) = 2x_1(​y_1 + z_1) ​+ x_1(​y_2 + z_2) ​+ x_2(​y_1 + z_1) ​+ x_2(​y_2 + z_2)​$
+    $(x,y) + (x,z) = 2x_1(y_1 + z_1) + x_1(y_2 + z_2) + x_2(y_1 + z_1) + x_2(y_2 + z_2)$
 
-3. $c(x,y) = c(2x_1​y_1 ​+ x_1​y_2 ​+ x_2​y_1 ​+ x_2​y_2)​ = c2x_1​y_1 ​+ cx_1​y_2 ​+ cx_2​y_1 ​+ cx_2​y_2$
+3. $c(x,y) = c(2x_1y_1 + x_1y_2 + x_2y_1 + x_2y_2) = c2x_1y_1 + cx_1y_2 + cx_2y_1 + cx_2y_2$
 
     y la forma alternativa
 
-    $(cx,y) = 2cx_1​y_1 ​+ cx_1​y_2 ​+ cx_2​y_1 ​+ cx_2​y_2$
+    $(cx,y) = 2cx_1y_1 + cx_1y_2 + cx_2y_1 + cx_2y_2$
 
-4. $(x,x) = 2x_1​x_1 ​+ x_1​x_2 ​+ x_2​x_1 ​+ x_2​x_2​$
+4. $(x,x) = 2x_1x_1 + x_1x_2 + x_2x_1 + x_2x_2$
     
-    $(x,x) = 2x_1^2 ​+ 2x_1​x_2 ​​+ ​x_2​^2$
+    $(x,x) = 2x_1^2 + 2x_1x_2 + x_2^2$
 
-    $x_1^2​ + (x_1^2 ​+ 2x_1​x_2 ​​+ ​x_2​^2​)$ completamos el cuadrado
+    $x_1^2 + (x_1^2 + 2x_1x_2 + x_2^2)$ completamos el cuadrado
 
-    $x_1^2 ​+ (x_1 ​+ x_2​)^2$ esto es una suma de cuadrados y los cuadrados son siempre positivos
+    $x_1^2 + (x_1 + x_2)^2$ esto es una suma de cuadrados y los cuadrados son siempre positivos
 
 ---
 
@@ -699,13 +699,13 @@ $$x = \sum_{i = 1}^{k} c_ie_i$$
 entonces sus componentes relativos a la base ordenada $(e_1, \dots , e_n)$ vienen dados por las fórmulas, al hacer el producto interior con $e_j$ en ambos miembros y despejando
 
 
-$$(x,ej​)=(\sum_{i = 1}^{k} c_ie_i​,ej​)$$
+$$(x,ej)=(\sum_{i = 1}^{k} c_ie_i,ej)$$
 
-$$(x,ej​)= \sum_{i = 1}^{k} c_i(e_i​,ej​)$$
+$$(x,ej)= \sum_{i = 1}^{k} c_i(e_i,ej)$$
 
 como la base es ortogonal, $(e_i,e_j)=0$ siempre que $i \neq j$. Entonces de todos los $n$ términos de la sumatoria, solo sobrevive el término donde $i = j$. Todos los demás son cero
 
-$$(x,e_j​)=c_j​(e_j​,e_j​)$$
+$$(x,e_j)=c_j(e_j,e_j)$$
 
 $$c_j = \frac{x \cdot e_j}{(e_j \cdot e_j)} \ \text{ para } j = 1,2, \dots , n$$
 
@@ -714,6 +714,6 @@ En particular, si $S$ es una base ortonormal, cada $e_j$ viene dada por
 
 $$c_j = (x \cdot e_j)$$
 
-ya que $(e_j​, e_j​) = 1$ ya que su norma es 1. Y finalmente, si sustitumos en la primera expresión podemos obtener
+ya que $(e_j, e_j) = 1$ ya que su norma es 1. Y finalmente, si sustitumos en la primera expresión podemos obtener
 
-$$x = \sum_{i = 1}^{k}​(x,e_i​)e_i​$$
+$$x = \sum_{i = 1}^{k}(x,e_i)e_i$$
