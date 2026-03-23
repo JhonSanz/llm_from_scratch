@@ -375,7 +375,7 @@ El espacio $V$ es de dimensión finita si tiene una base finita. De otro modo, $
 Este es el momento para aclarar algunas cosas importantes.
 El enunciado de forma implicita nos dice que $S$ es un subconjunto de $V$, y es base cuando $S$ es linealmente independiente y genera $V$
 
-Ahora, cuando dice que $S$ genera o engendra $V$ podemos hacer un procedimiento como antes, tomamos un elemento genérico $x$ de $V$, y mostrar que se puede expresar como combinación lineal de los elementos de $S$. Al tomar $x$ como un elemento arbitrario de $V$, sin asumir nada particular sobre él, cualquier cosa que demostremos vale para todos los elementos de $V$. Es decir **"engendra" o "genera" implicitamente nos está hablando del envolvente lineal**, osea, son dos formas de decir lo mismo: "$S$ engendra $V$" y "$V$ es la envolvente lineal de $S$" son equivalentes
+Ahora, cuando dice que $S$ genera o engendra $V$ podemos hacer un procedimiento como antes, tomamos un elemento genérico $x$ de $V$, y mostrar que se puede expresar como combinación lineal de los elementos de $S$. Al tomar $x$ como un elemento arbitrario de $V$, sin asumir nada particular sobre él, cualquier cosa que demostremos vale para todos los elementos de $V$. Es decir **"engendra" o "genera" implicitamente nos está hablando del envolvente lineal**, osea, son dos formas de decir lo mismo: $S$ engendra $V$ y $V$ es la envolvente lineal de $S$ son equivalentes
 
 > y **MUY IMPORTANTE!**, nos acabamos de dar cuenta que el envolvente lineal de una base $S$ es equivalente al espacio $V$
 
