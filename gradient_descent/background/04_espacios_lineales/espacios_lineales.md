@@ -442,7 +442,7 @@ La demostración propone tomar dos bases finitas $S$ y $T$ de $V$
 - $S$ tiene $k$ elementos
 - $T$ tiene $m$ elementos
 
-Ambas al ser base son linealmente independientes y generan $V$. Anteriormente vimos que todo conjunto de $k + 1$ elementos de $V$ es dependiente, y ojo aqui podemos decir "de $V$" porque como vimos anteriormente como $S$ es base de $V$ y el envolvente es equivaente $L(S) = V$
+Ambas al ser base son linealmente independientes y generan $V$. Anteriormente vimos que todo conjunto de $k + 1$ elementos de $V$ es dependiente, y ojo aqui podemos decir "de $V$" porque como vimos anteriormente como $S$ es base de $V$ y el envolvente es equivalente $L(S) = V$
 
 Como $T$ es independiente entonces debe ser $m \leq k$. Osea, estamos descartando el caso $m \gt k$
 
