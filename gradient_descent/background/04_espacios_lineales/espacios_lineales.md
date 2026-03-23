@@ -452,9 +452,9 @@ El mismo razonamiento aplica con $S$ y $T$ intercambiadas, y prueba que $k \leq 
 
 Sea $V = \mathbb{R}^3$ y consideremos dos bases:
 
-$$S = \{(1,0,0),\ (0,1,0),\ (0,0,1)\}$$
+$$S = \lbrace (1,0,0), (0,1,0), (0,0,1) \rbrace$$
 
-$$T = \{(1,1,0),\ (1,0,1),\ (0,1,1)\}$$
+$$T = \lbrace (1,1,0), (1,0,1), (0,1,1) \rbrace$$
 
 Ambas son bases de $V$, así que ambas son independientes y $L(S) = L(T) = V$.
 
@@ -512,7 +512,7 @@ Una vez fijada la base, lo único que varía de un vector a otro es la $n$-pla d
 
 ##### Ejemplo: la base canónica de $\mathbb{R}^3$
 
-Con la base canónica $\{(1,0,0),\, (0,1,0),\, (0,0,1)\}$, el vector $x = (1,2,3)$ se escribe:
+Con la base canónica $\lbrace (1,0,0), (0,1,0), (0,0,1) \rbrace$, el vector $x = (1,2,3)$ se escribe:
 
 $$1(1,0,0) + 2(0,1,0) + 3(0,0,1) = (1,2,3)$$
 
@@ -520,7 +520,7 @@ Los escalares $(1, 2, 3)$ **coinciden** con las entradas del vector. Por eso nun
 
 ##### Ejemplo: cambio de base en $\mathbb{R}^3$
 
-Consideremos la base $S = \{(1,1,0),\, (1,0,1),\, (0,1,1)\}$ de $\mathbb{R}^3$.
+Consideremos la base $S = \lbrace(1,1,0), (1,0,1), (0,1,1) \rbrace$ de $\mathbb{R}^3$.
 
 Para el **mismo** vector $x = (1, 2, 3)$, buscamos escalares $c_1, c_2, c_3$ tales que:
 
@@ -540,8 +540,8 @@ Resolviendo: $c_1 = 0$, $c_2 = 1$, $c_3 = 2$.
 
 | Base | Componentes de $x = (1,2,3)$ |
 |---|---|
-| Canónica: $\{(1,0,0), (0,1,0), (0,0,1)\}$ | $(1, 2, 3)$ |
-| $S = \{(1,1,0), (1,0,1), (0,1,1)\}$ | $(0, 1, 2)$ |
+| Canónica: $\lbrace (1,0,0), (0,1,0), (0,0,1) \rbrace$ | $(1, 2, 3)$ |
+| $S = \lbrace (1,1,0), (1,0,1), (0,1,1) \rbrace$ | $(0, 1, 2)$ |
 
 **El vector $x$ no cambió.** Lo que cambió es el "idioma" con el que lo describimos. Elegir la base adecuada puede transformar un problema difícil en uno fácil, supongo que lo veremos en ejemplos mas adelante, por ahora sabemos que esto existe y que funciona
 
