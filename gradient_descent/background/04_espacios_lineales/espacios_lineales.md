@@ -621,11 +621,11 @@ Como estamos hablando de funciones reales $f(t)$ y $g(t)$ retornan un único val
 
 ---
 
-**TEOREMA 1.8.** *En un espacio euclídeo $V$, todo producto interior satisface la desigualdad de Cauchy-Schwarz:*
+**TEOREMA 1.8.** En un espacio euclídeo $V$, todo producto interior satisface la desigualdad de Cauchy-Schwarz:
 
 $$|(x, y)|^2 \leq (x, x)(y, y) \quad \text{para todo } x \text{ y todo } y \text{ en } V.$$
 
-*Además, el signo de igualdad es válido si y sólo si $x$ e $y$ son dependientes.*
+Además, el signo de igualdad es válido si y sólo si $x$ e $y$ son dependientes.
 
 
 ## La Norma
@@ -647,8 +647,8 @@ En un espacio euclídeo, toda norma tiene las propiedades siguientes para todos 
 
 1. $\lVert x \rVert  = 0$ si $x = O$.
 2. $\lVert x \rVert  > 0$ si $x \neq O$ (positividad).
-3. $\lVert cx \rVert  = |c| \, \lVert x \rVert $ (homogeneidad).
-4. $\lVert x + y \rVert  \leq \lVert x \rVert  + \lVert y \rVert $ (desigualdad triangular).
+3. $\lVert cx \rVert  = |c| \, \lVert x \rVert$ (homogeneidad).
+4. $\lVert x + y \rVert  \leq \lVert x \rVert  + \lVert y \rVert$ (desigualdad triangular).
 
 El signo de igualdad es válido en la desigualdad triangular si y sólo si $x$ e $y$ son dependientes.
 
