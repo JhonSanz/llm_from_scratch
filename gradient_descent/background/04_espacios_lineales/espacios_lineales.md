@@ -849,3 +849,15 @@ $$\|y_2\| = \sqrt{\frac{1}{4} + \frac{1}{4} + 1} = \sqrt{\frac{3}{2}} = \frac{\s
 $$\|y_3\| = \sqrt{\frac{4}{9} + \frac{4}{9} + \frac{4}{9}} = \sqrt{\frac{12}{9}} = \frac{2\sqrt{3}}{3} \quad \Rightarrow \quad e_3 = \frac{3}{2\sqrt{3}}\left(-\frac{2}{3},\ \frac{2}{3},\ \frac{2}{3}\right) = \frac{1}{\sqrt{3}}(-1, 1, 1)$$
 
 Con esta base ortonormal, los componentes de cualquier vector $x$ se calculan simplemente como $c_j = (x, e_j)$.
+
+## Complementos ortogonales y Proyecciones
+
+Sean $V$ un espacio euclídeo y $S$ un subespacio de dimensión finita. El problema de aproximación consiste en: dado un elemento $x$ de $V$, encontrar el elemento de $S$ cuya distancia a $x$ sea lo más pequeña posible, donde la distancia entre dos elementos se define como la norma $\|x - y\|$.
+
+Si $x \in S$, la solución es trivialmente $s = x$. Si $x \notin S$, el punto más próximo $s$ se obtiene trazando una perpendicular desde $x$ al subespacio $S$. Es decir, la diferencia $x - s$ resulta ser ortogonal a $S$.
+
+Esto motiva la siguiente definición:
+
+**Definición.** Sea $S$ un subconjunto de un espacio euclídeo $V$. Un elemento de $V$ es **ortogonal a $S$** si es ortogonal a todo elemento de $S$. El conjunto de todos los elementos ortogonales a $S$ se designa con $S^\perp$ y se llama el **complemento ortogonal** de $S$ (o «perpendicular a $S$»).
+
+> Este tema se desarrollará con más detalle en una sección posterior. Por ahora basta con saber que la idea de proyectar perpendicularmente sobre un subespacio — que ya usamos implícitamente en Gram-Schmidt al restar las componentes a lo largo de cada $y_i$ — se formaliza aquí como un problema de aproximación óptima.
