@@ -717,3 +717,54 @@ $$c_j = (x \cdot e_j)$$
 ya que $(e_j, e_j) = 1$ ya que su norma es 1. Y finalmente, si sustitumos en la primera expresión podemos obtener
 
 $$x = \sum_{i = 1}^{k}(x,e_i)e_i$$
+
+## Construcción de conjuntos ortogonales: Método de Gram-Schmidt
+
+![alt text](img/teorema_ortogonalizacion.png)
+
+Una primera cosa importante es que la notación aquí nos dice muchas cosas. Anteriormente definíamos un conjunto $S = \lbrace x_1, x_2, \ldots, x_k \rbrace$ y luego la envolvente lineal $L(S)$. Sin embargo aqui es diferente, en este contexto el conjunto es variable y se toman elementos iterativamente, es decir
+
+- Para construir $y_1​$: nos interesa $L(x_1)$
+- Para construir $y_2​$: nos interesa $L(x_1, x_2)$
+- Para construir $y_3​$: nos interesa $L(x_1, x_2, x_3)$
+
+
+El teorema en palabras mas simples, tenemos una sucesión de vectores $x_1, x_2, \ldots$ en un espacio euclídeo $V$. El teorema garantiza que podemos construir otra sucesión $y_1, y_2, \ldots$ que cumple tres cosas simultáneamente:
+
+a. **Ortogonalidad progresiva:** Cada nuevo vector $y_k$​ es ortogonal a todos los anteriores $y_1, \ldots, y_{k-1}$​
+
+b. **Mismo subespacio generado:**. En cada paso $k$, los vectores $y_1, \ldots, y_k$​ generan exactamente el mismo subespacio que $x_1, \ldots, x_k$​. Es decir, no se está "perdiendo" ni "ganando" información al pasar de los $x$ a los $y$. Geométricamente, el "plano" (o hiperplano) que cubren es el mismo.
+
+c. **Unicidad salvo escalares:** La sucesión ortogonal es esencialmente única. Si encontramos otra sucesión $y_1', y_2', \ldots$ que también cumple a. y b., entonces cada $y_k'$​ es simplemente un múltiplo escalar de $y_k$​. Esto tiene sentido porque la "dirección ortogonal" al subespacio anterior es única — lo único que podemos elegir es la longitud y el signo del vector.
+
+La demostración al mismo tiempo nos explica el proceso
+
+Debemos construir los elementos $y_1, y_2, \dots$ y lo hacmeos por inducción. Entonces para iniciar el proceso tomamos el caso base 
+
+$$y_1 = x_1$$
+
+Ahora suponemos que ya tenemos $y_1, \dots, y_r$, osea cuando $k = r$, y en nuestro supuesto ya se satisfacen las condiciones a y b del teorema. Y para calcular el elemento $y_{r+1}$ usamos la siguiente expresión
+
+$$y_{r+1} = x_{r+1} - \sum_{i=1}^{r} a_iy_i$$
+
+donde los escalares tienen que determinarse. Aqui esto no nos dice mucho, tengamos paciencia. A continuación el autor propone aplicar el producto interior a ambos lados de $y_j$, para $j \leq r$
+
+$$(y_{r+1}, y_j) = (x_{r+1}, y_j) - \sum_{i=1}^{r} a_i(y_i, y_j)$$
+
+recordando algo que hicimos anteriormente, el producto interior $(y_i, y_j) = 0$ porque estamos bajo el supuesto de que se satisfizo la condición a. es decir, los elementos son ortogonales. Entonces solo queda $(y_j, y_j)$, osea:
+
+$$(y_{r+1}, y_j) = (x_{r+1}, y_j) - a_j(y_j, y_j)$$
+
+como queremos que $y_{r+1}$​ sea ortogonal a $y_j$​, imponemos que $(y_{r+1}, y_j)= 0$, siempre que $y_j \neq O$ ya que en el caso contrario estaríamos elijiendo $a_j = 0$ para que sea ortogonal. Entonces
+
+$$0 = (x_{r+1}, y_j) - a_j(y_j, y_j)$$
+
+$$a_j = \frac{(x_{r+1}, y_j)}{(y_j, y_j)}$$
+
+Por lo tanto el elemento $y_{r+1}$ está bien definido y es ortogonal a cada uno de los elementos $y_1, \dots, y_r$, por lo tanto es ortogonal a todo elemento del subespacio $L(y_1, \dots, y_r)$. Osea que ya encontramos la forma de calcular las constantes entonces completemos la expresión original
+
+$$y_1 = x_1$$
+
+$$y_{r+1} = x_{r+1} - \sum_{i=1}^{r} \frac{(x_{r+1}, y_i)}{(y_i, y_i)} y_i$$
+
+anteriormente pusimos el índice $j$ pero realmente es arbitrario, ya que estamos recorriendo los valores hasta $r$, osea que es indiferente usar $i$ o $j$. El resto de la demostración está clara en el texto así que no la incluiré aqui
