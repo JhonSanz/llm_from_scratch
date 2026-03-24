@@ -767,4 +767,85 @@ $$y_1 = x_1$$
 
 $$y_{r+1} = x_{r+1} - \sum_{i=1}^{r} \frac{(x_{r+1}, y_i)}{(y_i, y_i)} y_i$$
 
-anteriormente pusimos el índice $j$ pero realmente es arbitrario, ya que estamos recorriendo los valores hasta $r$, osea que es indiferente usar $i$ o $j$. El resto de la demostración está clara en el texto así que no la incluiré aqui
+anteriormente pusimos el índice $j$ pero realmente es arbitrario, ya que estamos recorriendo los valores hasta $r$, osea que es indiferente usar $i$ o $j$. El resto de la demostración está clara en el texto así que no la incluiré aqui.
+
+Para resumir de alguna manera, estamos restando cada vector del conjunto original con su proyección sobre el vector $y_i$. Veamos un ejemplo
+
+
+Sea $V = \mathbb{R}^3$ con el producto interior usual. Tomemos los vectores
+
+$$x_1 = (1, 1, 0), \quad x_2 = (1, 0, 1), \quad x_3 = (0, 1, 1)$$
+
+Queremos construir un conjunto ortogonal $\{y_1, y_2, y_3\}$ aplicando el proceso de Gram-Schmidt.
+
+#### Paso 1: $y_1 = x_1$
+
+$$y_1 = (1, 1, 0)$$
+
+Caso base, nada que calcular.
+
+#### Paso 2: $y_2$
+
+Aplicamos la fórmula
+
+$$y_2 = x_2 - \frac{(x_2, y_1)}{(y_1, y_1)} y_1$$
+
+Calculamos los productos interiores:
+
+$$(x_2, y_1) = (1)(1) + (0)(1) + (1)(0) = 1$$
+
+$$(y_1, y_1) = 1^2 + 1^2 + 0^2 = 2$$
+
+Sustituimos:
+
+$$y_2 = (1, 0, 1) - \frac{1}{2}(1, 1, 0) = \left(\frac{1}{2},\ -\frac{1}{2},\ 1\right)$$
+
+**Verificación:** $(y_1, y_2) = (1)\left(\frac{1}{2}\right) + (1)\left(-\frac{1}{2}\right) + (0)(1) = 0$ ✓
+
+#### Paso 3: $y_3$
+
+Aplicamos la fórmula
+
+$$y_3 = x_3 - \frac{(x_3, y_1)}{(y_1, y_1)} y_1 - \frac{(x_3, y_2)}{(y_2, y_2)} y_2$$
+
+Calculamos los productos interiores:
+
+$$(x_3, y_1) = (0)(1) + (1)(1) + (1)(0) = 1$$
+
+$$(x_3, y_2) = (0)\left(\frac{1}{2}\right) + (1)\left(-\frac{1}{2}\right) + (1)(1) = \frac{1}{2}$$
+
+$$(y_2, y_2) = \left(\frac{1}{2}\right)^2 + \left(-\frac{1}{2}\right)^2 + 1^2 = \frac{1}{4} + \frac{1}{4} + 1 = \frac{3}{2}$$
+
+Sustituimos:
+
+$$y_3 = (0, 1, 1) - \frac{1}{2}(1, 1, 0) - \frac{1/2}{3/2}\left(\frac{1}{2},\ -\frac{1}{2},\ 1\right)$$
+
+$$y_3 = (0, 1, 1) - \left(\frac{1}{2},\ \frac{1}{2},\ 0\right) - \frac{1}{3}\left(\frac{1}{2},\ -\frac{1}{2},\ 1\right)$$
+
+$$y_3 = (0, 1, 1) - \left(\frac{1}{2},\ \frac{1}{2},\ 0\right) - \left(\frac{1}{6},\ -\frac{1}{6},\ \frac{1}{3}\right)$$
+
+$$y_3 = \left(-\frac{2}{3},\ \frac{2}{3},\ \frac{2}{3}\right)$$
+
+**Verificación:**
+
+$$(y_1, y_3) = (1)\left(-\frac{2}{3}\right) + (1)\left(\frac{2}{3}\right) + (0)\left(\frac{2}{3}\right) = 0 \quad \checkmark$$
+
+$$(y_2, y_3) = \left(\frac{1}{2}\right)\left(-\frac{2}{3}\right) + \left(-\frac{1}{2}\right)\left(\frac{2}{3}\right) + (1)\left(\frac{2}{3}\right) = -\frac{1}{3} - \frac{1}{3} + \frac{2}{3} = 0 \quad \checkmark$$
+
+El conjunto ortogonal es:
+
+$$y_1 = (1, 1, 0), \quad y_2 = \left(\frac{1}{2},\ -\frac{1}{2},\ 1\right), \quad y_3 = \left(-\frac{2}{3},\ \frac{2}{3},\ \frac{2}{3}\right)$$
+
+Se cumple que en cada paso $L(y_1, \ldots, y_k) = L(x_1, \ldots, x_k)$: no se gana ni se pierde información, solo se "enderezaron" las direcciones para que sean mutuamente perpendiculares.
+
+#### Base ortonormal
+
+Para obtener una base ortonormal dividimos cada $y_i$ por su norma:
+
+$$\|y_1\| = \sqrt{1 + 1 + 0} = \sqrt{2} \quad \Rightarrow \quad e_1 = \frac{1}{\sqrt{2}}(1, 1, 0)$$
+
+$$\|y_2\| = \sqrt{\frac{1}{4} + \frac{1}{4} + 1} = \sqrt{\frac{3}{2}} = \frac{\sqrt{6}}{2} \quad \Rightarrow \quad e_2 = \frac{2}{\sqrt{6}}\left(\frac{1}{2},\ -\frac{1}{2},\ 1\right) = \frac{1}{\sqrt{6}}(1, -1, 2)$$
+
+$$\|y_3\| = \sqrt{\frac{4}{9} + \frac{4}{9} + \frac{4}{9}} = \sqrt{\frac{12}{9}} = \frac{2\sqrt{3}}{3} \quad \Rightarrow \quad e_3 = \frac{3}{2\sqrt{3}}\left(-\frac{2}{3},\ \frac{2}{3},\ \frac{2}{3}\right) = \frac{1}{\sqrt{3}}(-1, 1, 1)$$
+
+Con esta base ortonormal, los componentes de cualquier vector $x$ se calculan simplemente como $c_j = (x, e_j)$.
