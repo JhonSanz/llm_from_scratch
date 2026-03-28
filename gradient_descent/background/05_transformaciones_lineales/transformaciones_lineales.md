@@ -73,13 +73,9 @@ $$= [T(x)]_i + [T(x')]_i$$
 
 Como esto vale para todo $i = 1, \ldots, m$, concluimos:
 
-$$T(x + x') = T(x) + T(x') \quad \checkmark$$
+$$T(x + x') = T(x) + T(x')$$
 
----
-
-## Propiedad b): $T(cx) = cT(x)$
-
-Sea $c$ un escalar y $x = (x_1, \ldots, x_n)$ un vector de $V_n$.
+Ahora, sea $c$ un escalar y $x = (x_1, \ldots, x_n)$ un vector de $V_n$.
 
 Entonces:
 
@@ -97,15 +93,94 @@ $$= c \cdot [T(x)]_i$$
 
 Como vale para todo $i = 1, \ldots, m$, concluimos:
 
-$$T(cx) = cT(x) \quad \checkmark$$
-
----
-
-## Conclusión
+$$T(cx) = cT(x)$$
 
 Ambas propiedades se cumplen, por lo tanto $T$ es una **transformación lineal**.
 
-La verificación se reduce a dos propiedades básicas de las sumatorias:
+---
 
-1. Se pueden separar en partes: $\sum (a + b) = \sum a + \sum b$
-2. Una constante se puede sacar afuera: $\sum ca = c \sum a$
+¿Por qué $f(x) = x^2$ no es una transformación lineal?
+
+
+$$f(x + y) = (x + y)^2 = x^2 + 2xy + y^2$$
+
+$$f(x) + f(y) = x^2 + y^2$$
+
+El término $2xy$ que sobra hace que no sean iguales.
+
+**Ejemplo numérico:** con $x = 2$, $y = 3$:
+
+$$f(2 + 3) = f(5) = 25$$
+
+$$f(2) + f(3) = 4 + 9 = 13$$
+
+$$25 \neq 13 \quad \boldsymbol{\times}$$
+
+
+Ahora cumple $f(cx) = cf(x)$?
+
+$$f(cx) = (cx)^2 = c^2 x^2$$
+
+$$cf(x) = cx^2$$
+
+En general, $c^2 \neq c$.
+
+**Ejemplo numérico:** con $c = 3$, $x = 2$:
+
+$$f(3 \cdot 2) = f(6) = 36$$
+
+$$3 \cdot f(2) = 3 \cdot 4 = 12$$
+
+$$36 \neq 12 \quad \boldsymbol{\times}$$
+
+Este es exactamente el mismo problema que ocurre con $T(x) = (x, x)$ (producto interior con $z = x$, no fijo).
+
+![alt text](img/ex_producto_interior.png)
+
+Cuando la entrada aparece **dos veces** en la operación, escalar por $c$ produce $c^2$ en lugar de $c$. Fijar $z$ elimina esa duplicación: $z$ ya no depende de la entrada, así que $c$ solo entra una vez.
+
+| Función | $f(cx)$ | $cf(x)$ | ¿Lineal? |
+|---------|---------|---------|----------|
+| $f(x) = x^2$ | $c^2 x^2$ | $cx^2$ | No |
+| $T(x) = (x, x)$ | $c^2(x,x)$ | $c(x,x)$ | No |
+| $T(x) = (x, z)$ con $z$ fijo | $c(x,z)$ | $c(x,z)$ | **Sí** |
+
+---
+
+Sea $V$ el espacio lineal de todas las funciones reales $f$ derivables en un intervalo abierto $(a, b)$.
+
+Definimos el operador derivación $D: V \to W$ como:
+
+$$D(f) = f'$$
+
+donde $W$ contiene todas las derivadas $f'$.
+
+$$D(f + g) = (f + g)'$$
+
+Por la regla de la suma de derivadas:
+
+$$= f' + g'$$
+
+Ahora verifiquemos la multiplicacion por escalar
+
+$$= D(f) + D(g) \quad \checkmark$$
+
+
+$$D(cf) = (cf)'$$
+
+Por la regla de la constante multiplicativa en derivadas:
+
+$$= cf'$$
+
+$$= cD(f) \quad \checkmark$$
+
+
+El operador derivación $D$ es una **transformación lineal**.
+
+La linealidad se deduce directamente de las reglas de derivación del cálculo:
+
+- La derivada de una suma es la suma de las derivadas.
+- La derivada de una constante por una función es la constante por la derivada.
+
+
+## Núcleo y recorrido
