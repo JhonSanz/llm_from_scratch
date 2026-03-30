@@ -347,15 +347,15 @@ $$R(ST) = (RS)T$$
 
 Ambos lados de la ecuación tienen dominio $U$ y valores en $X$ (osea al hacer la "operación" para cualquier lado de la igualdad recorren de la misma manera el caminito en los conjuntos así como vimos en la imagen)
 
-$$[R(ST)](x) = R[(ST)(x)] = R[S[T(x)]]$$
+$$(R(ST))(x) = R((ST)(x)) = R(S(T(x)))$$
 
-$$[(RS)T](x) = (RS)[T(x)] = R[S[T(x)]]$$
+$$((RS)T)(x) = (RS)(T(x)) = R(S(T(x)))$$
 
 como vemos nos da el mismo resultado. Se puede pensar de esta manera
 
-$$x \xrightarrow{\;T\;} T(x) \xrightarrow{\;S\;} S[T(x)] \xrightarrow{\;R\;} R[S[T(x)]]$$
+$$x \xrightarrow{T} T(x) \xrightarrow{S} S[T(x)] \xrightarrow{R} R[S[T(x)]]$$
 
-$$U \xrightarrow{\;T\;} V \xrightarrow{\;S\;} W \xrightarrow{\;R\;} X$$
+$$U \xrightarrow{T} V \xrightarrow{S} W \xrightarrow{R} X$$
 
 osea, practicamente se toma la definicion de la composición, la cual se lee de izquierda a derecha y reescribimos de forma "desenrollada". EL orden es importante, el orden en que evaluamos no cambia por la posición de los paréntesis en la notación.
 
