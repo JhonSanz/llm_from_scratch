@@ -18,7 +18,7 @@ Hasta aquí es lo que conocemos de toda la vida, tomar un $x$ pasarlo a través 
 
 ![alt text](img/tl_1.png)
 
-Podemos tener un subconjunto $A$ del dominio $V$, cuyas imágenes $T(x)$ para $x$ de $A$ están en $T(A)$. Podríamos tener que $A = V$ en ese caso $T(A) = T(V)$ la imagen del dominio $V$ es el "rango" o "recorrido" de $T$
+Podemos tener un subconjunto $A$ del dominio $V$, cuyas imágenes $T(x)$ para $x$ de $A$ están en $T(A)$. Podríamos tener que $A = V$ en ese caso $T(A) = T(V)$ la imagen del dominio $V$ es el recorrido de $T$
 
 Para definir la transformación lineal el texto nos propone trabajar con el **mismo conjunto numérico de escalares** en ambos $V$ y $W$, por ejemplo $\mathbb{R}$ en ambos o complejos en ambos
 
@@ -239,4 +239,129 @@ Para resumir visualmente, el núcleo lo podemos entender de esta manera
 ![alt text](img/nucleo.png)
 
 ## Dimensión del núcleo y rango de la transformación
+
+Nos interesa la relación entre las dimensiones de $V$, del núcleo $N(T)$ y del recorrido $T(V)$. Si $V$ es de dimensión finita, el núcleo también lo será por ser un subespacio de $V$
+
+La dimensión de $T(V)$ se llama **rango** de $T$
+
+**TEOREMA** Si $V$ es de dimensión finita, también lo es $T(V)$, y tenemos
+
+$$dim N(T) + dim T(V) = dim V$$
+
+Dicho de otro modo, la dimensión del núcleo más el rango de una transformación lineal es igual a la dimensión de su dominio.
+
+Ver la Demostración en Cálculo de Tom Apostol Vol 2 Pág 43
+
+
+## Operaciones algebráicas con transformaciones lineales
+
+"Las funciones cuyos valores pertenecen a un espacio lineal dado $W$ pueden sumarse unas con otras y pueden multiplicarse por escalares de $W$ de acuerdo con la definición siguiente.
+
+**DEFINICIÓN**. Sean $S:V \to W$ y $T: V \to W$ dos funciones con un dominio común $V$ y con valores pertenecientes a un espacio lineal $W$. Si e es un escalar cualquiera de W, definimos la suma S + $T$ y el producto $cT$ por las ecuaciones 
+
+
+$$(S + T)(x) = S(x) + T(x) , (cT)(x) = cT(x)$$
+
+para todo $x$ de $V$"
+
+
+Verifiquemos con la fórmula combinada de linealidad:
+
+$$(S + T)(ax + by) = S(ax + by) + T(ax + by)$$
+
+Como $S$ y $T$ son lineales, cada una respeta la combinación lineal:
+
+$$= aS(x) + bS(y) + aT(x) + bT(y)$$
+
+Reagrupamos por escalar:
+
+$$= a[S(x) + T(x)] + b[S(y) + T(y)]$$
+
+$$= a(S + T)(x) + b(S + T)(y) \quad \checkmark$$
+
+¿$cT$ sigue siendo lineal?
+
+$$(cT)(ax + by) = cT(ax + by)$$
+
+Como $T$ es lineal:
+
+$$= c[aT(x) + bT(y)]$$
+
+$$= a \cdot cT(x) + b \cdot cT(y)$$
+
+$$= a(cT)(x) + b(cT)(y) \quad \checkmark$$
+
+
+El conjunto $\mathscr{L}(V, W)$ de todas las transformaciones lineales de $V$ en $W$, es un espacio lineal con las operaciones de adición y multiplicación por escalar
+
+Es decir, este conjunto que contiene todas las transformaciones lineales de $V$ en $W$, cumple los 10 axiomas, la mayoría de ellos con las operaciones con lo que acabamos de definir, y particularmente:
+
+- El **elemento cero** es la transformación cero: $T_0(x) = O$ para todo $x$
+- La **opuesta** de $T$ es $(-1)T$, es decir, $(-T)(x) = -T(x)$
+
+Para resumir, nos armamos un conjunto con transformaciones lineales que cumplen los 10 axiomas, por lo tanto ese conjunto $\mathscr{L}(V, W)$ es un espacio lineal
+
+### Composición de transformaciones lineales
+
+Vamos a ver como se comporta la **composición o multiplicación** entre transformaciones lineales
+
+- Supongamos tres conjuntos $U, V, W$
+- $T: U \to V$ una función con dominio en $U$ y valores en $V$
+- $S: V \to W$ otra función con dominio en $V$ y valores en $W$
+
+La función compuesta $ST: U \to W$ está definida por:
+
+$$(ST)(x) = S[T(x)] \quad \text{ para todo } x \text{ en } U$$
+
+![alt text](img/composicion.png)
+
+En el dibujo se ve bien, aplicamos primero $x$ mediante $T$ y luego $T(x)$ mediante $S$. 
+
+Ahora, ¿qué pasa con el resultado de la composición? veamos varias cosas interesantes
+
+#### La composición no es conmutativa
+
+Veamos contraejemplo. Sean $T, S: \mathbb{R}^2 \to \mathbb{R}^2$ definidas por:
+
+$$T(x_1, x_2) = (x_1 + x_2, \; 0) \qquad S(x_1, x_2) = (0, \; x_1)$$
+
+Ambas son lineales (se verifica directamente con la definición). Para $x = (1, 1)$:
+
+$$(ST)(1,1) = S(T(1,1)) = S(2, 0) = (0, 2)$$
+
+$$(TS)(1,1) = T(S(1,1)) = T(0, 1) = (1, 0)$$
+
+Como $(0, 2) \neq (1, 0)$, se tiene $ST \neq TS$. $\blacksquare$
+
+#### Satisface la ley asociativa
+
+Supongamos tres funciones 
+
+- $T: U \to V$
+- $S: V \to W$
+- $R: W \to X$
+
+y tenemos
+
+$$R(ST) = (RS)T$$
+
+Ambos lados de la ecuación tienen dominio $U$ y valores en $X$ (osea al hacer la "operación" para cualquier lado de la igualdad recorren de la misma manera el caminito en los conjuntos así como vimos en la imagen)
+
+$$[R(ST)](x) = R[(ST)(x)] = R[S[T(x)]]$$
+
+$$[(RS)T](x) = (RS)[T(x)] = R[S[T(x)]]$$
+
+como vemos nos da el mismo resultado. Se puede pensar de esta manera
+
+$$x \xrightarrow{\;T\;} T(x) \xrightarrow{\;S\;} S[T(x)] \xrightarrow{\;R\;} R[S[T(x)]]$$
+
+$$U \xrightarrow{\;T\;} V \xrightarrow{\;S\;} W \xrightarrow{\;R\;} X$$
+
+osea, practicamente se toma la definicion de la composición, la cual se lee de izquierda a derecha y reescribimos de forma "desenrollada". EL orden es importante, el orden en que evaluamos no cambia por la posición de los paréntesis en la notación.
+
+**DEFINICIÓN.** Sea $T: V \to V$ una función que aplica $V$ en sí mismo. Definimos inductivamente las potencias enteras de $T$ como sigue:
+
+$$T^0 = I, \qquad T^n = TT^{n-1} \quad \text{para } n \geq 1.$$
+
+Aquí $I$ representa la transformación idéntica. El lector puede comprobar que la ley asociativa implica la ley de exponentes $T^m T^n = T^{m+n}$ para todos los enteros no negativos $m$ y $n$.
 
