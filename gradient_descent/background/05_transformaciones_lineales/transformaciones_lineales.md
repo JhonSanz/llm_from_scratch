@@ -12,7 +12,7 @@ Entonces:
 - V es el dominio
 - W es la imagen
 
-Para cada $x$ de $V$ el elemento $T(x)$ de $W$ se llama **imagen de $x$ a través de $T$**, y decimos que "$T$ aplica $x$ en $T(x)$"
+Para cada $x$ de $V$ el elemento $T(x)$ de $W$ se llama **imagen de $x$ a través de $T$**, y decimos que $T$ aplica $x$ en $T(x)$
 
 Hasta aquí es lo que conocemos de toda la vida, tomar un $x$ pasarlo a través de una "máquina" y obtener un resultado. Sin embargo, nos estamos fijando mas en los conjuntos, veamos este gráfico
 
@@ -184,3 +184,59 @@ La linealidad se deduce directamente de las reglas de derivación del cálculo:
 
 
 ## Núcleo y recorrido
+
+Como vimos en el dibujo anterior $T(V)$ (recorrido de $T$) es un subconjunto de $W$. Veamos si es un subespacio, y si además $T$ aplica el elemento cero de $V$ en el de $W$
+
+Recordando nuestra definición de subespacio, necesitamos que el subconjunto cumpla con los axiomas de clausura (suma y multiplicación por escalar). Entonces como hicimos en el tutorial de espacios lineales necesitamos tomar dos elementos $T(x)$ $T(y)$ del conjunto y ver si el resultado está también en el conjunto
+
+$$T(x) + T(y) = T(x + y)$$
+
+Esto porque ya definimos que la transformación lineal tiene la propiedad de la suma de esta manera. Entonces se cumple y el resultado está en $T(V)$
+
+Lo mismo para cualquier escalar $c$, tenemos que $T(cx) = cT(x)$ porque así se define la transformación lineal, y el resultado también está en $T(V)$. Finalmente si tomamos $c = 0$ encontramos que $T(O) = O$
+
+Ahora, el **núcleo** es el conjunto de todos los $V$ que $T$ aplica a $O$ se llama núcleo de $T$ y se designa por $N(T)$, osea
+
+$$N(T) = \lbrace x | x \in V \quad \text{ y } \quad T(x) = O \rbrace$$
+
+El **núcleo también es un subespacio de** $V$ ya que son los mismo valores que toma la transformación de $V$, y la demostración es similar
+
+#### Ejemplos
+
+Sea $T: \mathbb{R}^2 \to \mathbb{R}$ definida por:
+
+$$T(x_1, x_2) = x_1 + x_2$$
+
+Primero verificamos que es una transformación lineal:
+
+**Suma:** Sean $x = (x_1, x_2)$ y $y = (y_1, y_2)$
+
+$$T(x + y) = T(x_1 + y_1, x_2 + y_2) = (x_1 + y_1) + (x_2 + y_2) = (x_1 + x_2) + (y_1 + y_2) = T(x) + T(y) \quad \checkmark$$
+
+**Multiplicación por escalar:** Sea $c$ un escalar
+
+$$T(cx) = T(cx_1, cx_2) = cx_1 + cx_2 = c(x_1 + x_2) = cT(x) \quad \checkmark$$
+
+Ahora hallamos el **núcleo**. Necesitamos todos los $(x_1, x_2)$ tales que $T(x_1, x_2) = 0$:
+
+$$x_1 + x_2 = 0 \implies x_2 = -x_1$$
+
+$$N(T) = \lbrace (x_1, -x_1) \mid x_1 \in \mathbb{R} \rbrace$$
+
+Geométricamente es la recta $x_2 = -x_1$ en $\mathbb{R}^2$, y es un subespacio porque:
+
+- $(x_1, -x_1) + (y_1, -y_1) = (x_1 + y_1, -(x_1 + y_1)) \in N(T) \quad \checkmark$
+- $c(x_1, -x_1) = (cx_1, -cx_1) \in N(T) \quad \checkmark$
+
+---
+
+**Operador derivación**. El núcleo está formado por todas las funciones constantes en el intervalo dado.
+
+---
+
+Para resumir visualmente, el núcleo lo podemos entender de esta manera 
+
+![alt text](img/nucleo.png)
+
+## Dimensión del núcleo y rango de la transformación
+
