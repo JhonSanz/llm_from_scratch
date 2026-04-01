@@ -397,7 +397,7 @@ Puesto que la composición, en general, no es conmutativa, tenemos que distingui
 Entonces, dados dos conjuntos $V$ y $W$ y una función $T: V \to W$ se dice que 
 
 - una función $S: T(V) \to V$ es inversa de $T$ por la izquierda si $S[T(x)] = x$ para todo $x$ de $V$, esto si $ST = I_V$
-- una función $R: T(V) \to V$ es inversa de $T$ por la derecha si $S[R(y)] = y$ para todo $y$ de $T(V)$, esto si $TR = I_{T(V)}$
+- una función $R: T(V) \to V$ es inversa de $T$ por la derecha si $T[R(y)] = y$ para todo $y$ de $T(V)$, esto si $TR = I_{T(V)}$
 
 
 ![alt text](img/inversa.png)
@@ -432,3 +432,84 @@ Necesitaríamos $R: W \to V$ tal que $T[R(y)] = y$ para todo $y \in W$.
 Para $y = 1$: $T[R(1)] = 1$ exige $R(1) = 0$ (y efectivamente $T(0) = 1$). ✅
 
 Para $y = 2$: $T[R(2)] = 2$ exigiría que algún elemento de $V$ se mapee a $2$ bajo $T$. Pero el único elemento de $V$ es $0$, y $T(0) = 1 \neq 2$. **Imposible.** ❌
+
+Es importante resaltar que en nuestro ejemplo el dominio de $R$ es todo $W$, sin embargo tomar el dominio como $T(V)$ tiene una implicación importante y es que en ese caso la inversa por la derecha si existiría 
+
+La inversa por la derecha se define como $R: T(V) \to V$ tal que $TR = I_{T(V)}$, es decir, solo necesita funcionar sobre la **imagen** de $T$, no sobre todo $W$.
+
+En nuestro caso, $T(V) = \{1\}$. Definimos $R: T(V) \to V$ con:
+
+$$R(1) = 0$$
+
+Verificamos:
+
+$$T[R(1)] = T(0) = 1 \quad \Rightarrow \quad TR = I_{T(V)} \checkmark$$
+
+El siguiente texto describe esta situación:
+
+$T: V \to W$ tiene por lo menos una inversa a la derecha
+
+- cada $y$ de $T(V)$ tiene la forma $y = T(x)$ para al menos un $x$ de $V$
+- elegimos uno de esos valores $x$ y definimos $R(y) = x$
+- entonces $T[R(y)] =T(x) = y$ para cada $y$ de $T(V)$
+- asi que $R$ es una inversa por la derecha
+
+**TEOREMA** Una $T: V \to W$ puede tener a lo más una inversa por la izquierda. Si $T$ tiene inversa por la izquierda $S$, entonces $S$ es también inversa por la derecha.
+
+Demostremos la primera parte. Suponemos que $T$ tiene dos inversas por la izquierda $S: T(V) \to V$ y $S': T(V) \to V$
+
+Elejimos cualquier $y$ de $T(V)$, y necesitamos demostrar que $S(y) = S'(y)$
+
+Como $y = T(x)$ para un cierto $x$ de $V$ tenemos $S[T(x)] = x$ y $S'[T(x)] = x$ porque ambas son inversas por la izquierda, y la definición de inversa lo que hace es devolverme el mismo $x$ que se usó den entrada en la función $T$
+
+Por consiguiente $S(y) = x$ y $S'(y) = x$, con lo que $S(y) = S'(y)$ para todo $y$ de $T(V)$. Por lo tanto $S = S'$
+
+
+Ahora demostremos la segunda parte para ver que toda inversa por la izquierda $S$ es también inversa por la derecha. 
+
+Elijamos un elemento cualquiera $y$ en $T(V)$, y necesitamos demostrar que $T[S(y)] = y$
+
+Como $y \in T(V)$, tenemos $y = T(x)$ para un cierto $x$ de $V$
+
+Pero $S$ es inversa por la izquierda, así que $x = S[T(x)] = S(y)$
+
+Aplicando $T$, llegamos a $T(x) = T[S(y)]$. Pero $y = T(x)$, con lo que $y = T[S(y)]$,
+lo cual completa la demostración.
+
+
+**TEOREMA**. Una función $T: V \to W$ tiene inversa por la izquierda si y sólo si $T$ aplica elementos distintos de $V$ en elementos distintos de $W$; esto es, si y sólo si, para cualesquiera $x$ y $y$ de $V$
+
+$$x \neq y \quad \text{ implica } \quad T(x) \neq T(y)$$
+
+o es equivalente decir 
+
+$$T(x) \neq T(y) \quad \text{ implica } \quad x \neq y$$
+
+> Si $T$ satisface cualquiera de estas condición entonces se denomina *uno a uno*
+
+para demostrar esto supngamos que $S$ es la inversa por la izquierda de $T$, y que $T(x)=T(y)$, queremos demostrar que $x=y$, entonces:
+
+$T(x)=T(y)$ aplicamos la inversa $S$
+
+$S[T(x)] = S[T(y)]$
+
+Sabemos que:
+
+$S[T(x)] = x$ y que $S[T(y)] = y$
+
+Entonces:
+
+$x = y$
+
+> Es muy importante ver que con esta demostración garantizamos la inyectividad, y ahora podemos continuar con el proceso usual
+
+
+Demostremos ahora el recíproco. Supongamos que $T$ es uno a uno en $V$. Encontraremos una función $S: T(V) \to V$ que es inversa de $T$ por la izquierda. Si $y \in T(V)$, entonces $y = T(x)$ para un cierto $x$ de $V$. En virtud de (2.6), existe *exactamente un* $x$ en $V$ para el cual $y = T(x)$. Definamos $S(y)$ como ese $x$. Esto es, definamos $S$ en $T(V)$ como sigue:
+
+$$S(y) = x \quad \text{implica que} \quad T(x) = y.$$
+
+Tenemos entonces $S[T(x)] = x$ para cada $x$ de $V$, así que $ST = I_V$. Por consiguiente, la función $S$ así definida es inversa de $T$ por la izquierda.
+
+Esto solo fue posible hacerlo porque en la primera parte de la demostración vimos que $T$ es inyectiva. Esto quiere decir que para cada elemento $x$ le corresponde un único elemento de $T(V)$, si fuera mas de un elemento al aplicar la inversa no sabríamos cuál de los dos devolver, por eso podemos asegurar que la segunda parte de la demostración se cumple, la cual corresponde al desarrollo de encontrar y aplicar la inversa con normalidad.
+
+## Transformaciones lineales uno a uno
