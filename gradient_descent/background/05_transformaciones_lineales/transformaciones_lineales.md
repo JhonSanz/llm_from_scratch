@@ -363,5 +363,72 @@ osea, practicamente se toma la definicion de la composición, la cual se lee de 
 
 $$T^0 = I, \qquad T^n = TT^{n-1} \quad \text{para } n \geq 1.$$
 
-Aquí $I$ representa la transformación idéntica. El lector puede comprobar que la ley asociativa implica la ley de exponentes $T^m T^n = T^{m+n}$ para todos los enteros no negativos $m$ y $n$.
+Aquí $I$ representa la transformación idéntica. El lector puede comprobar que la ley asociativa implica la ley de exponentes $T^m T^n = T^{m+n}$ para todos los enteros no negativos $m$ y $n$. Esto lo dejo como comentario nada mas
 
+> Transformación idéntica. La transformación $T: V \to V$, donde $T(x) = X$ para todo $x$ de $V$, se denomina transformación idéntica y se designa por $I$ o por $I_v$
+
+
+Ahora viene algo interesante relacionado a la composición, dice que si componemos dos transformaciones lineales el resultado es también lineal, entonces supongamos:
+
+- Tres espacios lineales $U, V, W$ con los mismos valores escalares
+- $T: U \to V$ y $S: V \to W$ transformaciones lineales
+- Entonces la composición $ST: U \to W$ también es lineal
+
+$$(ST)(ax + by) = S[T(ax + by)] = S[aT(x) + bT(y)] = aST(x) + bST(y)$$
+
+con lo cual también podemos observar que se cumple lo siguiente:
+
+- $(S + T)R = SR + TR$ y $(cS)R = c(SR) $
+- $R(S + T) = RS + RT$ y $R(cS) = c(RS) $
+
+es importante notar que el orden en que se opera debe conservarse
+
+## Inversas
+
+Recordando las funciones reales monótonas, podíamos pensar la inversa como "dar vuelta a la máquina" de tal modo que la salida constituía la entrada de la máquina y se esperaba que lo que antes era la entrada sea ahora la salida
+
+En este momento vamos a generalizar el concepto y plantear un método de inversión.
+
+"Dada una función $T$, nuestro objetivo es encontrar, si es posible, otra función $S$ cuya composición con $T$ sea la transformación idéntica.
+
+Puesto que la composición, en general, no es conmutativa, tenemos que distinguir $ST$ de $TS$. Por lo tanto introducimos dos tipos de inversas que llamamos inversa por la derecha e inversa por la izquierda
+"
+
+Entonces, dados dos conjuntos $V$ y $W$ y una función $T: V \to W$ se dice que 
+
+- una función $S: T(V) \to V$ es inversa de $T$ por la izquierda si $S[T(x)] = x$ para todo $x$ de $V$, esto si $ST = I_V$
+- una función $R: T(V) \to V$ es inversa de $T$ por la derecha si $S[R(y)] = y$ para todo $y$ de $T(V)$, esto si $TR = I_{T(V)}$
+
+
+![alt text](img/inversa.png)
+
+
+![alt text](img/ex_inversa.png)
+
+Ejemplo 2
+
+Sean $V = \{0\}$ y $W = \{1, 2\}$. Definimos $T: V \to W$ como sigue:
+
+$$T(0) = 1$$
+
+Observemos que $T$ es **inyectiva** (no colapsa elementos), pero **no es sobreyectiva** sobre $W$ (el elemento $2 \in W$ no tiene preimagen).
+
+##### Inversa por la izquierda ✅
+
+Definimos $S: W \to V$ con:
+
+$$S(1) = 0, \quad S(2) = 0$$
+
+Verificamos:
+
+$$S[T(0)] = S(1) = 0 \quad \Rightarrow \quad ST = I_V \checkmark$$
+
+> **Nota:** El valor de $S(2)$ es irrelevante — lo único que importa es que $S(1) = 0$. Podríamos asignar $S(2)$ a cualquier elemento de $V$ (que en este caso solo es $0$).
+
+##### Inversa por la derecha ❌
+
+Necesitaríamos $R: W \to V$ tal que $T[R(y)] = y$ para todo $y \in W$.
+
+Para $y = 1$: $T[R(1)] = 1$ exige $R(1) = 0$ (y efectivamente $T(0) = 1$). ✅
+
+Para $y = 2$: $T[R(2)] = 2$ exigiría que algún elemento de $V$ se mapee a $2$ bajo $T$. Pero el único elemento de $V$ es $0$, y $T(0) = 1 \neq 2$. **Imposible.** ❌
