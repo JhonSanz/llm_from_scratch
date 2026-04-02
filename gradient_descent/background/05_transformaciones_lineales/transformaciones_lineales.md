@@ -616,3 +616,30 @@ como $T$ es uno a uno, si $T$ manda algo a $O$, ese algo ya era $O$. Es decir $T
 $$\sum_{i = 0}^{p} c_ie_i = O$$
 
 la única forma de que se cumpla es que todas las constantes sean cero, ya que $e_1, \dots, e_p$ son independientes
+
+Ahora supongamos que **b** es cierta, tomemos una base $\lbrace e_1, \dots, e_n \rbrace$ de $V$
+
+la primera parte de la demostración asegura que $\lbrace T(e_1), \dots, T(e_n) \rbrace$ son independentes, entonces podemos decir $dim T(V) \geq n$. Esto es como decir "el conjunto tiene almenos $n$ elementos" no hay manera que sean menos de $n$, porque todos los elementos son independientes "apuntan en direcciones diferentes"
+
+Anteriormente probamos que $dim T(V) \leq n$ entonces $dim T(V)=n$, eso sale de aqui
+
+$$dim N(T) + dim T(V) = dim V$$
+
+la dimensión del núcleo de la función inyectiva es cero como vimos anteriormente. Y también vemos que $dim V = n$ según la proposición de este teorema
+
+Ahora supongamos **c.** cierta para probar **d.** 
+
+
+tenemos $\lbrace e_1, \dots, e_n \rbrace$  una base para $V$, y un elemento $y$ cualquiera en $T(V)$ entones $y = T(x)$ para algún $x$ en $V$ 
+
+
+recordemos que una base es un conjunto linealmente independiente que genera el espacio lineal $V$
+
+osea que puedo escribir 
+
+$$x = \sum_{i = 1}^{n} c_ie_i \quad \text{ por lo tanto } y = T(x) = \sum_{i = 1}^{n} c_iT(e_i)$$
+
+
+ya que al hacer esa combinación lineal de $x$ genera $V$ al ser base, y se puede aplicar la transformación lienal por la propiedad de linealidad de su propia definición
+
+Y lo que obtuvimos al lado derecho es practicamente el conjunto $\lbrace T(e_1), \dots, T(e_n) \rbrace$, el cual genera $T(V)$ sin embargo no podemos asegurar directamente que al aplicar la transformación lineal el conjunto resultante ya es linealmente independiente. Por eso nos remitimos a la proposición anterior $dim T(V) = n$, con esto ya podemos garantizar que el conjunto es linealmente independiente así como vimos en el paso anterior
