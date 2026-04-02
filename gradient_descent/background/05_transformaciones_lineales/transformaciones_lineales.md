@@ -513,3 +513,70 @@ Tenemos entonces $S[T(x)] = x$ para cada $x$ de $V$, así que $ST = I_V$. Por co
 Esto solo fue posible hacerlo porque en la primera parte de la demostración vimos que $T$ es inyectiva. Esto quiere decir que para cada elemento $x$ le corresponde un único elemento de $T(V)$, si fuera mas de un elemento al aplicar la inversa no sabríamos cuál de los dos devolver, por eso podemos asegurar que la segunda parte de la demostración se cumple, la cual corresponde al desarrollo de encontrar y aplicar la inversa con normalidad.
 
 ## Transformaciones lineales uno a uno
+
+Recordando el espacio lineal $\mathscr{L}(V, W)$ que contiene todas las transformaciones lineales. Este al ser espacio lineal cumple los 10 axiomas
+
+Tenemos entonces dos espacios lineales $V$ y $W$, y una transformación lineal $T: V \to W$ de $\mathscr{L}(V, W)$. La linealidad de $T$ nos permite expresar de varias maneras que una transformación lineal sea **uno a uno**
+
+Hagamoslo con palabras sencillas:
+
+> "Significa que la transformación no pierde información.
+> 
+> Si le das dos entradas distintas, siempre obtienes dos salidas distintas. Nunca "aplasta" dos cosas diferentes en el mismo resultado. Entonces si ves la salida, puedes saber sin ambigüedad de dónde vino — y por eso precisamente puedes invertirla.
+> 
+> Si no fuera uno a uno, dos entradas distintas podrían dar la misma salida, y al intentar regresar te quedarías preguntando "¿de cuál de las dos vino?" — que es exactamente lo que viste en tus notas sobre por qué la inversa no se puede definir sin inyectividad." - Claude code
+
+literalmente es hacer esto
+
+$$x_1 \to y_1$$
+
+$$x_2 \to y_2$$
+
+$$x_3 \to y_3$$
+
+tener una correspondencia perfecta. Veamos el teorema
+
+**TEOREMA**. Sea $T: V \to W$ una transformación lineal de $\mathscr{L}(V, W)$
+Son equivalentes las siguientes proposiciones.
+
+**a.** $T$ es uno a uno en V.
+
+**b.** $T$ es invertible y su inversa $T^{-1}: T(V) \to V$ es lineal.
+
+**c.** Para todo $x$ de $V$, $T(x) = O$ implica $x = O$. Esto es, el núcleo $N(T)$ contiene solamente el elemento cero de $V$
+
+El texto nos propone demostrar esto de la siguiente manera $a \to b \to c$ es decir, las proposiciones se corresponden de esa manera, entonces probemos:
+
+Supongamos que **a.** es cierta, esto quiere decir que $T$ tiene inversa como vimos en el teorema de mas arriba. Entonces tenemos que demostrar que $T^{-1}$ es lineal
+
+Tomemos entonces dos elementos cualquiera $u$ y $v$ de $T(V)$. Entonces
+
+$$u = T(x)$$
+
+$$v = T(y)$$
+
+para algún $x$ y algún $y$ de $V$. Para dos escalares cualesquiera a y b, tenemos
+
+$$au + bv = aT(x) + bT(y) = T(ax + by)$$
+
+eso lo podemos hacer por la propia definición de la transformación lineal. Ahora apliquemos $T^{-1}$ 
+
+$$T^{-1}(au + bv) = ax + by = aT^{-1}(u) + bT^{-1}(v)$$
+
+Esto porque la inversa nos recupera el valor original así
+
+$$x = T^{-1}(u)$$
+
+$$y = T^{-1}(v)$$
+
+gracias a esto pudimos demostrar que la inversa $T^{-1}$ es lineal. Entonces **a.** implica **b.** Continuemos con la demostración
+
+Supongamos que **b.** es cierta y probemos **c.** Tomemos un $x$ cualquiera de $V$ para el cual $T(x) = O$ y aplicamos $T^{-1}$
+
+$$x = T^{-1}(O) = O$$
+
+puesto que  $T^{-1}$ es lineal. Esto de $T^{-1}(O) = O$ lo confirmamos cuando vimos el núcleo y recorrido, tomando $T(cx) = cT(x)$ con $c = 0$. Entonces **b.** implica **c.**
+
+Por último, supongamos cierta **c.**, Tomemos dos elementos cualesquiera $u$ y $v$ de $V$ siendo $T(u)=T(v)$. Por la linealidad, tenemos $T(u-v) = T(u)-T(v) = O$, así que $u - v = O$. Por consiguiente, $T$ es uno a uno en $V$, Y queda completada la demostración del teorema.
+
+Es decir, si asumimos que la imagen tanto de $u$ como de $v$ es igual entonces estaríamos hablando de los mismos valores del conjunto de salida, es por eso que al hacer la diferencia nos da cero
