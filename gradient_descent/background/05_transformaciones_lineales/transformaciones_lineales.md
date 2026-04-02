@@ -580,3 +580,39 @@ puesto que  $T^{-1}$ es lineal. Esto de $T^{-1}(O) = O$ lo confirmamos cuando vi
 Por último, supongamos cierta **c.**, Tomemos dos elementos cualesquiera $u$ y $v$ de $V$ siendo $T(u)=T(v)$. Por la linealidad, tenemos $T(u-v) = T(u)-T(v) = O$, así que $u - v = O$. Por consiguiente, $T$ es uno a uno en $V$, Y queda completada la demostración del teorema.
 
 Es decir, si asumimos que la imagen tanto de $u$ como de $v$ es igual entonces estaríamos hablando de los mismos valores del conjunto de salida, es por eso que al hacer la diferencia nos da cero
+
+Ahora, que sea uno a uno también se relaciona con la dimensionalidad y la dependencia.
+
+
+**TEOREMA** Sea $T: V \to W$ una transformación lineal de $Y(V, W)$ y
+supongamos que $V$ es de dimensión finita, $dim V = n$. Entonces son equivalentes las proposiciones siguientes
+
+**a.** $T$ es uno a uno en $V$
+
+**b.** Si $e_1, \dots, e_p$ son elementos independientes de $V$, $T(e_1), \dots, T(e_p)$ son elementos independientes de $T(V)$
+
+**c.** $dim T(V) = n$
+
+**d.** Si $\lbrace e_1, \dots, e_n \rbrace$ es una base para $V$, $\lbrace T(e_1), \dots, T(e_n) \rbrace$ es una base para $T(V)$
+
+Igual que antes vamos a probar de manera secuencial las proposiciones.
+
+supongamos que **a** es cierta y probemos **b**. Tomamos los elementos $e_1, \dots, e_p$ independientes de $V$
+
+y los elementos $T(e_1), \dots, T(e_p)$ de $T(V)$. Supongamos
+
+$$c_1T(e_1) + c_2T(e_2) + \dots + c_pT(e_p) = O$$
+
+para que sean independientes las constantes tienen que ser todas cero entonces reescribamos así
+
+$$\sum_{i = 0}^{p} c_iT(e_i) = O$$
+
+$$T (\sum_{i = 0}^{p} c_ie_i) = O$$
+
+Por la linealidad pudimos hacer eso, por las propiedades del inicio así $T(c_1e_1 + c_2e_2 + \dots + c_pe_p) = O$
+
+como $T$ es uno a uno, si $T$ manda algo a $O$, ese algo ya era $O$. Es decir $T(x)=O$ no tiene otra manera de generar el cero porque es uno a uno, entonces $x$ es cero. "Solo el cero del dominio se mapea al cero del codominio", eso lo demostramos en el teorema pasado
+
+$$\sum_{i = 0}^{p} c_ie_i = O$$
+
+la única forma de que se cumpla es que todas las constantes sean cero, ya que $e_1, \dots, e_p$ son independientes
