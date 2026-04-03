@@ -584,7 +584,7 @@ Es decir, si asumimos que la imagen tanto de $u$ como de $v$ es igual entonces e
 Ahora, que sea uno a uno también se relaciona con la dimensionalidad y la dependencia.
 
 
-**TEOREMA** Sea $T: V \to W$ una transformación lineal de $Y(V, W)$ y
+**TEOREMA** Sea $T: V \to W$ una transformación lineal de $\mathscr{L}(V, W)$ y
 supongamos que $V$ es de dimensión finita, $dim V = n$. Entonces son equivalentes las proposiciones siguientes
 
 **a.** $T$ es uno a uno en $V$
@@ -643,3 +643,40 @@ $$x = \sum_{i = 1}^{n} c_ie_i \quad \text{ por lo tanto } y = T(x) = \sum_{i = 1
 ya que al hacer esa combinación lineal de $x$ genera $V$ al ser base, y se puede aplicar la transformación lienal por la propiedad de linealidad de su propia definición
 
 Y lo que obtuvimos al lado derecho es practicamente el conjunto $\lbrace T(e_1), \dots, T(e_n) \rbrace$, el cual genera $T(V)$ sin embargo no podemos asegurar directamente que al aplicar la transformación lineal el conjunto resultante ya es linealmente independiente. Por eso nos remitimos a la proposición anterior $dim T(V) = n$, con esto ya podemos garantizar que el conjunto es linealmente independiente así como vimos en el paso anterior
+
+Por último supongamos que **d.** es cierta, para demostrar **a.** El proceso es muyyy similar
+
+Demostraremos que $T(x) = O$ implica $x = O$. Sea $\{e_1, \ldots, e_n\}$ una base para $V$. Si $x \in V$, podemos escribir
+
+$$x = \sum_{i=1}^{n} c_i e_i, \quad \text{y por tanto} \quad T(x) = \sum_{i=1}^{n} c_i T(e_i).$$
+
+Si $T(x) = O$, entonces $c_1 = \ldots = c_n = 0$, puesto que los elementos $T(e_1), \ldots, T(e_n)$ son independientes. Por lo tanto $x = O$, con lo cual $T$ es uno a uno en $V$. El teorema queda demostrado.
+
+
+## Transformaciones lineales con valores asignados
+
+Si $V$ es de dimensión finita, siempre podemos construir una transformación lineal $T: V \rightarrow W$ con valores asignados a los elementos base de $V$, como se explica en el teorema siguiente.
+
+> **TEOREMA 2.12.** Sea $e_1, \dots, e_n$ una base para un espacio lineal $n$-dimensional $V$. Sean $u_1, \dots, u_n$, $n$ elementos arbitrarios de un espacio lineal $W$. Existe entonces una y sólo una transformación $T: V \rightarrow W$ tal que
+> 
+> $$(2.7) \quad T(e_k) = u_k \quad \text{para } k = 1, 2, \dots, n.$$
+
+Esta transformación $T$ aplica un elemento cualquiera $x$ de $V$ del modo siguiente:
+
+$$(2.8) \quad \text{Si } x = \sum_{k=1}^{n} x_k e_k, \text{ entonces } T(x) = \sum_{k=1}^{n} x_k u_k.$$
+
+**Demostración.** Todo $x$ de $V$ puede expresarse en forma única como combinación lineal de $e_1, \dots, e_n$, siendo los multiplicadores $x_1, \dots, x_n$ los componentes de $x$ respecto a la base ordenada $(e_1, \dots, e_n)$. Si definimos $T$ mediante (2.8), conviene comprobar que $T$ es lineal. Si $x = e_k$ para un cierto $k$, entonces todos los componentes de $x$ son 0 excepto el $k$-ésimo, que es 1, con lo que (2.8) da $T(e_k) = u_k$, como queríamos.
+
+Para demostrar que sólo existe una transformación lineal que satisface (2.7), sea $T'$ otra y calculemos $T'(x)$. Encontramos que
+
+$$T'(x) = T' \left( \sum_{k=1}^{n} x_k e_k \right) = \sum_{k=1}^{n} x_k T'(e_k) = \sum_{k=1}^{n} x_k u_k = T(x).$$
+
+Puesto que $T'(x) = T(x)$ para todo $x$ de $V$, tenemos $T' = T$, lo cual completa la demostración.
+
+**EJEMPLO.** Determinar la transformación lineal $T: V_2 \rightarrow V_2$ que aplique los elementos base $i = (1, 0)$ y $j = (0, 1)$ del modo siguiente
+
+$$T(i) = i + j, \quad T(j) = 2i - j.$$
+
+**Solución.** Si $x = x_1 i + x_2 j$ es un elemento arbitrario de $V_2$, entonces $T(x)$ viene dado por
+
+$$T(x) = x_1 T(i) + x_2 T(j) = x_1(i + j) + x_2(2i - j) = (x_1 + 2x_2)i + (x_1 - x_2)j.$$
