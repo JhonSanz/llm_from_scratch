@@ -40,64 +40,9 @@ para $n$ elementos cualesquiera $x_1, \dots, x_n$ de $V$, y $n$ escalares cualqu
 #### Ejemplos
 
 
-Sean $V = V_n$ y $W = V_m$. Dados $mn$ números reales $a_{ik}$, con $i = 1, 2, \ldots, m$ y $k = 1, 2, \ldots, n$, definimos $T: V_n \to V_m$ como:
+[Ejemplos de transformaciones lineales](ex_1.md)
 
-$$y_i = \sum_{k=1}^{n} a_{ik} x_k \quad \text{para } i = 1, 2, \ldots, m$$
-
-Queremos verificar que $T$ es una transformación lineal, es decir, que cumple:
-
-- **a)** $T(x + x') = T(x) + T(x')$
-- **b)** $T(cx) = cT(x)$
-
-Para esto me parece importante resaltar que lo realmente importante aquí es ver si la transformación cumple con la definición, a través de su operación misma. Si bien la operación retorna un resultado, este no es tan relevante porque en este ejemplo es la sumatoria la que nos dice si se cumplen las propiedades, no el resultado de ella
-
-Sean $x = (x_1, \ldots, x_n)$ y $x' = (x'_1, \ldots, x'_n)$ dos vectores de $V_n$.
-
-Entonces:
-
-$$x + x' = (x_1 + x'_1, \ldots, x_n + x'_n)$$
-
-Aplicamos $T$ a la suma. La componente $i$-ésima del resultado es:
-
-$$[T(x + x')]_i = \sum_{k=1}^{n} a_{ik}(x_k + x'_k)$$
-
-Distribuimos $a_{ik}$:
-
-$$= \sum_{k=1}^{n} (a_{ik} x_k + a_{ik} x'_k)$$
-
-Separamos la sumatoria en dos:
-
-$$= \sum_{k=1}^{n} a_{ik} x_k + \sum_{k=1}^{n} a_{ik} x'_k$$
-
-$$= [T(x)]_i + [T(x')]_i$$
-
-Como esto vale para todo $i = 1, \ldots, m$, concluimos:
-
-$$T(x + x') = T(x) + T(x')$$
-
-Ahora, sea $c$ un escalar y $x = (x_1, \ldots, x_n)$ un vector de $V_n$.
-
-Entonces:
-
-$$cx = (cx_1, \ldots, cx_n)$$
-
-La componente $i$-ésima de $T(cx)$ es:
-
-$$[T(cx)]_i = \sum_{k=1}^{n} a_{ik}(cx_k)$$
-
-Sacamos $c$ de la sumatoria (es constante respecto a $k$):
-
-$$= c \cdot \sum_{k=1}^{n} a_{ik} x_k$$
-
-$$= c \cdot [T(x)]_i$$
-
-Como vale para todo $i = 1, \ldots, m$, concluimos:
-
-$$T(cx) = cT(x)$$
-
-Ambas propiedades se cumplen, por lo tanto $T$ es una **transformación lineal**.
-
----
+#### Ejemplos que no son transformaciones lineales
 
 ¿Por qué $f(x) = x^2$ no es una transformación lineal?
 
