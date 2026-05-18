@@ -90,11 +90,11 @@ Primero verificamos que es una transformación lineal:
 
 **Suma:** Sean $x = (x_1, x_2)$ y $y = (y_1, y_2)$
 
-$$T(x + y) = T(x_1 + y_1, x_2 + y_2) = (x_1 + y_1) + (x_2 + y_2) = (x_1 + x_2) + (y_1 + y_2) = T(x) + T(y) \quad \checkmark$$
+$$T(x + y) = T(x_1 + y_1, x_2 + y_2) = (x_1 + y_1) + (x_2 + y_2) = (x_1 + x_2) + (y_1 + y_2) = T(x) + T(y) \quad \blacksquare$$
 
 **Multiplicación por escalar:** Sea $c$ un escalar
 
-$$T(cx) = T(cx_1, cx_2) = cx_1 + cx_2 = c(x_1 + x_2) = cT(x) \quad \checkmark$$
+$$T(cx) = T(cx_1, cx_2) = cx_1 + cx_2 = c(x_1 + x_2) = cT(x) \quad \blacksquare$$
 
 Ahora hallamos el **núcleo**. Necesitamos todos los $(x_1, x_2)$ tales que $T(x_1, x_2) = 0$:
 
@@ -104,8 +104,8 @@ $$N(T) = \lbrace (x_1, -x_1) \mid x_1 \in \mathbb{R} \rbrace$$
 
 Geométricamente es la recta $x_2 = -x_1$ en $\mathbb{R}^2$, y es un subespacio porque:
 
-- $(x_1, -x_1) + (y_1, -y_1) = (x_1 + y_1, -(x_1 + y_1)) \in N(T) \quad \checkmark$
-- $c(x_1, -x_1) = (cx_1, -cx_1) \in N(T) \quad \checkmark$
+- $(x_1, -x_1) + (y_1, -y_1) = (x_1 + y_1, -(x_1 + y_1)) \in N(T) \quad \blacksquare$
+- $c(x_1, -x_1) = (cx_1, -cx_1) \in N(T) \quad \blacksquare$
 
 ---
 
@@ -156,7 +156,7 @@ Reagrupamos por escalar:
 
 $$= a[S(x) + T(x)] + b[S(y) + T(y)]$$
 
-$$= a(S + T)(x) + b(S + T)(y) \quad \checkmark$$
+$$= a(S + T)(x) + b(S + T)(y) \quad \blacksquare$$
 
 ¿$cT$ sigue siendo lineal?
 
@@ -168,7 +168,7 @@ $$= c[aT(x) + bT(y)]$$
 
 $$= a \cdot cT(x) + b \cdot cT(y)$$
 
-$$= a(cT)(x) + b(cT)(y) \quad \checkmark$$
+$$= a(cT)(x) + b(cT)(y) \quad \blacksquare$$
 
 
 El conjunto $\mathscr{L}(V, W)$ de todas las transformaciones lineales de $V$ en $W$, es un espacio lineal con las operaciones de adición y multiplicación por escalar
@@ -292,7 +292,7 @@ $$T(0) = 1$$
 
 Observemos que $T$ es **inyectiva** (no colapsa elementos), pero **no es sobreyectiva** sobre $W$ (el elemento $2 \in W$ no tiene preimagen).
 
-##### Inversa por la izquierda ✅
+##### Inversa por la izquierda $\checkmark$
 
 Definimos $S: W \to V$ con:
 
@@ -300,17 +300,17 @@ $$S(1) = 0, \quad S(2) = 0$$
 
 Verificamos:
 
-$$S[T(0)] = S(1) = 0 \quad \Rightarrow \quad ST = I_V \checkmark$$
+$$S[T(0)] = S(1) = 0 \quad \Rightarrow \quad ST = I_V \blacksquare$$
 
 > **Nota:** El valor de $S(2)$ es irrelevante — lo único que importa es que $S(1) = 0$. Podríamos asignar $S(2)$ a cualquier elemento de $V$ (que en este caso solo es $0$).
 
-##### Inversa por la derecha ❌
+##### Inversa por la derecha
 
 Necesitaríamos $R: W \to V$ tal que $T[R(y)] = y$ para todo $y \in W$.
 
-Para $y = 1$: $T[R(1)] = 1$ exige $R(1) = 0$ (y efectivamente $T(0) = 1$). ✅
+Para $y = 1$: $T[R(1)] = 1$ exige $R(1) = 0$ (y efectivamente $T(0) = 1$). $\checkmark$
 
-Para $y = 2$: $T[R(2)] = 2$ exigiría que algún elemento de $V$ se mapee a $2$ bajo $T$. Pero el único elemento de $V$ es $0$, y $T(0) = 1 \neq 2$. **Imposible.** ❌
+Para $y = 2$: $T[R(2)] = 2$ exigiría que algún elemento de $V$ se mapee a $2$ bajo $T$. Pero el único elemento de $V$ es $0$, y $T(0) = 1 \neq 2$. **Imposible.**
 
 Es importante resaltar que en nuestro ejemplo el dominio de $R$ es todo $W$, sin embargo tomar el dominio como $T(V)$ tiene una implicación importante y es que en ese caso la inversa por la derecha si existiría 
 
@@ -322,7 +322,7 @@ $$R(1) = 0$$
 
 Verificamos:
 
-$$T[R(1)] = T(0) = 1 \quad \Rightarrow \quad TR = I_{T(V)} \checkmark$$
+$$T[R(1)] = T(0) = 1 \quad \Rightarrow \quad TR = I_{T(V)} \blacksquare$$
 
 El siguiente texto describe esta situación:
 
