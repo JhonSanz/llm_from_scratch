@@ -184,3 +184,62 @@ $T(p + q)$ no se puede calcular porque $p + q$ ya no pertenece a V. El problema 
 ## Idea central
 
 > Los 10 axiomas del espacio lineal no son arbitrarios — son exactamente las propiedades mínimas que necesitas para que el concepto de transformación lineal tenga coherencia. Por eso Apostol construye todo en ese orden: axiomas → espacios lineales → transformaciones lineales → todo lo demás.
+
+
+---
+
+![alt text](img/ex_producto_interior.png)
+
+
+La pregunta es: **¿por qué $T$ es una transformación lineal?**
+
+La respuesta está completamente contenida en los axiomas del producto interior.
+
+Un espacio lineal real $V$ tiene producto interior si a cada par $x, y \in V$ corresponde un número real $(x, y)$ que satisface:
+
+1. $(x, y) = (y, x)$ — *conmutatividad o simetría*
+2. $(x, y + z) = (x, y) + (x, z)$ — *distributividad o linealidad*
+3. $c(x, y) = (cx, y)$ — *homogeneidad escalar*; si $c = 0$ entonces $(0, y) = 0$
+4. $(x, x) > 0$ si $x \neq 0$ — *positividad*
+
+### Por qué $T$ es lineal con $z$ fijo
+
+Verificación de aditividad
+
+$$T(x + y) = (x + y,\ z) \overset{\text{axioma 2}}{=} (x, z) + (y, z) = T(x) + T(y) \quad \checkmark$$
+
+El axioma 2 hace exactamente el trabajo — la distributividad en el primer argumento es la aditividad de $T$.
+
+Verificación de homogeneidad
+
+$$T(cx) = (cx,\ z) \overset{\text{axioma 3}}{=} c \cdot (x, z) = c \cdot T(x) \quad \checkmark$$
+
+El axioma 3 hace exactamente el trabajo — la homogeneidad escalar en el primer argumento es la homogeneidad de $T$.
+
+### ¿Por qué $z$ fijo es crucial?
+
+Los axiomas 2 y 3 actúan sobre el **primer argumento**. Con $z$ constante, $T$ solo mueve ese primer argumento, y ese movimiento es exactamente lineal. Si $z$ no fuera fijo, $T$ no sería ni siquiera una función bien definida de $V$ a $\mathbb{R}$.
+
+## ¿Por qué el producto interior no es lineal en ambas variables?
+
+El producto interior sí es una función de dos variables, $B: V \times V \to \mathbb{R}$ con $B(x, y) = (x, y)$. Pero **no es lineal como función del par $(x, y)$**.
+
+La demostración es por contradicción. Si $B$ fuera lineal, debería cumplir $B(c \cdot (x, y)) = c \cdot B(x, y)$, es decir:
+
+$$B(cx, cy) = c \cdot B(x, y)$$
+
+Calculando el lado izquierdo y aplicando el axioma 3 **dos veces** (una por cada argumento):
+
+$$(cx, cy) \overset{\text{axioma 3}}{=} c(x, cy) \overset{\text{axioma 3}}{=} c^2(x, y)$$
+
+Pero el lado derecho es $c \cdot (x, y)$. Entonces tendría que cumplirse:
+
+$$c^2 (x, y) = c \cdot (x, y) \quad \text{para todo } c \text{ y todo } x, y$$
+
+Por ejemplo, en $\mathbb{R}^2$ con el producto punto estándar $(x, y) = x_1 y_1 + x_2 y_2$,
+tomando $x = y = (1, 0)$ y $c = 3$:
+
+- Lado izquierdo: $B(cx, cy) = ((3,0),\ (3,0)) = 3\cdot3 + 0\cdot0 = 9$
+- Lado derecho: $c \cdot B(x, y) = 3\cdot((1,0),\ (1,0)) = 3\cdot(1\cdot1 + 0\cdot0) = 3$
+
+$9 \neq 3$. Contradicción.
