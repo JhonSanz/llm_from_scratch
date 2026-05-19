@@ -1,3 +1,8 @@
+**TEOREMA** Si $V$ es de dimensión finita, también lo es $T(V)$, y tenemos
+
+$$dim N(T) + dim T(V) = dim V$$
+
+
 Para demostrar esto consideremos los siguientes elementos
 
 - la dimensión $n = dimV$
@@ -17,4 +22,8 @@ Sea $V$ un espacio lineal de dimensión finita con $\dim V = n$. Se tiene:
 
 - Cualquier conjunto de $n$ elementos independientes es una base para $V$.
 
-[demostración aqui](../04_espacios_lineales/demostracion17.md)
+[demostración de este teorema aqui](../04_espacios_lineales/demostracion17.md)
+
+---
+
+

@@ -129,8 +129,7 @@ $$dim N(T) + dim T(V) = dim V$$
 
 Dicho de otro modo, la dimensión del núcleo más el rango de una transformación lineal es igual a la dimensión de su dominio.
 
-Ver la Demostración en Cálculo de Tom Apostol Vol 2 Pág 43
-
+[demostración](ex_2.md)
 
 ## Operaciones algebráicas con transformaciones lineales
 

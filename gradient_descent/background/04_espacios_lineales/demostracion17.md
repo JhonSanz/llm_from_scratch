@@ -40,3 +40,33 @@ Si $S'$ no es una base podríamos realizar el mismo proceso de forma iterativa, 
 La parte b del teorema se basa en que toda base de $V$ tiene el mismo número de elementos. 
 
 Entonces, consideremos un conjunto independiente $S$ con $n$ elementos, en la parte anterior vimos que $S$ es un subconjunto de base $B$, entonces tiene exactamente $n$ elementos entonces $S=B$
+
+---
+
+# Ejemplo: Extensión de un conjunto independiente a una base
+
+Sea $V = \mathbb{R}^3$ (dimensión $n = 3$) y el conjunto independiente inicial $S = \{(1,0,0)\}$.
+
+## Paso 1
+
+$L(S) = \{(a,0,0)\}$ (eje $x$), luego $L(S) \neq V$. Se toma $y = (0,1,0) \notin L(S)$ y se forma:
+
+$$S' = \{(1,0,0),\ (0,1,0)\} \quad \text{independiente, 2 elementos}$$
+
+## Paso 2
+
+$L(S') = \{(a,b,0)\}$ (plano $xy$), luego $L(S') \neq V$. Se toma $y' = (0,0,1) \notin L(S')$ y se forma:
+
+$$S'' = \{(1,0,0),\ (0,1,0),\ (0,0,1)\} \quad \text{independiente, 3 elementos}$$
+
+## Paso 3
+
+$L(S'') = \mathbb{R}^3 = V$. El proceso para: $S''$ es una base.
+
+## ¿Por qué no puede continuar?
+
+Cualquier $y'' \in V$ ya pertenece a $L(S'') = V$, por lo que $S''' = S'' \cup \{y''\}$ sería dependiente. Esto es exactamente lo que garantiza el Teorema 1.5: ningún conjunto independiente en $V$ puede tener más de $n = 3$ elementos.
+
+## Resumen del proceso
+
+$$\{(1,0,0)\} \xrightarrow{+(0,1,0)} \{(1,0,0),(0,1,0)\} \xrightarrow{+(0,0,1)} \underbrace{\{(1,0,0),(0,1,0),(0,0,1)\}}_{\text{base de } \mathbb{R}^3}$$
