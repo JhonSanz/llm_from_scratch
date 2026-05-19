@@ -149,7 +149,7 @@ $\mathbb{R}^3 \to P_2$ (vector → polinomio)
 
 $P \to P$ (polinomio → polinomio)
 
-$C[a,b] → $\mathbb{R}$        (función → número)
+$C[a,b] → \mathbb{R}$        (función → número)
 
 
 ### Dos casos especialmente importantes
