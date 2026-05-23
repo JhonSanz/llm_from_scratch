@@ -12,7 +12,7 @@ $$S = \lbrace x_1, \dots, x_n \rbrace$$
 
 recordando que la envolvente lineal de una base nos genera el espacio $V$... Entonces si $L(S) = V$ entonces $S$ es una base.
 
-Si $L(S) \neq V$, entonces hay algún elemento $y$ en $V$, **que no está en** $L(S)$ (de esa manera se garantiza no tomar objetos redundantes). Así que vamos a agregarlo a nuestro conjunto $S$, generando un nuevo conjunto $S'$ **presuntamente dependiente** (ya que esto es lo que queremos refutar), así:
+Si $L(S) \neq V$, entonces hay algún elemento $y$ en $V$, **que no está en** $L(S)$ (es decir $y$ no puede escribirse como combinación lineal de los elementos de $S$). Así que vamos a agregarlo a nuestro conjunto $S$, generando un nuevo conjunto $S'$ **presuntamente dependiente** (ya que esto es lo que queremos refutar), así:
 
 $$S' = \lbrace x_1, \dots, x_n, y \rbrace$$
 
