@@ -201,7 +201,7 @@ Ahora, ¿qué pasa con el resultado de la composición? veamos varias cosas inte
 
 Veamos contraejemplo. Sean $T, S: \mathbb{R}^2 \to \mathbb{R}^2$ definidas por:
 
-$$T(x_1, x_2) = (x_1 + x_2, \; 0) \qquad S(x_1, x_2) = (0, \; x_1)$$
+$$T(x_1, x_2) = (x_1 + x_2, 0) \qquad S(x_1, x_2) = (0, x_1)$$
 
 Ambas son lineales (se verifica directamente con la definición). Para $x = (1, 1)$:
 
