@@ -45,4 +45,43 @@ $$T(x) = x_1 T(i) + x_2 T(j) = x_1(i + j) + x_2(2i - j) = (x_1 + 2x_2)i + (x_1 -
 
 ## Representación matricial de las transformaciones lineales
 
-Con el teorema de valores asignados 
+Con el teorema de valores asignados pudimos ver que la transformación lineal $T: V \rightarrow W$ está determinada por su acción sobre un conjunto de elementos base $e_1, \dots, e_n$ mediante los valores asignados
+
+Ahora supongamos que el espacio lineal $W$ es de dimensión finita y $dimW = m$ y tenemos una cierta base $w_1, \dots, w_m$ para $W$
+
+> las dimensiones $n$ y $m$ pueden ser o no iguales
+
+Como $T$ tiene los valores en $W$ podemos expresar los valores asignados de la siguiente manera 
+
+
+$$T(e_k) = \sum_{i = 1}^{m} t_{ik}w_{i}$$
+
+
+esto es una combinación lineal de los elementos de la base $w_1, \dots, w_m$  de $W$ con los escalares $t_{1k}, \dots, t_{mk}$
+
+por ejemplo
+
+$T(e_1​) = t_{11​}w_1​ + t_{21​}w_2​ + \dots + t_{m1}w_m​$
+
+$T(e_2​) = t_{12​}w_1​ + t_{22​}w_2​ + \dots + t_{m2}w_m​$
+
+cada uno de estos valores asignados se puede representar como un vector columna, de la siguiente manera:
+
+
+ejemplo para $T(e_1​)$
+
+$$T(e_1​) = \begin{pmatrix} t_{11} \\ t_{21} \\ \vdots \\ t_{m1} \end{pmatrix}$$
+
+vemos que el primer subindice cambia, y es importante cuando escribimos todos los valores asignados $T(e_k)$ uno junto al otro
+
+$$T(e_k) =\begin{pmatrix} t_{11} & t_{12} & \cdots & t_{1n} \\ t_{21} & t_{22} & \cdots & t_{2n} \\ \vdots & \vdots & & \vdots \\ t_{m1} & t_{m2} & \cdots & t_{mn} \end{pmatrix}$$
+
+vemos que el primer subindice indica la fila y el segundo la columna. También vemos que en la diagonal los subíndices son iguales.
+
+Por lo tanto esto es una matriz de $m \times n$, $m$ filas y $n$ columnas
+
+También podemos hacer referencia a un elemento directo de la matriz así $t_{ik}$
+
+
+
+
