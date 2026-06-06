@@ -80,7 +80,7 @@ t_{m1}
 vemos que el primer subindice cambia, y es importante cuando escribimos todos los valores asignados $T(e_k)$ uno junto al otro
 
 $$
-T(e_k) = \begin{pmatrix}
+\begin{pmatrix}
 t_{11} & t_{12} & \cdots & t_{1n} \\
 t_{21} & t_{22} & \cdots & t_{2n} \\
 \vdots & \vdots & \ddots & \vdots \\
@@ -93,6 +93,116 @@ vemos que el primer subindice indica la fila y el segundo la columna. También v
 Por lo tanto esto es una matriz de $m \times n$, $m$ filas y $n$ columnas
 
 También podemos hacer referencia a un elemento directo de la matriz así: $t_{ik}$
+
+#### Ejemplo informal pero poderoso
+
+Aun sin ver la definición formal podemos intuir que, como en el ejemplo anterior, podemos armar una matriz con **dos espacios lineales $V$ y $W$** y con los valores asignados que vimos anteriormente. Por lo tanto, podemos tomar cualquier tipo de elementos que cumplan las caracteristicas que nos piden
+
+Ya sabemos que tanto vectores como polinomios de grado $\leq n$ son espacios lienales, entonces armemos una transformación lineal y una matriz 
+
+$T: V \to W$ con $V = \mathbb{R^2}$ y $W = P_3$ Y tenemos que definir las bases para cada conjunto y los valores asignados para cada elemento de la base de $V$, entonces:
+
+- Base de $V$: $\lbrace (1,0), (0,1) \rbrace$
+- Base de $W$: $\lbrace 1,x,x^2,x^3 \rbrace$
+
+Y ahora definimos los valores asignados, PERO OJO 👀, si vemos el teorema de mas arriba no nos exige ni siquiera saber la base de $V$, solo necesitamos escribir los valores asignados para cada elemento así:
+
+- $T(e_1)$ = $1 + x$
+- $T(e_2)$ = $x^2 + x^3$
+
+observemos que los valores asignados están en términos de los elementos de $W$, y ahora podemos armar la matriz ya que:
+
+- $T(e_1)$ = $1 + x$ = $1 \cdot 1 + 1x + 0x^2 + 0x^3 \quad$ es decir, estamos encotrando los coeficientes para cada elemento de la base de $W$ después de establecer los valores asignados.
+
+- $T(e_2)$ = $x^2 + x^3$ = $0 \cdot 1 + 0x + 1x^2 + 1x^3$
+
+osea
+
+$$T(e_1) = \begin{pmatrix}
+1 \\
+1\\
+0 \\
+0
+\end{pmatrix}$$
+
+$$T(e_2) = \begin{pmatrix}
+0 \\
+0\\
+1 \\
+1
+\end{pmatrix}$$
+
+entonces ya podemos armar la matriz
+
+$$
+\begin{pmatrix}
+1 & 0 \\
+1 & 0 \\
+0 & 1 \\
+0 & 1
+\end{pmatrix}
+$$
+
+ahora calculemos un elemento puntual usando la transformación, recordando lo que vimos anteriormente, cualquier elemento de $V$ se puede escribir como $x = x_1e_1 + x_2e_2$, y por la linealidad terminaremos aplicando los valores asignados, entonces:
+
+$$T((3,2)) = 3T(e_1) + 2T(e_2)$$
+$$T((3,2)) = 3(1 + x) + 2(x^2 + x^3)$$
+
+donde
+
+$$T((3,2)) = 3 + 3x + 2x^2 + 2x^3$$
+
+Lo cual nos da como resultado un polinomio de grado 3, pero eso no es lo mas sorprendente. Simplemente pudimos haber usado la matriz para calcular esto así:
+
+$$
+\begin{pmatrix}
+1 & 0 \\
+1 & 0 \\
+0 & 1 \\
+0 & 1
+\end{pmatrix}
+
+\begin{pmatrix}
+3 \\
+2 
+\end{pmatrix}
+
+=
+
+\begin{pmatrix}
+3 \\
+3 \\
+2 \\
+2 
+\end{pmatrix}
+$$
+
+Se que en este punto no conocemos el producto de matrices, pero veamos que esa operacion equivale al polinomio $3 + 3x + 2x^2 + 2x^3$
+
+#### Sutilezas 
+
+Antes de la definición formal podemos encontrar varios puntos sutiles
+
+Como vimos anteriormente para armar la matriz introdujimos los valores asignados de como una combinación lineal de los valores de W, pero estos **no aparecen por ningún lado en la matriz resultante**. Y esto lo podemos interpretar de la siguiente manera 
+
+recordando la forma en que se escriben los vectores, siempre hay una base canónica "por debajo", así:
+
+$$3(1,0,0) + 2(0,1,0) + 4(0,0,1) = (3,2,4)$$
+
+Pero podemos simplemente escribir el vector $(3,2,4)$ y obviar la base...
+
+Lo mismo pasa con las matrices, solo vamos a encontrar los coeficientes en la matriz, pero debajo está la base. Y esto es muy importante porque la base es la que nos da el "orden" de como van a aparecer los elementos en la matriz. No es igual formarla tomando los valores asignados primero por el último elemento de la base de $V$ que por el primero.
+
+
+También vale la pena resaltar que en el ejemplo anterior solamente puede exitir una transformación que actúe sobre los valores asignados de esta manera 
+
+- $T(e_1)$ = $1 + x$
+- $T(e_2)$ = $x^2 + x^3$
+
+tal y como lo menciona el teorema de valores asignados.
+
+---
+
 
 "Así pues, toda transformación lineal $T$ de un espacio $n$-dimensional $V$ 
 en un espacio $m$-dimensional $W$ da origen a una matriz $m \times n$ 
