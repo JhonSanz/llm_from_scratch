@@ -154,26 +154,7 @@ $$T((3,2)) = 3 + 3x + 2x^2 + 2x^3$$
 
 Lo cual nos da como resultado un polinomio de grado 3, pero eso no es lo mas sorprendente. Simplemente pudimos haber usado la matriz para calcular esto así:
 
-$$\begin{pmatrix}
-1 & 0 \\
-1 & 0 \\
-0 & 1 \\
-0 & 1
-\end{pmatrix}
-
-\begin{pmatrix}
-3 \\
-2 
-\end{pmatrix}
-
-=
-
-\begin{pmatrix}
-3 \\
-3 \\
-2 \\
-2 
-\end{pmatrix}$$
+$$\begin{pmatrix} 1 & 0 \\ 1 & 0 \\ 0 & 1 \\ 0 & 1 \end{pmatrix} \begin{pmatrix} 3 \\ 2 \end{pmatrix} = \begin{pmatrix} 3 \\ 3 \\ 2 \\ 2 \end{pmatrix}$$
 
 Se que en este punto no conocemos el producto de matrices, pero veamos que esa operacion equivale al polinomio $3 + 3x + 2x^2 + 2x^3$
 
