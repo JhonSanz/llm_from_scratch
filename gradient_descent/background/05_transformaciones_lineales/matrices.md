@@ -61,26 +61,38 @@ esto es una combinación lineal de los elementos de la base $w_1, \dots, w_m$  d
 
 por ejemplo
 
-$T(e_1​) = t_{11​}w_1​ + t_{21​}w_2​ + \dots + t_{m1}w_m​$
+$T(e_1) = t_{11}w_1 + t_{21}w_2 + \dots + t_{m1}w_m$
 
-$T(e_2​) = t_{12​}w_1​ + t_{22​}w_2​ + \dots + t_{m2}w_m​$
+$T(e_2) = t_{12}w_1 + t_{22}w_2 + \dots + t_{m2}w_m$
 
 cada uno de estos valores asignados se puede representar como un vector columna, de la siguiente manera:
 
 
-ejemplo para $T(e_1​)$
+ejemplo para $T(e_1)$
 
-$$T(e_1​) = \begin{pmatrix} t_{11} \\ t_{21} \\ \vdots \\ t_{m1} \end{pmatrix}$$
+$$T(e_1) = \begin{pmatrix}
+t_{11} \\
+t_{21} \\
+\vdots \\
+t_{m1}
+\end{pmatrix}$$
 
 vemos que el primer subindice cambia, y es importante cuando escribimos todos los valores asignados $T(e_k)$ uno junto al otro
 
-$$T(e_k) =\begin{pmatrix} t_{11} & t_{12} & \cdots & t_{1n} \\ t_{21} & t_{22} & \cdots & t_{2n} \\ \vdots & \vdots & & \vdots \\ t_{m1} & t_{m2} & \cdots & t_{mn} \end{pmatrix}$$
+$$
+T(e_k) = \begin{pmatrix}
+t_{11} & t_{12} & \cdots & t_{1n} \\
+t_{21} & t_{22} & \cdots & t_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+t_{m1} & t_{m2} & \cdots & t_{mn}
+\end{pmatrix}
+$$
 
 vemos que el primer subindice indica la fila y el segundo la columna. También vemos que en la diagonal los subíndices son iguales.
 
 Por lo tanto esto es una matriz de $m \times n$, $m$ filas y $n$ columnas
 
-También podemos hacer referencia a un elemento directo de la matriz así $t_{ik}$
+También podemos hacer referencia a un elemento directo de la matriz así: $t_{ik}$
 
 
 
