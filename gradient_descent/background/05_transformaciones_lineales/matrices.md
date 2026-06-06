@@ -205,4 +205,56 @@ que sigue." - Cálculo Tom M. Apostol Vol 2 pag. 57
 
 ---
 
-Ahora bien, el recíproco también es cierto. Podemos partir desde una disposición de $mn$ escalares que formen una matriz rectangular $t_{ik}$ y elegimos un par de bases ordenadas para $V$ y $W$
+Ahora bien, el recíproco también es cierto. Podemos partir desde una disposición de $mn$ escalares que formen una matriz rectangular $t_{ik}$ y elegimos un par de bases ordenadas para $V$ y $W$ existe una transformación lineal que tiene esa representación matricial.
+
+Por ejemplo
+
+Construcción de una transformación lineal a partir de una matriz dada. Supongamos que disponemos de la matriz $2 \times 3$
+
+```math
+\begin{pmatrix} 3 & 1 & -2 \\ 1 & 0 & 4 \end{pmatrix}
+```
+
+Elijamos las bases usuales de vectores coordenados unitarios para $V_2$ y $V_3$. Entonces la matriz dada representa una transformación lineal $T: V_3 \to V_2$. que aplica un vector cualquiera $(x_1, x_2, x_3)$ de $V_3$ en el vector $(y_1, y_2)$ de $V_2$ de acuerdo con
+las ecuaciones lineales:
+
+$$y_1 = 3x_1 + x_2 - 2x_3$$
+
+$$y_2 = x_1 + 0x_2 + 4x_3$$
+
+Analicemos:
+
+El texto nos propone esa matriz. Ya sabemos que cada columna fue producto de un valor asignado, y podemos ver que hay tres columnas entonces estamos hablando de una base de un espacio lineal de $dimV = 3$
+
+Es muy importante recalcar la frase "**Elijamos las bases usuales**" ya que en otras palabras está diciendo que los valores asignados son solamente una combinación lineal así:
+
+- $T(e_1) = 3(w_1) + 1(w_2)$
+- $T(e_2) = 1(w_1) + 0(w_2)$
+- $T(e_3) = -2(w_1) + 4(w_2)$
+
+Donde $w_1 = (1,0) \quad w_2 = (0,1)$, osea que obtenemos los mismos vectores y armamos de nuevo la matriz.
+
+Entonces para un vector cualquiera $x = (x_1, x_2, x_3)$ si aplicamos la transformación lo hacemos teniendo en cuenta la base, osea que escribimos el vector así
+
+$$T(x_1e_1 + x_2e_2 + x_3e_3)$$
+
+Y aplicamos la linealidad de la transformación
+
+$$T(x_1e_1 + x_2e_2 + x_3e_3) = x_1T(e_1) + x_2T(e_2) + x_3T(e_3)$$
+
+y finalmente reemplazamos los valores asignados
+
+$T(x_1e_1 + x_2e_2 + x_3e_3) = x_1(3(w_1) + 1(w_2)) + x_2(1(w_1) + 0(w_2)) + x_3(-2(w_1) + 4(w_2))$
+
+$T(x_1e_1 + x_2e_2 + x_3e_3) = x_1(3(1,0) + 1(0,1)) + x_2(1(1,0) + 0(0,1)) + x_3(-2(1,0) + 4(0,1))$
+
+$T(x_1e_1 + x_2e_2 + x_3e_3) = x_1(3,1) + x_2(1,0) + x_3(-2, 4)$
+
+$T(x_1e_1 + x_2e_2 + x_3e_3) = (3x_1 + x_2 - 2x_3, x_1 + 0x_2 + 4x_3)$
+
+
+si tomamos ese ultimo resultado por cada componente obtenemos lo mismo de arriba
+
+$$y_1 = 3x_1 + x_2 - 2x_3$$
+
+$$y_2 = x_1 + 0x_2 + 4x_3$$
