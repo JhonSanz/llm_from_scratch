@@ -202,3 +202,7 @@ que sigue." - Cálculo Tom M. Apostol Vol 2 pag. 57
 
 
 ![alt text](img/matrix_t1.png)
+
+---
+
+Ahora bien, el recíproco también es cierto. Podemos partir desde una disposición de $mn$ escalares que formen una matriz rectangular $t_{ik}$ y elegimos un par de bases ordenadas para $V$ y $W$
