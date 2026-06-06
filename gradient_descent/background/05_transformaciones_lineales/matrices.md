@@ -94,6 +94,17 @@ Por lo tanto esto es una matriz de $m \times n$, $m$ filas y $n$ columnas
 
 También podemos hacer referencia a un elemento directo de la matriz así: $t_{ik}$
 
+"Así pues, toda transformación lineal $T$ de un espacio $n$-dimensional $V$ 
+en un espacio $m$-dimensional $W$ da origen a una matriz $m \times n$ 
+$(t_{ik})$ cuyas columnas son los componentes de $T(e_1), \ldots, T(e_n)$ 
+relativos a la base $(w_1, \ldots, w_m)$. La llamamos **representación 
+matricial** de $T$ relativa a unas bases ordenadas $(e_1, \ldots, e_n)$ de $V$ 
+y $(w_1, \ldots, w_m)$ para $W$. 
+
+Una vez conocida la matriz $(t_{ik})$, los 
+componentes de un elemento cualquiera $T(x)$ con relación a la base 
+$(w_1, \ldots, w_m)$ pueden determinarse como se explica en el teorema 
+que sigue." - Cálculo Tom M. Apostol Vol 2 pag. 57
 
 
-
+![alt text](img/matrix_t1.png)
