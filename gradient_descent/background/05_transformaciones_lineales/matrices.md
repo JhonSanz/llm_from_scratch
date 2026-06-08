@@ -306,3 +306,134 @@ ahora, si hacemos esta multiplicación matriz-vector
 lo cual corresponde con la derivada, ya que el resultado vive en $W$ y corresponde a la base $\lbrace 1, x, x^2 \rbrace$ de la siguiente manera
 
 $$0 \cdot 1 + \frac{10}{3}x + 21x^2$$
+
+Ahora para dejar en evidencia como la base es importante aunque no aparezca en el resultado visible de la matriz, invirtamos el orden de la base $(x^2,x,1)$ y generemosla 
+
+- $D(1) = 0x^2 + 0x + 0 \cdot 1$
+- $D(x) = 0x^2 + 0x + 1 \cdot 1 $
+- $D(x^2) = 0x^2 + 2x + 0 \cdot 1$ 
+- $D(x^3) = 3x^2 + 0x + 0 \cdot 1$ 
+
+
+```math
+\begin{pmatrix} 0 & 0 & 0 & 3 \\ 0 & 0 & 2 & 0 \\ 0 & 1 & 0 & 0 \end{pmatrix}
+```
+
+vemos que el resultado de la matriz también aparece en ornden inverso. Y si hacemos la multiplicación como antes 
+
+
+```math
+\begin{pmatrix} 0 & 0 & 0 & 3 \\ 0 & 0 & 2 & 0 \\ 0 & 1 & 0 & 0 \end{pmatrix} \begin{pmatrix} 0 \\ 0 \\ 5/3 \\ 7\end{pmatrix} = \begin{pmatrix} 21 \\ 10/3 \\ 0\end{pmatrix}
+```
+
+obtenemos el orden inverso, y eso está bien ya que la base también se invirtió entonces los escalares del resultado corresponden correctamente a la base. Es muy importante tener en cuenta que lo que cambió fue la base de $W$ pero no la de $V$ por eso el argumento sigue siendo el mismo.
+
+#### Ejemplo 3 — una tercera representación de $D$ (ahora la base de $V$ no es canónica)
+
+Ahora el texto nos propone calcular una **tercera** representación matricial del operador derivación $D$, pero con un una base diferente para $V$, tenemos entonces:
+
+- El espacio lineal $V$ con todos los polinomios reales de grado $\leq 3$, pero ahora con la base $(1,\ 1+x,\ 1+x+x^2,\ 1+x+x^2+x^3)$
+- El espacio lineal $W$ de los polinomios de grado $\leq 2$, con la base usual $(1, x, x^2)$
+- El operador $D$ que aplica cada polinomio en su derivada
+
+Llamemos a los elementos de la base de $V$ así:
+
+- $e_1 = 1$
+- $e_2 = 1+x$
+- $e_3 = 1+x+x^2$
+- $e_4 = 1+x+x^2+x^3$
+
+Entonces, igual que antes, transformamos (derivamos) cada elemento base de $V$ y lo escribimos como combinación lineal de los elementos de $W$:
+
+- $D(e_1) = D(1) = 0 = 0 \cdot 1 + 0x + 0x^2$
+- $D(e_2) = D(1+x) = 1 = 1 \cdot 1 + 0x + 0x^2$
+- $D(e_3) = D(1+x+x^2) = 1 + 2x = 1 \cdot 1 + 2x + 0x^2$
+- $D(e_4) = D(1+x+x^2+x^3) = 1 + 2x + 3x^2 = 1 \cdot 1 + 2x + 3x^2$
+
+Cada uno de estos valores asignados es un vector columna respecto a la base $(1, x, x^2)$ de $W$:
+
+$$D(e_1) = \begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix} \quad
+D(e_2) = \begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix} \quad
+D(e_3) = \begin{pmatrix} 1 \\ 2 \\ 0 \end{pmatrix} \quad
+D(e_4) = \begin{pmatrix} 1 \\ 2 \\ 3 \end{pmatrix}$$
+
+Y poniendo las columnas una junto a la otra armamos la matriz $3 \times 4$:
+
+```math
+\begin{pmatrix} 0 & 1 & 1 & 1 \\ 0 & 0 & 2 & 2 \\ 0 & 0 & 0 & 3 \end{pmatrix}
+```
+
+que es exactamente la que muestra el libro.
+
+> Comparemos con la representación canónica del Ejemplo 2:
+> ```math
+> \begin{pmatrix} 0 & 1 & 0 & 0 \\ 0 & 0 & 2 & 0 \\ 0 & 0 & 0 & 3 \end{pmatrix}
+> ```
+> Es la **misma transformación $D$**, pero la matriz cambió solo por haber cambiado la base de $V$. Esto refuerza lo que hemos visto durante este capítulo: la matriz no es "la transformación", es la transformación **vista a través de un par de bases**.
+
+#### Verificación con un elemento concreto
+
+Tomemos un polinomio cualquiera de $V$, por ejemplo:
+
+$$p(x) = 5 + 4x + 2x^2 + x^3$$
+
+Calculemos primero su derivada "a mano", que es lo que debería darnos al final:
+
+$$D(p) = 4 + 4x + 3x^2$$
+
+Ahora quiero obtener esto mismo con la multiplicación matriz-vector. Y aquí está **lo importante**: el vector columna que metemos NO son los coeficientes de los monomios de $p(x)$. Son las componentes de $p(x)$ **respecto a la base de $V$**, que ya no es canónica.
+
+Es decir, tengo que encontrar los $c_1, c_2, c_3, c_4$ tales que:
+
+$$p(x) = c_1 e_1 + c_2 e_2 + c_3 e_3 + c_4 e_4$$
+
+Obtenemos esto 
+
+$$p(x) = c_1(1) + c_2(1+x) + c_3(1+x+x^2) + c_4(1+x+x^2+x^3)$$
+
+$$p(x) = (c_1 + c_2 + c_3 + c_4) + (c_2 + c_3 + c_4)x + (c_3 + c_4)x^2 + c_4 x^3$$
+
+después tenemos que encontrar esas constantes igualando coeficiente a coeficiente con $p(x) = 5 + 4x + 2x^2 + x^3$, lo resolvemos "de arriba hacia abajo" empezando por el grado más alto:
+
+- $x^3$: $c_4 = 1$
+- $x^2$: $c_3 + c_4 = 2 \Rightarrow c_3 = 1$
+- $x^1$: $c_2 + c_3 + c_4 = 4 \Rightarrow c_2 = 2$
+- $x^0$: $c_1 + c_2 + c_3 + c_4 = 5 \Rightarrow c_1 = 1$
+
+Entonces las componentes de $p(x)$ en la base de $V$ son $(1, 2, 1, 1)$, y **ese** es el vector que va en la columna:
+
+```math
+\begin{pmatrix} 0 & 1 & 1 & 1 \\ 0 & 0 & 2 & 2 \\ 0 & 0 & 0 & 3 \end{pmatrix}
+\begin{pmatrix} 1 \\ 2 \\ 1 \\ 1 \end{pmatrix}
+=
+\begin{pmatrix} 4 \\ 4 \\ 3 \end{pmatrix}
+```
+
+El resultado vive en $W$ con la base $(1, x, x^2)$, así que se interpreta como:
+
+$$4 \cdot 1 + 4x + 3x^2 = 4 + 4x + 3x^2$$
+
+que coincide exactamente con la derivada que calculamos a mano. 🎯
+
+#### La trampa (por qué la base de $V$ sí importa)
+
+Aprovechando el mismo ejemplo donde antes mostré que la base de $W$ ordena el resultado, ahora la base de $V$ nos enseña otra cosa: **ordena la entrada**.
+
+¿Qué hubiera pasado si, por descuido, hubiera metido los coeficientes de los monomios de $p(x) = 5 + 4x + 2x^2 + x^3$, o sea $(5, 4, 2, 1)$, como si la base de $V$ fuera la canónica?
+
+```math
+\begin{pmatrix} 0 & 1 & 1 & 1 \\ 0 & 0 & 2 & 2 \\ 0 & 0 & 0 & 3 \end{pmatrix}
+\begin{pmatrix} 5 \\ 4 \\ 2 \\ 1 \end{pmatrix}
+=
+\begin{pmatrix} 7 \\ 6 \\ 3 \end{pmatrix}
+\;\Rightarrow\; 7 + 6x + 3x^2
+```
+
+Eso **no es la derivada de $p(x)$**. Es un resultado completamente equivocado, porque le estoy dando a la matriz componentes que están en una base distinta a la que la matriz "espera".
+
+Y esto cierra simétricamente la idea de los apuntes anteriores:
+
+- La base de $W$ no aparece en la matriz, pero **ordena cómo se lee la salida**.
+- La base de $V$ tampoco aparece en la matriz, pero **ordena cómo se debe escribir la entrada**.
+
+La matriz es solo la tabla de coeficientes "desnuda". Las dos bases están por debajo, invisibles, una a cada lado, y son las que le dan sentido tanto a lo que entra como a lo que sale.
