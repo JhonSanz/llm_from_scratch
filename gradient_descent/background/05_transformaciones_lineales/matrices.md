@@ -167,7 +167,7 @@ Se que en este punto no conocemos el producto de matrices, pero veamos que esa o
 
 Antes de la definición formal podemos encontrar varios puntos sutiles
 
-Como vimos anteriormente para armar la matriz introdujimos los valores asignados de como una combinación lineal de los valores de W, pero estos **no aparecen por ningún lado en la matriz resultante**. Y esto lo podemos interpretar de la siguiente manera 
+Como vimos anteriormente para armar la matriz introdujimos los valores asignados de $V$ como una combinación lineal de los valores de W, pero estos **no aparecen por ningún lado en la matriz resultante**. Y esto lo podemos interpretar de la siguiente manera 
 
 recordando la forma en que se escriben los vectores, siempre hay una base canónica "por debajo", así:
 
@@ -207,7 +207,7 @@ que sigue." - Cálculo Tom M. Apostol Vol 2 pag. 57
 
 Ahora bien, el recíproco también es cierto. Podemos partir desde una disposición de $mn$ escalares que formen una matriz rectangular $t_{ik}$ y elegimos un par de bases ordenadas para $V$ y $W$ existe una transformación lineal que tiene esa representación matricial.
 
-Por ejemplo
+#### Por ejemplo
 
 Construcción de una transformación lineal a partir de una matriz dada. Supongamos que disponemos de la matriz $2 \times 3$
 
@@ -258,3 +258,51 @@ si tomamos ese ultimo resultado por cada componente obtenemos lo mismo de arriba
 $$y_1 = 3x_1 + x_2 - 2x_3$$
 
 $$y_2 = x_1 + 0x_2 + 4x_3$$
+
+esto lo utilizaremsos mas adelante
+
+#### Ejemplo 2
+
+Ahora el texto nos propone un ejercicio muy interesante, tenemos:
+
+- El espacio lineal $V$ con todos los polinomios reales $p(x)$ de grado $\leq 3$ de dimensión $4$, con la base $(1,x,x^2,x^3)$
+- El operador $D$ de derivación que aplica cada polinomio $p(x)$ de $V$ en su derivada $p'(x)$. Podemos considerar $D$ como una transformación lineal de $V$ en $W$ 
+- Por lo tanto el espacio lineal $W$ es el espacio lineal de todos los polinomios de grado $\leq 2$
+- En $W$ exigimos la base $(1,x,x^2)$
+
+Entonces, para encontrar la representación matricial de $D$ realitva a esas bases, transformamos (derivamos) cada elemento base de $V$ y lo representamos como una combinación lineal de los elemnetos de $W$
+
+
+- $D(1) = 0 \cdot 1 + 0x + 0x^2$ 
+- $D(x) = 1 \cdot 1 + 0x + 0x^2$ 
+- $D(x^2) = 0 \cdot 1 + 2x + 0x^2$ 
+- $D(x^3) = 0 \cdot 1 + 0x + 3x^2$ 
+
+
+Como vimos anteriormente los coeficientes de (en este caso) cada polinimio representan los elementos de la matriz $3 \times 4$
+
+```math
+\begin{pmatrix} 0 & 1 & 0 & 0 \\ 0 & 0 & 2 & 0 \\ 0 & 0 & 0 & 3 \end{pmatrix}
+```
+
+¿para qué nos puede servir esta matriz? personalmente me pareció interesante lo siguiente:
+
+Si hacemos el desarrollo para un elemento de $V$ cualquiera por ejemplo $x = 0 \cdot 1 + 0x + \frac{5}{3}x^2 + 7x^3$ y aplicamos la transformación obtenemos
+
+$D(\frac{5}{3}x^2 + 7x^3) = \frac{5}{3}D(x^2) + 7D(x^3)$ y usamos los valores asignados
+
+$D(\frac{5}{3}x^2 + 7x^3) = \frac{5}{3}(2x) + 7(3x^2)$ 
+
+$D(\frac{5}{3}x^2 + 7x^3) = \frac{10}{3}x + 21x^2$ 
+
+y vemos que obviamente vamos a obtener la derivada, ya que por la linealidad de la tranformación la aplicamos directamente en los valores asignados
+
+ahora, si hacemos esta multiplicación matriz-vector
+
+```math
+\begin{pmatrix} 0 & 1 & 0 & 0 \\ 0 & 0 & 2 & 0 \\ 0 & 0 & 0 & 3 \end{pmatrix} \begin{pmatrix} 0 \\ 0 \\ 5/3 \\ 7\end{pmatrix} = \begin{pmatrix} 0 \\ 10/3 \\ 21\end{pmatrix}
+```
+
+lo cual corresponde con la derivada, ya que el resultado vive en $W$ y corresponde a la base $\lbrace 1, x, x^2 \rbrace$ de la siguiente manera
+
+$$0 \cdot 1 + \frac{10}{3}x + 21x^2$$
