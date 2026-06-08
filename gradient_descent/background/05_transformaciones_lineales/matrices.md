@@ -437,3 +437,10 @@ Y esto cierra simétricamente la idea de los apuntes anteriores:
 - La base de $V$ tampoco aparece en la matriz, pero **ordena cómo se debe escribir la entrada**.
 
 La matriz es solo la tabla de coeficientes "desnuda". Las dos bases están por debajo, invisibles, una a cada lado, y son las que le dan sentido tanto a lo que entra como a lo que sale.
+
+## Representación matricial en forma de diagonal
+
+En el ejemplo anterior vimos que podemos usar una base diferente para generar la matriz. En esta sección vamos a hacer eso mismo, pero esta vez para generar una matriz que tiene solamente numeros $1$ en la diagonal desde la esquina superior izquierda hasta la esquina inferior derecha, el resto con números $0$, **siendo el número de unos igual al rango de la transformación**.
+
+Osea que, Una matriz $(t_{ik})$ con todos los elementos $t_{ik} = O$ cuando $i \neq k$ se llama matriz diagonal.
+
