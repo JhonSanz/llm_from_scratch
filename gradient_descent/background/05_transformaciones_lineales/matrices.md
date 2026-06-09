@@ -442,5 +442,21 @@ La matriz es solo la tabla de coeficientes "desnuda". Las dos bases están por d
 
 En el ejemplo anterior vimos que podemos usar una base diferente para generar la matriz. En esta sección vamos a hacer eso mismo, pero esta vez para generar una matriz que tiene solamente numeros $1$ en la diagonal desde la esquina superior izquierda hasta la esquina inferior derecha, el resto con números $0$, **siendo el número de unos igual al rango de la transformación**.
 
-Osea que, Una matriz $(t_{ik})$ con todos los elementos $t_{ik} = O$ cuando $i \neq k$ se llama matriz diagonal.
+Osea que, Una matriz $(t_{ik})$ con todos los elementos $t_{ik} = O$ cuando $i \neq k$ se llama matriz diagonal. Y el teorema aparece así:
+
+
+- Sean $V$ y $W$ dos espacios lineales de dimensión finita $dimV = n \quad$ $dimW = m$
+- Supongamos que $T \in \mathscr{L}(V, W)$ 
+- También que $r = dim T(V)$, el rango de $T$
+
+existe entonces una base $(e_1, \dots, e_n)$ para $V$ y otra $(w_1, \dots, w_n)$ para $W$ tales que:
+
+$$T(e_i) = w_i \quad para \quad i = 1,2, \dots, r$$
+
+$$T(e_i) = 0 \quad para \quad i = r+1, \dots, n$$
+
+Por consiguiente, la matriz t_{ik} de $T$ relativa a esas bases tiene todos los elementos cero excepto los $r$ elementos de la diagonal que valen
+
+$$t_{11} = t_{22} = \dots = t_{rr} = 1$$
+
 
