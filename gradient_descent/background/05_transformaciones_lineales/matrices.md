@@ -459,4 +459,91 @@ Por consiguiente, la matriz t_{ik} de $T$ relativa a esas bases tiene todos los 
 
 $$t_{11} = t_{22} = \dots = t_{rr} = 1$$
 
+> Ver demostración en Cálculo de Tom M. Apostol Vol 2 - pág 60
 
+#### Ejemplo del libro
+
+Veamos un ejemplo de este teorema en acción. Retomemos el ejemplo de la transformación con la derivada.
+
+- Esa transformación aplica el espacio $V$ de los plonomios de grado $\leq 3$ al espacio $W$ de los polinomios de grado $\leq 2$
+- También el recorrido $T(V) = W$ (ya que al derivar un polinomio de grado $\leq 3$ el resultado siempre está en $W$)
+- Tiene rango $3$, ya que $dimW = 3$, tomando la base canónica $(1,x,x^2)$
+
+Entonces siguiendo la lógica del teorema hacemos los siguiente:
+
+1. tomamos una base para $W$, en este caso $(1,x,x^2)$
+2. un conjunto de polinomios de $V$ que se aplica sobre esos elementos es $(x, \frac{1}{2}x^2, \frac{1}{3}x^3)$, es decir, al derivar esos polinomios obtengo la base de $W$
+3. tomo ese conjunto y le agrego el polinomio constante $1$, que es una base para el núcleo de $D$. Esto porque al derivar $1$ siempre me lleva al cero del conjunto de llegada, lo cual corresponde a la definición de núcleo
+4. obtenemos el conjunto $(x, \frac{1}{2}x^2, \frac{1}{3}x^3, 1)$ la cual es una base para $V$
+
+
+Entonces si usamos:
+
+- La base para $V$ así: $(x, \frac{1}{2}x^2, \frac{1}{3}x^3, 1)$
+- La base para $W$ así: $(1,x,x^2)$
+
+y construímos la matriz:
+
+
+- $T(e_1 = x) = 1 \cdot 1 + 0x + 0x^2$
+- $T(e_2 = \frac{1}{2}x^2) = 0 \cdot 1 + 1x + 0x^2$
+- $T(e_3 = \frac{1}{3}x^3) = 0 \cdot 1 + 0x + 1x^2$
+- $T(e_4 = 1) = 0 \cdot 1 + 0x + 0x^2$
+
+Por lo tanto queda así:
+
+
+```math
+\begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \end{pmatrix}
+```
+
+#### Ejemplo: proyección sobre un plano en $\mathbb{R}^3$
+
+Define $T : \mathbb{R}^3 \to \mathbb{R}^3$ como la proyección sobre el plano $xy$:
+
+$$T(x, y, z) = (x, y, 0)$$
+
+Primero identificamos los datos:
+
+- $\dim V = 3$, $\dim W = 3$
+- $T(V) = \{(x, y, 0) \mid x, y \in \mathbb{R}\}$, que es el plano $xy$
+- $r = \dim T(V) = 2$
+- El núcleo de $T$ es $\{(0, 0, z) \mid z \in \mathbb{R}\}$, el eje $z$, con dimensión $1$
+
+> **Verificación rango-nulidad:** $r + \dim(\text{núcleo}) = 2 + 1 = 3 = \dim V$
+
+Ahora construimos las bases siguiendo la estrategia del teorema: primero la base de $T(V)$, luego levantamos preimágenes a $V$, y finalmente completamos con el núcleo.
+
+**Paso 1.** Escogemos una base para $T(V)$:
+
+$$(w_1, w_2) = \big((1,0,0),\ (0,1,0)\big)$$
+
+**Paso 2.** Buscamos preimágenes en $V$. Necesitamos $e_1, e_2 \in \mathbb{R}^3$ tales que $T(e_i) = w_i$:
+
+$$e_1 = (1, 0, 0) \quad \Rightarrow \quad T(e_1) = (1,0,0) = w_1$$
+
+$$e_2 = (0, 1, 0) \quad \Rightarrow \quad T(e_2) = (0,1,0) = w_2$$
+
+**Paso 3.** Completamos con una base del núcleo. El núcleo tiene dimensión $1$, así que necesitamos un solo vector. Cualquier vector de la forma $(0,0,z)$ con $z \neq 0$ sirve, tomamos el más simple:
+
+$$e_3 = (0, 0, 1) \quad \Rightarrow \quad T(e_3) = (0,0,0)$$
+
+**Paso 4.** La base para $V$ queda:
+
+$$(e_1, e_2, e_3) = \big((1,0,0),\ (0,1,0),\ (0,0,1)\big)$$
+
+> **OJO 👀** En este caso la base construida coincide con la canónica de $\mathbb{R}^3$, lo cual tiene sentido porque la transformación ya era "limpia" con esa base. Esto no siempre pasa.
+
+Construimos la matriz expresando cada $T(e_i)$ en términos de la base $(w_1, w_2)$ de $W$:
+
+- $T(e_1) = 1 \cdot w_1 + 0 \cdot w_2$
+- $T(e_2) = 0 \cdot w_1 + 1 \cdot w_2$
+- $T(e_3) = 0 \cdot w_1 + 0 \cdot w_2$
+
+Por lo tanto queda así:
+
+```math
+\begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \end{pmatrix}
+```
+
+Los $r = 2$ unos en la diagonal, el resto cero. Exactamente lo que predice el teorema.
