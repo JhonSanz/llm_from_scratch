@@ -547,3 +547,83 @@ Por lo tanto queda así:
 ```
 
 Los $r = 2$ unos en la diagonal, el resto cero. Exactamente lo que predice el teorema.
+
+## Espacio lineal de matrices
+
+Calculo de Tom M. Apostol Vol 2 - pag 65
+
+Ya vimos como las matrices se presentan espontáneamente como representaciones de las transformaciones lineales. También se pueden considerar las matrices como elementos existentes con independencia de las tranformaciones lineales. Como tales elementos, forman otra clase de objetos matemáticos que pueden definirse por medio de las operaciones algebraicas que pueden realizarse con ellos. La relación con las transformaciones lineales da origen a esas definiciones, pero **tal relación será por el momento ignorada**.
+
+Es decir en este punto se están definiendo las matrices desde otro enfoque, que si bien fueron inspiradas desde las tranformaciones lineales con valores asignados, en este momento se dispondrá solamente un cuadrado con filas y columnas que contienen elementos, así:
+
+Sean $m$ y $n$ dos enteros positivos y sea $I_{m,n}$ el conjunto de todos los pares enteros $(i,j)$ tales que $1 \leq i \leq m$, $1 \leq j \leq n$. Cualquier **función** $A$ cuyo dominio sea $I_{m,n}$ se denimina matrix $m \times n$. El valor de la función $A(i,j)$ se llama elemento $i$ de la matriz y se designará también por $a_{ij}$. Ordinariamente se disponen todos los valores de la función en un rectángulo que consta de m filas y n columnas, del modo siguiente
+
+```math
+\begin{pmatrix} a_{11} & a_{12} & \dots & a_{1n} \\ a_{21} & a_{22} & \dots & a_{2n} \\ \vdots & \vdots & \vdots & \vdots \\ a_{m1} & a_{m2} &\dots &  a_{mn} \end{pmatrix}
+```
+
+Los elementos $a_{ij}$ pueden ser objetos arbitrarios de naturaleza cualquiera. Normalmente serán números reales o complejos, pero a veces conviene considerar matrices cuyos elementos son otros objetos, por ejemplo, funciones. También designaremos las matrices mediante la notación abreviada $A = (a_{ij})$
+
+> Practicamente para resumir, en esta sección estamos viendo la matriz de esta manera $A: I_{m,n} \to \mathbb{R}$ (para el ejemplo ponemos $\mathbb{R}$ pero podrían ser complejos). La matriz se vuelve una "tabla de consulta por posicion $(i,j)$. Y también se le está dando el "estatus de objeto matemático independiente" con operaciones propias
+
+Si $m = n$, la matriz se llama cuadrada. Una matriz $1 \times n$ se llama matriz fila; una matriz $m \times 1$ es una matriz columna.
+
+Dos funciones son iguales si y sólo si tienen el mismo dominio y toman los
+mismos valores en cada elemento del dominio. Puesto que **las matrices son funciones**, dos matrices $A = (a_{ij})$ y $B = (b_{ij})$ son iguales si y sólo si tienen el mismo número de filas, el mismo número de columnas, e iguales elementos $a_{ij} = b_{ij}$, para cada par $(i, j)$.
+
+
+Supongamos ahora que los elementos son números (reales o complejos) y
+definamos la adición de matrices y la multiplicación por escalares siguiendo el mismo método que para funciones reales o complejas cualesquiera.
+
+
+Si $A = (a_{ij})$ y $B = (b_{ij})$ son matrices $m \times n$ y $c$ es un escalar:
+
+$$A + B = (a_{ij} + b_{ij}), \qquad cA = (c \, a_{ij})$$
+
+*importante*: la suma solo está definida cuando $A$ y $B$ tienen el mismo tamaño $m \times n$. Como las matrices son funciones, sumar dos funciones requiere que tengan el mismo dominio. 
+
+Es exactamente $(f+g)(x) = f(x) + g(x)$, pero con $x = (i,j)$.
+
+#### Ejemplo
+
+$$A = \begin{bmatrix} 1 & 2 & -3 \\ -1 & 0 & 4 \end{bmatrix}, \qquad B = \begin{bmatrix} 5 & 0 & 1 \\ 1 & -2 & 3 \end{bmatrix}$$
+
+Entonces:
+
+$$A + B = \begin{bmatrix} 6 & 2 & -2 \\ 0 & -2 & 7 \end{bmatrix}, \qquad 2A = \begin{bmatrix} 2 & 4 & -6 \\ -2 & 0 & 8 \end{bmatrix}, \qquad (-1)B = \begin{bmatrix} -5 & 0 & -1 \\ -1 & 2 & -3 \end{bmatrix}$$
+
+
+Ahora, definamos $O$ como la matriz $m \times n$ con todos sus elementos iguales a $0$ (el elemento nulo).
+
+Con la suma y el producto por escalar de arriba, **el conjunto de todas las matrices $m \times n$ es un espacio lineal**, que se denota $M_{m,n}$:
+
+- Elementos reales → espacio lineal real
+- Elementos complejos → espacio lineal complejo
+
+La verificación de los axiomas es inmediata, y la razón profunda es que **no hay nada que verificar de nuevo**: las matrices son funciones con valores en $\mathbb{R}$ (o $\mathbb{C}$), y ya sabemos que los espacios de funciones con operaciones punto a punto son espacios lineales. $M_{m,n}$ hereda todo gratis.
+
+---
+Una base de $M_{m,n}$ son las $mn$ matrices que tienen un $1$ en una posición y $0$ en todas las demás.
+
+Para el caso $2 \times 3$, las seis matrices de la base son:
+
+$$\begin{bmatrix} 1 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix},\;
+\begin{bmatrix} 0 & 1 & 0 \\ 0 & 0 & 0 \end{bmatrix},\;
+\begin{bmatrix} 0 & 0 & 1 \\ 0 & 0 & 0 \end{bmatrix},\;
+\begin{bmatrix} 0 & 0 & 0 \\ 1 & 0 & 0 \end{bmatrix},\;
+\begin{bmatrix} 0 & 0 & 0 \\ 0 & 1 & 0 \end{bmatrix},\;
+\begin{bmatrix} 0 & 0 & 0 \\ 0 & 0 & 1 \end{bmatrix}$$
+
+Esa es la base canónica de $\mathbb{R}^{mn}$ disfrazada. Una matriz $2 \times 3$ es, en el fondo, una lista de 6 números acomodados en rectángulo. Cada matriz de la base "enciende" una sola casilla, igual que $e_i$ enciende una sola coordenada.
+
+Comprobamos que las seis matrices de arriba realmente son base de $M_{2,3}$:
+
+1. **Generan:** cualquier $A = (a_{ij})$ se escribe como combinación lineal usando sus propios elementos como coeficientes:
+
+$$A = a_{11} E_{11} + a_{12} E_{12} + a_{13} E_{13} + a_{21} E_{21} + a_{22} E_{22} + a_{23} E_{23}$$
+
+donde $E_{ij}$ es la matriz con $1$ en la posición $(i,j)$. Cada sumando aporta exactamente una casilla, así que la suma reconstruye $A$ casilla por casilla. ✓
+
+2. **Independencia lineal:** si $\sum c_{ij} E_{ij} = O$, entonces mirando la casilla $(i,j)$ del resultado obtengo $c_{ij} = 0$ para todo par. Solo la combinación trivial da la matriz cero. ✓
+
+## Isomorfismo entre transformaciones lineales y matrices
