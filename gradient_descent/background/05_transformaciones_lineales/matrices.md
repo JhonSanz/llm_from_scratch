@@ -662,3 +662,142 @@ $$m(S + T) = m(S) + m(T) \quad \text{y} \quad m(cT) = cm(T)$$
 $$m(S) = m(T) \quad \text{implica} \quad S = T$$
 
 así que $m$ es uno a uno en $\mathscr{L}(V, W)$
+
+![dem_isomorfismo](img/dem_isomorfismo.png)
+
+
+Ejemplo
+
+
+```math
+T(x, y) = (2x + y,\ \ x - 3y,\ \ 5x)
+```
+
+- En $W = \mathbb{R}^3$ seguimos con la base **canónica** $w_1, w_2, w_3$.
+- En $V = \mathbb{R}^2$ usamos ahora una base **no canónica**:
+
+```math
+e_1' = (1, 1), \qquad e_2' = (1, -1)
+```
+
+(Son linealmente independientes, así que sí forman base.)
+
+---
+
+Aplicar $T$ a cada nuevo vector base
+
+Misma receta de Apostol (ec. 2.19): aplico $T$ a cada $e_k'$ y escribo el
+resultado como combinación lineal de la base de $W$. Como $W$ sigue siendo
+canónica, las coordenadas son directamente las componentes del vector.
+
+**Columna 1 — imagen de $e_1'$:**
+
+```math
+T(e_1') = T(1, 1) = (2+1,\ \ 1-3,\ \ 5) = (3,\ -2,\ 5)
+```
+
+**Columna 2 — imagen de $e_2'$:**
+
+```math
+T(e_2') = T(1, -1) = (2-1,\ \ 1+3,\ \ 5) = (1,\ 4,\ 5)
+```
+
+---
+
+Armar la matriz
+
+Cada imagen se vuelve una **columna**:
+
+```math
+m(T) = \begin{pmatrix} 3 & 1 \\ -2 & 4 \\ 5 & 5 \end{pmatrix}
+```
+
+Compárala con la de la base canónica en $V$:
+
+```math
+\underbrace{\begin{pmatrix} 2 & 1 \\ 1 & -3 \\ 5 & 0 \end{pmatrix}}_{\text{base canónica}}
+\quad\longrightarrow\quad
+\underbrace{\begin{pmatrix} 3 & 1 \\ -2 & 4 \\ 5 & 5 \end{pmatrix}}_{\text{base } \{e_1', e_2'\}}
+```
+
+> **OJO 👀** — Misma $T$, matriz totalmente distinta. $m(T)$ no es propiedad de
+> $T$ sola, sino de la pareja $(T, \text{bases})$.
+
+---
+
+Verificación
+
+Usemos $v = (3, 2)$. El resultado de $T(v)$ es **intrínseco**, no depende de
+ninguna base:
+
+```math
+T(3,2) = (2\cdot3 + 2,\ \ 3 - 3\cdot2,\ \ 5\cdot3) = (8,\ -3,\ 15)
+```
+
+> 👀 — Cuando la base de $V$ **no** es canónica, la matriz **no**
+> multiplica a $(3,2)$ directamente. Multiplica a las **coordenadas de $v$ en la
+> nueva base**. Hay que calcularlas primero.
+
+Buscamos $a, b$ tales que $v = a\,e_1' + b\,e_2'$:
+
+```math
+(3, 2) = a\,(1,1) + b\,(1,-1)
+\ \Rightarrow\
+\begin{cases} a + b = 3 \\ a - b = 2 \end{cases}
+\ \Rightarrow\
+a = \tfrac{5}{2},\quad b = \tfrac{1}{2}
+```
+
+El vector de coordenadas de $v$ en la base $\{e_1', e_2'\}$ es
+$\left(\tfrac{5}{2}, \tfrac{1}{2}\right)$. Multiplicamos:
+
+```math
+\begin{pmatrix} 3 & 1 \\ -2 & 4 \\ 5 & 5 \end{pmatrix}
+\begin{pmatrix} 5/2 \\ 1/2 \end{pmatrix}
+=
+\begin{pmatrix}
+3\cdot\tfrac52 + 1\cdot\tfrac12 \\[4pt]
+-2\cdot\tfrac52 + 4\cdot\tfrac12 \\[4pt]
+5\cdot\tfrac52 + 5\cdot\tfrac12
+\end{pmatrix}
+=
+\begin{pmatrix}
+\tfrac{15}{2}+\tfrac12 \\[4pt]
+-5 + 2 \\[4pt]
+\tfrac{25}{2}+\tfrac{5}{2}
+\end{pmatrix}
+=
+\begin{pmatrix} 8 \\ -3 \\ 15 \end{pmatrix} \ \checkmark
+```
+
+Coincide con $T(3,2) = (8,-3,15)$. La salida sale en coordenadas canónicas de
+$W$ porque dejamos $W$ canónica.
+
+---
+
+**Moraleja: la matriz vive en el mundo de las coordenadas**
+
+El diagrama mental correcto **no** es "vector $\to$ matriz $\to$ vector", sino:
+
+```math
+v
+\ \xrightarrow{\;\text{coord. en base de } V\;}\
+[v]_{\text{base}}
+\ \xrightarrow{\;m(T)\;}\
+[T(v)]_{\text{base de } W}
+\ \xrightarrow{\;\text{decodificar}\;}\
+T(v)
+```
+
+La matriz solo opera sobre **coordenadas**. Por eso el isomorfismo
+$\mathcal{L}(V,W) \cong M_{m,n}$ está siempre amarrado a una elección de bases:
+cambia las bases y obtienes otro "diccionario" de coordenadas, y por tanto otra
+matriz para la misma transformación.
+
+> **Conexión con lo que viene 👀** — Esto enlaza directo con el cambio de base
+> y, más adelante, con por qué buscamos bases donde la matriz se vuelva
+> **diagonal**: elegir bien las bases es literalmente elegir la matriz más
+> simple posible para una misma $T$.
+
+## Multiplicación de matrices
+
