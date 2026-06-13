@@ -794,10 +794,5 @@ $\mathcal{L}(V,W) \cong M_{m,n}$ está siempre amarrado a una elección de bases
 cambia las bases y obtienes otro "diccionario" de coordenadas, y por tanto otra
 matriz para la misma transformación.
 
-> **Conexión con lo que viene 👀** — Esto enlaza directo con el cambio de base
-> y, más adelante, con por qué buscamos bases donde la matriz se vuelva
-> **diagonal**: elegir bien las bases es literalmente elegir la matriz más
-> simple posible para una misma $T$.
-
 ## Multiplicación de matrices
 
