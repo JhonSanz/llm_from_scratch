@@ -92,7 +92,7 @@ vemos que el primer subindice indica la fila y el segundo la columna. También v
 
 Por lo tanto esto es una matriz de $m \times n$, $m$ filas y $n$ columnas
 
-También podemos hacer referencia a un elemento directo de la matriz así: $t_{ik}$
+También podemos hacer referencia a un elemento directo de la matriz así: $t_{ik}$ o $(t_{ik})_{i,k = 1}^{m,n}$
 
 #### Ejemplo informal pero poderoso
 
@@ -633,3 +633,32 @@ donde $E_{ij}$ es la matriz con $1$ en la posición $(i,j)$. Cada sumando aporta
 2. **Independencia lineal:** si $\sum c_{ij} E_{ij} = O$, entonces mirando la casilla $(i,j)$ del resultado obtengo $c_{ij} = 0$ para todo par. Solo la combinación trivial da la matriz cero.
 
 ## Isomorfismo entre transformaciones lineales y matrices
+
+Retomemos la relación entre transformaciones lineales y matrices. Ya vimos que la intuición primera fue aplicarle valores asignados a la transormación, donde a cada elemento de la base se le pone una combinación lineal de los valores de la base de $W$. Tenemos entonces:
+
+- Dos espaciones lineales $V$ y $W$ de dimensión finita con $dimV = n$ y $dim W = m$
+- Una base $(e_1, \dots, e_n)$ para $V$ y otra $(w_1, \dots, w_m)$ para $W$ **AMBAS FIJAS**
+- Recordando el espacio lineal de todas las tranformaciones lineales $\mathscr{L}(V, W)$ de $V$ en $W$
+
+Entonces si $T \in \mathscr{L}(V, W)$, sea $m(T)$ la matriz de $T$ relativa a las bases dadas, recordando que 
+
+
+$$T(e_k) = \sum_{i=1}^{m} t_{ik}w_i \quad para \quad k = 1, 2, \dots, n$$
+
+Los multiplicadores escalares $t_{ik}$ son los elementos $ik$ de $m(T)$. Así pues  
+
+$$m(T) = (t_{ik})_{i,k = 1}^{m,n}$$
+
+**Tenemos nueva función** $m$ cuyo dominio es $\mathscr{L}(V, W)$ y sus valores son matrices de $M_{m,n}$ (el espacio lineal de todas las matrices de la sección anterior)
+
+> Es decir a $m$ le metemos una trasnformación lineal y nos devuelve una matriz...
+
+#### TEOREMA DE ISOMORFISMO
+
+Para cualquiera $S$ y $T$ de $\mathscr{L}(V, W)$ y todos los escalares $c$ tenemos
+
+$$m(S + T) = m(S) + m(T) \quad \text{y} \quad m(cT) = cm(T)$$
+
+$$m(S) = m(T) \quad \text{implica} \quad S = T$$
+
+así que $m$ es uno a uno en $\mathscr{L}(V, W)$
