@@ -586,11 +586,15 @@ Es exactamente $(f+g)(x) = f(x) + g(x)$, pero con $x = (i,j)$.
 
 #### Ejemplo
 
-$$A = \begin{bmatrix} 1 & 2 & -3 \\ -1 & 0 & 4 \end{bmatrix}, \qquad B = \begin{bmatrix} 5 & 0 & 1 \\ 1 & -2 & 3 \end{bmatrix}$$
+```math
+A = \begin{bmatrix} 1 & 2 & -3 \\ -1 & 0 & 4 \end{bmatrix}, \qquad B = \begin{bmatrix} 5 & 0 & 1 \\ 1 & -2 & 3 \end{bmatrix}
+```
 
 Entonces:
 
-$$A + B = \begin{bmatrix} 6 & 2 & -2 \\ 0 & -2 & 7 \end{bmatrix}, \qquad 2A = \begin{bmatrix} 2 & 4 & -6 \\ -2 & 0 & 8 \end{bmatrix}, \qquad (-1)B = \begin{bmatrix} -5 & 0 & -1 \\ -1 & 2 & -3 \end{bmatrix}$$
+```math
+A + B = \begin{bmatrix} 6 & 2 & -2 \\ 0 & -2 & 7 \end{bmatrix}, \qquad 2A = \begin{bmatrix} 2 & 4 & -6 \\ -2 & 0 & 8 \end{bmatrix}, \qquad (-1)B = \begin{bmatrix} -5 & 0 & -1 \\ -1 & 2 & -3 \end{bmatrix}
+```
 
 
 Ahora, definamos $O$ como la matriz $m \times n$ con todos sus elementos iguales a $0$ (el elemento nulo).
@@ -607,12 +611,14 @@ Una base de $M_{m,n}$ son las $mn$ matrices que tienen un $1$ en una posición y
 
 Para el caso $2 \times 3$, las seis matrices de la base son:
 
-$$\begin{bmatrix} 1 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix},\;
-\begin{bmatrix} 0 & 1 & 0 \\ 0 & 0 & 0 \end{bmatrix},\;
-\begin{bmatrix} 0 & 0 & 1 \\ 0 & 0 & 0 \end{bmatrix},\;
-\begin{bmatrix} 0 & 0 & 0 \\ 1 & 0 & 0 \end{bmatrix},\;
-\begin{bmatrix} 0 & 0 & 0 \\ 0 & 1 & 0 \end{bmatrix},\;
-\begin{bmatrix} 0 & 0 & 0 \\ 0 & 0 & 1 \end{bmatrix}$$
+```math
+\begin{bmatrix} 1 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix},
+\begin{bmatrix} 0 & 1 & 0 \\ 0 & 0 & 0 \end{bmatrix},
+\begin{bmatrix} 0 & 0 & 1 \\ 0 & 0 & 0 \end{bmatrix},
+\begin{bmatrix} 0 & 0 & 0 \\ 1 & 0 & 0 \end{bmatrix},
+\begin{bmatrix} 0 & 0 & 0 \\ 0 & 1 & 0 \end{bmatrix},
+\begin{bmatrix} 0 & 0 & 0 \\ 0 & 0 & 1 \end{bmatrix}
+```
 
 Esa es la base canónica de $\mathbb{R}^{mn}$ disfrazada. Una matriz $2 \times 3$ es, en el fondo, una lista de 6 números acomodados en rectángulo. Cada matriz de la base "enciende" una sola casilla, igual que $e_i$ enciende una sola coordenada.
 
@@ -622,8 +628,8 @@ Comprobamos que las seis matrices de arriba realmente son base de $M_{2,3}$:
 
 $$A = a_{11} E_{11} + a_{12} E_{12} + a_{13} E_{13} + a_{21} E_{21} + a_{22} E_{22} + a_{23} E_{23}$$
 
-donde $E_{ij}$ es la matriz con $1$ en la posición $(i,j)$. Cada sumando aporta exactamente una casilla, así que la suma reconstruye $A$ casilla por casilla. ✓
+donde $E_{ij}$ es la matriz con $1$ en la posición $(i,j)$. Cada sumando aporta exactamente una casilla, así que la suma reconstruye $A$ casilla por casilla.
 
-2. **Independencia lineal:** si $\sum c_{ij} E_{ij} = O$, entonces mirando la casilla $(i,j)$ del resultado obtengo $c_{ij} = 0$ para todo par. Solo la combinación trivial da la matriz cero. ✓
+2. **Independencia lineal:** si $\sum c_{ij} E_{ij} = O$, entonces mirando la casilla $(i,j)$ del resultado obtengo $c_{ij} = 0$ para todo par. Solo la combinación trivial da la matriz cero.
 
 ## Isomorfismo entre transformaciones lineales y matrices
