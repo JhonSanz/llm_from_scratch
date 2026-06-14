@@ -796,3 +796,85 @@ matriz para la misma transformación.
 
 ## Multiplicación de matrices
 
+"Algunas transformaciones lineales pueden multiplicarse por medio de la composición. Definiremos ahora la multiplicación de matrices de manera que el producto de dos matrices corresponda a la composición de las transformaciones lineales que ellos representan"
+
+![composicion_transf](img/composicion.png)
+
+- $T: U \to V$ una función con dominio en $U$ y valores en $V$
+- $S: V \to W$ otra función con dominio en $V$ y valores en $W$
+
+La función compuesta $ST: U \to W$ está definida por:
+
+$$(ST)(x) = S[T(x)] \quad \text{ para todo } x \text{ en } U$$
+
+![mult_matrices](img/mult_matrices.png)
+
+#### ¿Por qué el producto de matrices se define así?
+
+> **Idea central:** el producto de matrices no es una regla arbitraria ni una de muchas operaciones posibles. Es la **única** que cumple
+> $$\text{matriz}(A\circ B) = \text{matriz}(A)\cdot\text{matriz}(B).$$
+> Toda la fórmula —incluido el producto punto— sale de exigir eso. La definición está *ingeniería-inversa* a partir de la composición.
+
+---
+
+#### 1. El secreto: cómo una matriz codifica una transformación
+
+> **Las columnas de una matriz son las imágenes de los vectores de la base.**
+
+Si $B:\mathbb{R}^n\to\mathbb{R}^p$, entonces la columna $j$ de $B$ es $B(e_j)$:
+$$B(e_j)=\sum_{k=1}^{p} b_{kj}\,u_k$$
+
+y para $A:\mathbb{R}^p\to\mathbb{R}^m$, la columna $k$ de $A$ es $A(u_k)$:
+$$A(u_k)=\sum_{i=1}^{m} a_{ik}\,w_i$$
+
+Eso es **todo** lo que se necesita.
+
+---
+
+#### 2. La fórmula cae sola al componer
+
+Queremos la columna $j$ del compuesto $A\circ B$, es decir $(A\circ B)(e_j)=A\big(B(e_j)\big)$:
+
+$$
+A\big(B(e_j)\big)
+= A\!\left(\sum_{k} b_{kj}\,u_k\right)
+\overset{\textbf{(★)}}{=} \sum_{k} b_{kj}\,A(u_k)
+= \sum_{i}\underbrace{\left(\sum_{k} a_{ik}\,b_{kj}\right)}_{c_{ij}} w_i
+$$
+
+$$\boxed{\,c_{ij}=\sum_{k=1}^{p} a_{ik}\,b_{kj}\,}$$
+
+El paso **(★)** es el único no trivial: sacar la suma fuera de $A$. Eso es **exactamente la linealidad** de $A$
+
+---
+
+#### 3. La precisión de los índices: $b_{kj}$ y $a_{ik}$
+
+Regla única de notación, en cualquier entrada $m_{rc}$:
+
+> **primer índice (fila) = destino / salida**
+> **segundo índice (columna) = fuente / entrada**
+
+(porque $(Mx)_i=\sum_j m_{ij}x_j$: la salida $i$ se arma combinando las entradas $j$).
+
+Aplicándola:
+
+| Entrada | destino (1er índice) | fuente (2º índice) |
+|---|---|---|
+| $b_{kj}$ | $k\in\mathbb{R}^p$ (salida de $B$) | $j\in\mathbb{R}^n$ |
+| $a_{ik}$ | $i\in\mathbb{R}^m$ | $k\in\mathbb{R}^p$ (entrada de $A$) |
+
+**👀 OJO — por qué $k$ cambia de lugar:** es el **mismo** índice del **mismo** espacio intermedio $\mathbb{R}^p$, pero es la **salida** de $B$ (→ destino → 1er índice) y la **entrada** de $A$ (→ fuente → 2º índice). Por eso queda **en el medio** y se comparte:
+$$c_{ij}=\sum_k a_{i\boxed{k}}\,b_{\boxed{k}j}$$
+El "índice interno compartido" es literalmente decir *"entrada de $A$ = salida de $B$"* → la dimensión interna debe coincidir. La coincidencia de dimensiones y el producto punto **son el mismo hecho** visto desde dos ángulos.
+
+> Léelo de derecha a izquierda, como una función: $b_{kj}$ va "de $j$ a $k$", $a_{ik}$ va "de $k$ a $i$". El relevo es $j \to k \to i$.
+
+este proceso se evidencia justo en esta sección
+
+![demostracion_composicion](img/demostracion_composicion.png)
+
+> ver ley asociativa y distributiva Pag 69
+
+## Sistemas de ecuaciones lineales
+
