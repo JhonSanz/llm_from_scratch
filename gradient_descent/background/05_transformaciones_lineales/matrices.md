@@ -449,7 +449,7 @@ La matriz es solo la tabla de coeficientes "desnuda". Las dos bases están por d
 
 ## Representación matricial en forma de diagonal
 
-En el ejemplo anterior vimos que podemos usar una base diferente para generar la matriz. En esta sección vamos a hacer eso mismo, pero esta vez para generar una matriz que tiene solamente numeros $1$ en la diagonal desde la esquina superior izquierda hasta la esquina inferior derecha, el resto con números $0$, **siendo el número de unos igual al rango de la transformación**.
+En el ejemplo anterior vimos que podemos usar una base diferente para generar la matriz. En esta sección vamos a hacer eso mismo, pero esta vez para generar una matriz que tiene solamente numeros $1$ en la diagonal desde la esquina superior izquierda, el resto con números $0$, **siendo el número de unos igual al rango de la transformación**.
 
 Osea que, Una matriz $(t_{ik})$ con todos los elementos $t_{ik} = O$ cuando $i \neq k$ se llama matriz diagonal. Y el teorema aparece así:
 
@@ -543,16 +543,16 @@ $$(e_1, e_2, e_3) = \big((1,0,0),\ (0,1,0),\ (0,0,1)\big)$$
 
 > **OJO 👀** En este caso la base construida coincide con la canónica de $\mathbb{R}^3$, lo cual tiene sentido porque la transformación ya era "limpia" con esa base. Esto no siempre pasa.
 
-Construimos la matriz expresando cada $T(e_i)$ en términos de la base $(w_1, w_2)$ de $W$:
+Construimos la matriz expresando cada $T(e_i)$ en términos de la base $(w_1, w_2, w_3)$ de $W$:
 
-- $T(e_1) = 1 \cdot w_1 + 0 \cdot w_2$
-- $T(e_2) = 0 \cdot w_1 + 1 \cdot w_2$
-- $T(e_3) = 0 \cdot w_1 + 0 \cdot w_2$
+- $T(e_1) = 1 \cdot w_1 + 0 \cdot w_2 + 0 \cdot w_3$
+- $T(e_2) = 0 \cdot w_1 + 1 \cdot w_2 + 0 \cdot w_3$
+- $T(e_3) = 0 \cdot w_1 + 0 \cdot w_2 + 0 \cdot w_3$ TODO verficar esto
 
 Por lo tanto queda así:
 
 ```math
-\begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \end{pmatrix}
+\begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 0  \end{pmatrix}
 ```
 
 Los $r = 2$ unos en la diagonal, el resto cero. Exactamente lo que predice el teorema.
