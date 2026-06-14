@@ -28,20 +28,29 @@ Puesto que $T'(x) = T(x)$ para todo $x$ de $V$, tenemos $T' = T$, lo cual comple
 >
 >Y si un elemento x de V puede escribirse como una combinación lineal de los elementos de la base, la transformación de ese x se puede escribir como una como una combinación lineal de los valores asignados
 >
-**EJEMPLO 1** Definimos los valores en la base:
 
-$$T(i)=2i \qquad T(j) = j$$
-Eso es todo lo que necesitamos especificar. Para cualquier vector $x = x_1 i + x_2 j$:
+**EJEMPLO** Sea $P_2$ el espacio de los polinomios de grado $\leq 2$, con base $\{1, t, t^2\}$, y sea
+$V_2 = \mathbb{R}^2$. Definimos $T: P_2 \rightarrow V_2$ asignando valores a la base:
 
-$$T(x) = x_1 \cdot T(i) + x_2 \cdot T(j) = x_1(2i) + x_2(j) = (2x_1)i + (x_2)j$$
+$$T(1) = (1, 0), \qquad T(t) = (1, 1), \qquad T(t^2) = (0, 1).$$
 
-**EJEMPLO 2.** Determinar la transformación lineal $T: V_2 \rightarrow V_2$ que aplique los elementos base $i = (1, 0)$ y $j = (0, 1)$ del modo siguiente
+Por el Teorema 2.12 eso basta para definir $T$ por completo. Si $p = a + bt + ct^2$ es un
+polinomio cualquiera de $P_2$, sus componentes respecto a la base son $(a, b, c)$, y entonces
 
-$$T(i) = i + j, \quad T(j) = 2i - j.$$
+$$T(p) = a\,T(1) + b\,T(t) + c\,T(t^2) = a(1,0) + b(1,1) + c(0,1) = (a + b,\; b + c).$$
 
-**Solución.** Si $x = x_1 i + x_2 j$ es un elemento arbitrario de $V_2$, entonces $T(x)$ viene dado por
+**Verificación con un caso concreto.** Sea $p(t) = 3 + 2t - t^2$, es decir $a=3,\ b=2,\ c=-1$:
 
-$$T(x) = x_1 T(i) + x_2 T(j) = x_1(i + j) + x_2(2i - j) = (x_1 + 2x_2)i + (x_1 - x_2)j.$$
+$$T(p) = (3 + 2,\; 2 + (-1)) = (5, 1).$$
+
+> **OJO 👀** Aquí $\dim P_2 = 3$ pero $\dim V_2 = 2$. Como salimos de un espacio "más grande"
+> hacia uno "más pequeño", $T$ **no puede ser inyectiva**: forzosamente algún polinomio no nulo
+> cae en $(0,0)$. En efecto, $T(p) = (0,0)$ exige $a + b = 0$ y $b + c = 0$, o sea $a = -b$, $c = -b$.
+> Tomando $b = 1$ obtenemos
+> $$p(t) = -1 + t - t^2, \qquad T(p) = (0, 0).$$
+> Ese polinomio (y todos sus múltiplos) forman el **núcleo** de $T$. Lo bonito es que el teorema
+> ni se inmuta: la transformación queda perfectamente definida aunque pierda información.
+
 
 ## Representación matricial de las transformaciones lineales
 
