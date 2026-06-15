@@ -958,3 +958,6 @@ Escribir $T(x) = c$ significa exigir que:
 $$\left(x_1 + 2x_2,\ 3x_1 + x_2\right) = (5,\ 7)$$
 
 Esto **no resuelve** el sistema — solo lo plantea de forma compacta. $T$ va hacia adelante; encontrar $x$ es un trabajo aparte, que hacemos con algún metodo de solución de ecuaciones.
+
+![homogeneos](img/homogeneos.png)
+
