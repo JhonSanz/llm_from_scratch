@@ -691,8 +691,6 @@ e_1' = (1, 1), \qquad e_2' = (1, -1)
 
 (Son linealmente independientes, así que sí forman base.)
 
----
-
 Aplicar $T$ a cada nuevo vector base
 
 Misma receta de Apostol (ec. 2.19): aplico $T$ a cada $e_k'$ y escribo el
@@ -710,8 +708,6 @@ T(e_1') = T(1, 1) = (2+1,\ \ 1-3,\ \ 5) = (3,\ -2,\ 5)
 ```math
 T(e_2') = T(1, -1) = (2-1,\ \ 1+3,\ \ 5) = (1,\ 4,\ 5)
 ```
-
----
 
 Armar la matriz
 
@@ -731,8 +727,6 @@ Compárala con la de la base canónica en $V$:
 
 > **OJO 👀** — Misma $T$, matriz totalmente distinta. $m(T)$ no es propiedad de
 > $T$ sola, sino de la pareja $(T, \text{bases})$.
-
----
 
 Verificación
 
@@ -781,8 +775,6 @@ $\left(\tfrac{5}{2}, \tfrac{1}{2}\right)$. Multiplicamos:
 
 Coincide con $T(3,2) = (8,-3,15)$. La salida sale en coordenadas canónicas de
 $W$ porque dejamos $W$ canónica.
-
----
 
 **Moraleja: la matriz vive en el mundo de las coordenadas**
 
