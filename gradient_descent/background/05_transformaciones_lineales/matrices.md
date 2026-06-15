@@ -887,3 +887,74 @@ este proceso se evidencia justo en esta sección
 
 ## Sistemas de ecuaciones lineales
 
+
+esto nos recuerda mucho a lo que hemos estado haciendo todo este rato. Tiene toda la pinta de matriz. Entonces podemos montar una transformación lineal de la siguiente manera
+
+- Elegimos las bases canónicas de vectores para dos espacios lineales $V_n$ y $V_m$
+- Vemos que la matriz $A$ determina una transformación lineal $T: V_n \to V_m$ que aplica un vector arbitrario $x = (x_1, \dots, x_n)$ de $V_n$ en el vector $y = (y_1, \dots , y_m)$ de $V_m$ dado por las ecuaciones lineales
+
+$$y_i = \sum_{k=1}^{n} a_{ik} x_k \quad \text{para } i = 1, 2, \ldots, m$$
+
+De hecho este fue uno de los primeros ejemplos que analizamos cuando introdujimos tranformaciones lineales. Recordemos que lo que se desea es armar cada componente del vector $y$ por medio de la combinación lineal de los elementos de la matriz de coeficientes $A$ y las incógnitas $x_k$
+
+![def_eq_lineales](img/def_eq_lineales.png)
+
+Es decir, eso queda mas o menos así
+
+$a_{11}x_1 + a_{12}x_2 + \dots + a_{1n}x_n = c_1$
+
+$a_{21}x_1 + a_{22}x_2 + \dots + a_{2n}x_n = c_2$
+
+$\vdots$
+
+$a_{m1}x_1 + a_{m2}x_2 + \dots + a_{mn}x_n = c_m$
+
+
+![def_qa_lineales_2](img/def_qa_lineales_2.png)
+
+#### Cosas importantes
+
+- No confundir el orden con que se recorren los índices. En secciones anteriores constríamos la matriz por columnas, en esta sección se construyen por filas. La pregunta ya no es "¿cómo represento $T$?" sino: **¿existe un $x$ que satisfaga estas ecuaciones?**
+- Es importante recalcar que tanto $c$ como $T(x)$ pertenecen a $V_m$. Entonces cuando el autor plantea $T(x) = c$, nos dice que la imagen de $x$ bajo $T$ debe coincidir con $c$. Esa coincidencia no ocurre para cualquier $x$, sino solo para los que son solución del sistema. Esto quiere decir que $c$ ya existía de antemano, y que lo que necesitamos es "afinar" $x$ para que coincida. Resolver el sistema es exactamente encontrar ese $x \in V_n$​ — ese trabajo lo hacemos nosotros con álgebra, no la transformación
+
+Ejemplo
+
+
+$$x_1 + 2x_2 = 5$$
+
+$$3x_1 + x_2 = 7$$
+
+Aquí $n = 2$ (incógnitas) y $m = 2$ (ecuaciones). La matriz de coeficientes y el vector del lado derecho son:
+
+$$A = \begin{pmatrix} 1 & 2 \\ 3 & 1 \end{pmatrix}, \qquad c = \begin{pmatrix} 5 \\ 7 \end{pmatrix} \in V_2$$
+
+La transformación $T : V_2 \to V_2$ queda definida por $A$:
+
+$$T(x_1, x_2) = (x_1 + 2x_2,\ 3x_1 + x_2)$$
+
+> ya que como vimos en la definición, se calcula así 
+>
+> $1 \cdot x_1 + 2 \cdot x_2 = y_1$
+>
+> $3 \cdot x_1 + \cdot x_2 = y_2$
+>
+> y ahi tenemos los dos componentes del vector $y$
+>
+
+Eso es todo lo que hace $T$: dado un vector $x \in V_2$, calcula su imagen en $V_2$. Podemos evaluarla en vectores arbitrarios:
+
+$$T(1,\ 0) = (1,\ 3)$$
+
+$$T(0,\ 1) = (2,\ 1)$$
+
+$$T(2,\ 3) = (8,\ 9)$$
+
+> **OJO 👀** Ninguno de esos resultados es $c = (5, 7)$. $T$ no sabe cuál es la solución — solo transforma vectores hacia adelante. No resuelve nada.
+
+#### $T(x) = c$ es solo el planteamiento
+
+Escribir $T(x) = c$ significa exigir que:
+
+$$\left(x_1 + 2x_2,\ 3x_1 + x_2\right) = (5,\ 7)$$
+
+Esto **no resuelve** el sistema — solo lo plantea de forma compacta. $T$ va hacia adelante; encontrar $x$ es un trabajo aparte, que hacemos con algún metodo de solución de ecuaciones.
