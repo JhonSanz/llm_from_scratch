@@ -918,7 +918,9 @@ $$3x_1 + x_2 = 7$$
 
 Aquí $n = 2$ (incógnitas) y $m = 2$ (ecuaciones). La matriz de coeficientes y el vector del lado derecho son:
 
-$$A = \begin{pmatrix} 1 & 2 \\ 3 & 1 \end{pmatrix}, \qquad c = \begin{pmatrix} 5 \\ 7 \end{pmatrix} \in V_2$$
+```math
+A = \begin{pmatrix} 1 & 2 \\ 3 & 1 \end{pmatrix}, \qquad c = \begin{pmatrix} 5 \\ 7 \end{pmatrix} \in V_2
+```
 
 La transformación $T : V_2 \to V_2$ queda definida por $A$:
 
@@ -945,7 +947,7 @@ $$T(2,\ 3) = (8,\ 9)$$
 
 #### $T(x) = c$ es solo el planteamiento
 
-Escribir $T(x) = c$ significa exigir que:
+Escribir $T(x) = c$ significa **EXIGIR** que:
 
 $$\left(x_1 + 2x_2,\ 3x_1 + x_2\right) = (5,\ 7)$$
 
@@ -953,3 +955,34 @@ Esto **no resuelve** el sistema — solo lo plantea de forma compacta. $T$ va ha
 
 ![homogeneos](img/homogeneos.png)
 
+Primero que todo recordemos que el núcleo de una transformación son todos los valores que al meterlos a la transformación nos llevan al elemento nulo del conjunto de llegada. Es decir, cuando se hayan todos los $x$ que solucionan el sistema estos inevitablemente serán el núcleo, para el caso de sistemas homogéneos.
+
+Es por eso que en la demostración vemos que el autor establece la condición $T(v) = O$ porque en el teorema nos dicen que $v$ es una solución del sistema homogéneo, entonces tiene toda la lógica del mundo ponerla
+
+también es importante ver que $v = x - b$ ya que 
+
+$$T(x−b)=T(x)−T(b)=c−c=0$$
+
+y esto es MUY IMPORTANTE, porque vemos que ambas $x$ y $b$ nos llevaron a $c$, lo cual nos indica que el sistema no tiene una única solución sino varias
+
+Este teorema prueba que el problema de hallar todas las soluciones de un sistema no homogéneo consta de dos partes:
+
+1. determinar todas las soluciones $v$ del sistema homogéneo **determinando el núcleo** de $T$
+2. hallar una solución particular $b$ del sistema no homogéneo, sumando $b$ a cada uno de los vectores $v$ del núcleo de $T$ se obtienen todas las soluciones $x = v + b$ del sistema no homogéneo
+
+
+#### Solución general del sistema homogéneo
+
+sea $k = dim N(T)$, Si podemos encontrar $k$ soluciones independientes $v_l , \dots ,v_k$ del sistema homogéneo, ellas formarán **una base** para $N(T)$, y podemos obtener cualquier $v$ de $N(T)$ formando todas las combinaciones lineales
+
+$$v = t_1v_1 + \dots + t_kv_k$$
+
+donde $t_1, \dots, t_k$ son escalares arbitrarios
+
+#### Solución general del sistema no homogéneo
+
+Si $b$ es una solución particular del sistema no homogéneo, entonces todas las soluciones $x$ vienen dadas por
+
+$$x = b +  t_1v_1 + \dots + t_kv_k$$
+
+![ejemplo_solve_eq](img/ejemplo_solve_eq.png)
