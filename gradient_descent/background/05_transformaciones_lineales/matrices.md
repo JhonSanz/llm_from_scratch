@@ -986,3 +986,58 @@ Si $b$ es una solución particular del sistema no homogéneo, entonces todas las
 $$x = b +  t_1v_1 + \dots + t_kv_k$$
 
 ![ejemplo_solve_eq](img/ejemplo_solve_eq.png)
+
+
+## Método de eliminación de Gauss-Jordan
+
+## Inversas de matrices cuadradas
+
+Sea $A = (a_{ij})$ una matriz cuadrada $n \times n$, tal que $BA = I$, siendo $I$ la matriz identidad $n \times n$, entonces $A$ se llama *no singular* y $B$ la inversa de $A$ por la izquierda
+
+> aqui introducen el término "no singular" pero eso se desarrolla mas adelante en el capítulo de determinantes. Por ahora podemos decir que *no singular* equivale a decir que la transformación $T$ que la genera es invertible
+
+Elegida la base usual de los vectores coordenados unitarios de $V_n$, sea
+$T: V_n \to V_n$ la transformación lineal con matriz $m(T) = A$. Tenemos entonces
+
+**TEOREMA** La matriz $A$ es no singular si y sólo si $T$ es invertible. Si
+$BA = I$, entonces $B = m(T^{-1})$ (B es la matriz generada con la inversa de la transformación)
+
+**Demostración**
+
+Suponemos que $A$ es no singular y que $BA = I$. Queremos demostrar que $T(x) = O$ implica $x = O$ porque ya demostramos con anterioridad en la sección de **transformaciones lineales uno a uno** que cuando esa condición se cumple podemos afirmar que la tranformación es invertible, y si eso pasa entonces la matriz es no singular tal como dice el teorema
+
+Dado $x$ tal que $T(x) = O$ (osea el núcleo, tomamos un elemento del dominio y la tranformacion lo manda a cero en las imágenes), sea $X$ la matriz columna $n \times 1$ formada a partir de los componentes de $x$.
+
+```math
+X =\begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix}
+```
+
+Puesto que $T(x) = O$, la matriz producto $AX$ es una matriz columna $n \times 1$ formada por ceros, así que $B(AX)$ es también una matriz columna de ceros.
+
+
+ya que recordando lo que vimos de la multiplicación de matrices
+
+> **Las columnas de una matriz son las imágenes de los vectores de la base.**
+
+Si $B:\mathbb{R}^n\to\mathbb{R}^p$, entonces la columna $j$ de $B$ es $B(e_j)$:
+$$B(e_j)=\sum_{k=1}^{p} b_{kj}\,u_k$$
+
+y para $A:\mathbb{R}^p\to\mathbb{R}^m$, la columna $k$ de $A$ es $A(u_k)$:
+$$A(u_k)=\sum_{i=1}^{m} a_{ik}\,w_i$$
+
+
+Queremos la columna $j$ del compuesto $A\circ B$, es decir $(A\circ B)(e_j)=A\big(B(e_j)\big)$:
+
+$$
+A\big(B(e_j)\big)
+= A\!\left(\sum_{k} b_{kj}\,u_k\right)
+\overset{\textbf{(★)}}{=} \sum_{k} b_{kj}\,A(u_k)
+= \sum_{i}\underbrace{\left(\sum_{k} a_{ik}\,b_{kj}\right)}_{c_{ij}} w_i
+$$
+
+$$\boxed{\,c_{ij}=\sum_{k=1}^{p} a_{ik}\,b_{kj}\,}$$
+
+En nuestro caso tenemos esto
+
+
+$$\sum_{k=1}^{p} a_{ik}x_{j} = O$$
