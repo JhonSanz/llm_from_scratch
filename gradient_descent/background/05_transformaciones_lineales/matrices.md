@@ -212,6 +212,25 @@ que sigue." - Cálculo Tom M. Apostol Vol 2 pag. 57
 
 ![alt text](img/matrix_t1.png)
 
+![dem_matrix_t1](img/dem_matrix_t1.png)
+
+aplico la transformación
+
+$$T(x) = T\!\left(\sum_{k=1}^{n} x_k\, e_k\right) \overset{\text{lineal}}{=} \sum_{k=1}^{n} x_k\, T(e_k)$$
+
+
+Meto $T(e_k) = \sum_i t_{ik} w_i$ (la definición de la matriz como valores asignados) dentro de lo anterior:
+
+$$T(x) = \sum_{k=1}^{n} x_k \left( \sum_{i=1}^{m} t_{ik}\, w_i \right)$$
+
+Intercambio el orden de las sumas para **agrupar por $w_i$**:
+
+$$T(x) = \sum_{i=1}^{m} \underbrace{\left( \sum_{k=1}^{n} t_{ik}\, x_k \right)}_{\text{coordenada } i \text{ de } T(x)}\, w_i$$
+
+> Aqui es **MUY IMPORTANTE** 🚨 ver que el $w_i$ "desapareció", pero realmente lo entendemos como la coordenada en el vector. $w_i$ sigue siendo la base y no se muestra pero está ahí todo el tiempo
+
+$$\text{coordenada } i \text{ de } T(x) = \sum_{k=1}^{n} t_{ik}\, x_k = (AX)_i$$
+
 ---
 
 Ahora bien, el recíproco también es cierto. Podemos partir desde una disposición de $mn$ escalares que formen una matriz rectangular $t_{ik}$ y elegimos un par de bases ordenadas para $V$ y $W$ existe una transformación lineal que tiene esa representación matricial.
@@ -1012,32 +1031,30 @@ Dado $x$ tal que $T(x) = O$ (osea el núcleo, tomamos un elemento del dominio y 
 X =\begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix}
 ```
 
-Puesto que $T(x) = O$, la matriz producto $AX$ es una matriz columna $n \times 1$ formada por ceros, así que $B(AX)$ es también una matriz columna de ceros.
+Puesto que $T(x) = O$, la matriz producto $AX$ es una matriz columna $n \times 1$ formada por ceros, recordando que $X$ es un vector columna (no es una transformación) y como vimos anteriormente en esta otra demostración
+
+![dem_matrix_t1](img/dem_matrix_t1.png)
+
+entonces quedamos con 
+
+$$T(x) = \sum_{k=1}^{n} t_{ik}\, x_k = (AX)_i$$
+
+y como desde el inciio dijimos que $T(x) = O$ entonces
+
+$$O = \sum_{k=1}^{n} t_{ik}\, x_k = (AX)_i$$
+
+osea que 
+
+```math
+AX =\begin{pmatrix} 0 \\ 0 \\ \vdots \\ 0 \end{pmatrix}
+```
+
+Así que $B(AX)$ **es también una matriz columna de ceros**. Pero $B(AX) = (BA)X = IX = X$ por lo que todo componente de $x$ es $0$
 
 
-ya que recordando lo que vimos de la multiplicación de matrices
+Por consiguiente, $T$ es invertible, y la ecuación $TT^{-1} = I$ implica que $m(T)m(T^{-1}) = I$ o $Am(T^{-1}) = I$. Multiplicando a la izquierda por $B$, encontramos $m(T^{-1}) = B$.
 
-> **Las columnas de una matriz son las imágenes de los vectores de la base.**
+Recíprocamente, si $T$ es invertible entonces $T^{-1}T$ es la transformación idéntica así que $m(T^{-1})m(T)$ es la matriz identidad. Por consiguiente $A$ es no singular y $m(T^{-1})A = I$.
 
-Si $B:\mathbb{R}^n\to\mathbb{R}^p$, entonces la columna $j$ de $B$ es $B(e_j)$:
-$$B(e_j)=\sum_{k=1}^{p} b_{kj}\,u_k$$
+Este ultimo paso es importante en el sentido de que el producto de matrices no es conmutativo y por eso se demuestra en dos ecuaciones separadas. También recordar que $TT^{-1} = I$ se estudió en la sección de tranformaciones lineales.
 
-y para $A:\mathbb{R}^p\to\mathbb{R}^m$, la columna $k$ de $A$ es $A(u_k)$:
-$$A(u_k)=\sum_{i=1}^{m} a_{ik}\,w_i$$
-
-
-Queremos la columna $j$ del compuesto $A\circ B$, es decir $(A\circ B)(e_j)=A\big(B(e_j)\big)$:
-
-$$
-A\big(B(e_j)\big)
-= A\!\left(\sum_{k} b_{kj}\,u_k\right)
-\overset{\textbf{(★)}}{=} \sum_{k} b_{kj}\,A(u_k)
-= \sum_{i}\underbrace{\left(\sum_{k} a_{ik}\,b_{kj}\right)}_{c_{ij}} w_i
-$$
-
-$$\boxed{\,c_{ij}=\sum_{k=1}^{p} a_{ik}\,b_{kj}\,}$$
-
-En nuestro caso tenemos esto
-
-
-$$\sum_{k=1}^{p} a_{ik}x_{j} = O$$
