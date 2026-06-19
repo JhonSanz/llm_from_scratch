@@ -1058,3 +1058,93 @@ Recíprocamente, si $T$ es invertible entonces $T^{-1}T$ es la transformación i
 
 Este ultimo paso es importante en el sentido de que el producto de matrices no es conmutativo y por eso se demuestra en dos ecuaciones separadas. También recordar que $TT^{-1} = I$ se estudió en la sección de tranformaciones lineales.
 
+Todas las propiedades de las transformaciones lineales invertibles tienen su
+contrapartida para las matrices no singulares. En particular, las inversas por la izquierda (si existen) son únicas, y toda inversa por la izquierda es también inversa por la derecha. Ambas propiedades fueron demotradas en la sección de transformaciones lineales inversas
+
+
+Dicho de otro modo, si $A$ es no singular y $BA = I$, entonces $AB = I$. Llamamos a $B$ la inversa de $A$ y la designamos por $A^{-1}$. La inversa $A^{-1}$ también es no singular y su inversa es $A$
+
+Ahora por fin!!!!! vamos a determinar la inversa
+
+Seguidamente demostramos que el problema de la determinación efectiva de
+los elementos de la inversa de una matriz no singular es equivalente a la resolución de $n$ sistemas lineales no homogéneos. 
+
+![mult_matrix](img/mult_matrix.png)
+
+vemos que es una multiplicación de matrices, ya que desde el inicio planteamos la inversa como $BA = I$ y nuestro objetivo es determinar $B$. Desernrollemos la sumatoria
+
+$$\sum_{k=1}^{n} a_{ik}\, b_{kj} = \delta_{ij}$$
+
+
+Desenrollemos la sumatoria. Fijamos $i$ = fila, $j$ = columna del resultado $(AB)_{ij}$, y $k$ corre.
+
+con $i = j$: ($a_{11}b_{11} + a_{12}b_{21} + a_{13}b_{31}$):
+
+Los primeros subíndices de las $a$ son todos $1$ → fila $i = 1$. Los segundos subíndices de las $b$ son todos $1$ → columna $j = 1$. Entonces:
+
+$$\sum_{k=1}^{3} a_{1k}\,b_{k1} = (AB)_{11}$$
+
+Como $i = j = 1$, está en la **diagonal**, así que $\delta_{11} = 1$:
+
+$$a_{11}b_{11} + a_{12}b_{21} + a_{13}b_{31} = \delta_{11} = 1$$
+
+con $i \neq j$: ($a_{11}b_{12} + a_{12}b_{22} + a_{13}b_{32}$):
+
+Primeros subíndices de las $a$ → fila $i = 1$. Segundos subíndices de las $b$ → columna $j = 2$. Entonces:
+
+$$\sum_{k=1}^{3} a_{1k}\,b_{k2} = (AB)_{12}$$
+
+Como $i = 1 \neq j = 2$, está **fuera de la diagonal**, así que $\delta_{12} = 0$:
+
+$$a_{11}b_{12} + a_{12}b_{22} + a_{13}b_{32} = \delta_{12} = 0$$
+
+
+Cada sumatoria que desenrollada **es una celda** de $AB = I$. Aquí está el mapa para el caso $3\times 3$:
+
+$$AB = \begin{pmatrix} (AB)_{11} & (AB)_{12} & (AB)_{13} \\ (AB)_{21} & (AB)_{22} & (AB)_{23} \\ (AB)_{31} & (AB)_{32} & (AB)_{33} \end{pmatrix} = \begin{pmatrix} \boxed{1} & \boxed{0} & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix} = I$$
+
+Las dos que calculaste son las dos primeras celdas de la fila de arriba:
+
+$$\underbrace{(AB)_{11}}_{\text{tu suma derecha}} = 1 \qquad\qquad \underbrace{(AB)_{12}}_{\text{tu suma izquierda}} = 0$$
+
+entonces para toda la matriz como producto matricial:
+
+$$\begin{pmatrix} a_{11} & a_{12} & a_{13} \\ a_{21} & a_{22} & a_{23} \\ a_{31} & a_{32} & a_{33} \end{pmatrix} \begin{pmatrix} b_{11} & b_{12} & b_{13} \\ b_{21} & b_{22} & b_{23} \\ b_{31} & b_{32} & b_{33} \end{pmatrix} = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix}$$
+
+Por ejemplo:
+- Celda $(1,1)$: fila 1 de $A$ × columna 1 de $B$ = $a_{11}b_{11}+a_{12}b_{21}+a_{13}b_{31} = 1$ ← **tu suma derecha**
+- Celda $(1,2)$: fila 1 de $A$ × columna 2 de $B$ = $a_{11}b_{12}+a_{12}b_{22}+a_{13}b_{32} = 0$ ← **tu suma izquierda**
+- Celda $(1,3)$: fila 1 de $A$ × columna 3 de $B$ = $a_{11}b_{13}+a_{12}b_{23}+a_{13}b_{33} = 0$
+- ...y así las 9 celdas, cada una con su $\delta_{ij}$.
+
+
+#### hallar la inversa = resolver $n$ sistemas
+
+Aquí cierra el círculo. **Rebanamos $AB = I$ por columnas.** Fijamos un $j$ (elegimos una columna del resultado) y miramos (2.31):
+
+$$\sum_{k=1}^{n} a_{ik}\, b_{kj} = \delta_{ij} \qquad (j \text{ fijo}, \ i = 1,\dots,n)$$
+
+Con $j$ congelado, esto es un sistema de $n$ ecuaciones cuyas incógnitas son la **columna $j$ de $B$**. En forma matricial, con $B_j$ = columna $j$ de $B$ y $e_j$ = columna $j$ de $I$:
+
+$$A\, B_j = e_j$$
+
+Y hay un sistema por cada columna, **todos con la misma matriz $A$**:
+
+| Columna buscada | Sistema | Lado derecho |
+|---|---|---|
+| $B_1$ | $A\,B_1 = e_1$ | $(1,0,\dots,0)^\top$ |
+| $B_2$ | $A\,B_2 = e_2$ | $(0,1,\dots,0)^\top$ |
+| $\vdots$ | $\vdots$ | $\vdots$ |
+| $B_n$ | $A\,B_n = e_n$ | $(0,\dots,0,1)^\top$ |
+
+Fíjate en la **columna 1** del resultado $I$: las celdas $(1,1),(2,1),(3,1)$ valen $(1,0,0) = e_1$. Esas tres ecuaciones juntas **son** el sistema $A\,B_1 = e_1$. Cada columna de la identidad es el lado derecho de uno de los sistemas.
+
+$$\underbrace{AB = I}_{\text{una ecuación matricial}} \;\overset{\text{rebanar por columnas}}{\Longleftrightarrow}\; \underbrace{AB_1 = e_1,\ \dots,\ AB_n = e_n}_{n \text{ sistemas, misma } A,\ \text{distinto lado derecho}}$$
+
+👀 **OJO — por qué cada sistema tiene solución ÚNICA:** porque $A$ es **no singular**. Esa es la conexión directa con el Teorema 2.20: $A$ no singular $\iff T$ invertible $\iff$ núcleo trivial $\iff$ cada $AB_j = e_j$ tiene exactamente una solución. Si $A$ fuera singular, algún sistema no tendría solución (o tendría infinitas) y la inversa no existiría.
+
+
+Entonces tal y como dice el libro, determinar la inversa podemos aplicar el método de Gauss-Jordan
+
+
+
