@@ -1033,20 +1033,6 @@ X =\begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix}
 
 Puesto que $T(x) = O$, la matriz producto $AX$ es una matriz columna $n \times 1$ formada por ceros, recordando que $X$ es un vector columna
 
-entonces quedamos con 
-
-$$T(x) = \sum_{k=1}^{n} t_{ik}\, x_k = (AX)_i$$
-
-y como desde el inciio dijimos que $T(x) = O$ entonces
-
-$$O = \sum_{k=1}^{n} t_{ik}\, x_k = (AX)_i$$
-
-osea que 
-
-```math
-AX =\begin{pmatrix} 0 \\ 0 \\ \vdots \\ 0 \end{pmatrix}
-```
-
 Así que $B(AX)$ **es también una matriz columna de ceros**. Pero $B(AX) = (BA)X = IX = X$ por lo que todo componente de $x$ es $0$
 
 
