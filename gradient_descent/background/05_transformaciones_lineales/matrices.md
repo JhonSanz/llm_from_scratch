@@ -1031,7 +1031,7 @@ Dado $x$ tal que $T(x) = O$ (osea el núcleo, tomamos un elemento del dominio y 
 X =\begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix}
 ```
 
-Puesto que $T(x) = O$, la matriz producto $AX$ es una matriz columna $n \times 1$ formada por ceros, recordando que $X$ es un vector columna (no es una transformación) y como vimos anteriormente en esta otra demostración
+Puesto que $T(x) = O$, la matriz producto $AX$ es una matriz columna $n \times 1$ formada por ceros, recordando que $X$ es un vector columna (no es una matriz) y como vimos anteriormente en esta otra demostración
 
 ![dem_matrix_t1](img/dem_matrix_t1.png)
 
