@@ -43,14 +43,14 @@ es un disco circular, y en $\mathbf{R}^3$ es un sólido esférico con centro en 
 
 Esto es importante porque este tipo de funciones puede tener $n$ cantidad de coordenadas de entrada
 
-**DEFINICIÓN DE PUNTO INTERIOR.** *Sea $S$ un subconjunto de $\mathbf{R}^n$, y supongamos que $a \in S$. Se dice que $a$ es punto interior de $S$ si existe una $n$-bola abierta con centro en $a$, cuyos puntos pertenecen todos a $S$.*
+**DEFINICIÓN DE PUNTO INTERIOR.** *Sea $S$ un subconjunto de $\mathbf{R}^n$, y supongamos que $a \in S$. Se dice que $a$ es punto interior de $S$ si existe una $n$-bola abierta con centro en $a$, cuyos puntos pertenecen todos a $S$.
 
 Es decir, todo punto $a$ interior de $S$ puede rodearse por una $n$-bola $B(a)$ tal
 que $B(a) \subseteq S$. El conjunto de todos los puntos interiores de $S$ se llama el *interior*
 de $S$ y se designa con $int S$. Un conjunto abierto que contenga un punto $a$ se llama
 a veces *entorno* de $a$.
 
-**DEFINICIÓN DE CONJUNTO ABIERTO.** *Un conjunto $S$ de $\mathbf{R}^n$ se llama abierto si todos sus puntos son interiores. Es decir, $S$ es abierto si y sólo si $S = int S$.*
+**DEFINICIÓN DE CONJUNTO ABIERTO.** *Un conjunto $S$ de $\mathbf{R}^n$ se llama abierto si todos sus puntos son interiores. Es decir, $S$ es abierto si y sólo si $S = int S$.
 
 
 graficamente podemos verlo así 
