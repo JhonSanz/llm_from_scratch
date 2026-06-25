@@ -49,11 +49,11 @@ Esto es importante porque este tipo de funciones puede tener $n$ cantidad de coo
 
 Es decir, todo punto $a$ interior de $S$ puede rodearse por una $n$-bola $B(a)$ tal
 que $B(a) \subseteq S$. El conjunto de todos los puntos interiores de $S$ se llama el *interior*
-de $S$ y se designa con $\operatorname{int} S$. Un conjunto abierto que contenga un punto $a$ se llama
+de $S$ y se designa con $int S$. Un conjunto abierto que contenga un punto $a$ se llama
 a veces *entorno* de $a$.
 
 > **DEFINICIÓN DE CONJUNTO ABIERTO.** *Un conjunto $S$ de $\mathbf{R}^n$ se llama abierto
-> si todos sus puntos son interiores. Es decir, $S$ es abierto si y sólo si $S = \operatorname{int} S$.*
+> si todos sus puntos son interiores. Es decir, $S$ es abierto si y sólo si $S = int S$.*
 
 
 graficamente podemos verlo así 
