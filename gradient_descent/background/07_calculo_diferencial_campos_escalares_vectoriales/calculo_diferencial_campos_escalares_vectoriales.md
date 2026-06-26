@@ -43,16 +43,84 @@ es un disco circular, y en $\mathbf{R}^3$ es un sólido esférico con centro en 
 
 Esto es importante porque este tipo de funciones puede tener $n$ cantidad de coordenadas de entrada
 
-**DEFINICIÓN DE PUNTO INTERIOR.** *Sea $S$ un subconjunto de $\mathbf{R}^n$, y supongamos que $a \in S$. Se dice que $a$ es punto interior de $S$ si existe una $n$-bola abierta con centro en $a$, cuyos puntos pertenecen todos a $S$.
+**DEFINICIÓN DE PUNTO INTERIOR.** Sea $S$ un subconjunto de $\mathbf{R}^n$, y supongamos que $a \in S$. Se dice que $a$ es punto interior de $S$ si existe una $n$-bola abierta con centro en $a$, cuyos puntos pertenecen todos a $S$.
 
 Es decir, todo punto $a$ interior de $S$ puede rodearse por una $n$-bola $B(a)$ tal
 que $B(a) \subseteq S$. El conjunto de todos los puntos interiores de $S$ se llama el *interior*
 de $S$ y se designa con $int S$. Un conjunto abierto que contenga un punto $a$ se llama
 a veces *entorno* de $a$.
 
-**DEFINICIÓN DE CONJUNTO ABIERTO.** *Un conjunto $S$ de $\mathbf{R}^n$ se llama abierto si todos sus puntos son interiores. Es decir, $S$ es abierto si y sólo si $S = int S$.
+**DEFINICIÓN DE CONJUNTO ABIERTO.** Un conjunto $S$ de $\mathbf{R}^n$ se llama abierto si todos sus puntos son interiores. Es decir, $S$ es abierto si y sólo si $S = int S$.
+
+En $\mathbf{R}^1$ el tipo más sencillo de conjunto abierto es un intervalo
+abierto. La reunión de dos o más intervalos abiertos es también abierto. Un intervalo cerrado $[a, b]$ no es un conjunto abierto porque ninguno de los extremos del intervalo puede encerrarse en una 1-bola situada enteramente en el intervalo dado.
+
+La 2-bola $S = B(O; 1)$ dibujada en la figura 8.1 es un ejemplo de conjunto
+abierto en $\mathbf{R}^2$. Todo punto $a$ de $S$ es el centro de un disco situado por entero en $S$. Para algunos puntos el radio de este disco es muy pequeño.
+
+**DEFINICIONES DE EXTERIOR Y FRONTERA.** Un punto $x$ se llama exterior al conjunto $S$ de $\mathbf{R}^n$ si existe una $n$-bola $B(x)$ que no contiene puntos de $S$. El conjunto de todos los puntos de $\mathbf{R}^n$ exteriores a $S$ se llama el exterior de $S$ y se designa con $\operatorname{ext} S$. Un punto que no es interior ni exterior a $S$ se llama punto frontera de $S$. El conjunto de todos los puntos frontera de $S$ es la frontera de $S$ y se designa con $\partial S$.
+
+Para el ejemplo $S = B(O; 1)$: El exterior de $S$ es el conjunto de todos los $x$ tales que $\lVert x \rVert > 1$. La frontera de $S$ la constituyen todos los $x$ con $\lVert x \rVert = 1$.
 
 
 graficamente podemos verlo así 
 
 ![bolas](img/bolas.png)
+
+## Límites y continuidad
+
+Para definir esto nos podemos inspirar en el caso unidimensional. Es especialmente util pensar en los campos escalares para la visualización. Pero la definición aplica indistitamente para campos vectoriales también.
+
+Consideremos una función $f: S \to \mathbb{R^m}$ donde $S$ es un subconjunto de $R^n$. Si $a \in \mathbb{R^n}$ y $b \in \mathbb{R^m}$ 
+
+
+$$\lim_{x \to a}f(x) = b$$
+
+Lo mismo de siempre: $f(x) \to b$ cuando $x \to a$. Y esto significa tambien
+
+$$\lim_{\lVert x - a \rVert \to 0} \lVert f(x) - b \rVert = 0$$
+
+Osea, la distancia al origen entre $x$ y $a$ tiende a cero y eso hace que la imagen $f(x)$ esté tan cerca a $b$ que al calcular la distancia, esta tiende a cero también
+
+Sin embargo en esa expresión tenemos solamente $f(x)$, lo cual no obliga a que la función esté definida en $a$, por lo cual el autor propone reescribir de la siguiente manera, tomando $h = x - a$
+
+$$\lim_{\lVert h \rVert \to 0} \lVert f(a + h) - b \rVert = 0$$
+
+Pero la idea sigue siendo la misma, es solo otra forma de escribir.
+
+Ahora...
+
+Para los puntos de $\mathbb{R^2}$ escribimos $(x,y)$ para $x$. Escribimos $(a,b)$ para expresar $a$. Entonces todo queda así
+
+$$\lim_{(x,y) \to (a,b)}f(x,y) = b$$
+
+Y para  $\mathbb{R^3}$ así....
+
+$$\lim_{(x,y,z) \to (a,b,c)}f(x,y,z) = b$$
+
+Y como se estudió en el caso unidimensional, la continuidad está dada por
+
+$$\lim_{x \to a}f(x) = f(a)$$
+
+
+![props_continuidad](img/props_continuidad.png)
+
+Todo eso tiene demostración pero no las incluiré aqui por ahora
+
+> Ver algunos ejemplos en Cálculo de Tom Apostol Vol 2 - pág 304
+
+![t_continuidad_compuestas](img/t_continuidad_compuestas.png)
+
+TODO: poner los limites iterados y las coordenadas polares y el ejemplo 7 (pag 306)
+
+## Derivada de un campo escalar respecto a un vector
+
+Aqui se expone la derivada con respecto a un vector solamente para campos escalares
+
+como se ve en la imagen podemos estar parados en un punto del campo escalar, y dependiendo en la dirección en que nos movamos la temperatura varía
+
+
+"Sea $f$ un campo escalar definido en un conjunto $S$ de $\mathbb{R^n}$ , y sea a un punto interior a $S$. Deseamos estudiar la variación del campo cuando nos desplazamos desde $a$ a un punto próximo."
+
+![habitacion](img/habitacion.png)
+

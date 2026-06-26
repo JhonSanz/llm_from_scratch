@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>x se sube a la superficie: (x₁,y₁) → (x₁,y₁,z₁)</title>
+<style>
+  :root{ --bg:#faf9f5; --panel:#ffffff; --border:rgba(0,0,0,0.12); --text:#2c2c2a; --muted:#5f5e5a; }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#1f1e1c; --panel:#2a2926; --border:rgba(255,255,255,0.14); --text:#e8e6df; --muted:#a3a199; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.55;
+    display:flex;justify-content:center;padding:24px}
+  .wrap{width:100%;max-width:680px}
+  h1{font-size:20px;font-weight:500;margin:0 0 4px}
+  p.sub{color:var(--muted);font-size:14px;margin:0 0 16px}
+  .card{background:var(--panel);border:0.5px solid var(--border);border-radius:14px;padding:16px}
+  canvas{display:block;width:100%;height:auto;border-radius:10px;cursor:grab;touch-action:none}
+  canvas:active{cursor:grabbing}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin:8px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>El punto del suelo se sube a la superficie</h1>
+  <p class="sub">x = (x₁, y₁) vive en el plano; la función lo levanta hasta (x₁, y₁, z₁) sobre la superficie, con z₁ = f(x₁, y₁).</p>
+  <div class="card">
+    <canvas id="c" width="680" height="500"></canvas>
+    <p class="hint">Arrastra sobre la figura para rotarla</p>
+  </div>
+</div>
+<script>
+const cv=document.getElementById('c'), ctx=cv.getContext('2d');
+const W=680, H=500, dpr=Math.max(1,window.devicePixelRatio||1);
+cv.width=W*dpr; cv.height=H*dpr; ctx.scale(dpr,dpr);
+
+const dark=matchMedia('(prefers-color-scheme: dark)').matches;
+const P = dark ? {
+  surfFill:'rgba(93,202,165,0.22)', surfEdge:'rgba(93,202,165,0.40)', bound:'rgba(151,196,89,0.95)',
+  floorFill:'rgba(255,255,255,0.05)', floorGrid:'rgba(255,255,255,0.12)',
+  axis:'#e8e6df', guide:'rgba(255,255,255,0.32)', drop:'rgba(250,199,117,0.9)',
+  dot:'#e8e6df', surfPt:'#FAC775', text:'#e8e6df', muted:'#a3a199'
+} : {
+  surfFill:'rgba(29,158,117,0.18)', surfEdge:'rgba(15,110,86,0.40)', bound:'rgba(15,110,86,0.95)',
+  floorFill:'rgba(0,0,0,0.04)', floorGrid:'rgba(0,0,0,0.12)',
+  axis:'#2c2c2a', guide:'rgba(0,0,0,0.32)', drop:'rgba(186,117,23,0.95)',
+  dot:'#2c2c2a', surfPt:'#BA7517', text:'#2c2c2a', muted:'#5f5e5a'
+};
+
+let az=-0.85, el=0.50;
+const M=74;
+let SC=100, offX=0, offY=0;
+
+// surface height field (a gentle canopy)
+function f(x,y){ return 1.6 + 0.45*Math.cos(1.0*(x-1.5)) - 0.25*(y-1.1)*(y-1.1); }
+
+// domain patch + points
+const DX0=0.6, DX1=2.4, DY0=0.4, DY1=1.9;
+const px={x:1.30, y:1.00}, pa={x:1.85, y:1.18};
+const z1=f(px.x,px.y), za=f(pa.x,pa.y);
+const AX=2.95, AY=2.45, AZ=2.55;
+
+function raw(x,y,h){
+  const ca=Math.cos(az), sa=Math.sin(az), se=Math.sin(el), ce=Math.cos(el);
+  const rx=x*ca - y*sa, ry=x*sa + y*ca;
+  return [rx, -ry*se - h*ce, ry];
+}
+function fit(){
+  const S=[[0,0,0],[AX,0,0],[0,AY,0],[0,0,AZ],
+    [DX0,DY0,0],[DX1,DY0,0],[DX1,DY1,0],[DX0,DY1,0],
+    [DX0,DY0,f(DX0,DY0)],[DX1,DY0,f(DX1,DY0)],[DX1,DY1,f(DX1,DY1)],[DX0,DY1,f(DX0,DY1)],
+    [px.x,px.y,z1],[pa.x,pa.y,za],[0,0,z1]];
+  let minx=1e9,maxx=-1e9,miny=1e9,maxy=-1e9;
+  for(const p of S){const r=raw(p[0],p[1],p[2]);
+    if(r[0]<minx)minx=r[0]; if(r[0]>maxx)maxx=r[0];
+    if(r[1]<miny)miny=r[1]; if(r[1]>maxy)maxy=r[1];}
+  SC=Math.min((W-2*M)/(maxx-minx),(H-2*M)/(maxy-miny));
+  offX=M-minx*SC; offY=M-miny*SC;
+}
+function pr(x,y,h){ const r=raw(x,y,h); return [offX+r[0]*SC, offY+r[1]*SC, r[2]]; }
+
+function line(a,b,col,w,dash){
+  ctx.strokeStyle=col; ctx.lineWidth=w; ctx.setLineDash(dash||[]);
+  ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.stroke();
+  ctx.setLineDash([]);
+}
+function dot(p,col,r){ ctx.fillStyle=col; ctx.beginPath(); ctx.arc(p[0],p[1],r,0,7); ctx.fill(); }
+function label(p,txt,col,dx,dy,size,italic){
+  ctx.fillStyle=col; ctx.font=(italic?'italic ':'')+(size||13)+'px sans-serif';
+  ctx.fillText(txt,p[0]+dx,p[1]+dy);
+}
+function arrowHead(from,to,col){
+  const ang=Math.atan2(to[1]-from[1],to[0]-from[0]), s=9;
+  ctx.fillStyle=col; ctx.beginPath();
+  ctx.moveTo(to[0],to[1]);
+  ctx.lineTo(to[0]-s*Math.cos(ang-0.4),to[1]-s*Math.sin(ang-0.4));
+  ctx.lineTo(to[0]-s*Math.cos(ang+0.4),to[1]-s*Math.sin(ang+0.4));
+  ctx.closePath(); ctx.fill();
+}
+
+function drawFloor(){
+  const c=[pr(DX0,DY0,0),pr(DX1,DY0,0),pr(DX1,DY1,0),pr(DX0,DY1,0)];
+  ctx.fillStyle=P.floorFill; ctx.beginPath();
+  ctx.moveTo(c[0][0],c[0][1]); for(let k=1;k<4;k++) ctx.lineTo(c[k][0],c[k][1]); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle=P.floorGrid; ctx.lineWidth=0.6;
+  const ng=5;
+  for(let i=0;i<=ng;i++){
+    const tx=DX0+(DX1-DX0)*i/ng, ty=DY0+(DY1-DY0)*i/ng;
+    line(pr(tx,DY0,0),pr(tx,DY1,0),P.floorGrid,0.6);
+    line(pr(DX0,ty,0),pr(DX1,ty,0),P.floorGrid,0.6);
+  }
+}
+function drawAxes(){
+  const O=pr(0,0,0), X=pr(AX,0,0), Y=pr(0,AY,0), Z=pr(0,0,AZ);
+  line(O,X,P.axis,1.8); arrowHead(O,X,P.axis);
+  line(O,Y,P.axis,1.8); arrowHead(O,Y,P.axis);
+  line(O,Z,P.axis,1.8); arrowHead(O,Z,P.axis);
+  label(X,'x',P.text,6,16,15); label(Y,'y',P.text,8,4,15); label(Z,'z',P.text,-16,-4,15);
+}
+function drawSurface(){
+  const Nx=16, Ny=13, cells=[];
+  for(let i=0;i<Nx;i++) for(let j=0;j<Ny;j++){
+    const x0=DX0+(DX1-DX0)*i/Nx, x1=DX0+(DX1-DX0)*(i+1)/Nx;
+    const y0=DY0+(DY1-DY0)*j/Ny, y1=DY0+(DY1-DY0)*(j+1)/Ny;
+    const q=[pr(x0,y0,f(x0,y0)),pr(x1,y0,f(x1,y0)),pr(x1,y1,f(x1,y1)),pr(x0,y1,f(x0,y1))];
+    cells.push({d:(q[0][2]+q[1][2]+q[2][2]+q[3][2])/4,q});
+  }
+  cells.sort((a,b)=>b.d-a.d);
+  ctx.lineWidth=0.6; ctx.strokeStyle=P.surfEdge; ctx.fillStyle=P.surfFill;
+  for(const c of cells){
+    ctx.beginPath(); ctx.moveTo(c.q[0][0],c.q[0][1]);
+    for(let k=1;k<4;k++) ctx.lineTo(c.q[k][0],c.q[k][1]); ctx.closePath();
+    ctx.fill(); ctx.stroke();
+  }
+  // boundary outline (the green sheet edge)
+  ctx.strokeStyle=P.bound; ctx.lineWidth=2; ctx.beginPath();
+  let first=true;
+  const edge=(xa,ya,xb,yb)=>{const n=20;for(let k=0;k<=n;k++){const t=k/n,x=xa+(xb-xa)*t,y=ya+(yb-ya)*t,p=pr(x,y,f(x,y));if(first){ctx.moveTo(p[0],p[1]);first=false;}else ctx.lineTo(p[0],p[1]);}};
+  edge(DX0,DY0,DX1,DY0); edge(DX1,DY0,DX1,DY1); edge(DX1,DY1,DX0,DY1); edge(DX0,DY1,DX0,DY0);
+  ctx.stroke();
+}
+function tick(p,txt){
+  ctx.fillStyle=P.muted; ctx.font='12px sans-serif';
+  dot(p,P.muted,2.2); ctx.fillText(txt,p[0]-4,p[1]+16);
+}
+function drawGuidesAndPoints(){
+  // in-plane guides giving x1,x2,y1,y2
+  line(pr(px.x,px.y,0),pr(px.x,0,0),P.guide,0.8,[3,3]);
+  line(pr(px.x,px.y,0),pr(0,px.y,0),P.guide,0.8,[3,3]);
+  line(pr(pa.x,pa.y,0),pr(pa.x,0,0),P.guide,0.8,[3,3]);
+  line(pr(pa.x,pa.y,0),pr(0,pa.y,0),P.guide,0.8,[3,3]);
+  tick(pr(px.x,0,0),'x₁'); tick(pr(pa.x,0,0),'x₂');
+  tick(pr(0,px.y,0),'y₁'); tick(pr(0,pa.y,0),'y₂');
+
+  // z1 guide to the z-axis
+  line(pr(px.x,px.y,z1),pr(0,0,z1),P.guide,0.8,[3,3]);
+  const zt=pr(0,0,z1); dot(zt,P.muted,2.2);
+  ctx.fillStyle=P.muted; ctx.font='12px sans-serif'; ctx.fillText('z₁',zt[0]-18,zt[1]+4);
+}
+function drawDropsAndDots(){
+  // droplines (the dotted verticals of the sketch)
+  line(pr(px.x,px.y,0),pr(px.x,px.y,z1),P.drop,1.6,[2,4]);
+  line(pr(pa.x,pa.y,0),pr(pa.x,pa.y,za),P.drop,1.6,[2,4]);
+
+  // ground points
+  const gX=pr(px.x,px.y,0), gA=pr(pa.x,pa.y,0);
+  dot(gX,P.dot,4); dot(gA,P.dot,4);
+  label(gX,'x = (x₁, y₁)',P.text,8,18,14,true);
+  label(gA,'a',P.muted,8,16,14,true);
+
+  // surface points
+  const sX=pr(px.x,px.y,z1), sA=pr(pa.x,pa.y,za);
+  ctx.strokeStyle=dark?'#1f1e1c':'#fff';
+  dot(sX,P.surfPt,5.5); ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(sX[0],sX[1],5.5,0,7); ctx.stroke();
+  dot(sA,P.surfPt,4.5); ctx.beginPath(); ctx.arc(sA[0],sA[1],4.5,0,7); ctx.stroke();
+  label(sX,'(x₁, y₁, z₁)',P.text,8,-8,14);
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  fit();
+  drawFloor();
+  drawAxes();
+  drawGuidesAndPoints();
+  drawSurface();
+  drawDropsAndDots();
+}
+
+let drag=false,lx=0,ly=0;
+cv.addEventListener('pointerdown',e=>{drag=true;lx=e.clientX;ly=e.clientY;cv.setPointerCapture(e.pointerId);});
+cv.addEventListener('pointermove',e=>{
+  if(!drag) return;
+  az+=(e.clientX-lx)*0.01;
+  el=Math.max(0.18,Math.min(1.15, el-(e.clientY-ly)*0.006));
+  lx=e.clientX; ly=e.clientY; draw();
+});
+cv.addEventListener('pointerup',()=>drag=false);
+draw();
+</script>
+</body>
+</html>

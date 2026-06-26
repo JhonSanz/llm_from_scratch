@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Límite sobre una superficie de R³</title>
+<style>
+  :root{ --bg:#faf9f5; --panel:#ffffff; --border:rgba(0,0,0,0.12); --text:#2c2c2a; --muted:#5f5e5a;
+         --btn:#efeee8; --btnon:#185FA5; --accent:#185FA5; }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#1f1e1c; --panel:#2a2926; --border:rgba(255,255,255,0.14); --text:#e8e6df; --muted:#a3a199;
+           --btn:#37352f; --btnon:#378ADD; --accent:#85B7EB; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.55;
+    display:flex;justify-content:center;padding:24px}
+  .wrap{width:100%;max-width:680px}
+  h1{font-size:20px;font-weight:500;margin:0 0 4px}
+  p.sub{color:var(--muted);font-size:14px;margin:0 0 16px}
+  .card{background:var(--panel);border:0.5px solid var(--border);border-radius:14px;padding:16px}
+  canvas{display:block;width:100%;height:auto;border-radius:10px;cursor:grab;touch-action:none}
+  canvas:active{cursor:grabbing}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin:6px 0 0}
+  .ctrls{margin-top:14px;display:flex;flex-direction:column;gap:12px}
+  .ctrl{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted)}
+  .ctrl input[type=range]{flex:1;accent-color:var(--accent)}
+  .ctrl .val{min-width:54px;text-align:right;color:var(--text);font-variant-numeric:tabular-nums}
+  .btns{display:flex;gap:8px;flex-wrap:wrap}
+  button{font:inherit;font-size:13px;padding:7px 12px;border-radius:8px;border:0.5px solid var(--border);
+    background:var(--btn);color:var(--text);cursor:pointer}
+  button.on{background:var(--btnon);color:#fff;border-color:transparent}
+  .status{margin-top:14px;font-size:14px;padding:10px 12px;border-radius:8px;
+    background:rgba(127,127,127,0.08);border-left:3px solid var(--accent)}
+  .read{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;color:var(--muted);margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>El límite, leído como altura de una superficie</h1>
+  <p class="sub">El punto camina por el suelo hacia a. Observa a qué altura tiende la superficie sobre él. Arrastra para rotar la vista.</p>
+  <div class="card">
+    <canvas id="c" width="680" height="460"></canvas>
+    <p class="hint">Arrastra sobre la figura para girarla</p>
+    <div class="ctrls">
+      <div class="ctrl"><span>Dirección θ</span>
+        <input type="range" id="theta" min="0" max="360" value="30">
+        <span class="val" id="thval">30°</span></div>
+      <div class="btns">
+        <button id="sfA" class="on" onclick="setSurf('A')">Superficie suave (límite existe)</button>
+        <button id="sfB" onclick="setSurf('B')">Superficie pellizcada (límite no existe)</button>
+      </div>
+      <div class="btns">
+        <button id="mApp" class="on" onclick="setMode('approach')">Modo: acercarse</button>
+        <button id="mOrb" onclick="setMode('orbit')">Modo: girar alrededor de a</button>
+        <button id="pp" onclick="togglePlay()">⏸ Pausa</button>
+      </div>
+      <div class="status" id="status"></div>
+      <div class="read" id="read"></div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:14px">Suave: z = 0.7·e^(−2(x²+y²)), una cúpula; la altura tiende a 0.7 vengas por donde vengas. Pellizcada: z = 2xy/(x²+y²); sobre cada dirección la altura es distinta y constante, así que la superficie no tiene una altura única sobre el origen.</p>
+</div>
+<script>
+const cv=document.getElementById('c'), ctx=cv.getContext('2d');
+const W=680, H=460, dpr=Math.max(1, window.devicePixelRatio||1);
+cv.width=W*dpr; cv.height=H*dpr; ctx.scale(dpr,dpr);
+
+const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+const PAL = dark
+  ? {grid:'rgba(255,255,255,0.10)', axis:'rgba(255,255,255,0.30)', muted:'#a3a199',
+     domeFill:'rgba(93,202,165,0.30)', domeEdge:'rgba(93,202,165,0.55)',
+     failFill:'rgba(240,153,123,0.28)', failEdge:'rgba(240,153,123,0.55)',
+     limit:'rgba(151,196,89,0.22)', limitEdge:'rgba(151,196,89,0.8)',
+     marker:'#FAC775', drop:'rgba(250,199,117,0.7)', shadow:'rgba(255,255,255,0.25)', anchor:'#e8e6df'}
+  : {grid:'rgba(0,0,0,0.10)', axis:'rgba(0,0,0,0.30)', muted:'#5f5e5a',
+     domeFill:'rgba(29,158,117,0.22)', domeEdge:'rgba(15,110,86,0.55)',
+     failFill:'rgba(216,90,48,0.18)', failEdge:'rgba(153,60,29,0.5)',
+     limit:'rgba(99,153,34,0.18)', limitEdge:'rgba(59,109,17,0.7)',
+     marker:'#BA7517', drop:'rgba(186,117,23,0.6)', shadow:'rgba(0,0,0,0.18)', anchor:'#2c2c2a'};
+
+let az=-0.7, el=0.52;
+const SC=135, CXp=W/2, CYp=H*0.60, D=1.12, N=26;
+
+function surf(x,y){
+  if(surfType==='A') return 0.7*Math.exp(-2*(x*x+y*y));
+  const d=x*x+y*y; if(d<1e-6) return 0; return 2*x*y/d;
+}
+function project(x,y,h){
+  const ca=Math.cos(az), sa=Math.sin(az);
+  const rx=x*ca - y*sa, ry=x*sa + y*ca;
+  const se=Math.sin(el), ce=Math.cos(el);
+  const sx=CXp + rx*SC;
+  const sy=CYp + (-ry*se - h*ce)*SC;
+  return [sx, sy, ry];
+}
+
+let surfType='A', mode='approach', playing=true;
+let theta=30*Math.PI/180, rApp=1.0, orbAng=0;
+
+function drawBase(){
+  ctx.strokeStyle=PAL.grid; ctx.lineWidth=0.5;
+  const steps=8;
+  for(let i=0;i<=steps;i++){
+    const t=-D + 2*D*i/steps;
+    let a=project(-D,t,0), b=project(D,t,0);
+    ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.stroke();
+    let c=project(t,-D,0), d=project(t,D,0);
+    ctx.beginPath(); ctx.moveTo(c[0],c[1]); ctx.lineTo(d[0],d[1]); ctx.stroke();
+  }
+}
+function drawSurface(){
+  const step=2*D/N, cells=[];
+  for(let i=0;i<N;i++){
+    for(let j=0;j<N;j++){
+      const x0=-D+i*step, y0=-D+j*step, x1=x0+step, y1=y0+step;
+      const p00=project(x0,y0,surf(x0,y0));
+      const p10=project(x1,y0,surf(x1,y0));
+      const p11=project(x1,y1,surf(x1,y1));
+      const p01=project(x0,y1,surf(x0,y1));
+      const depth=(p00[2]+p10[2]+p11[2]+p01[2])/4;
+      cells.push({depth,p:[p00,p10,p11,p01]});
+    }
+  }
+  cells.sort((a,b)=>b.depth-a.depth);
+  const fill = surfType==='A'?PAL.domeFill:PAL.failFill;
+  const edge = surfType==='A'?PAL.domeEdge:PAL.failEdge;
+  ctx.lineWidth=0.6; ctx.strokeStyle=edge; ctx.fillStyle=fill;
+  for(const cl of cells){
+    const p=cl.p;
+    ctx.beginPath();
+    ctx.moveTo(p[0][0],p[0][1]); ctx.lineTo(p[1][0],p[1][1]);
+    ctx.lineTo(p[2][0],p[2][1]); ctx.lineTo(p[3][0],p[3][1]); ctx.closePath();
+    ctx.fill(); ctx.stroke();
+  }
+}
+function drawLimitPlane(){
+  if(surfType!=='A') return;
+  const L=0.7, e=0.55;
+  const q=[project(-e,-e,L),project(e,-e,L),project(e,e,L),project(-e,e,L)];
+  ctx.fillStyle=PAL.limit; ctx.strokeStyle=PAL.limitEdge; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(q[0][0],q[0][1]);
+  for(let k=1;k<4;k++) ctx.lineTo(q[k][0],q[k][1]); ctx.closePath();
+  ctx.fill(); ctx.stroke();
+  const lab=project(e,e,L);
+  ctx.fillStyle=PAL.muted; ctx.font='12px sans-serif';
+  ctx.fillText('altura límite = 0.70', lab[0]+6, lab[1]);
+}
+function drawAnchorAndMarker(){
+  // anchor a at base origin
+  const a0=project(0,0,0);
+  ctx.fillStyle=PAL.anchor;
+  ctx.beginPath(); ctx.arc(a0[0],a0[1],3,0,7); ctx.fill();
+  ctx.fillStyle=PAL.muted; ctx.font='italic 13px sans-serif';
+  ctx.fillText('a', a0[0]+6, a0[1]+14);
+
+  // marker position
+  let mx,my;
+  if(mode==='approach'){ mx=rApp*Math.cos(theta); my=rApp*Math.sin(theta); }
+  else { const rad=0.16; mx=rad*Math.cos(orbAng); my=rad*Math.sin(orbAng); }
+  const mh=surf(mx,my);
+  const base=project(mx,my,0), top=project(mx,my,mh);
+
+  // shadow on floor
+  ctx.fillStyle=PAL.shadow;
+  ctx.beginPath(); ctx.arc(base[0],base[1],3,0,7); ctx.fill();
+  // drop line
+  ctx.strokeStyle=PAL.drop; ctx.lineWidth=1.5; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(base[0],base[1]); ctx.lineTo(top[0],top[1]); ctx.stroke();
+  ctx.setLineDash([]);
+  // marker on surface
+  ctx.fillStyle=PAL.marker;
+  ctx.beginPath(); ctx.arc(top[0],top[1],5.5,0,7); ctx.fill();
+  ctx.strokeStyle=dark?'#1f1e1c':'#fff'; ctx.lineWidth=1.5; ctx.stroke();
+
+  return mh;
+}
+function frame(){
+  ctx.clearRect(0,0,W,H);
+  drawBase();
+  drawSurface();
+  drawLimitPlane();
+  const mh=drawAnchorAndMarker();
+  updateText(mh);
+}
+function updateText(mh){
+  const st=document.getElementById('status'), rd=document.getElementById('read');
+  if(surfType==='A'){
+    st.style.borderLeftColor=PAL.limitEdge;
+    st.innerHTML='<b>El límite existe.</b> La superficie tiende a la misma altura 0.70 sobre a, por cualquier camino. El punto se acomoda en la cima.';
+    rd.textContent='altura f(x) ≈ '+mh.toFixed(3)+'   →   límite = 0.70';
+  } else {
+    st.style.borderLeftColor=PAL.failEdge;
+    if(mode==='approach')
+      st.innerHTML='<b>El límite no existe.</b> Al acercarte por una dirección fija la altura se queda constante — pero cambia θ y la altura de llegada es otra. No hay una sola altura sobre a.';
+    else
+      st.innerHTML='<b>El límite no existe.</b> Girando a radio fijo, la altura sube y baja entre −1 y 1: la superficie está pellizcada sobre a y no decide su valor.';
+    rd.textContent='altura f(x) = '+mh.toFixed(3)+'   (depende de la dirección)';
+  }
+}
+
+let last=performance.now();
+function loop(now){
+  const dt=Math.min(0.05,(now-last)/1000); last=now;
+  if(playing){
+    if(mode==='approach'){
+      rApp-=dt*0.42; if(rApp<0.03) rApp=1.0;
+    } else {
+      orbAng+=dt*1.1; if(orbAng>Math.PI*2) orbAng-=Math.PI*2;
+    }
+  }
+  frame();
+  requestAnimationFrame(loop);
+}
+
+function setSurf(s){ surfType=s;
+  document.getElementById('sfA').classList.toggle('on',s==='A');
+  document.getElementById('sfB').classList.toggle('on',s==='B'); }
+function setMode(m){ mode=m; rApp=1.0; orbAng=0;
+  document.getElementById('mApp').classList.toggle('on',m==='approach');
+  document.getElementById('mOrb').classList.toggle('on',m==='orbit'); }
+function togglePlay(){ playing=!playing; document.getElementById('pp').textContent=playing?'⏸ Pausa':'▶ Reproducir'; }
+
+document.getElementById('theta').addEventListener('input',e=>{
+  theta=parseFloat(e.target.value)*Math.PI/180;
+  document.getElementById('thval').textContent=Math.round(parseFloat(e.target.value))+'°';
+});
+
+// drag to rotate
+let drag=false, px=0, py=0;
+cv.addEventListener('pointerdown',e=>{drag=true;px=e.clientX;py=e.clientY;cv.setPointerCapture(e.pointerId);});
+cv.addEventListener('pointermove',e=>{
+  if(!drag) return;
+  az+=(e.clientX-px)*0.01;
+  el=Math.max(0.2,Math.min(1.2, el-(e.clientY-py)*0.006));
+  px=e.clientX; py=e.clientY;
+});
+cv.addEventListener('pointerup',()=>drag=false);
+
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
