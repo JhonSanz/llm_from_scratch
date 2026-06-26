@@ -120,7 +120,14 @@ Aqui se expone la derivada con respecto a un vector solamente para campos escala
 como se ve en la imagen podemos estar parados en un punto del campo escalar, y dependiendo en la dirección en que nos movamos la temperatura varía
 
 
-"Sea $f$ un campo escalar definido en un conjunto $S$ de $\mathbb{R^n}$ , y sea a un punto interior a $S$. Deseamos estudiar la variación del campo cuando nos desplazamos desde $a$ a un punto próximo."
+"Sea $f$ un campo escalar definido en un conjunto $S$ de $\mathbb{R^n}$ , y sea $a$ un punto interior de $S$. Deseamos estudiar la variación del campo cuando nos desplazamos desde $a$ a un punto próximo."
 
 ![habitacion](img/habitacion.png)
 
+Supongamos que se representa esa dirección mediante otro vector y. Esto
+es, supongamos que nos movemos desde $a$ hacia otro punto $a + y$, siguiendo el
+segmento de recta que une a con $a + y$.
+
+![vector_derivada_dir](img/vector_derivada_dir.png)
+
+![bola_a_hy](img/bola_a_hy.png)
