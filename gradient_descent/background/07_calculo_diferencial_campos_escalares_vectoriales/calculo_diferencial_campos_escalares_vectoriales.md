@@ -131,3 +131,146 @@ segmento de recta que une a con $a + y$.
 ![vector_derivada_dir](img/vector_derivada_dir.png)
 
 ![bola_a_hy](img/bola_a_hy.png)
+
+Puesto que $\boldsymbol{a}$ es un punto interior de $S$, existe una $n$-bola $B(\boldsymbol{a}; r)$ situada enteramente en $S$. Si $h$ se elige de manera que $|h|\,\|\boldsymbol{y}\| < r$, el segmento desde $\boldsymbol{a}$ hasta $\boldsymbol{a} + h\boldsymbol{y}$ estará en $S$. (Ver figura 8.4) Mantengamos $h \neq 0$ pero lo bastante pequeño para que $\boldsymbol{a} + h\boldsymbol{y} \in S$ y construyamos el cociente de diferencias
+
+$$
+\tag{8.3}
+\frac{f(\boldsymbol{a} + h\boldsymbol{y}) - f(\boldsymbol{a})}{h}.
+$$
+
+El numerador de este cociente pone de manifiesto el cambio de la función cuando nos desplazamos desde $\boldsymbol{a}$ a $\boldsymbol{a} + h\boldsymbol{y}$. El cociente se denomina a su vez el *promedio de variación* de $f$ en el segmento de recta que une $\boldsymbol{a}$ con $\boldsymbol{a} + h\boldsymbol{y}$. Nos interesa el comportamiento de ese cociente cuando $h \to 0$.
+
+Aquí es muy importante recordar la importancia que tiene cada elemento en ese cociente. Si bien el numerador expresa el moviento que se hace evaluando la función con el incremento $hy$, y luego la diferencia con el valor original $f(a)$, el denominador juega un papel crucial en ese cociente
+
+si pensamos en la división de numeros reales, lo que nos indica es que vamos a formar grupos de igual tamaño tomando el numerador como la cantidad de elementos disponibles y el denominador como la indicación de la cantidad de grupos, ejemplo:
+
+$6 / 2 = 3 \quad$ me quedan $2$ grupos de igual tamaño, $3$ elementos
+
+$6 / 3 = 2 \quad$ me quedan $3$ grupos de igual tamaño, $2$ elementos
+
+Ahora bien, es muy util pensar en que solo existe el numero $1$, y es mas facil visualizar la división
+
+$6 / 3 = \frac{1 + 1 + 1 + 1 + 1 + 1}{3} = 2 \quad$ y cada grupo queda con tres unos
+
+Entonces lo que hace la derivada es dividir entre $h$ que es un numero muy pequeño, pero idea es la misma, ya que siempre podemos multiplicar por una constante "arriba y abajo" en el cociente, entonces si $h$ es muy pequeño (y para seguir con nuestro esquema mental de sumar solamente numeros uno) podríamos hacer lo siguiente para resolver algo como $6/0.5$, multiplicamos entre $10$ y obtenemos 
+
+$6/0.5 = 60 / 5 = (1 + 1 + \dots + 1) / 5 = 12$
+
+> se puede ver mejor en la animación
+
+Esto nos lleva a la siguiente definición.
+
+**DEFINICIÓN DE LA DERIVADA DE UN CAMPO ESCALAR RESPECTO A UN VECTOR.** *Dado un campo escalar $f \colon S \to \mathbf{R}$, donde $S \subseteq \mathbf{R}^n$. Sean $\boldsymbol{a}$ un punto interior a $S$ e $\boldsymbol{y}$ un punto arbitrario de $\mathbf{R}^n$. La derivada de $f$ en $\boldsymbol{a}$ con respecto a $\boldsymbol{y}$ se representa con el símbolo $f'(\boldsymbol{a}; \boldsymbol{y})$ y se define*
+
+$$
+\tag{8.4}
+f'(\boldsymbol{a}; \boldsymbol{y}) = \lim_{h \to 0} \frac{f(\boldsymbol{a} + h\boldsymbol{y}) - f(\boldsymbol{a})}{h}
+$$
+
+*cuando tal límite existe.*
+
+> ver los ejemplos de pág 309
+
+---
+
+Para estudiar el comportamiento de $f$ sobre la recta que pasa por $\mathbf{a}$ y $\mathbf{a} + \mathbf{y}$ para $\mathbf{y} \neq \mathbf{O}$ introducimos la función
+
+$$g(t) = f(\mathbf{a} + t\mathbf{y}).$$
+
+El teorema que sigue relaciona las derivadas $g'(t)$ y $f'(\mathbf{a} + t\mathbf{y}; \mathbf{y})$.
+
+**TEOREMA 8.3.** Si $g(t) = f(\mathbf{a} + t\mathbf{y})$ y si una de las derivadas $g'(t)$ o $f'(\mathbf{a} + t\mathbf{y}; \mathbf{y})$ existe, entonces también existe la otra y coinciden,
+
+$$g'(t) = f'(\mathbf{a} + t\mathbf{y}; \mathbf{y}). \tag{8.5}$$
+
+En particular, cuando $t = 0$ tenemos $g'(0) = f'(\mathbf{a}; \mathbf{y})$.
+
+*Demostración.* Formando el cociente de diferencias para $g$, tenemos
+
+$$\frac{g(t + h) - g(t)}{h} = \frac{f(\mathbf{a} + t\mathbf{y} + h\mathbf{y}) - f(\mathbf{a} + t\mathbf{y})}{h}$$
+
+Haciendo que $h \to 0$ obtenemos (8.5).
+
+
+##### Ejemplo
+
+calcular $f'(\mathbf{a};\mathbf{y})$ para $f(\mathbf{x}) = \|\mathbf{x}\|^2$, con $\mathbf{x} \in \mathbb{R}^n$.
+
+La derivada direccional se reduce a una derivada ordinaria de una variable definiendo
+
+$$g(t) = f(\mathbf{a} + t\mathbf{y}), \qquad f'(\mathbf{a};\mathbf{y}) = g'(0).$$
+
+Aquí $\mathbf{a}$ (punto) y $\mathbf{y}$ (dirección) están **fijos**; la única variable es $t$.
+
+**1. Escribir $g(t)$.** Como $\|\mathbf{x}\|^2 = \mathbf{x}\cdot\mathbf{x}$:
+
+$$g(t) = (\mathbf{a}+t\mathbf{y})\cdot(\mathbf{a}+t\mathbf{y}).$$
+
+**2. Expandir** (el producto punto es bilineal y simétrico):
+
+$$g(t) = \mathbf{a}\cdot\mathbf{a} + 2t\,(\mathbf{a}\cdot\mathbf{y}) + t^2\,(\mathbf{y}\cdot\mathbf{y}).$$
+
+Es una parábola en $t$: los coeficientes $\mathbf{a}\cdot\mathbf{a}$, $\mathbf{a}\cdot\mathbf{y}$, $\mathbf{y}\cdot\mathbf{y}$ son escalares.
+
+**3. Derivar respecto a $t$:**
+
+$$g'(t) = 2\,(\mathbf{a}\cdot\mathbf{y}) + 2t\,(\mathbf{y}\cdot\mathbf{y}).$$
+
+**4. Evaluar en $t = 0$:**
+
+$$f'(\mathbf{a};\mathbf{y}) = g'(0) = 2\,\mathbf{a}\cdot\mathbf{y}.$$
+
+$$\boxed{\,f'(\mathbf{a};\mathbf{y}) = 2\,\mathbf{a}\cdot\mathbf{y}\,}$$
+
+> la función $g$ se usa para reescribir la derivada de $f$ como una derivada ordinaria de una variable, lo que sirve tanto para simplificar cálculos como —sobre todo— para reutilizar los teoremas del cálculo de una variable en el contexto multivariable
+
+**Teorema 8.4 — Teorema del valor medio para derivadas de campos escalares** Supongamos que existe la derivada $f'(\mathbf{a}+t\mathbf{y};\mathbf{y})$ para cada $t$ en el intervalo $0 \le t \le 1$. Entonces, para un cierto número real $\theta$ en el intervalo abierto $0 < \theta < 1$, tenemos
+
+$$f(\mathbf{a}+\mathbf{y}) - f(\mathbf{a}) = f'(\mathbf{z};\mathbf{y}), \qquad \text{donde } \mathbf{z} = \mathbf{a}+\theta\mathbf{y}.$$
+
+
+Pongamos $g(t) = f(\mathbf{a}+t\mathbf{y})$. Aplicando el teorema del valor medio uni-dimensional a $g$ en el intervalo $[0,1]$ tenemos
+
+$$g(1) - g(0) = g'(\theta), \qquad \text{donde } 0 < \theta < 1.$$
+
+Puesto que $g(1) - g(0) = f(\mathbf{a}+\mathbf{y}) - f(\mathbf{a})$ y $g'(\theta) = f'(\mathbf{a}+\theta\mathbf{y};\mathbf{y})$, esto completa la demostración.
+
+Este teorema es el ejemplo paradigmático del **transporte de teoremas**: aquí $g$ deja de ser una "comodidad de cálculo" y se vuelve imprescindible, porque es el único modo de aplicar un teorema que solo existe para una variable.
+
+##### El teorema de partida (una variable)
+
+El valor medio de cálculo I dice: si $g$ es derivable en $[0,1]$, existe un punto interior $\theta$ tal que
+
+$$g(1) - g(0) = g'(\theta)\,(1-0) = g'(\theta).$$
+
+El factor $(1-0)=1$ desaparece, por eso queda tan limpio. Esto **solo** vale para funciones de una variable; no hay versión directa para $f:\mathbb{R}^n\to\mathbb{R}$.
+
+Con $g(t) = f(\mathbf{a}+t\mathbf{y})$ se recorre el segmento de $\mathbf{a}$ (en $t=0$) a $\mathbf{a}+\mathbf{y}$ (en $t=1$). Ahora $g$ es una función de una variable en $[0,1]$ y se le puede aplicar el teorema anterior.
+
+### Traducir las tres piezas de vuelta a $f$
+
+El teorema da $g(1) - g(0) = g'(\theta)$. Cada pieza se traduce con la definición de $g$:
+
+**Extremo derecho:**
+$$g(1) = f(\mathbf{a} + 1\cdot\mathbf{y}) = f(\mathbf{a}+\mathbf{y}).$$
+
+**Extremo izquierdo:**
+$$g(0) = f(\mathbf{a} + 0\cdot\mathbf{y}) = f(\mathbf{a}).$$
+
+Juntas: $g(1) - g(0) = f(\mathbf{a}+\mathbf{y}) - f(\mathbf{a})$.
+
+**Derivada en el punto intermedio** (usando el Teorema 8.3, $g'(t) = f'(\mathbf{a}+t\mathbf{y};\mathbf{y})$):
+$$g'(\theta) = f'(\mathbf{a}+\theta\mathbf{y};\,\mathbf{y}).$$
+
+$$f(\mathbf{a}+\mathbf{y}) - f(\mathbf{a}) = f'(\mathbf{a}+\theta\mathbf{y};\,\mathbf{y}).$$
+
+Llamando $\mathbf{z} = \mathbf{a}+\theta\mathbf{y}$:
+
+$$\boxed{\,f(\mathbf{a}+\mathbf{y}) - f(\mathbf{a}) = f'(\mathbf{z};\,\mathbf{y}), \qquad \mathbf{z}=\mathbf{a}+\theta\mathbf{y}\,}$$
+
+
+Es la versión multivariable del valor medio. Sirve de apoyo más adelante para condiciones de diferenciabilidad y para resultados del tipo "si todas las derivadas direccionales son cero en una región conexa, entonces $f$ es constante".
+
+## Derivadas direccionales y derivadas parciales
+
