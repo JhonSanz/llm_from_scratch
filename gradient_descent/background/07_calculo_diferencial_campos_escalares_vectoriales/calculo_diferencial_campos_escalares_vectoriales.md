@@ -445,3 +445,51 @@ La diferencia es que ahora la "recta" por la que te mueves es paralela al eje $x
 
 #### Ejemplo de derivada parcial
 
+Vamos a calcular las parciales de
+
+$$f(x,y,z) = x^2 + y^2 + z^2 = \|\mathbf{x}\|^2$$
+
+en un punto $\mathbf{a} = (a_1, a_2, a_3)$. Lo haremos de **tres formas** para ver que todas coinciden y cierran el círculo con la teoría anterior.
+
+##### Vía 1: como caso particular de la derivada direccional
+
+En el ejemplo anterior ya demostramos que para $f(\mathbf{x}) = \|\mathbf{x}\|^2$ vale
+
+$$f'(\mathbf{a};\mathbf{y}) = 2\,\mathbf{a}\cdot\mathbf{y}.$$
+
+La parcial respecto a la coordenada $k$ es simplemente esta derivada evaluada en $\mathbf{y} = \mathbf{e}_k$:
+
+$$D_k f(\mathbf{a}) = f'(\mathbf{a};\mathbf{e}_k) = 2\,\mathbf{a}\cdot\mathbf{e}_k = 2a_k.$$
+
+Por lo tanto:
+
+$$\frac{\partial f}{\partial x}(\mathbf{a}) = 2a_1, \qquad \frac{\partial f}{\partial y}(\mathbf{a}) = 2a_2, \qquad \frac{\partial f}{\partial z}(\mathbf{a}) = 2a_3.$$
+
+##### Vía 2: regla mecánica (congelar las demás)
+
+Tratando $y, z$ como constantes y derivando respecto a $x$:
+
+$$\frac{\partial f}{\partial x} = \frac{\partial}{\partial x}(x^2 + y^2 + z^2) = 2x.$$
+
+Evaluado en $\mathbf{a}$: $2a_1$. Análogamente $\partial f/\partial y = 2y \to 2a_2$ y $\partial f/\partial z = 2z \to 2a_3$. **Coincide con la vía 1.**
+
+##### Vía 3: desde la definición con el límite
+
+Para la parcial respecto a $x$ en $(a_1, a_2, a_3)$, aplicamos directamente la definición $D_1 f(\mathbf{a}) = \lim_{h \to 0} \frac{f(a_1+h, a_2, a_3) - f(a_1, a_2, a_3)}{h}$:
+
+$$= \lim_{h \to 0} \frac{(a_1+h)^2 + a_2^2 + a_3^2 - (a_1^2 + a_2^2 + a_3^2)}{h}$$
+
+$$= \lim_{h \to 0} \frac{a_1^2 + 2a_1 h + h^2 - a_1^2}{h} = \lim_{h \to 0} (2a_1 + h) = 2a_1.$$
+
+**Coincide con las dos anteriores.**
+
+> Las tres vías son la misma cosa vista a distinta altura: la vía 1 reutiliza un resultado general, la vía 2 aplica la receta mecánica del cálculo de una variable (justificada porque la parcial congela las demás coordenadas), y la vía 3 es el límite crudo que está debajo de todo.
+
+##### Un caso menos trivial
+
+Para $f(x,y) = x^3 y^2 + \sin(xy)$:
+
+$$\frac{\partial f}{\partial x} = 3x^2 y^2 + y\cos(xy), \qquad \frac{\partial f}{\partial y} = 2x^3 y + x\cos(xy).$$
+
+En cada caso la otra variable se trata como una constante (y por eso aparece $y$ multiplicando en $\partial/\partial x$ del $\sin(xy)$: es la regla de la cadena con $y$ como factor constante).
+
