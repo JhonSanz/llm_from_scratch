@@ -274,3 +274,56 @@ Es la versión multivariable del valor medio. Sirve de apoyo más adelante para 
 
 ## Derivadas direccionales y derivadas parciales
 
+![dir_par](img/dir_par.png)
+
+Algunos comentarios
+
+#### 1. Derivada direccional con $\mathbf{y}$ unitario
+
+Es el **mismo objeto** de antes, $f'(\mathbf{a};\mathbf{y})$; no cambia la definición. Lo que cambia es la **interpretación** al pedir $\|\mathbf{y}\| = 1$.
+
+Cuando $\mathbf{y}$ es unitario, el parámetro $h$ mide la **distancia real** recorrida:
+
+$$\|\mathbf{a}+h\mathbf{y} - \mathbf{a}\| = \|h\mathbf{y}\| = |h|\,\|\mathbf{y}\| = |h|.$$
+
+Por eso el cociente de diferencias
+
+$$\frac{f(\mathbf{a}+h\mathbf{y}) - f(\mathbf{a})}{h}$$
+
+es un promedio de variación **por unidad de distancia**. Si $\mathbf{y}$ no fuera unitario, $h$ seguiría siendo válido como parámetro, pero quedaría escalado por $\|\mathbf{y}\|$ y la tasa estaría inflada o reducida. De ahí que para hablar de *derivada direccional* en sentido estricto se pida $\mathbf{y}$ unitario.
+
+#### 2. Derivada parcial como caso $\mathbf{y} = \mathbf{e}_k$
+
+$\mathbf{e}_k$ es el $k$-ésimo vector coordenado unitario: un $1$ en la posición $k$ y ceros en el resto.
+
+$$\mathbf{e}_k = (0, \dots, 0, \underbrace{1}_{k}, 0, \dots, 0), \qquad \|\mathbf{e}_k\| = 1.$$
+
+Por definición, la derivada parcial es la direccional en esa dirección:
+
+$$D_k f(\mathbf{a}) = f'(\mathbf{a};\mathbf{e}_k) = \lim_{h\to 0}\frac{f(\mathbf{a}+h\,\mathbf{e}_k) - f(\mathbf{a})}{h}.$$
+
+El vector $h\,\mathbf{e}_k$ tiene $h$ en la posición $k$ y ceros en el resto:
+
+$$h\,\mathbf{e}_k = (0, \dots, 0, \underbrace{h}_{k}, 0, \dots, 0).$$
+
+Por eso la suma $\mathbf{a} + h\,\mathbf{e}_k$ **solo toca la coordenada $k$**:
+
+$$\mathbf{a} + h\,\mathbf{e}_k = (a_1, \dots, a_{k-1},\ a_k + h,\ a_{k+1}, \dots, a_n).$$
+
+Todas las coordenadas quedan **congeladas** excepto la $k$-ésima, así que el límite
+
+$$D_k f(\mathbf{a}) = \lim_{h\to 0}\frac{f(a_1,\dots,a_k+h,\dots,a_n) - f(a_1,\dots,a_k,\dots,a_n)}{h}$$
+
+es la derivada ordinaria de $f$ vista como función de una sola variable (la $k$-ésima), tratando las demás como constantes. Es la receta usual de "derivar parcialmente respecto a $x_k$":
+
+$$D_k f = \frac{\partial f}{\partial x_k}.$$
+
+No es una definición nueva: es el caso particular de la derivada direccional cuando la dirección es uno de los **ejes coordenados**.
+
+#### Conexión con $g(t)$
+
+Aplica el mismo truco de colapsar a una variable. Si
+
+$$g(t) = f(\mathbf{a}+t\,\mathbf{e}_k), \qquad \text{entonces} \qquad D_k f(\mathbf{a}) = g'(0).$$
+
+La diferencia es que ahora la "recta" por la que te mueves es paralela al eje $x_k$.
