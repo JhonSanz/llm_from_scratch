@@ -493,3 +493,43 @@ $$\frac{\partial f}{\partial x} = 3x^2 y^2 + y\cos(xy), \qquad \frac{\partial f}
 
 En cada caso la otra variable se trata como una constante (y por eso aparece $y$ multiplicando en $\partial/\partial x$ del $\sin(xy)$: es la regla de la cadena con $y$ como factor constante).
 
+#### Precisión final: $g'(t)$ vs $g'(0)$
+
+Conviene afinar un detalle pequeño para que la equivalencia entre parcial, direccional y $g$ cierre del todo limpio.
+
+##### Lo que sí es exacto
+
+$\mathbf{e}_k$ es un caso particular de $\mathbf{y}$. Es solo una dirección específica (un eje coordenado). Entonces todo lo que dijimos de $f'(\mathbf{a};\mathbf{y})$ aplica igualito tomando $\mathbf{y} = \mathbf{e}_k$:
+
+$$f'(\mathbf{a};\mathbf{e}_k) = D_k f(\mathbf{a}).$$
+
+Y como $g(t) = f(\mathbf{a}+t\mathbf{y})$, si eliges la dirección $\mathbf{y} = \mathbf{e}_k$, tu $g$ se vuelve
+
+$$g(t) = f(\mathbf{a}+t\,\mathbf{e}_k),$$
+
+que es la curva de $f$ moviéndote a lo largo del eje $x_k$. Hasta ahí, perfecto: **la parcial es la direccional en la dirección $\mathbf{e}_k$.**
+
+##### El matiz
+
+$g'(t)$ y $f'(\mathbf{a};\mathbf{y})$ **no** son exactamente lo mismo en general; coinciden solo cuando evalúas en $t=0$. Recordando el Teorema 8.3:
+
+$$g'(t) = f'(\mathbf{a}+t\mathbf{y}\,;\,\mathbf{y}).$$
+
+Fíjate en el primer argumento: es $\mathbf{a}+t\mathbf{y}$, no $\mathbf{a}$. Es decir, $g'(t)$ es la derivada direccional pero **medida en el punto $\mathbf{a}+t\mathbf{y}$**, no en $\mathbf{a}$. Solo cuando $t=0$ ese punto vuelve a ser $\mathbf{a}$:
+
+$$g'(0) = f'(\mathbf{a};\mathbf{y}).$$
+
+Entonces la cadena correcta y completa es:
+
+$$D_k f(\mathbf{a}) = f'(\mathbf{a};\mathbf{e}_k) = g'(0), \qquad \text{con } g(t) = f(\mathbf{a}+t\,\mathbf{e}_k).$$
+
+##### Resumen de la equivalencia
+
+| Objeto | Qué es |
+|---|---|
+| $f'(\mathbf{a};\mathbf{y})$ | derivada en dirección **genérica** $\mathbf{y}$, en el punto $\mathbf{a}$ |
+| $f'(\mathbf{a};\mathbf{e}_k)$ | el mismo objeto con $\mathbf{y}=\mathbf{e}_k$ → es $D_k f(\mathbf{a})$ |
+| $g'(0)$ | la forma de calcularlo colapsando a una variable ($t=0$) |
+| $g'(t)$ | lo mismo pero en el punto **corrido** $\mathbf{a}+t\mathbf{y}$ |
+
+Así que sí: "$g$ es la derivada en dirección $\mathbf{y}$, y con vectores coordenados es igual" — **con la nota de que la igualdad con la parcial es en $g'(0)$**, porque ahí es donde el punto base sigue siendo $\mathbf{a}$.
