@@ -248,7 +248,6 @@ El factor $(1-0)=1$ desaparece, por eso queda tan limpio. Esto **solo** vale par
 
 Con $g(t) = f(\mathbf{a}+t\mathbf{y})$ se recorre el segmento de $\mathbf{a}$ (en $t=0$) a $\mathbf{a}+\mathbf{y}$ (en $t=1$). Ahora $g$ es una función de una variable en $[0,1]$ y se le puede aplicar el teorema anterior.
 
-### Traducir las tres piezas de vuelta a $f$
 
 El teorema da $g(1) - g(0) = g'(\theta)$. Cada pieza se traduce con la definición de $g$:
 
@@ -260,7 +259,10 @@ $$g(0) = f(\mathbf{a} + 0\cdot\mathbf{y}) = f(\mathbf{a}).$$
 
 Juntas: $g(1) - g(0) = f(\mathbf{a}+\mathbf{y}) - f(\mathbf{a})$.
 
-**Derivada en el punto intermedio** (usando el Teorema 8.3, $g'(t) = f'(\mathbf{a}+t\mathbf{y};\mathbf{y})$):
+**Derivada en el punto intermedio**
+
+usando el Teorema 8.3, $g'(t) = f'(\mathbf{a}+t\mathbf{y};\mathbf{y})$
+
 $$g'(\theta) = f'(\mathbf{a}+\theta\mathbf{y};\,\mathbf{y}).$$
 
 $$f(\mathbf{a}+\mathbf{y}) - f(\mathbf{a}) = f'(\mathbf{a}+\theta\mathbf{y};\,\mathbf{y}).$$
@@ -284,7 +286,7 @@ Es el **mismo objeto** de antes, $f'(\mathbf{a};\mathbf{y})$; no cambia la defin
 
 Cuando $\mathbf{y}$ es unitario, el parámetro $h$ mide la **distancia real** recorrida:
 
-$$\|\mathbf{a}+h\mathbf{y} - \mathbf{a}\| = \|h\mathbf{y}\| = |h|\,\|\mathbf{y}\| = |h|.$$
+$$\lVert \mathbf{a}+h\mathbf{y} - \mathbf{a}\rVert = \lVert h\mathbf{y} \rVert = |h|\,\lVert\mathbf{y}\rVert = |h|.$$
 
 Por eso el cociente de diferencias
 
@@ -327,3 +329,6 @@ Aplica el mismo truco de colapsar a una variable. Si
 $$g(t) = f(\mathbf{a}+t\,\mathbf{e}_k), \qquad \text{entonces} \qquad D_k f(\mathbf{a}) = g'(0).$$
 
 La diferencia es que ahora la "recta" por la que te mueves es paralela al eje $x_k$.
+
+#### Ejemplo de derivada parcial
+
