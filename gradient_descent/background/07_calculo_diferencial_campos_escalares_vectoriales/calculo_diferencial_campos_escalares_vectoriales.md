@@ -111,7 +111,120 @@ Todo eso tiene demostración pero no las incluiré aqui por ahora
 
 ![t_continuidad_compuestas](img/t_continuidad_compuestas.png)
 
-TODO: poner los limites iterados y las coordenadas polares y el ejemplo 7 (pag 306)
+#### Límites iterados
+
+El problema en varias variables es que $x \to a$ admite **infinitos caminos** de aproximación. Una forma natural es acercarse primero por una variable y después por la otra. Eso da los **límites iterados**:
+
+$$\lim_{x \to a}\left[\lim_{y \to b} f(x,y)\right] \qquad \text{y} \qquad \lim_{y \to b}\left[\lim_{x \to a} f(x,y)\right]$$
+
+El orden importa. Aquí lo crucial:
+
+- Si los dos iterados **existen y son distintos** $\Rightarrow$ el límite doble **no existe** (y por tanto $f$ no puede ser continua en ese punto).
+- Si **coinciden** $\Rightarrow$ no se concluye nada. El límite doble podría existir o no.
+
+Es decir, los iterados son una herramienta **para descartar**, no para confirmar.
+
+##### Ejemplo de iterados distintos
+
+$$f(x,y) = \frac{x^2 - y^2}{x^2 + y^2}, \qquad (x,y) \neq (0,0)$$
+
+Primero fijo $x$ y hago $y \to 0$, luego $x \to 0$:
+
+$$\lim_{x \to 0}\left[\lim_{y \to 0} \frac{x^2 - y^2}{x^2 + y^2}\right] = \lim_{x \to 0} \frac{x^2}{x^2} = 1$$
+
+Cambiando el orden:
+
+$$\lim_{y \to 0}\left[\lim_{x \to 0} \frac{x^2 - y^2}{x^2 + y^2}\right] = \lim_{y \to 0} \frac{-y^2}{y^2} = -1$$
+
+Los iterados dan $1$ y $-1$. Por lo tanto el límite doble en $(0,0)$ no existe y $f$ no se puede extender continuamente al origen.
+
+#### Coordenadas polares
+
+Cuando $(x,y) \to (0,0)$ podemos sustituir $x = r\cos\theta$, $y = r\sin\theta$. Entonces $(x,y) \to (0,0)$ equivale a $r \to 0$, sin importar qué valor tome $\theta$ (cada $\theta$ fija una dirección de entrada al origen).
+
+La idea es estudiar
+
+$$\lim_{r \to 0} f(r\cos\theta, r\sin\theta)$$
+
+y la regla práctica es:
+
+> El límite doble existe y vale $L$ si se puede acotar
+> $$|f(r\cos\theta, r\sin\theta) - L| \le g(r)$$
+> con $g(r) \to 0$ cuando $r \to 0$, **uniformemente en $\theta$** (es decir, la cota $g(r)$ no depende de $\theta$).
+
+La uniformidad es la pieza no negociable: si la cota dependiera de $\theta$, podría haber direcciones en las que el control falla y el límite por esa dirección sea distinto.
+
+##### Ejemplo donde sí existe
+
+$$f(x,y) = \frac{x^3}{x^2 + y^2}$$
+
+Pasando a polares:
+
+$$f(r\cos\theta, r\sin\theta) = \frac{r^3 \cos^3\theta}{r^2(\cos^2\theta + \sin^2\theta)} = r\cos^3\theta$$
+
+Y la cota:
+
+$$|r\cos^3\theta| \le r \cdot 1 = r \xrightarrow{r \to 0} 0$$
+
+La cota $r$ no depende de $\theta$, así que el límite existe y vale $0$. Definiendo $f(0,0) = 0$, la función queda continua en el origen.
+
+#### Ejemplo de cuidado: los caminos rectos pueden engañar
+
+Este es el tipo de ejemplo que aparece en Apostol y que muestra por qué no basta con probar rectas.
+
+$$f(x,y) = \frac{x^2 y}{x^4 + y^2}, \qquad (x,y) \neq (0,0)$$
+
+**Iterados.** Fijando $x$ y haciendo $y \to 0$: $f(x,0) = 0$, así que $\lim_{x \to 0} 0 = 0$. Igual en el otro orden. **Ambos iterados dan $0$.** No descarta nada.
+
+**Por rectas $y = mx$.**
+
+$$f(x, mx) = \frac{x^2 (mx)}{x^4 + m^2 x^2} = \frac{m x^3}{x^2(x^2 + m^2)} = \frac{m x}{x^2 + m^2} \xrightarrow{x \to 0} 0$$
+
+Por **toda recta** que pase por el origen el límite es $0$. Uno podría pensar "listo, el límite es $0$". **Pero no.**
+
+**Por la parábola $y = x^2$.**
+
+$$f(x, x^2) = \frac{x^2 \cdot x^2}{x^4 + x^4} = \frac{x^4}{2x^4} = \frac{1}{2}$$
+
+Por este camino el límite es $\tfrac{1}{2}$. Como hay dos caminos con valores distintos, el **límite doble no existe** y $f$ no es continua en $(0,0)$ ni puede serlo redefiniéndola allí.
+
+**Moraleja:** probar todas las rectas no es prueba de existencia. La aproximación puede ocurrir por curvas arbitrarias, y a veces es justamente una parábola (o algo peor) la que rompe la igualdad. Por eso la herramienta confiable para **demostrar** existencia es la acotación uniforme en polares, no la inspección por caminos.
+
+#### Receta práctica para decidir continuidad
+
+Juntando todo lo anterior, este es el orden en el que conviene atacar el problema:
+
+1. **¿Es composición/álgebra de continuas y el punto está en el dominio?**
+   Si $f$ se construye con sumas, productos, cocientes (denominador $\neq 0$), composiciones de funciones continuas conocidas (polinomios, $\sin$, $\cos$, $\exp$, $\log$, …), entonces es continua. **Fin.**
+
+2. **¿Hay indeterminación en el punto (típicamente $0/0$)?**
+   Calcula los **límites iterados** y prueba **dos o tres caminos sencillos** (ejes, $y = x$, $y = x^2$).
+   - Si dos de ellos dan valores **distintos** $\Rightarrow$ el límite no existe, $f$ **no** es continua. **Fin.**
+   - Si todos coinciden $\Rightarrow$ no concluye nada todavía, pasa al paso 3.
+
+3. **Intenta demostrar la existencia.**
+   Pasa a **coordenadas polares** o intenta una **acotación directa** $|f(x,y) - L| \le g(x,y)$.
+   - Si consigues una cota que tiende a $0$ **uniformemente en $\theta$** (sin depender de la dirección) $\Rightarrow$ el límite existe y vale $L$. Si además $L = f(a)$, $f$ es continua.
+   - Si no lo logras, vuelve al paso 2 con caminos más raros (parábolas, cúbicas) buscando el contraejemplo.
+
+> El paso 2 sirve para **descartar**; el paso 3 sirve para **demostrar**. No los confundas: probar muchos caminos nunca demuestra existencia, y una acotación uniforme en polares nunca refuta.
+
+#### Nota: el método universal $\varepsilon$-$\delta$
+
+Por debajo de toda esta receta artesanal hay un método **definitivo** que siempre funciona. La definición formal de continuidad es:
+
+$$f \text{ es continua en } \mathbf{a} \iff \forall \varepsilon > 0,\ \exists \delta > 0 : \lVert \mathbf{x} - \mathbf{a} \rVert < \delta \Rightarrow |f(\mathbf{x}) - f(\mathbf{a})| < \varepsilon$$
+
+En palabras: dado cualquier margen de error $\varepsilon$ que se quiera en la imagen, debe existir un radio $\delta$ en el dominio tal que **todos** los puntos dentro de la bola $B(\mathbf{a}; \delta)$ caen dentro del margen $\varepsilon$ alrededor de $f(\mathbf{a})$.
+
+Si construyes ese $\delta$ como función de $\varepsilon$, terminaste: la continuidad queda probada sin importar caminos, polares ni iterados.
+
+De hecho, todos los atajos anteriores son formas implícitas de aplicar $\varepsilon$-$\delta$:
+
+- Cuando en polares acotas $|f(r\cos\theta, r\sin\theta) - L| \le g(r)$ con $g(r) \to 0$, lo que haces es: dado $\varepsilon$, eliges $\delta$ tal que $g(\delta) < \varepsilon$. La uniformidad en $\theta$ es lo que garantiza que **el mismo** $\delta$ sirve para todos los puntos de la bola.
+- Un equivalente útil es la **continuidad secuencial**: $f$ es continua en $\mathbf{a}$ sii para toda sucesión $\mathbf{x}_n \to \mathbf{a}$ se cumple $f(\mathbf{x}_n) \to f(\mathbf{a})$.
+
+¿Por qué entonces no se usa siempre $\varepsilon$-$\delta$ directamente? Porque construir el $\delta$ explícito suele ser más tedioso que aplicar la receta práctica, sobre todo cuando la función es complicada. Pero conviene tener presente que el método existe, es universal, y es el respaldo formal de todo lo que se hace por atajos.
 
 ## Derivada de un campo escalar respecto a un vector
 
