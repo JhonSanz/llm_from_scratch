@@ -532,3 +532,14 @@ $$D_k f(\mathbf{a}) = f'(\mathbf{a};\mathbf{e}_k) = g'(0), \qquad \text{con } g(
 | $g'(t)$ | lo mismo pero en el punto **corrido** $\mathbf{a}+t\mathbf{y}$ |
 
 Así que sí: "$g$ es la derivada en dirección $\mathbf{y}$, y con vectores coordenados es igual" — **con la nota de que la igualdad con la parcial es en $g'(0)$**, porque ahí es donde el punto base sigue siendo $\mathbf{a}$.
+
+## DERIVADAS DIRECCIONALES Y CONTINUIDAD
+
+En la teoría uni-dimensiona1, la existencia de la derivada de una función $f$ en un punto implica la continuidad en aquel punto. Esa afirmación se refuerza si imaginamos un gráfico en el plano y calculamos la derivada en un punto, lo que se espera es que apoyemos una recta de forma suave allí
+
+![der_dir_cont](img/der_dir_cont.png)
+
+El ejemplo anterior prueba que la existencia de todas las derivadas direccionales en un punto no implican la continuidad en él. Por esta razón, las derivadas direccionales no constituyen una extensión satisfactoria del concepto unidimensional de derivada. Existe una generalización más conveniente que implica la continuidad y, al propio tiempo, nos permite extender los principales teoremas de la teoría de la derivación en una dimensión al caso de mayor número de dimensiones. Esa es la llamada diferencial total o simplemente diferencial.
+
+## LA DIFERENCIAL
+
