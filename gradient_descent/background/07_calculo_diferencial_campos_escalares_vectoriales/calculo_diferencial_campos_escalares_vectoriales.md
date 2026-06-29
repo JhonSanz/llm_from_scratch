@@ -247,7 +247,7 @@ segmento de recta que une a con $a + y$.
 
 ![bola_a_hy](img/bola_a_hy.png)
 
-Puesto que $\boldsymbol{a}$ es un punto interior de $S$, existe una $n$-bola $B(\boldsymbol{a}; r)$ situada enteramente en $S$. Si $h$ se elige de manera que $|h|\,\|\boldsymbol{y}\| < r$, el segmento desde $\boldsymbol{a}$ hasta $\boldsymbol{a} + h\boldsymbol{y}$ estará en $S$. (Ver figura 8.4) Mantengamos $h \neq 0$ pero lo bastante pequeño para que $\boldsymbol{a} + h\boldsymbol{y} \in S$ y construyamos el cociente de diferencias
+Puesto que $\boldsymbol{a}$ es un punto interior de $S$, existe una $n$-bola $B(\boldsymbol{a}; r)$ situada enteramente en $S$. Si $h$ se elige de manera que $|h|\|\boldsymbol{y}\| < r$, el segmento desde $\boldsymbol{a}$ hasta $\boldsymbol{a} + h\boldsymbol{y}$ estará en $S$. (Ver figura 8.4) Mantengamos $h \neq 0$ pero lo bastante pequeño para que $\boldsymbol{a} + h\boldsymbol{y} \in S$ y construyamos el cociente de diferencias
 
 $$
 \tag{8.3}
@@ -288,7 +288,7 @@ $$f'(a; y) = \lim_{h \to 0} \frac{f(a + hy) - f(a)}{h}$$
 
 Para estudiar el comportamiento de $f$ sobre la recta que pasa por $\mathbf{a}$ y $\mathbf{a} + \mathbf{y}$ para $\mathbf{y} \neq \mathbf{O}$ introducimos la función
 
-$$g(t) = f(\mathbf{a} + t\mathbf{y}).$$
+$$g(t) = f(\mathbf{a} + t\mathbf{y})$$
 
 El teorema que sigue relaciona las derivadas $g'(t)$ y $f'(\mathbf{a} + t\mathbf{y}; \mathbf{y})$.
 
@@ -311,40 +311,40 @@ calcular $f'(\mathbf{a};\mathbf{y})$ para $f(\mathbf{x}) = \lVert x \rVert ^2$, 
 
 La derivada direccional se reduce a una derivada ordinaria de una variable definiendo
 
-$$g(t) = f(\mathbf{a} + t\mathbf{y}), \qquad f'(\mathbf{a};\mathbf{y}) = g'(0).$$
+$$g(t) = f(\mathbf{a} + t\mathbf{y}), \qquad f'(\mathbf{a};\mathbf{y}) = g'(0)$$
 
 Aquí $\mathbf{a}$ (punto) y $\mathbf{y}$ (dirección) están **fijos**; la única variable es $t$.
 
 **1. Escribir $g(t)$.** Como $\lVert x \rVert ^2 = \mathbf{x}\cdot\mathbf{x}$:
 
-$$g(t) = (\mathbf{a}+t\mathbf{y})\cdot(\mathbf{a}+t\mathbf{y}).$$
+$$g(t) = (\mathbf{a}+t\mathbf{y})\cdot(\mathbf{a}+t\mathbf{y})$$
 
 **2. Expandir** (el producto punto es bilineal y simétrico):
 
-$$g(t) = \mathbf{a}\cdot\mathbf{a} + 2t\,(\mathbf{a}\cdot\mathbf{y}) + t^2\,(\mathbf{y}\cdot\mathbf{y}).$$
+$$g(t) = \mathbf{a}\cdot\mathbf{a} + 2t(\mathbf{a}\cdot\mathbf{y}) + t^2(\mathbf{y}\cdot\mathbf{y})$$
 
 Es una parábola en $t$: los coeficientes $\mathbf{a}\cdot\mathbf{a}$, $\mathbf{a}\cdot\mathbf{y}$, $\mathbf{y}\cdot\mathbf{y}$ son escalares.
 
 **3. Derivar respecto a $t$:**
 
-$$g'(t) = 2\,(\mathbf{a}\cdot\mathbf{y}) + 2t\,(\mathbf{y}\cdot\mathbf{y}).$$
+$$g'(t) = 2(\mathbf{a}\cdot\mathbf{y}) + 2t(\mathbf{y}\cdot\mathbf{y})$$
 
 **4. Evaluar en $t = 0$:**
 
-$$f'(\mathbf{a};\mathbf{y}) = g'(0) = 2\,\mathbf{a}\cdot\mathbf{y}.$$
+$$f'(\mathbf{a};\mathbf{y}) = g'(0) = 2\mathbf{a}\cdot\mathbf{y}$$
 
-$$\boxed{\,f'(\mathbf{a};\mathbf{y}) = 2\,\mathbf{a}\cdot\mathbf{y}\,}$$
+$$\boxed{f'(\mathbf{a};\mathbf{y}) = 2\mathbf{a}\cdot\mathbf{y}}$$
 
 > la función $g$ se usa para reescribir la derivada de $f$ como una derivada ordinaria de una variable, lo que sirve tanto para simplificar cálculos como —sobre todo— para reutilizar los teoremas del cálculo de una variable en el contexto multivariable
 
 **Teorema 8.4 — Teorema del valor medio para derivadas de campos escalares** Supongamos que existe la derivada $f'(\mathbf{a}+t\mathbf{y};\mathbf{y})$ para cada $t$ en el intervalo $0 \le t \le 1$. Entonces, para un cierto número real $\theta$ en el intervalo abierto $0 < \theta < 1$, tenemos
 
-$$f(\mathbf{a}+\mathbf{y}) - f(\mathbf{a}) = f'(\mathbf{z};\mathbf{y}), \qquad \text{donde } \mathbf{z} = \mathbf{a}+\theta\mathbf{y}.$$
+$$f(\mathbf{a}+\mathbf{y}) - f(\mathbf{a}) = f'(\mathbf{z};\mathbf{y}), \qquad \text{donde } \mathbf{z} = \mathbf{a}+\theta\mathbf{y}$$
 
 
 Pongamos $g(t) = f(\mathbf{a}+t\mathbf{y})$. Aplicando el teorema del valor medio uni-dimensional a $g$ en el intervalo $[0,1]$ tenemos
 
-$$g(1) - g(0) = g'(\theta), \qquad \text{donde } 0 < \theta < 1.$$
+$$g(1) - g(0) = g'(\theta), \qquad \text{donde } 0 < \theta < 1$$
 
 Puesto que $g(1) - g(0) = f(\mathbf{a}+\mathbf{y}) - f(\mathbf{a})$ y $g'(\theta) = f'(\mathbf{a}+\theta\mathbf{y};\mathbf{y})$, esto completa la demostración.
 
@@ -354,7 +354,7 @@ Este teorema es el ejemplo paradigmático del **transporte de teoremas**: aquí 
 
 El valor medio de cálculo I dice: si $g$ es derivable en $[0,1]$, existe un punto interior $\theta$ tal que
 
-$$g(1) - g(0) = g'(\theta)\,(1-0) = g'(\theta).$$
+$$g(1) - g(0) = g'(\theta)(1-0) = g'(\theta)$$
 
 El factor $(1-0)=1$ desaparece, por eso queda tan limpio. Esto **solo** vale para funciones de una variable; no hay versión directa para $f:\mathbb{R}^n\to\mathbb{R}$.
 
@@ -364,10 +364,10 @@ Con $g(t) = f(\mathbf{a}+t\mathbf{y})$ se recorre el segmento de $\mathbf{a}$ (e
 El teorema da $g(1) - g(0) = g'(\theta)$. Cada pieza se traduce con la definición de $g$:
 
 **Extremo derecho:**
-$$g(1) = f(\mathbf{a} + 1\cdot\mathbf{y}) = f(\mathbf{a}+\mathbf{y}).$$
+$$g(1) = f(\mathbf{a} + 1\cdot\mathbf{y}) = f(\mathbf{a}+\mathbf{y})$$
 
 **Extremo izquierdo:**
-$$g(0) = f(\mathbf{a} + 0\cdot\mathbf{y}) = f(\mathbf{a}).$$
+$$g(0) = f(\mathbf{a} + 0\cdot\mathbf{y}) = f(\mathbf{a})$$
 
 Juntas: $g(1) - g(0) = f(\mathbf{a}+\mathbf{y}) - f(\mathbf{a})$.
 
@@ -375,13 +375,13 @@ Juntas: $g(1) - g(0) = f(\mathbf{a}+\mathbf{y}) - f(\mathbf{a})$.
 
 usando el Teorema 8.3, $g'(t) = f'(\mathbf{a}+t\mathbf{y};\mathbf{y})$
 
-$$g'(\theta) = f'(\mathbf{a}+\theta\mathbf{y};\,\mathbf{y}).$$
+$$g'(\theta) = f'(\mathbf{a}+\theta\mathbf{y};\mathbf{y})$$
 
-$$f(\mathbf{a}+\mathbf{y}) - f(\mathbf{a}) = f'(\mathbf{a}+\theta\mathbf{y};\,\mathbf{y}).$$
+$$f(\mathbf{a}+\mathbf{y}) - f(\mathbf{a}) = f'(\mathbf{a}+\theta\mathbf{y};\mathbf{y})$$
 
 Llamando $\mathbf{z} = \mathbf{a}+\theta\mathbf{y}$:
 
-$$\boxed{\,f(\mathbf{a}+\mathbf{y}) - f(\mathbf{a}) = f'(\mathbf{z};\,\mathbf{y}), \qquad \mathbf{z}=\mathbf{a}+\theta\mathbf{y}\,}$$
+$$\boxed{f(\mathbf{a}+\mathbf{y}) - f(\mathbf{a}) = f'(\mathbf{z};\mathbf{y}), \qquad \mathbf{z}=\mathbf{a}+\theta\mathbf{y}}$$
 
 
 Es la versión multivariable del valor medio. Sirve de apoyo más adelante para condiciones de diferenciabilidad y para resultados del tipo "si todas las derivadas direccionales son cero en una región conexa, entonces $f$ es constante".
@@ -398,7 +398,7 @@ Es el **mismo objeto** de antes, $f'(\mathbf{a};\mathbf{y})$; no cambia la defin
 
 Cuando $\mathbf{y}$ es unitario, el parámetro $h$ mide la **distancia real** recorrida:
 
-$$\lVert \mathbf{a}+h\mathbf{y} - \mathbf{a}\rVert = \lVert h\mathbf{y} \rVert = |h|\,\lVert\mathbf{y}\rVert = |h|.$$
+$$\lVert \mathbf{a}+h\mathbf{y} - \mathbf{a}\rVert = \lVert h\mathbf{y} \rVert = |h|\lVert\mathbf{y}\rVert = |h|$$
 
 Por eso el cociente de diferencias
 
@@ -410,19 +410,19 @@ es un promedio de variación **por unidad de distancia**. Si $\mathbf{y}$ no fue
 
 $\mathbf{e}_k$ es el $k$-ésimo vector coordenado unitario: un $1$ en la posición $k$ y ceros en el resto.
 
-$$\mathbf{e}_k = (0, \dots, 0, \underbrace{1}_{k}, 0, \dots, 0), \qquad \|\mathbf{e}_k\| = 1.$$
+$$\mathbf{e}_k = (0, \dots, 0, \underbrace{1}_{k}, 0, \dots, 0), \qquad \|\mathbf{e}_k\| = 1$$
 
 Por definición, la derivada parcial es la direccional en esa dirección:
 
-$$D_k f(\mathbf{a}) = f'(\mathbf{a};\mathbf{e}_k) = \lim_{h\to 0}\frac{f(\mathbf{a}+h\,\mathbf{e}_k) - f(\mathbf{a})}{h}.$$
+$$D_k f(\mathbf{a}) = f'(\mathbf{a};\mathbf{e}_k) = \lim_{h\to 0}\frac{f(\mathbf{a}+h\mathbf{e}_k) - f(\mathbf{a})}{h}$$
 
-El vector $h\,\mathbf{e}_k$ tiene $h$ en la posición $k$ y ceros en el resto:
+El vector $h\mathbf{e}_k$ tiene $h$ en la posición $k$ y ceros en el resto:
 
-$$h\,\mathbf{e}_k = (0, \dots, 0, \underbrace{h}_{k}, 0, \dots, 0).$$
+$$h\mathbf{e}_k = (0, \dots, 0, \underbrace{h}_{k}, 0, \dots, 0)$$
 
-Por eso la suma $\mathbf{a} + h\,\mathbf{e}_k$ **solo toca la coordenada $k$**:
+Por eso la suma $\mathbf{a} + h\mathbf{e}_k$ **solo toca la coordenada $k$**:
 
-$$\mathbf{a} + h\,\mathbf{e}_k = (a_1, \dots, a_{k-1},\ a_k + h,\ a_{k+1}, \dots, a_n).$$
+$$\mathbf{a} + h\mathbf{e}_k = (a_1, \dots, a_{k-1},\ a_k + h,\ a_{k+1}, \dots, a_n)$$
 
 Todas las coordenadas quedan **congeladas** excepto la $k$-ésima, así que el límite
 
@@ -430,7 +430,7 @@ $$D_k f(\mathbf{a}) = \lim_{h\to 0}\frac{f(a_1,\dots,a_k+h,\dots,a_n) - f(a_1,\d
 
 es la derivada ordinaria de $f$ vista como función de una sola variable (la $k$-ésima), tratando las demás como constantes. Es la receta usual de "derivar parcialmente respecto a $x_k$":
 
-$$D_k f = \frac{\partial f}{\partial x_k}.$$
+$$D_k f = \frac{\partial f}{\partial x_k}$$
 
 No es una definición nueva: es el caso particular de la derivada direccional cuando la dirección es uno de los **ejes coordenados**.
 
@@ -438,7 +438,7 @@ No es una definición nueva: es el caso particular de la derivada direccional cu
 
 Aplica el mismo truco de colapsar a una variable. Si
 
-$$g(t) = f(\mathbf{a}+t\,\mathbf{e}_k), \qquad \text{entonces} \qquad D_k f(\mathbf{a}) = g'(0).$$
+$$g(t) = f(\mathbf{a}+t\mathbf{e}_k), \qquad \text{entonces} \qquad D_k f(\mathbf{a}) = g'(0)$$
 
 La diferencia es que ahora la "recta" por la que te mueves es paralela al eje $x_k$.
 
@@ -454,21 +454,21 @@ en un punto $\mathbf{a} = (a_1, a_2, a_3)$. Lo haremos de **tres formas** para v
 
 En el ejemplo anterior ya demostramos que para $f(\mathbf{x}) = \lVert x \rVert ^2$ vale
 
-$$f'(\mathbf{a};\mathbf{y}) = 2\,\mathbf{a}\cdot\mathbf{y}.$$
+$$f'(\mathbf{a};\mathbf{y}) = 2\mathbf{a}\cdot\mathbf{y}$$
 
 La parcial respecto a la coordenada $k$ es simplemente esta derivada evaluada en $\mathbf{y} = \mathbf{e}_k$:
 
-$$D_k f(\mathbf{a}) = f'(\mathbf{a};\mathbf{e}_k) = 2\,\mathbf{a}\cdot\mathbf{e}_k = 2a_k.$$
+$$D_k f(\mathbf{a}) = f'(\mathbf{a};\mathbf{e}_k) = 2\mathbf{a}\cdot\mathbf{e}_k = 2a_k$$
 
 Por lo tanto:
 
-$$\frac{\partial f}{\partial x}(\mathbf{a}) = 2a_1, \qquad \frac{\partial f}{\partial y}(\mathbf{a}) = 2a_2, \qquad \frac{\partial f}{\partial z}(\mathbf{a}) = 2a_3.$$
+$$\frac{\partial f}{\partial x}(\mathbf{a}) = 2a_1, \qquad \frac{\partial f}{\partial y}(\mathbf{a}) = 2a_2, \qquad \frac{\partial f}{\partial z}(\mathbf{a}) = 2a_3$$
 
 ##### Vía 2: regla mecánica (congelar las demás)
 
 Tratando $y, z$ como constantes y derivando respecto a $x$:
 
-$$\frac{\partial f}{\partial x} = \frac{\partial}{\partial x}(x^2 + y^2 + z^2) = 2x.$$
+$$\frac{\partial f}{\partial x} = \frac{\partial}{\partial x}(x^2 + y^2 + z^2) = 2x$$
 
 Evaluado en $\mathbf{a}$: $2a_1$. Análogamente $\partial f/\partial y = 2y \to 2a_2$ y $\partial f/\partial z = 2z \to 2a_3$. **Coincide con la vía 1.**
 
@@ -478,7 +478,7 @@ Para la parcial respecto a $x$ en $(a_1, a_2, a_3)$, aplicamos directamente la d
 
 $$= \lim_{h \to 0} \frac{(a_1+h)^2 + a_2^2 + a_3^2 - (a_1^2 + a_2^2 + a_3^2)}{h}$$
 
-$$= \lim_{h \to 0} \frac{a_1^2 + 2a_1 h + h^2 - a_1^2}{h} = \lim_{h \to 0} (2a_1 + h) = 2a_1.$$
+$$= \lim_{h \to 0} \frac{a_1^2 + 2a_1 h + h^2 - a_1^2}{h} = \lim_{h \to 0} (2a_1 + h) = 2a_1$$
 
 **Coincide con las dos anteriores.**
 
@@ -488,7 +488,7 @@ $$= \lim_{h \to 0} \frac{a_1^2 + 2a_1 h + h^2 - a_1^2}{h} = \lim_{h \to 0} (2a_1
 
 Para $f(x,y) = x^3 y^2 + \sin(xy)$:
 
-$$\frac{\partial f}{\partial x} = 3x^2 y^2 + y\cos(xy), \qquad \frac{\partial f}{\partial y} = 2x^3 y + x\cos(xy).$$
+$$\frac{\partial f}{\partial x} = 3x^2 y^2 + y\cos(xy), \qquad \frac{\partial f}{\partial y} = 2x^3 y + x\cos(xy)$$
 
 En cada caso la otra variable se trata como una constante (y por eso aparece $y$ multiplicando en $\partial/\partial x$ del $\sin(xy)$: es la regla de la cadena con $y$ como factor constante).
 
@@ -500,11 +500,11 @@ Conviene afinar un detalle pequeño para que la equivalencia entre parcial, dire
 
 $\mathbf{e}_k$ es un caso particular de $\mathbf{y}$. Es solo una dirección específica (un eje coordenado). Entonces todo lo que dijimos de $f'(\mathbf{a};\mathbf{y})$ aplica igualito tomando $\mathbf{y} = \mathbf{e}_k$:
 
-$$f'(\mathbf{a};\mathbf{e}_k) = D_k f(\mathbf{a}).$$
+$$f'(\mathbf{a};\mathbf{e}_k) = D_k f(\mathbf{a})$$
 
 Y como $g(t) = f(\mathbf{a}+t\mathbf{y})$, si eliges la dirección $\mathbf{y} = \mathbf{e}_k$, tu $g$ se vuelve
 
-$$g(t) = f(\mathbf{a}+t\,\mathbf{e}_k),$$
+$$g(t) = f(\mathbf{a}+t\mathbf{e}_k),$$
 
 que es la curva de $f$ moviéndote a lo largo del eje $x_k$. Hasta ahí, perfecto: **la parcial es la direccional en la dirección $\mathbf{e}_k$.**
 
@@ -512,15 +512,15 @@ que es la curva de $f$ moviéndote a lo largo del eje $x_k$. Hasta ahí, perfect
 
 $g'(t)$ y $f'(\mathbf{a};\mathbf{y})$ **no** son exactamente lo mismo en general; coinciden solo cuando evalúas en $t=0$. Recordando el Teorema 8.3:
 
-$$g'(t) = f'(\mathbf{a}+t\mathbf{y}\,;\,\mathbf{y}).$$
+$$g'(t) = f'(\mathbf{a}+t\mathbf{y};\mathbf{y})$$
 
 Fíjate en el primer argumento: es $\mathbf{a}+t\mathbf{y}$, no $\mathbf{a}$. Es decir, $g'(t)$ es la derivada direccional pero **medida en el punto $\mathbf{a}+t\mathbf{y}$**, no en $\mathbf{a}$. Solo cuando $t=0$ ese punto vuelve a ser $\mathbf{a}$:
 
-$$g'(0) = f'(\mathbf{a};\mathbf{y}).$$
+$$g'(0) = f'(\mathbf{a};\mathbf{y})$$
 
 Entonces la cadena correcta y completa es:
 
-$$D_k f(\mathbf{a}) = f'(\mathbf{a};\mathbf{e}_k) = g'(0), \qquad \text{con } g(t) = f(\mathbf{a}+t\,\mathbf{e}_k).$$
+$$D_k f(\mathbf{a}) = f'(\mathbf{a};\mathbf{e}_k) = g'(0), \qquad \text{con } g(t) = f(\mathbf{a}+t\mathbf{e}_k)$$
 
 ##### Resumen de la equivalencia
 
