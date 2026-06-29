@@ -190,6 +190,8 @@ Por este camino el límite es $\tfrac{1}{2}$. Como hay dos caminos con valores d
 
 **Moraleja:** probar todas las rectas no es prueba de existencia. La aproximación puede ocurrir por curvas arbitrarias, y a veces es justamente una parábola (o algo peor) la que rompe la igualdad. Por eso la herramienta confiable para **demostrar** existencia es la acotación uniforme en polares, no la inspección por caminos.
 
+> Visualización interactiva: [html/parabola_engana.html](html/parabola_engana.html). La superficie tiene una *cresta* a altura 1/2 justo sobre la parábola $y = x^2$. Cualquier recta la cruza una sola vez y después cae al suelo; la parábola vive sobre la cresta y la altura no baja nunca.
+
 #### Receta práctica para decidir continuidad
 
 Juntando todo lo anterior, este es el orden en el que conviene atacar el problema:
@@ -274,12 +276,9 @@ $6/0.5 = 60 / 5 = (1 + 1 + \dots + 1) / 5 = 12$
 
 Esto nos lleva a la siguiente definición.
 
-**DEFINICIÓN DE LA DERIVADA DE UN CAMPO ESCALAR RESPECTO A UN VECTOR.** *Dado un campo escalar $f \colon S \to \mathbf{R}$, donde $S \subseteq \mathbf{R}^n$. Sean $\boldsymbol{a}$ un punto interior a $S$ e $\boldsymbol{y}$ un punto arbitrario de $\mathbf{R}^n$. La derivada de $f$ en $\boldsymbol{a}$ con respecto a $\boldsymbol{y}$ se representa con el símbolo $f'(\boldsymbol{a}; \boldsymbol{y})$ y se define*
+**DEFINICIÓN DE LA DERIVADA DE UN CAMPO ESCALAR RESPECTO A UN VECTOR.** Dado un campo escalar $f \colon S \to \mathbf{R}$, donde $S \subseteq \mathbf{R}^n$. Sean $\boldsymbol{a}$ un punto interior a $S$ e $\boldsymbol{y}$ un punto arbitrario de $\mathbf{R}^n$. La derivada de $f$ en $\boldsymbol{a}$ con respecto a $\boldsymbol{y}$ se representa con el símbolo $f'(\boldsymbol{a}; \boldsymbol{y})$ y se define
 
-$$
-\tag{8.4}
-f'(\boldsymbol{a}; \boldsymbol{y}) = \lim_{h \to 0} \frac{f(\boldsymbol{a} + h\boldsymbol{y}) - f(\boldsymbol{a})}{h}
-$$
+$$\tag{8.4} f'(a; y) = \lim_{h \to 0} \frac{f(a + hy) - f(a)}{h}$$
 
 *cuando tal límite existe.*
 

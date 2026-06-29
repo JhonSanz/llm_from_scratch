@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cuando los caminos engañan: rectas vs parábola</title>
+<style>
+  :root{ --bg:#faf9f5; --panel:#ffffff; --border:rgba(0,0,0,0.12); --text:#2c2c2a; --muted:#5f5e5a;
+         --btn:#efeee8; --btnon:#185FA5; --accent:#185FA5; }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#1f1e1c; --panel:#2a2926; --border:rgba(255,255,255,0.14); --text:#e8e6df; --muted:#a3a199;
+           --btn:#37352f; --btnon:#378ADD; --accent:#85B7EB; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.55;
+    display:flex;justify-content:center;padding:24px}
+  .wrap{width:100%;max-width:680px}
+  h1{font-size:20px;font-weight:500;margin:0 0 4px}
+  p.sub{color:var(--muted);font-size:14px;margin:0 0 16px}
+  .card{background:var(--panel);border:0.5px solid var(--border);border-radius:14px;padding:16px}
+  canvas{display:block;width:100%;height:auto;border-radius:10px;cursor:grab;touch-action:none}
+  canvas:active{cursor:grabbing}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin:6px 0 0}
+  .ctrls{margin-top:14px;display:flex;flex-direction:column;gap:12px}
+  .ctrl{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted)}
+  .ctrl input[type=range]{flex:1;accent-color:var(--accent)}
+  .ctrl .val{min-width:54px;text-align:right;color:var(--text);font-variant-numeric:tabular-nums}
+  .btns{display:flex;gap:8px;flex-wrap:wrap}
+  button{font:inherit;font-size:13px;padding:7px 12px;border-radius:8px;border:0.5px solid var(--border);
+    background:var(--btn);color:var(--text);cursor:pointer}
+  button.on{background:var(--btnon);color:#fff;border-color:transparent}
+  .status{margin-top:14px;font-size:14px;padding:10px 12px;border-radius:8px;
+    background:rgba(127,127,127,0.08);border-left:3px solid var(--accent)}
+  .read{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;color:var(--muted);margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Cuando los caminos engañan</h1>
+  <p class="sub">f(x,y) = x²y / (x⁴ + y²). Por <em>toda</em> recta y = mx el límite en (0,0) es 0. Por la parábola y = x² el límite es 1/2. Elige un camino y mira a qué altura llega el punto cuando se acerca al origen.</p>
+  <div class="card">
+    <canvas id="c" width="680" height="460"></canvas>
+    <p class="hint">Arrastra sobre la figura para girarla</p>
+    <div class="ctrls">
+      <div class="btns">
+        <button id="pLin" class="on" onclick="setPath('line')">Por recta y = mx</button>
+        <button id="pPar" onclick="setPath('para')">Por parábola y = x²</button>
+        <button id="pCub" onclick="setPath('cub')">Por cúbica y = x³</button>
+      </div>
+      <div class="ctrl" id="slopeCtrl"><span>Pendiente m</span>
+        <input type="range" id="slope" min="-2" max="2" step="0.1" value="1">
+        <span class="val" id="slopeVal">1.0</span></div>
+      <div class="btns">
+        <button id="pp" onclick="togglePlay()">⏸ Pausa</button>
+        <button onclick="reset()">↻ Reiniciar acercamiento</button>
+      </div>
+      <div class="status" id="status"></div>
+      <div class="read" id="read"></div>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:14px">La superficie tiene una <em>cresta</em> de altura 1/2 a lo largo de la parábola y = x² y un valle de altura −1/2 sobre y = −x². Cualquier recta cruza la cresta una sola vez (en x = m) y después cae al suelo cerca del origen — por eso da límite 0. La parábola, en cambio, <em>vive</em> sobre la cresta y la altura nunca baja. Por eso el límite doble no existe.</p>
+</div>
+<script>
+const cv=document.getElementById('c'), ctx=cv.getContext('2d');
+const W=680, H=460, dpr=Math.max(1, window.devicePixelRatio||1);
+cv.width=W*dpr; cv.height=H*dpr; ctx.scale(dpr,dpr);
+
+const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+const PAL = dark
+  ? {grid:'rgba(255,255,255,0.10)', axis:'rgba(255,255,255,0.30)', muted:'#a3a199',
+     surfFill:'rgba(216,90,48,0.20)', surfEdge:'rgba(240,153,123,0.50)',
+     line:'#85B7EB', para:'#FAC775', cub:'#A4C76A',
+     marker:'#FAC775', drop:'rgba(250,199,117,0.7)', shadow:'rgba(255,255,255,0.25)', anchor:'#e8e6df'}
+  : {grid:'rgba(0,0,0,0.10)', axis:'rgba(0,0,0,0.30)', muted:'#5f5e5a',
+     surfFill:'rgba(216,90,48,0.16)', surfEdge:'rgba(153,60,29,0.40)',
+     line:'#185FA5', para:'#BA7517', cub:'#6E9426',
+     marker:'#BA7517', drop:'rgba(186,117,23,0.6)', shadow:'rgba(0,0,0,0.18)', anchor:'#2c2c2a'};
+
+let az=-0.7, el=0.52;
+const SC=180, CXp=W/2, CYp=H*0.62, D=1.0, N=40;
+
+function f(x,y){
+  const d=x*x*x*x + y*y;
+  if(d < 1e-8) return 0;
+  return x*x*y / d;
+}
+function project(x,y,h){
+  const ca=Math.cos(az), sa=Math.sin(az);
+  const rx=x*ca - y*sa, ry=x*sa + y*ca;
+  const se=Math.sin(el), ce=Math.cos(el);
+  const sx=CXp + rx*SC;
+  const sy=CYp + (-ry*se - h*ce)*SC;
+  return [sx, sy, ry];
+}
+
+let pathType='line', slope=1.0, playing=true;
+let t=1.0;
+
+function drawBase(){
+  ctx.strokeStyle=PAL.grid; ctx.lineWidth=0.5;
+  const steps=10;
+  for(let i=0;i<=steps;i++){
+    const tt=-D + 2*D*i/steps;
+    let a=project(-D,tt,0), b=project(D,tt,0);
+    ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.stroke();
+    let c=project(tt,-D,0), d=project(tt,D,0);
+    ctx.beginPath(); ctx.moveTo(c[0],c[1]); ctx.lineTo(d[0],d[1]); ctx.stroke();
+  }
+}
+function drawSurface(){
+  const step=2*D/N, cells=[];
+  for(let i=0;i<N;i++){
+    for(let j=0;j<N;j++){
+      const x0=-D+i*step, y0=-D+j*step, x1=x0+step, y1=y0+step;
+      const p00=project(x0,y0,f(x0,y0));
+      const p10=project(x1,y0,f(x1,y0));
+      const p11=project(x1,y1,f(x1,y1));
+      const p01=project(x0,y1,f(x0,y1));
+      const depth=(p00[2]+p10[2]+p11[2]+p01[2])/4;
+      cells.push({depth,p:[p00,p10,p11,p01]});
+    }
+  }
+  cells.sort((a,b)=>b.depth-a.depth);
+  ctx.lineWidth=0.5; ctx.strokeStyle=PAL.surfEdge; ctx.fillStyle=PAL.surfFill;
+  for(const cl of cells){
+    const p=cl.p;
+    ctx.beginPath();
+    ctx.moveTo(p[0][0],p[0][1]); ctx.lineTo(p[1][0],p[1][1]);
+    ctx.lineTo(p[2][0],p[2][1]); ctx.lineTo(p[3][0],p[3][1]); ctx.closePath();
+    ctx.fill(); ctx.stroke();
+  }
+}
+function pathPoint(s){
+  if(pathType==='line') return [s, slope*s];
+  if(pathType==='para') return [s, s*s];
+  return [s, s*s*s];
+}
+function pathColor(){
+  if(pathType==='line') return PAL.line;
+  if(pathType==='para') return PAL.para;
+  return PAL.cub;
+}
+function drawPath(){
+  const col=pathColor();
+  ctx.strokeStyle=col; ctx.lineWidth=1.5;
+  const M=80;
+  // floor projection
+  ctx.beginPath();
+  let started=false;
+  for(let i=0;i<=M;i++){
+    const s=-D + 2*D*i/M;
+    const [x,y]=pathPoint(s);
+    if(Math.abs(y)>D || Math.abs(x)>D){ started=false; continue; }
+    const p=project(x,y,0);
+    if(!started){ ctx.moveTo(p[0],p[1]); started=true; } else ctx.lineTo(p[0],p[1]);
+  }
+  ctx.stroke();
+  // on surface
+  ctx.lineWidth=2.5; ctx.beginPath(); started=false;
+  for(let i=0;i<=M;i++){
+    const s=-D + 2*D*i/M;
+    const [x,y]=pathPoint(s);
+    if(Math.abs(y)>D || Math.abs(x)>D){ started=false; continue; }
+    const p=project(x,y,f(x,y));
+    if(!started){ ctx.moveTo(p[0],p[1]); started=true; } else ctx.lineTo(p[0],p[1]);
+  }
+  ctx.stroke();
+}
+function drawMarker(){
+  const [x,y]=pathPoint(t);
+  const h=f(x,y);
+  const base=project(x,y,0), top=project(x,y,h);
+  ctx.fillStyle=PAL.shadow;
+  ctx.beginPath(); ctx.arc(base[0],base[1],3,0,7); ctx.fill();
+  ctx.strokeStyle=PAL.drop; ctx.lineWidth=1.5; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(base[0],base[1]); ctx.lineTo(top[0],top[1]); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle=PAL.marker;
+  ctx.beginPath(); ctx.arc(top[0],top[1],6,0,7); ctx.fill();
+  ctx.strokeStyle=dark?'#1f1e1c':'#fff'; ctx.lineWidth=1.5; ctx.stroke();
+  return h;
+}
+function drawAnchor(){
+  const a0=project(0,0,0);
+  ctx.fillStyle=PAL.anchor;
+  ctx.beginPath(); ctx.arc(a0[0],a0[1],3,0,7); ctx.fill();
+  ctx.fillStyle=PAL.muted; ctx.font='italic 13px sans-serif';
+  ctx.fillText('(0,0)', a0[0]+6, a0[1]+14);
+}
+function frame(){
+  ctx.clearRect(0,0,W,H);
+  drawBase();
+  drawSurface();
+  drawPath();
+  drawAnchor();
+  const h=drawMarker();
+  updateText(h);
+}
+function updateText(h){
+  const st=document.getElementById('status'), rd=document.getElementById('read');
+  let lim, label;
+  if(pathType==='line'){ lim=0; label='recta y = '+slope.toFixed(1)+'x'; }
+  else if(pathType==='para'){ lim=0.5; label='parábola y = x²'; }
+  else { lim=0; label='cúbica y = x³'; }
+  if(pathType==='para'){
+    st.style.borderLeftColor=PAL.para;
+    st.innerHTML='<b>Por la parábola la altura es constante 0.5.</b> La parábola sigue la cresta de la superficie: el límite por este camino vale 1/2 en todo momento, no decae al acercarse al origen.';
+  } else if(pathType==='line'){
+    st.style.borderLeftColor=PAL.line;
+    st.innerHTML='<b>Por la recta la altura cae a 0.</b> La recta atraviesa la cresta una vez (en x = m) y después baja al suelo. Como hay otro camino (la parábola) que da 1/2, el límite doble no existe.';
+  } else {
+    st.style.borderLeftColor=PAL.cub;
+    st.innerHTML='<b>Por la cúbica la altura cae a 0.</b> Crece más despacio que la parábola y queda por debajo de la cresta, así que también baja al origen. No salva el límite doble.';
+  }
+  rd.textContent=label+'  |  t = '+t.toFixed(3)+'  |  altura f(x,y) = '+h.toFixed(3)+'   →  límite por este camino = '+lim.toFixed(2);
+}
+
+let last=performance.now();
+function loop(now){
+  const dt=Math.min(0.05,(now-last)/1000); last=now;
+  if(playing){
+    t-=dt*0.32;
+    if(t<0.015) t=1.0;
+  }
+  frame();
+  requestAnimationFrame(loop);
+}
+
+function setPath(p){
+  pathType=p;
+  document.getElementById('pLin').classList.toggle('on',p==='line');
+  document.getElementById('pPar').classList.toggle('on',p==='para');
+  document.getElementById('pCub').classList.toggle('on',p==='cub');
+  document.getElementById('slopeCtrl').style.display = (p==='line') ? 'flex' : 'none';
+}
+function togglePlay(){ playing=!playing; document.getElementById('pp').textContent=playing?'⏸ Pausa':'▶ Reproducir'; }
+function reset(){ t=1.0; }
+
+document.getElementById('slope').addEventListener('input',e=>{
+  slope=parseFloat(e.target.value);
+  document.getElementById('slopeVal').textContent=slope.toFixed(1);
+});
+
+let drag=false, px=0, py=0;
+cv.addEventListener('pointerdown',e=>{drag=true;px=e.clientX;py=e.clientY;cv.setPointerCapture(e.pointerId);});
+cv.addEventListener('pointermove',e=>{
+  if(!drag) return;
+  az+=(e.clientX-px)*0.01;
+  el=Math.max(0.2,Math.min(1.2, el-(e.clientY-py)*0.006));
+  px=e.clientX; py=e.clientY;
+});
+cv.addEventListener('pointerup',()=>drag=false);
+
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
