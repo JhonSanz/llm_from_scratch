@@ -307,7 +307,7 @@ Haciendo que $h \to 0$ obtenemos (8.5).
 
 ##### Ejemplo
 
-calcular $f'(\mathbf{a};\mathbf{y})$ para $f(\mathbf{x}) = \|\mathbf{x}\|^2$, con $\mathbf{x} \in \mathbb{R}^n$.
+calcular $f'(\mathbf{a};\mathbf{y})$ para $f(\mathbf{x}) = \lVert x \rVert ^2$, con $\mathbf{x} \in \mathbb{R}^n$.
 
 La derivada direccional se reduce a una derivada ordinaria de una variable definiendo
 
@@ -315,7 +315,7 @@ $$g(t) = f(\mathbf{a} + t\mathbf{y}), \qquad f'(\mathbf{a};\mathbf{y}) = g'(0).$
 
 Aquí $\mathbf{a}$ (punto) y $\mathbf{y}$ (dirección) están **fijos**; la única variable es $t$.
 
-**1. Escribir $g(t)$.** Como $\|\mathbf{x}\|^2 = \mathbf{x}\cdot\mathbf{x}$:
+**1. Escribir $g(t)$.** Como $\lVert x \rVert ^2 = \mathbf{x}\cdot\mathbf{x}$:
 
 $$g(t) = (\mathbf{a}+t\mathbf{y})\cdot(\mathbf{a}+t\mathbf{y}).$$
 
@@ -446,13 +446,13 @@ La diferencia es que ahora la "recta" por la que te mueves es paralela al eje $x
 
 Vamos a calcular las parciales de
 
-$$f(x,y,z) = x^2 + y^2 + z^2 = \|\mathbf{x}\|^2$$
+$$f(x,y,z) = x^2 + y^2 + z^2 = \lVert x \rVert ^2$$
 
 en un punto $\mathbf{a} = (a_1, a_2, a_3)$. Lo haremos de **tres formas** para ver que todas coinciden y cierran el círculo con la teoría anterior.
 
 ##### Vía 1: como caso particular de la derivada direccional
 
-En el ejemplo anterior ya demostramos que para $f(\mathbf{x}) = \|\mathbf{x}\|^2$ vale
+En el ejemplo anterior ya demostramos que para $f(\mathbf{x}) = \lVert x \rVert ^2$ vale
 
 $$f'(\mathbf{a};\mathbf{y}) = 2\,\mathbf{a}\cdot\mathbf{y}.$$
 
