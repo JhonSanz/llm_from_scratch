@@ -294,7 +294,7 @@ El teorema que sigue relaciona las derivadas $g'(t)$ y $f'(\mathbf{a} + t\mathbf
 
 **TEOREMA 8.3.** Si $g(t) = f(\mathbf{a} + t\mathbf{y})$ y si una de las derivadas $g'(t)$ o $f'(\mathbf{a} + t\mathbf{y}; \mathbf{y})$ existe, entonces también existe la otra y coinciden,
 
-$$g'(t) = f'(\mathbf{a} + t\mathbf{y}; \mathbf{y}). \tag{8.5}$$
+$$g'(t) = f'(a + ty; y)$$
 
 En particular, cuando $t = 0$ tenemos $g'(0) = f'(\mathbf{a}; \mathbf{y})$.
 
