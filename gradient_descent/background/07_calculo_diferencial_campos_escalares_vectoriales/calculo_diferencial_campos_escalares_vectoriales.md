@@ -278,7 +278,7 @@ Esto nos lleva a la siguiente definición.
 
 **DEFINICIÓN DE LA DERIVADA DE UN CAMPO ESCALAR RESPECTO A UN VECTOR.** Dado un campo escalar $f \colon S \to \mathbf{R}$, donde $S \subseteq \mathbf{R}^n$. Sean $\boldsymbol{a}$ un punto interior a $S$ e $\boldsymbol{y}$ un punto arbitrario de $\mathbf{R}^n$. La derivada de $f$ en $\boldsymbol{a}$ con respecto a $\boldsymbol{y}$ se representa con el símbolo $f'(\boldsymbol{a}; \boldsymbol{y})$ y se define
 
-$$\tag{8.4} f'(a; y) = \lim_{h \to 0} \frac{f(a + hy) - f(a)}{h}$$
+$$f'(a; y) = \lim_{h \to 0} \frac{f(a + hy) - f(a)}{h}$$
 
 *cuando tal límite existe.*
 
