@@ -543,3 +543,47 @@ El ejemplo anterior prueba que la existencia de todas las derivadas direccionale
 
 ## LA DIFERENCIAL
 
+Este punto es especialmente importante para mi ya que se reunen varias cosas que hemos estudiado. Recordando los polinomios de taylor, con ellos podíamos hacer una aproximación local de una función mediante un polinomio. 
+
+Aquí vamos a retomar esto desde un enfoque algo distinto, vamos a analizar el error de esta manera 
+
+
+**1. Todo parte de la definición de derivada**, que es un límite de un cociente:
+
+$$f'(a) = \lim_{h\to 0} \frac{f(a+h)-f(a)}{h}$$
+
+**2. Se nombra el error de ese cociente** (no el error de $f$, sino el error de la *pendiente*):
+
+$$E(a,h) := \frac{f(a+h)-f(a)}{h} - f'(a), \qquad h \neq 0$$
+
+El $h$ está ahí porque viene de un cociente incremental, no porque se haya insertado después.
+
+con $E(a, 0) = 0$
+
+**3. Se despeja algebraicamente** $f(a+h)$ multiplicando por $h$:
+
+$$f(a+h) = f(a) + f'(a)h + h\,E(a,h)$$
+
+El término $h\,E(a,h)$ es exactamente el resto $E_1$ del capítulo 7, solo que factorizado como $h$ por algo que tiende a $0$.
+
+En el capítulo 7 (Teorema 7.5) el resto aparece "solo":
+
+$$f(x) = f(a) + f'(a)(x-a) + E_1(x)$$
+
+Ponerlo con $h$ codifica la **velocidad** con la que el error se anula
+
+- $E_1(x) \to 0$ es débil: casi cualquier función razonable lo cumple.
+- $E(a,h) \to 0$ **y además** el error total es $h \cdot E(a,h)$ es más fuerte: dice que el error es $o(h)$, es decir, se anula *más rápido* que el propio $h$.
+
+Geométricamente, esto es justo lo que distingue a la recta tangente de cualquier otra aproximación lineal: la separación entre la curva y la tangente no solo se achica, se achica más rápido que la distancia recorrida $h$.
+
+
+Por eso el texto dice 
+
+"Esta es la fórmula de Taylor de primer orden para aproximar $f(a + h) - f(a)$ por medio de $f'(a)h$. El error cometido es $hE(a, h)$. De (8.6) resulta que $E(a, h) \to O$ cuando $h \to O$. Por consiguiente el error $hE(a, h)$ es de orden menor que $h$ para valor pequeños de $h$"
+
+y viene el párrafo clave para entender esto:
+
+> Esta propiedad de aproximar una función diferenciable mediante una función lineal sugiere un método de extender el concepto de diferenciabilidad al caso de un número cualquiera de dimensiones.
+
+Es decir, la función diferenciable la aproximamos con un polinomio de grado 1 (la función lineal)
