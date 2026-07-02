@@ -547,43 +547,68 @@ Este punto es especialmente importante para mi ya que se reunen varias cosas que
 
 Aquí vamos a retomar esto desde un enfoque algo distinto, vamos a analizar el error de esta manera 
 
+La fórmula de Taylor de primer orden se escribe
 
-**1. Todo parte de la definición de derivada**, que es un límite de un cociente:
+$$f(x) = f(a) + f'(a)(x-a) + E_1(x),$$
 
-$$f'(a) = \lim_{h\to 0} \frac{f(a+h)-f(a)}{h}$$
+mientras que en §8.11 aparece
 
-**2. Se nombra el error de ese cociente** (no el error de $f$, sino el error de la *pendiente*):
+$$f(a+h) = f(a) + f'(a)h + hE(a,h),$$
 
-$$E(a,h) := \frac{f(a+h)-f(a)}{h} - f'(a), \qquad h \neq 0$$
+con un $h$ multiplicando al error que parece salir de la nada
 
-El $h$ está ahí porque viene de un cociente incremental, no porque se haya insertado después.
+**Paso 1 — Cambio de variable.** Con $x = a+h$ (describir el punto por su desplazamiento $h$ en vez de su posición $x$), la fórmula de §7.5 queda
 
-con $E(a, 0) = 0$
+$$f(a+h) = f(a) + f'(a)h + E_1(a+h).$$
 
-**3. Se despeja algebraicamente** $f(a+h)$ multiplicando por $h$:
+**Paso 2 — Factorización.** Apostol define en §8.11 el cociente
 
-$$f(a+h) = f(a) + f'(a)h + h\,E(a,h)$$
+$$E(a,h) := \frac{f(a+h)-f(a)}{h} - f'(a) = \frac{E_1(a+h)}{h} \qquad (h \neq 0),$$
 
-El término $h\,E(a,h)$ es exactamente el resto $E_1$ del capítulo 7, solo que factorizado como $h$ por algo que tiende a $0$.
+de modo que, trivialmente,
 
-En el capítulo 7 (Teorema 7.5) el resto aparece "solo":
+$$E_1(a+h) = h \cdot E(a,h).$$
 
-$$f(x) = f(a) + f'(a)(x-a) + E_1(x)$$
+El $h$ no estaba "dentro" del error del capítulo 7: se saca dividiendo y multiplicando por él ($E_1 = h \cdot \tfrac{E_1}{h}$). Ambas fórmulas son **numéricamente idénticas** término a término; solo cambia el empaque del error:
 
-Ponerlo con $h$ codifica la **velocidad** con la que el error se anula
+| | §7.5 | §8.11 |
+|---|---|---|
+| Error | $E_1(a+h)$ (una pieza) | $h \cdot E(a,h)$ (incremento × coeficiente) |
+| Hipótesis | $f''$ continua | solo existe $f'(a)$ |
+| Objetivo | **estimar** el error (forma integral) | **clasificar** el error (orden de pequeñez) |
 
-- $E_1(x) \to 0$ es débil: casi cualquier función razonable lo cumple.
-- $E(a,h) \to 0$ **y además** el error total es $h \cdot E(a,h)$ es más fuerte: dice que el error es $o(h)$, es decir, se anula *más rápido* que el propio $h$.
+Que $E(a,h) \to 0$ es literalmente la definición de derivada:
 
-Geométricamente, esto es justo lo que distingue a la recta tangente de cualquier otra aproximación lineal: la separación entre la curva y la tangente no solo se achica, se achica más rápido que la distancia recorrida $h$.
+$$E(a,h) = \frac{f(a+h)-f(a)}{h} - f'(a) \xrightarrow[h \to 0]{} f'(a) - f'(a) = 0.$$
 
+Si vemos el error es ligeramente diferente porque cambia la pregunta:
+
+- **Capítulo 7:** *"¿Qué tan buena es la aproximación?"* → se necesita el valor o una cota del error; de ahí la forma integral $E_1(x) = \int_a^x (x-t)f''(t)\,dt$.
+- **Capítulo 8:** *"¿Qué significa ser diferenciable?"* → solo se necesita el **comportamiento asintótico** del error: que sea $o(h)$, es decir, que muera más rápido que el incremento. La forma $hE(a,h)$ con $E \to 0$ hace esa propiedad explícita: el error es "tamaño del paso × coeficiente que se desvanece".
+
+En este capítulo el error no se calcula: se **acepta** y se clasifica. No es un defecto a corregir sino parte de la definición misma de diferenciabilidad.
 
 Por eso el texto dice 
 
 "Esta es la fórmula de Taylor de primer orden para aproximar $f(a + h) - f(a)$ por medio de $f'(a)h$. El error cometido es $hE(a, h)$. De (8.6) resulta que $E(a, h) \to O$ cuando $h \to O$. Por consiguiente el error $hE(a, h)$ es de orden menor que $h$ para valor pequeños de $h$"
+
+#### Observaciones
+
+- El error importa muchísimo, pero solo *cualitativamente*: el término $\|\mathbf{v}\|E(\mathbf{a},\mathbf{v}) \to 0$ es el que hace el trabajo en las demostraciones (diferenciabilidad ⟹ continuidad, diferenciabilidad ⟹ existencia de todas las derivadas direccionales).
+- Conexión con los contraejemplos clásicos: una función puede tener **todas** las derivadas direccionales en un punto y no ser diferenciable, porque ninguna transformación lineal logra que el error sobrante sea $o(\|\mathbf{v}\|)$ *uniformemente en todas las direcciones*. La condición sobre el error es exactamente lo que separa "tener derivadas direccionales" de "ser diferenciable".
 
 y viene el párrafo clave para entender esto:
 
 > Esta propiedad de aproximar una función diferenciable mediante una función lineal sugiere un método de extender el concepto de diferenciabilidad al caso de un número cualquiera de dimensiones.
 
 Es decir, la función diferenciable la aproximamos con un polinomio de grado 1 (la función lineal)
+
+![campo_escalar_diferenciable](img/campo_escalar_diferenciable.png)
+
+
+
+En varias variables el incremento $\mathbf{v}$ es un vector y **no se puede dividir entre él**: la derivada como cociente muere. Lo que sobrevive es la estructura *valor + parte lineal + error pequeño*:
+
+$$f(\mathbf{a}+\mathbf{v}) = f(\mathbf{a}) + T_{\mathbf{a}}(\mathbf{v}) + \|\mathbf{v}\|\,E(\mathbf{a},\mathbf{v}), \qquad E(\mathbf{a},\mathbf{v}) \xrightarrow[\mathbf{v}\to\mathbf{0}]{} 0,$$
+
+donde el papel de $h$ lo toma la norma $\|\mathbf{v}\|$ (un escalar) y el de $f'(a)$ lo toma una transformación lineal $T_{\mathbf{a}}$. Apostol reescribe el caso 1-D en la forma de §8.11 precisamente para que ambas fórmulas tengan la misma silueta.
