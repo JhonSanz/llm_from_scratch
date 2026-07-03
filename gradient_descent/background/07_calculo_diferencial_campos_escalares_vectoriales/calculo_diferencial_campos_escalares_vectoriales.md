@@ -612,3 +612,11 @@ En varias variables el incremento $\mathbf{v}$ es un vector y **no se puede divi
 $$f(\mathbf{a}+\mathbf{v}) = f(\mathbf{a}) + T_{\mathbf{a}}(\mathbf{v}) + \|\mathbf{v}\|\,E(\mathbf{a},\mathbf{v}), \qquad E(\mathbf{a},\mathbf{v}) \xrightarrow[\mathbf{v}\to\mathbf{0}]{} 0,$$
 
 donde el papel de $h$ lo toma la norma $\|\mathbf{v}\|$ (un escalar) y el de $f'(a)$ lo toma una transformación lineal $T_{\mathbf{a}}$. Apostol reescribe el caso 1-D en la forma de §8.11 precisamente para que ambas fórmulas tengan la misma silueta.
+
+Todo este tiempo me hizo ruido que definan usando una transformación lineal, pero investigando un poco lo que se busca es generalizar la definición y que pueda servir para por ejemplo campos vectoriales, y en ese contexto esa transformación lineal va a ser un objeto matemático diferente.
+
+En nuestro caso de campos escalares esa transformación lineal 
+
+
+
+[ejemplo_numerico_definicion_diferencial](ejemplo_numerico_definicion_diferencial.md)
