@@ -618,3 +618,44 @@ Todo este tiempo me hizo ruido que definan usando una transformación lineal, pe
 Veamos todo esto con números concretos:
 
 [ejemplo_numerico_definicion_diferencial](ejemplo_numerico_definicion_diferencial.md)
+
+
+![trans_lineal_comb_lineal_derivadas](img/trans_lineal_comb_lineal_derivadas.png)
+
+recordando que estamos en el contexto de campos escalares. 
+
+Lo que nos dice esa formula es que calculamos la derivada k-ésima de la función en $a$ por el elemento k-ésimo del vector $y$
+
+Inicialmente, la demostración nos propone resolver de forma trivial el caso donde $y = O$ ya que $T_a(O) = 0$ esto por las propiedades de linealidad de la transformación $T(cx) = cT(x)$, y $f'(a;O) = 0$ ya corresponde a la sumatoria en este teorema, y todos los componentes $y_k$ son cero. Osea que el teorema sí vale para $y = O$, por eso el resto de la demostración asume $y \neq O$.
+
+Entonces como $f$ es diferenciable en $a$ tenemos
+
+$$f(a+v) = f(a) + T_a(v) + \lVert v \rVert E(a,v)$$
+
+para $\lVert v \rVert \lt r$ para algún $r \gt 0$, recordando que $r$ es el radio de la n-bola $B(a;r) \subseteq S$, y $E(a, v) \to 0$ cuando $\lVert v \rVert \to 0$ como antes...
+
+Para esa formula tomemos $v = hy$ con $h \neq 0$ y $|h| \lVert y \rVert \lt r$ entonces $\lVert v \rVert \lt r$, de hecho esto tiene mucho sentido, porque estamos todo el tiempo entendiendo la derivada como movernos a través de un vector, y aquí $h$ es cuánto nos movemos a lo largo de $y$.
+
+Como $T_a$ es lineal podemos hacer $T_a(v) = T_a(hy) = hT_a(y)$, osea que
+
+$$\frac{f(a+hy) - f(a)}{h} = T_a(y) + \frac{|h| \lVert y \rVert}{h}E(a,v)$$
+
+entonces tomando el límite obvservamos lo siguiente
+
+- si $h \to 0$ entonces $\lVert v \rVert = |h| \lVert y \rVert \to 0$ y como habíamos dicho antes, cuando eso pasa 
+$E(a, v) \to 0$ 
+- Es importante el factor $\frac{|h| \lVert y \rVert}{h}$, necesitamos verificar que la divisón entre $h$ no se vaya a infinito. Que el error tienda a cero no basta por sí solo si lo que lo multiplica crece sin control, el producto puede explotar (por ejemplo $\frac{1}{h^2} \cdot h \to \infty$). Es por eso que el autor hace la aclaración de que $\frac{|h|}{h}$ es $\pm 1$, osea que el factor completo vale $\pm \lVert y \rVert$, que está acotado (su valor absoluto siempre es $\lVert y \rVert$, sin importar $h$) y eso es bueno porque al multiplicarlo por el error estamos seguros de que todo tiende a cero: (acotado) $\times$ (algo que tiende a $0$) $\to 0$. Nótese que $\pm \lVert y \rVert$ oscila y no tiene límite por sí solo, pero no lo necesita, con la cota basta.
+
+Osea que al final tenemos que el lado derecho tiende a $T_a(y) + 0 = T_a(y)$, y como el lado derecho tiene límite, el lado izquierdo tiene el mismo límite
+
+$$\lim_{h \to 0} \frac{f(a+hy) - f(a)}{h} = T_a(y)$$
+
+que corresponde con la derivada direccional, porque ese cociente es exactamente el que la define. Y aquí hay dos cosas empaquetadas: primero, que el límite **existe**, osea que $f'(a;y)$ existe para todo $y \in \mathbb{R}^n$ (eso no lo sabíamos de antemano, es parte de lo demostrado), y segundo, que su valor es $f'(a;y) = T_a(y)$, que es justamente (8.8). $\blacksquare$
+
+De ahí la fórmula (8.9) sale gratis aplicando el teorema a $y = (y_1, \dots, y_n)$ y luego $y = \sum_k y_k e_k$ (osea $y$ con los elementos de su base) tenemos $T_a(e_k) = f'(a;e_k) = D_k f(a)$, y como $T_a$ es lineal y 
+
+$$f'(a;y) = T_a(y) = T_a\left(\sum_{k=1}^n y_k e_k\right) = \sum_{k=1}^n y_k T_a(e_k) = \sum_{k=1}^n D_k f(a)\, y_k$$
+
+osea que la diferencial queda completamente determinada por solo $n$ números, las derivadas parciales, y cualquier derivada direccional es combinación lineal de ellas con los componentes de $y$ como coeficientes.
+
+Ojo con la dirección lógica: $T_a$ es el objeto primario (viene de la diferenciabilidad), y las derivadas direccionales quedan determinadas por ella, no al revés. Y el recíproco del teorema es falso: que existan todas las direccionales no implica diferenciabilidad, ni siquiera continuidad (el contraejemplo clásico de §8.10).
