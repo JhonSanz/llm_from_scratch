@@ -659,3 +659,11 @@ $$f'(a;y) = T_a(y) = T_a\left(\sum_{k=1}^n y_k e_k\right) = \sum_{k=1}^n y_k T_a
 osea que la diferencial queda completamente determinada por solo $n$ números, las derivadas parciales, y cualquier derivada direccional es combinación lineal de ellas con los componentes de $y$ como coeficientes.
 
 Ojo con la dirección lógica: $T_a$ es el objeto primario (viene de la diferenciabilidad), y las derivadas direccionales quedan determinadas por ella, no al revés. Y el recíproco del teorema es falso: que existan todas las direccionales no implica diferenciabilidad, ni siquiera continuidad (el contraejemplo clásico de §8.10).
+
+![gradiente](img/gradiente.png)
+
+
+Cualquier función diferenciable, vista con suficiente zoom, es indistinguible de un plano (eso es literalmente lo que dice la fórmula de Taylor con el error $\lVert v \rVert E$). Y para un plano inclinado, la pregunta "¿hacia dónde sube más?" tiene una única respuesta obvia: perpendicular a las líneas horizontales del plano, que es exactamente donde apunta el gradiente. La universalidad del resultado es la universalidad de la linealización.
+
+
+[ejemplo_gradiente](ejemplo_gradiente.md)
