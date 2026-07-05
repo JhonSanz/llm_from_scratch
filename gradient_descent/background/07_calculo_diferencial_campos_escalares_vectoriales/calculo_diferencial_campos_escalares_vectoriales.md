@@ -543,9 +543,9 @@ El ejemplo anterior prueba que la existencia de todas las derivadas direccionale
 
 ## LA DIFERENCIAL
 
-Este punto es especialmente importante para mi ya que se reunen varias cosas que hemos estudiado. Recordando los polinomios de taylor, con ellos podíamos hacer una aproximación local de una función mediante un polinomio. 
+Antes de meternos en fórmulas, **la diferencial es lo que sobrevive de la derivada cuando el "incremento" ya no es un número $h$ sino un vector $\mathbf{v}$**. Como no podemos dividir entre un vector, la información que antes vivía en el cociente $\tfrac{f(a+h)-f(a)}{h}$ hay que mudarla a otro objeto: una **transformación lineal**. Todo el capítulo es el detalle de esa mudanza.
 
-Aquí vamos a retomar esto desde un enfoque algo distinto, vamos a analizar el error de esta manera 
+Este punto es especialmente importante para mí ya que reúne varias cosas que hemos estudiado. Recordando los polinomios de Taylor, con ellos podíamos hacer una aproximación local de una función mediante un polinomio. Aquí vamos a retomar esa idea desde un enfoque algo distinto: vamos a analizar el error.
 
 La fórmula de Taylor de primer orden se escribe
 
@@ -555,9 +555,9 @@ mientras que en §8.11 aparece
 
 $$f(a+h) = f(a) + f'(a)h + hE(a,h),$$
 
-con un $h$ multiplicando al error que parece salir de la nada
+con un $h$ multiplicando al error que parece salir de la nada.
 
-**Paso 1 — Cambio de variable.** Con $x = a+h$ (describir el punto por su desplazamiento $h$ en vez de su posición $x$), la fórmula de §7.5 queda
+**Paso 1 — Cambio de variable.** La razón para reescribir con $x = a+h$ es que en varias variables no hay una "posición absoluta" útil, solo desplazamientos desde $\mathbf{a}$. Reescribir todo en términos del incremento $h$ es el primer paso para poder cambiar $h$ por un vector $\mathbf{v}$ más adelante. Con este cambio, la fórmula de §7.5 queda
 
 $$f(a+h) = f(a) + f'(a)h + E_1(a+h).$$
 
@@ -569,15 +569,9 @@ de modo que, trivialmente,
 
 $$E_1(a+h) = h \cdot E(a,h).$$
 
-El $h$ no estaba "dentro" del error del capítulo 7: se saca dividiendo y multiplicando por él ($E_1 = h \cdot \tfrac{E_1}{h}$). Ambas fórmulas son **numéricamente idénticas** término a término; solo cambia el empaque del error:
+El $h$ no estaba "dentro" del error del capítulo 7, se saca dividiendo y multiplicando por él ($E_1 = h \cdot \tfrac{E_1}{h}$). Ambas fórmulas son **numéricamente idénticas** término a término; solo cambia el empaque del error
 
-| | §7.5 | §8.11 |
-|---|---|---|
-| Error | $E_1(a+h)$ (una pieza) | $h \cdot E(a,h)$ (incremento × coeficiente) |
-| Hipótesis | $f''$ continua | solo existe $f'(a)$ |
-| Objetivo | **estimar** el error (forma integral) | **clasificar** el error (orden de pequeñez) |
-
-Que $E(a,h) \to 0$ es literalmente la definición de derivada:
+Que $E(a,h) \to 0$ es literalmente la definición de derivada: por definición de derivada, el primer término $\tfrac{f(a+h)-f(a)}{h}$ tiende a $f'(a)$, así que
 
 $$E(a,h) = \frac{f(a+h)-f(a)}{h} - f'(a) \xrightarrow[h \to 0]{} f'(a) - f'(a) = 0.$$
 
@@ -586,37 +580,41 @@ Si vemos el error es ligeramente diferente porque cambia la pregunta:
 - **Capítulo 7:** *"¿Qué tan buena es la aproximación?"* → se necesita el valor o una cota del error; de ahí la forma integral $E_1(x) = \int_a^x (x-t)f''(t)\,dt$.
 - **Capítulo 8:** *"¿Qué significa ser diferenciable?"* → solo se necesita el **comportamiento asintótico** del error: que sea $o(h)$, es decir, que muera más rápido que el incremento. La forma $hE(a,h)$ con $E \to 0$ hace esa propiedad explícita: el error es "tamaño del paso × coeficiente que se desvanece".
 
-En este capítulo el error no se calcula: se **acepta** y se clasifica. No es un defecto a corregir sino parte de la definición misma de diferenciabilidad.
+En este capítulo el error no se calcula sino que se **acepta** y se clasifica. No es un defecto a corregir sino parte de la definición misma de diferenciabilidad.
 
-Por eso el texto dice 
+Por eso el texto dice
 
-"Esta es la fórmula de Taylor de primer orden para aproximar $f(a + h) - f(a)$ por medio de $f'(a)h$. El error cometido es $hE(a, h)$. De (8.6) resulta que $E(a, h) \to O$ cuando $h \to O$. Por consiguiente el error $hE(a, h)$ es de orden menor que $h$ para valor pequeños de $h$"
+> "Esta es la fórmula de Taylor de primer orden para aproximar $f(a + h) - f(a)$ por medio de $f'(a)h$. El error cometido es $hE(a, h)$. De (8.6) resulta que $E(a, h) \to 0$ cuando $h \to 0$. Por consiguiente el error $hE(a, h)$ es de orden menor que $h$ para valores pequeños de $h$."
+
+### El puente al caso multivariable
+
+El empaque $h \cdot E(a,h)$ del §8.11 es la forma que sí sobrevive al pasar a $\mathbb{R}^n$, porque $|h|$ se reemplaza limpiamente por $\|\mathbf{v}\|$ (un escalar) y $f'(a)$ por una transformación lineal. Ahora sí viene el párrafo clave:
+
+> Esta propiedad de aproximar una función diferenciable mediante una función lineal sugiere un método de extender el concepto de diferenciabilidad al caso de un número cualquiera de dimensiones.
+
+Es decir, la función diferenciable la aproximamos con un polinomio de grado 1 (la función lineal). Con esa idea, Apostol da la definición formal:
+
+![campo_escalar_diferenciable](img/campo_escalar_diferenciable.png)
+
+Vale la pena desarmar la fórmula (8.7) en sus tres piezas:
+
+- $T_{\mathbf{a}}$ — **la máquina lineal**: juega el papel que tenía $f'(a)$.
+- $\|\mathbf{v}\|$ — **el tamaño del paso**: un escalar, juega el papel que tenía $|h|$.
+- $E(\mathbf{a},\mathbf{v}) \to 0$ — **la promesa asintótica**: juega el papel del error de Taylor en su versión "clasificatoria".
+
+En términos algebraicos, el incremento $\mathbf{v}$ es un vector y **no se puede dividir entre él**, entonces la derivada como cociente muere. Lo que sobrevive es la estructura *valor + parte lineal + error pequeño*:
+
+$$f(\mathbf{a}+\mathbf{v}) = f(\mathbf{a}) + T_{\mathbf{a}}(\mathbf{v}) + \|\mathbf{v}\|\,E(\mathbf{a},\mathbf{v}), \qquad E(\mathbf{a},\mathbf{v}) \xrightarrow[\mathbf{v}\to\mathbf{0}]{} 0.$$
+
+Apostol reescribe el caso 1-D en la forma de §8.11 precisamente para que ambas fórmulas tengan la misma silueta.
 
 #### Observaciones
 
 - El error importa muchísimo, pero solo *cualitativamente*: el término $\|\mathbf{v}\|E(\mathbf{a},\mathbf{v}) \to 0$ es el que hace el trabajo en las demostraciones (diferenciabilidad ⟹ continuidad, diferenciabilidad ⟹ existencia de todas las derivadas direccionales).
-- Conexión con los contraejemplos clásicos: una función puede tener **todas** las derivadas direccionales en un punto y no ser diferenciable, porque ninguna transformación lineal logra que el error sobrante sea $o(\|\mathbf{v}\|)$ *uniformemente en todas las direcciones*. La condición sobre el error es exactamente lo que separa "tener derivadas direccionales" de "ser diferenciable".
+- Conexión con los contraejemplos clásicos: el contraejemplo de la sección anterior (`der_dir_cont`) es exactamente esto — tenía todas las derivadas direccionales en el origen y sin embargo no era continua, así que ninguna transformación lineal $T_{\mathbf{0}}$ podía lograr que el error sobrante fuera $o(\|\mathbf{v}\|)$ *uniformemente en todas las direcciones*. La condición sobre el error es exactamente lo que separa "tener derivadas direccionales" de "ser diferenciable".
 
-y viene el párrafo clave para entender esto:
+Todo este tiempo me hizo ruido que definan usando una transformación lineal, pero investigando un poco lo que se busca es generalizar la definición y que pueda servir para, por ejemplo, campos vectoriales, y en ese contexto esa transformación lineal va a ser un objeto matemático diferente (una matriz jacobiana).
 
-> Esta propiedad de aproximar una función diferenciable mediante una función lineal sugiere un método de extender el concepto de diferenciabilidad al caso de un número cualquiera de dimensiones.
-
-Es decir, la función diferenciable la aproximamos con un polinomio de grado 1 (la función lineal)
-
-![campo_escalar_diferenciable](img/campo_escalar_diferenciable.png)
-
-
-
-En varias variables el incremento $\mathbf{v}$ es un vector y **no se puede dividir entre él**: la derivada como cociente muere. Lo que sobrevive es la estructura *valor + parte lineal + error pequeño*:
-
-$$f(\mathbf{a}+\mathbf{v}) = f(\mathbf{a}) + T_{\mathbf{a}}(\mathbf{v}) + \|\mathbf{v}\|\,E(\mathbf{a},\mathbf{v}), \qquad E(\mathbf{a},\mathbf{v}) \xrightarrow[\mathbf{v}\to\mathbf{0}]{} 0,$$
-
-donde el papel de $h$ lo toma la norma $\|\mathbf{v}\|$ (un escalar) y el de $f'(a)$ lo toma una transformación lineal $T_{\mathbf{a}}$. Apostol reescribe el caso 1-D en la forma de §8.11 precisamente para que ambas fórmulas tengan la misma silueta.
-
-Todo este tiempo me hizo ruido que definan usando una transformación lineal, pero investigando un poco lo que se busca es generalizar la definición y que pueda servir para por ejemplo campos vectoriales, y en ese contexto esa transformación lineal va a ser un objeto matemático diferente.
-
-En nuestro caso de campos escalares esa transformación lineal 
-
-
+Veamos todo esto con números concretos:
 
 [ejemplo_numerico_definicion_diferencial](ejemplo_numerico_definicion_diferencial.md)
