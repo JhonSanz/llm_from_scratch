@@ -670,3 +670,8 @@ Cualquier función diferenciable, vista con suficiente zoom, es indistinguible d
 
 [explicacion_gradiente_max_crecimiento](explicacion_gradiente_max_crecimiento.md)
 
+
+![condicion_suficiente_dif](img/condicion_suficiente_dif.png)
+
+[condicion_suficiente_diferenciabilidad](condicion_suficiente_diferenciabilidad.md)
+
