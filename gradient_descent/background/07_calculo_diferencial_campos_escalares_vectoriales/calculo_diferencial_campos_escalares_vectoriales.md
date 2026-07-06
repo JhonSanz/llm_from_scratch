@@ -667,3 +667,6 @@ Cualquier función diferenciable, vista con suficiente zoom, es indistinguible d
 
 
 [ejemplo_gradiente](ejemplo_gradiente.md)
+
+[explicacion_gradiente_max_crecimiento](explicacion_gradiente_max_crecimiento.md)
+
