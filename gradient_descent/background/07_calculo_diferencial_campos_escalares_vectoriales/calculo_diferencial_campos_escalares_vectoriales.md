@@ -7,7 +7,7 @@ En este punto ya conocemos bastantes cosas:
 - Vimos funciones de $\mathbb{R}$ a $\mathbb{R^n}$ las cuales describian movimiento de particulas en el espacio y otros temas interesantes relacionados a vectores
 - Vimos algo de la fundamentación de espacios lineales y transformaciones lineales
 
-En este punto el autor nos propone tener transformaciones lineales $T: \mathbb{R^n} \to \mathbb{R^m}$ pero con la diferencia de que $T$ no sea lineal, apensar de que $V$ y $W$ si sean espacios lineales de dimensión finita
+En este punto el autor nos propone tener transformaciones $T: \mathbb{R^n} \to \mathbb{R^m}$ pero **dejando de exigir** que $T$ sea lineal (las lineales siguen siendo casos válidos, solo que ya no es un requisito), a la vez que restringe $V$ y $W$ a ser espacios lineales de dimensión finita
 
 En particular cuando tenemos:
 
@@ -18,7 +18,7 @@ El autor también propone utilizar el producto interior y norma así
 
 $$x \cdot y = \sum_{k=1}^{n} x_{k} y_k$$
 
-$$\lVert x \rVert = (x \cdot x)^{-1}$$
+$$\lVert x \rVert = (x \cdot x)^{1/2}$$
 
 Investigando un poco y hablando con la IA me menciona lo siguiente
 
