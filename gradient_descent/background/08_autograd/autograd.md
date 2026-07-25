@@ -140,11 +140,11 @@ El resultado es **un vector de $\mathbb{R}^m$**.
 
 Las filas de la Jacobiana son los gradientes de cada componente:
 
-$$J_F(a)=\begin{pmatrix}\nabla F_1(a)\\[2pt]\nabla F_2(a)\end{pmatrix},\qquad F'(a;y)=J_F(a)\,y.$$
+$$D_F(a)=\begin{pmatrix}\nabla F_1(a)\\[2pt]\nabla F_2(a)\end{pmatrix},\qquad F'(a;y)=D_F(a)\,y.$$
 
 entonces queda
 
-$$J_F(a)=\begin{pmatrix}2xy & x^2 \\ 1 & 2y\end{pmatrix}$$
+$$D_F(a)=\begin{pmatrix}2xy & x^2 \\ 1 & 2y\end{pmatrix}$$
 
 tal y como dice el teorema
 
@@ -152,7 +152,7 @@ tal y como dice el teorema
 
 ### Jacobiana en un punto
 
-Igual que hicimos con el gradiente, evaluemos $J_F$ en un punto concreto, $(x,y)=(1,1)$
+Igual que hicimos con el gradiente, evaluemos $D_F$ en un punto concreto, $(x,y)=(1,1)$
 
 $$D_F(1,1)=\begin{pmatrix}2\cdot1\cdot1 & 1^2 \\ 1 & 2\cdot1\end{pmatrix}=\begin{pmatrix}2 & 1\\ 1 & 2\end{pmatrix}$$
 
@@ -167,7 +167,7 @@ esto no es casualidad: las columnas de $D_F(a)$ **son** las imágenes de $e_1$ y
 Con esto podemos releer todo lo que hicimos arriba con la cúpula y la espiral: nunca salimos del concepto de Jacobiana, solo estábamos en casos particulares donde una de las dimensiones es $1$
 
 - $f:\mathbb{R}^2\to\mathbb{R}$ (la cúpula) tiene $m=1$, entonces $D_f(a)$ es una matriz de $1\times2$: una sola fila, que es exactamente $\nabla f(a)$
-- $r:\mathbb{R}\to\mathbb{R}^2$ (la espiral) tiene $n=1$, entonces $J_r(t)$ es una matriz de $2\times1$: una sola columna, que es exactamente $r'(t)$
+- $r:\mathbb{R}\to\mathbb{R}^2$ (la espiral) tiene $n=1$, entonces $D_r(t)$ es una matriz de $2\times1$: una sola columna, que es exactamente $r'(t)$
 
 ## La regla de la cadena campos vectoriales
 
@@ -184,17 +184,25 @@ y es la misma idea que antes, tomamos el resultado de $g$ para componer $f$ haci
 
 ### Entonces esto queda así para campos escalares
 
-El teorema 8.8 que usamos para calcular $g'(\pi/3)$ no es un caso aislado, es la instancia más chica de la regla de la cadena general
+Volvamos a las dos funciones que veníamos componiendo desde el principio del documento, la cúpula y la espiral
 
-$$J_{G\circ F}(a) = J_G\big(F(a)\big)\cdot D_F(a)$$
+$$f:\mathbb{R}^2\to\mathbb{R}, \qquad f(x,y) = 1.4-0.16(x^2+y^2)$$
 
-Reescribamos lo que ya calculamos en forma matricial para verlo
+$$r:\mathbb{R}\to\mathbb{R}^2, \qquad r(t) = (t\cos 3t,\ t\sin 3t)$$
 
-$$D_f(a)=\nabla f(a)=(0.335103,\;0) \quad (1\times2) \qquad J_r(\pi/3)=r'(\pi/3)=\begin{pmatrix}-1\\-\pi\end{pmatrix} \quad (2\times1)$$
+su composición es $g = f\circ r:\mathbb{R}\to\mathbb{R}$, la que llamamos $g(t)=f[r(t)]$ desde el principio. El teorema 8.8 que usamos para calcular $g'(\pi/3)$ no es un caso aislado, es la instancia más chica posible de la regla de la cadena general
 
-$$J_{f\circ r}(\pi/3) = J_f(a)\cdot J_r(\pi/3) = (0.335103,\;0)\begin{pmatrix}-1\\-\pi\end{pmatrix} = -0.335103$$
+$$D_{G\circ F}(a) = D_G\big(F(a)\big)\cdot D_F(a)$$
 
-que es el mismo $g'(\pi/3)$ que ya habíamos obtenido — multiplicar una matriz $1\times2$ por una $2\times1$ da una matriz $1\times1$, o sea un escalar, y el producto matricial colapsa al producto punto que usamos antes
+donde en general $F:\mathbb{R}^p\to\mathbb{R}^n$ y $G:\mathbb{R}^n\to\mathbb{R}^m$. Decimos que este caso es "el más chico" porque $p=1$ (el dominio de $r$ es solo $t$) y $m=1$ (la salida de $f$ es un escalar, la temperatura). Las dimensiones $p$ y $m$ son justo las que sí pueden crecer en el caso general — como en el ejemplo con $g:\mathbb{R}^2\to\mathbb{R}^3$ y $f:\mathbb{R}^3\to\mathbb{R}^2$ más abajo — pero aquí ambas valen $1$, por eso el resultado termina siendo un número y no una matriz
+
+reescribamos lo que ya calculamos en forma matricial para verlo, sustituyendo $F=r$ y $G=f$ en la fórmula
+
+$$D_f(a)=\nabla f(a)=(0.335103,\;0) \quad (1\times2) \qquad D_r(\pi/3)=r'(\pi/3)=\begin{pmatrix}-1\\-\pi\end{pmatrix} \quad (2\times1)$$
+
+$$D_{f\circ r}(\pi/3) = D_f(a)\cdot D_r(\pi/3) = (0.335103,\;0)\begin{pmatrix}-1\\-\pi\end{pmatrix} = -0.335103$$
+
+que es el mismo $g'(\pi/3)$ que ya habíamos obtenido. La dimensión intermedia $n=2$ (la salida de $r$, que es la misma entrada que espera $f$) es sobre la que se suma en el producto matricial: con $n=2$ términos, multiplicar una matriz $1\times2$ por una $2\times1$ da una matriz $1\times1$, o sea un escalar, y el producto matricial colapsa exactamente al producto punto que usamos en el teorema 8.8
 
 ### Y así para campos vectoriales
 
