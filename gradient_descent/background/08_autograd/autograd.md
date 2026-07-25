@@ -30,11 +30,11 @@ Entonces imaginemos eso, estamos analizando la temperatura de esa cúpula a medi
 
 | $t$   | $r(t)$              | $f[r(t)]$ |
 |-------|---------------------|-----------|
-| $0$   | $(0,\ 0)$           | $1.40$    |
-| $0.5$ | $(0.035,\ 0.499)$   | $1.36$    |
-| $1$   | $(-0.990,\ 0.141)$  | $1.24$    |
-| $1.5$ | $(-0.316,\ -1.466)$ | $1.04$    |
-| $2$   | $(1.920,\ -0.559)$  | $0.76$    |
+| $0$   | $(0, 0)$           | $1.40$    |
+| $0.5$ | $(0.035, 0.499)$   | $1.36$    |
+| $1$   | $(-0.990, 0.141)$  | $1.24$    |
+| $1.5$ | $(-0.316, -1.466)$ | $1.04$    |
+| $2$   | $(1.920, -0.559)$  | $0.76$    |
 
 
 Ahora bien, esto al mismo tiempo nos dice la temperatura en un punto dado de la superficie. Entonces volvemos al mismo análisis de siempre, como medimos la variación de la temperetura en un punto? ahí es donde aparece la derivada
@@ -48,7 +48,7 @@ $$\nabla f = (-0.32x, -0.32y)$$
 
 Tomemos $(x,y) = (1,1)$
 
-$$\nabla f(1,1) = (-0.32\cdot 1,\ -0.32\cdot 1) = (-0.32,\ -0.32)$$
+$$\nabla f(1,1) = (-0.32\cdot 1, -0.32\cdot 1) = (-0.32, -0.32)$$
 
 la altura de la cúpula ahí es
 
@@ -73,7 +73,7 @@ tomemos un punto arbitrario **sobre la espiral**
 
 $a = r(\frac{\pi}{3}) = (-\frac{\pi}{3}, 0)$
 
-$\nabla f(a) = (-0.335103, 0)$
+$\nabla f(a) = (0.335103, 0)$
 
 
 ![gradiente_composicion](img/gradiente_composicion.png)
@@ -81,4 +81,24 @@ $\nabla f(a) = (-0.335103, 0)$
 osea, pudimos componer $f$ con $r$ y cuando una particula se mueve sobre $r$ podemos calcular el gradiente sobre esa trayectoria y en cada punto obtenemos la dirección de mayor crecimiento
 
 finalmente apliquemos la regla de la cadena, porque queremos obtener la variación de temperatura en el tiempo $t$, o que tan rapido cambia la temperatura en $t$
+
+recordemos el teorema 8.8
+
+$$g'(t) = \nabla f(a) \cdot r'(t), \quad \text{donde } a = r(t)$$
+
+necesitamos entonces $r'(t)$
+
+$$r'(t) = (\cos 3t - 3t\sin 3t, \sin 3t + 3t\cos 3t)$$
+
+evaluamos en el mismo punto de antes, $t=\pi/3$
+
+$$r'(\pi/3) = (-1, -\pi)$$
+
+y aplicamos la fórmula, usando $\nabla f(a) = (0.335103, 0)$ que ya calculamos
+
+$$g'(\pi/3) = (0.335103, 0)\cdot(-1, -\pi) = -0.335103$$
+
+qué significa esto: en el instante $t=\pi/3$, mientras la partícula recorre la espiral sobre la cúpula, la temperatura está *disminuyendo* a una tasa de $0.335$ por unidad de $t$. Esto coincide con la tabla: entre $t=1$ ($f=1.24$) y $t=1.5$ ($f=1.04$) la temperatura va bajando en ese tramo, justo donde cae $t=\pi/3\approx1.047$
+
+y lo más bonito de todo: pudimos calcular $g'(t)$ sin construir explícitamente $g(t)=f[r(t)]$ y derivarla directamente — eso es justo lo que promete el teorema 8.8, calcular la derivada de la composición a partir del gradiente del campo escalar y la derivada de la función vectorial
 
