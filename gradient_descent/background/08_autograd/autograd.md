@@ -102,3 +102,50 @@ qué significa esto: en el instante $t=\pi/3$, mientras la partícula recorre la
 
 y lo más bonito de todo: pudimos calcular $g'(t)$ sin construir explícitamente $g(t)=f[r(t)]$ y derivarla directamente — eso es justo lo que promete el teorema 8.8, calcular la derivada de la composición a partir del gradiente del campo escalar y la derivada de la función vectorial
 
+# Caso para campos vectoriales
+
+En nuestro estudio pasado vimos como funciona esto para campos escalares, vimos de donde sale la diferencial por medio del polinomio de taylor de grado 1, vimos como aparece el gradiente etc. El caso de campos vectoriales es muy similar y sin ahondar mucho en la teoría veamoslo mas bien con un ejemplo
+
+### Caso escalar $f:\mathbb{R}^2\to\mathbb{R}$
+
+$$f(x,y)=x^2 y.$$
+
+Gradiente:
+
+$$\nabla f=\big(2xy,\;x^2\big).$$
+
+Derivada como producto escalar (fórmula 8.9 / caso escalar):
+
+$$f'(a;y)=\nabla f(a)\cdot y=\sum_{k=1}^{n} D_k f(a)\,y_k.$$
+
+Aquí $T_a:\mathbb{R}^2\to\mathbb{R}$ y su "matriz" es la única fila $\nabla f(a)$. El resultado es **un escalar**.
+
+### Caso vectorial $F:\mathbb{R}^2\to\mathbb{R}^2$
+
+Se extiende $f$ pegándole una segunda componente de salida, dejando la primera idéntica:
+
+$$F(x,y)=\big(\underbrace{x^2 y}_{F_1},\;\underbrace{x+y^2}_{F_2}\big).$$
+
+Aqui calculamos dos gradientes:
+
+$$\nabla F_1=\big(2xy,\;x^2\big),\qquad \nabla F_2=\big(1,\;2y\big).$$
+
+Derivada como apilamiento de $m$ productos escalares (fórmula 8.18):
+
+$$F'(a;y)=\big(\nabla F_1(a)\cdot y,\;\nabla F_2(a)\cdot y\big)=\sum_{k=1}^{m}\big(\nabla F_k(a)\cdot y\big)\,e_k.$$
+
+El resultado es **un vector de $\mathbb{R}^m$**.
+
+### Compactación vía Jacobiana
+
+Las filas de la Jacobiana son los gradientes de cada componente:
+
+$$J_F(a)=\begin{pmatrix}\nabla F_1(a)\\[2pt]\nabla F_2(a)\end{pmatrix},\qquad F'(a;y)=J_F(a)\,y.$$
+
+entonces queda
+
+$$J_F(a)=\begin{pmatrix}2xy,\;x^2 \\ 1, 2y\end{pmatrix}$$
+
+tal y como dice el teorema
+
+![jacobiana](img/jacobiana.png)
