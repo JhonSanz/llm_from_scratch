@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Regla de la cadena · campos escalares</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+  :root{
+    --bg:#0b1020;
+    --panel:#121a2e;
+    --panel-2:#0e1526;
+    --line:#22304d;
+    --ink:#e8eefb;
+    --muted:#8ba0c4;
+    --grad:#ff5d8f;
+    --vel:#3fd0f5;
+    --lift:#ffc857;
+    --plane:#9d7bff;
+    --ok:#5ee6a8;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;overflow:hidden}
+  #app{display:flex;height:100%;width:100%}
+  #stage{flex:1;position:relative;min-width:0}
+  #stage canvas{display:block}
+  #hud{position:absolute;left:18px;top:16px;pointer-events:none;max-width:min(46ch,60%)}
+  #hud h1{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:15px;
+    letter-spacing:.14em;text-transform:uppercase;margin:0 0 6px;color:var(--muted)}
+  #hud .eq{font-family:"IBM Plex Mono",monospace;font-size:19px;letter-spacing:.01em}
+  #hud .eq .g{color:var(--lift)} #hud .eq .n{color:var(--grad)} #hud .eq .v{color:var(--vel)}
+  #hint{position:absolute;left:18px;bottom:14px;font-size:11.5px;color:#5d719a;
+    font-family:"IBM Plex Mono",monospace;letter-spacing:.03em;pointer-events:none}
+
+  aside{width:352px;flex:none;background:var(--panel);border-left:1px solid var(--line);
+    overflow-y:auto;padding:18px 18px 30px}
+  .grp{margin-bottom:18px}
+  .lbl{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.16em;
+    text-transform:uppercase;color:#6c82a8;margin-bottom:7px}
+  .seg{display:flex;gap:4px;background:var(--panel-2);padding:4px;border-radius:9px;border:1px solid var(--line)}
+  .seg button{flex:1;background:none;border:0;color:var(--muted);font:500 12px/1.6 "IBM Plex Sans",sans-serif;
+    padding:6px 2px;border-radius:6px;cursor:pointer}
+  .seg button[aria-pressed="true"]{background:#1e2b47;color:var(--ink)}
+  .seg button:focus-visible{outline:2px solid var(--vel);outline-offset:1px}
+
+  .rowline{display:flex;align-items:center;gap:10px}
+  input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:3px;background:var(--line);
+    border-radius:2px;outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;
+    background:var(--lift);cursor:pointer;border:2px solid var(--panel)}
+  input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--lift);
+    cursor:pointer;border:2px solid var(--panel)}
+  input[type=range]:focus-visible{box-shadow:0 0 0 2px var(--vel)}
+  .play{width:34px;height:30px;border-radius:7px;background:var(--panel-2);border:1px solid var(--line);
+    color:var(--ink);cursor:pointer;font-size:12px}
+  .play:focus-visible{outline:2px solid var(--vel);outline-offset:1px}
+
+  .dial{width:100%;border-radius:10px;background:var(--panel-2);border:1px solid var(--line);display:block}
+
+  table{width:100%;border-collapse:collapse;font-family:"IBM Plex Mono",monospace;font-size:12.5px}
+  td{padding:5px 0;border-bottom:1px solid #1a2540}
+  td:last-child{text-align:right;font-weight:500}
+  td.k{color:var(--muted)}
+  .sw{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:7px;vertical-align:1px}
+
+  .factor{font-family:"IBM Plex Mono",monospace;font-size:13px;text-align:center;
+    padding:11px 0 9px;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;line-height:2}
+  .factor b{font-weight:600}
+  .bar{height:5px;background:#1a2540;border-radius:3px;margin-top:11px;position:relative;overflow:hidden}
+  .bar i{position:absolute;top:0;bottom:0;left:50%;background:var(--lift);border-radius:3px;transition:none}
+  .note{font-size:11.5px;line-height:1.55;color:var(--muted);margin-top:9px}
+  .note b{color:var(--ink);font-weight:500}
+  @media (max-width:820px){
+    #app{flex-direction:column} aside{width:100%;height:47%} #stage{height:53%}
+    #hud .eq{font-size:15px}
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stage">
+    <div id="hud">
+      <h1>Regla de la cadena · Teorema 8.8</h1>
+      <div class="eq"><span class="g">g′(t)</span> = <span class="n">∇f(a)</span> · <span class="v">r′(t)</span></div>
+    </div>
+    <div id="hint">arrastra para rotar · rueda para acercar</div>
+  </div>
+
+  <aside>
+    <div class="grp">
+      <div class="lbl">Campo escalar&nbsp; f(x,y)</div>
+      <div class="seg" id="segF"></div>
+    </div>
+
+    <div class="grp">
+      <div class="lbl">Curva&nbsp; r(t)</div>
+      <div class="seg" id="segC"></div>
+    </div>
+
+    <div class="grp">
+      <div class="lbl">Parámetro t</div>
+      <div class="rowline">
+        <button class="play" id="play" aria-label="Reproducir o pausar">❚❚</button>
+        <input type="range" id="tSlider" min="0" max="1000" value="0" aria-label="Parámetro t">
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="lbl">Vista del dominio en a = r(t)</div>
+      <canvas class="dial" id="dial" width="640" height="440"></canvas>
+    </div>
+
+    <div class="grp">
+      <div class="lbl">Descomposición</div>
+      <div class="factor">
+        g′ = ‖<b style="color:var(--grad)">∇f</b>‖ · ‖<b style="color:var(--vel)">r′</b>‖ · cos θ<br>
+        <span id="decomp"></span>
+        <div class="bar"><i id="bar"></i></div>
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="lbl">Medidas</div>
+      <table>
+        <tr><td class="k"><span class="sw" style="background:var(--grad)"></span>∇f(a)</td><td id="mGrad"></td></tr>
+        <tr><td class="k"><span class="sw" style="background:var(--vel)"></span>r′(t)</td><td id="mVel"></td></tr>
+        <tr><td class="k">θ entre ambos</td><td id="mAng"></td></tr>
+        <tr><td class="k"><span class="sw" style="background:var(--lift)"></span>g(t) = f(r(t))</td><td id="mG"></td></tr>
+        <tr><td class="k"><span class="sw" style="background:var(--lift)"></span>g′(t)</td><td id="mGp"></td></tr>
+      </table>
+    </div>
+
+    <div class="grp">
+      <div class="lbl">g(t) y su pendiente</div>
+      <canvas class="dial" id="plot" width="640" height="300"></canvas>
+    </div>
+
+    <div class="grp">
+      <div class="lbl">Qué mirar</div>
+      <p class="note" id="tip"></p>
+    </div>
+  </aside>
+</div>
+
+<script>
+"use strict";
+const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------------- modelos matemáticos ---------------- */
+const FIELDS = [
+  { name:"ondas", tex:"0.8·sen x·cos y",
+    f:(x,y)=>0.8*Math.sin(x)*Math.cos(y),
+    g:(x,y)=>[0.8*Math.cos(x)*Math.cos(y), -0.8*Math.sin(x)*Math.sin(y)] },
+  { name:"silla", tex:"0.22(x² − y²)",
+    f:(x,y)=>0.22*(x*x-y*y),
+    g:(x,y)=>[0.44*x, -0.44*y] },
+  { name:"cúpula", tex:"1.4 − 0.16(x² + y²)",
+    f:(x,y)=>1.4-0.16*(x*x+y*y),
+    g:(x,y)=>[-0.32*x, -0.32*y] }
+];
+
+const CURVES = [
+  { name:"círculo", t0:0, t1:2*Math.PI,
+    r:t=>[2*Math.cos(t), 2*Math.sin(t)],
+    d:t=>[-2*Math.sin(t), 2*Math.cos(t)] },
+  { name:"recta", t0:-1, t1:1,
+    r:t=>[2.7*t, 1.35*t],
+    d:t=>[2.7, 1.35] },
+  { name:"espiral", t0:0.15, t1:2.75,
+    r:t=>[t*Math.cos(3*t), t*Math.sin(3*t)],
+    d:t=>[Math.cos(3*t)-3*t*Math.sin(3*t), Math.sin(3*t)+3*t*Math.cos(3*t)] }
+];
+
+const TIPS = [
+  "Cuando la <b>velocidad</b> apunta perpendicular al <b>gradiente</b> (θ = 90°), el caminante cruza una curva de nivel: g′ = 0 aunque se mueva rápido.",
+  "Prueba <b>cúpula + círculo</b>: los conjuntos de nivel son circunferencias, así que la curva vive entera en un nivel y g′ ≡ 0 en todo t.",
+  "En la <b>espiral</b> ‖r′‖ crece con t: la misma pendiente del terreno produce g′ cada vez mayor. La derivada mide cambio por unidad de <i>t</i>, no por unidad de distancia recorrida."
+];
+
+let F = FIELDS[0], C = CURVES[0], t = 0, playing = !REDUCED;
+const Z = 1.0;            // exageración vertical
+const DOM = 3.0;          // dominio [-DOM, DOM]²
+const ARR_V = 0.42, ARR_G = 0.9;   // escalas visuales de las flechas
+
+/* ---------------- three.js ---------------- */
+const stage = document.getElementById("stage");
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+stage.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0b1020);
+scene.fog = new THREE.Fog(0x0b1020, 12, 24);
+const camera = new THREE.PerspectiveCamera(42,1,0.1,120);
+
+scene.add(new THREE.AmbientLight(0x8fa8d8, 0.75));
+const key = new THREE.DirectionalLight(0xffffff, 0.85); key.position.set(4,7,3); scene.add(key);
+const rim = new THREE.DirectionalLight(0x6a7dff, 0.45); rim.position.set(-5,3,-4); scene.add(rim);
+
+/* --- superficie --- */
+const N = 96;
+const surfGeo = new THREE.BufferGeometry();
+{
+  const pos = new Float32Array((N+1)*(N+1)*3), col = new Float32Array((N+1)*(N+1)*3), idx = [];
+  surfGeo.setAttribute("position", new THREE.BufferAttribute(pos,3));
+  surfGeo.setAttribute("color", new THREE.BufferAttribute(col,3));
+  for(let j=0;j<N;j++) for(let i=0;i<N;i++){
+    const a=j*(N+1)+i, b=a+1, c=a+N+1, d=c+1;
+    idx.push(a,c,b, b,c,d);
+  }
+  surfGeo.setIndex(idx);
+}
+const surf = new THREE.Mesh(surfGeo, new THREE.MeshStandardMaterial({
+  vertexColors:true, roughness:0.72, metalness:0.05, side:THREE.DoubleSide,
+  transparent:true, opacity:0.94, flatShading:false }));
+scene.add(surf);
+const mesh = new THREE.LineSegments(new THREE.WireframeGeometry(surfGeo),
+  new THREE.LineBasicMaterial({color:0x8fb2ff, transparent:true, opacity:0.09}));
+scene.add(mesh);
+
+/* --- plano del dominio con curvas de nivel --- */
+const texCv = document.createElement("canvas"); texCv.width = texCv.height = 400;
+const texCtx = texCv.getContext("2d");
+const tex = new THREE.CanvasTexture(texCv);
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(2*DOM,2*DOM),
+  new THREE.MeshBasicMaterial({map:tex, transparent:true, opacity:0.9}));
+floor.rotation.x = -Math.PI/2; scene.add(floor);
+let baseY = -2;
+
+function colorAt(v){ // v en [-1,1] → índigo · pizarra · ámbar
+  const c = new THREE.Color();
+  if(v<0) c.setHSL(0.63, 0.42, 0.20+0.30*(1+v));
+  else    c.setHSL(0.10-0.03*v, 0.55, 0.50+0.22*v);
+  return c;
+}
+
+function rebuildField(){
+  const pos = surfGeo.attributes.position.array, col = surfGeo.attributes.color.array;
+  let lo=1e9, hi=-1e9;
+  const vals = new Float32Array((N+1)*(N+1));
+  for(let j=0;j<=N;j++) for(let i=0;i<=N;i++){
+    const x=-DOM+2*DOM*i/N, y=-DOM+2*DOM*j/N, v=F.f(x,y);
+    vals[j*(N+1)+i]=v; if(v<lo)lo=v; if(v>hi)hi=v;
+  }
+  const span = Math.max(hi-lo, 1e-6);
+  for(let j=0;j<=N;j++) for(let i=0;i<=N;i++){
+    const k=j*(N+1)+i, x=-DOM+2*DOM*i/N, y=-DOM+2*DOM*j/N, v=vals[k];
+    pos[3*k]=x; pos[3*k+1]=Z*v; pos[3*k+2]=y;
+    const c = colorAt(2*(v-lo)/span-1);
+    col[3*k]=c.r; col[3*k+1]=c.g; col[3*k+2]=c.b;
+  }
+  surfGeo.attributes.position.needsUpdate = true;
+  surfGeo.attributes.color.needsUpdate = true;
+  surfGeo.computeVertexNormals();
+  mesh.geometry.dispose(); mesh.geometry = new THREE.WireframeGeometry(surfGeo);
+  baseY = Z*lo - 1.15;
+  floor.position.y = baseY;
+  drawContours(lo,hi);
+  rebuildCurve();
+}
+
+function drawContours(lo,hi){
+  const S = texCv.width, step = Math.max((hi-lo)/11, 1e-6);
+  const img = texCtx.createImageData(S,S);
+  const band = (px,py)=>{
+    const x=-DOM+2*DOM*px/(S-1), y=DOM-2*DOM*py/(S-1);
+    return [Math.floor((F.f(x,y)-lo)/step), F.f(x,y)];
+  };
+  for(let py=0;py<S;py++) for(let px=0;px<S;px++){
+    const [b,v]=band(px,py);
+    const c = colorAt(2*(v-lo)/Math.max(hi-lo,1e-6)-1);
+    let r=c.r*90, g=c.g*90, bl=c.b*110;
+    const nb = px<S-1?band(px+1,py)[0]:b, nb2 = py<S-1?band(px,py+1)[0]:b;
+    if(nb!==b||nb2!==b){ r=190; g=215; bl=255; }
+    const k=4*(py*S+px);
+    img.data[k]=r; img.data[k+1]=g; img.data[k+2]=bl; img.data[k+3]=225;
+  }
+  texCtx.putImageData(img,0,0);
+  tex.needsUpdate = true;
+}
+
+/* --- curvas --- */
+const M = 400;
+const baseCurve = new THREE.Line(new THREE.BufferGeometry(),
+  new THREE.LineBasicMaterial({color:0x6fa8ff, transparent:true, opacity:0.85}));
+const liftCurve = new THREE.Line(new THREE.BufferGeometry(),
+  new THREE.LineBasicMaterial({color:0xffc857}));
+scene.add(baseCurve, liftCurve);
+
+function rebuildCurve(){
+  const p1=new Float32Array(3*(M+1)), p2=new Float32Array(3*(M+1));
+  for(let i=0;i<=M;i++){
+    const tt=C.t0+(C.t1-C.t0)*i/M, [x,y]=C.r(tt);
+    p1[3*i]=x; p1[3*i+1]=baseY+0.012; p1[3*i+2]=y;
+    p2[3*i]=x; p2[3*i+1]=Z*F.f(x,y)+0.02; p2[3*i+2]=y;
+  }
+  baseCurve.geometry.dispose(); liftCurve.geometry.dispose();
+  baseCurve.geometry = new THREE.BufferGeometry().setAttribute("position",new THREE.BufferAttribute(p1,3));
+  liftCurve.geometry = new THREE.BufferGeometry().setAttribute("position",new THREE.BufferAttribute(p2,3));
+}
+
+/* --- marcadores móviles --- */
+const dotBase = new THREE.Mesh(new THREE.SphereGeometry(0.075,20,16),
+  new THREE.MeshBasicMaterial({color:0x6fa8ff}));
+const dotSurf = new THREE.Mesh(new THREE.SphereGeometry(0.095,22,18),
+  new THREE.MeshBasicMaterial({color:0xffc857}));
+scene.add(dotBase, dotSurf);
+const stem = new THREE.Line(new THREE.BufferGeometry().setAttribute("position",
+  new THREE.BufferAttribute(new Float32Array(6),3)),
+  new THREE.LineBasicMaterial({color:0xffc857, transparent:true, opacity:0.35}));
+scene.add(stem);
+
+const aGrad = new THREE.ArrowHelper(new THREE.Vector3(1,0,0),new THREE.Vector3(),1,0xff5d8f,0.22,0.13);
+const aVel  = new THREE.ArrowHelper(new THREE.Vector3(1,0,0),new THREE.Vector3(),1,0x3fd0f5,0.22,0.13);
+const aTan  = new THREE.ArrowHelper(new THREE.Vector3(1,0,0),new THREE.Vector3(),1,0xffc857,0.22,0.13);
+scene.add(aGrad,aVel,aTan);
+
+const tanPlane = new THREE.Mesh(new THREE.PlaneGeometry(2.1,2.1),
+  new THREE.MeshBasicMaterial({color:0x9d7bff, transparent:true, opacity:0.19,
+    side:THREE.DoubleSide, depthWrite:false}));
+scene.add(tanPlane);
+
+/* ---------------- estado por cuadro ---------------- */
+let S = {};
+function computeState(){
+  const [x,y]=C.r(t), [dx,dy]=C.d(t), [gx,gy]=F.g(x,y);
+  const gv=F.f(x,y), gp=gx*dx+gy*dy;
+  const ng=Math.hypot(gx,gy), nv=Math.hypot(dx,dy);
+  const cos=(ng>1e-9&&nv>1e-9)? gp/(ng*nv) : 0;
+  S={x,y,dx,dy,gx,gy,gv,gp,ng,nv,cos};
+}
+
+function updateScene(){
+  const {x,y,dx,dy,gx,gy,gv,gp}=S;
+  const surfY = Z*gv;
+  dotBase.position.set(x,baseY+0.02,y);
+  dotSurf.position.set(x,surfY,y);
+  const sp=stem.geometry.attributes.position.array;
+  sp[0]=x; sp[1]=baseY; sp[2]=y; sp[3]=x; sp[4]=surfY; sp[5]=y;
+  stem.geometry.attributes.position.needsUpdate=true;
+
+  const put=(arrow,ox,oy,oz,vx,vy,vz,scale)=>{
+    const v=new THREE.Vector3(vx,vy,vz), L=v.length();
+    arrow.visible = L>1e-6;
+    if(!arrow.visible) return;
+    arrow.position.set(ox,oy,oz);
+    arrow.setDirection(v.normalize());
+    const len=Math.max(L*scale,0.12);
+    arrow.setLength(len, Math.min(0.26,len*0.34), Math.min(0.15,len*0.2));
+  };
+  put(aVel , x,baseY+0.03,y, dx,0,dy, ARR_V);
+  put(aGrad, x,baseY+0.03,y, gx,0,gy, ARR_G);
+  put(aTan , x,surfY,y,      dx,Z*gp,dy, ARR_V);
+
+  const n=new THREE.Vector3(-Z*gx,1,-Z*gy).normalize();
+  tanPlane.position.set(x,surfY,y);
+  tanPlane.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1),n);
+}
+
+/* ---------------- paneles 2D ---------------- */
+const dial=document.getElementById("dial"), dctx=dial.getContext("2d");
+function drawDial(){
+  const W=dial.width,H=dial.height,cx=W/2,cy=H/2,R=1.15,PX=Math.min(W,H)/(2*R);
+  dctx.fillStyle="#0e1526"; dctx.fillRect(0,0,W,H);
+  // curvas de nivel locales
+  const step=6;
+  let lo=1e9,hi=-1e9;
+  for(let py=0;py<H;py+=step) for(let px=0;px<W;px+=step){
+    const v=F.f(S.x+(px-cx)/PX, S.y-(py-cy)/PX);
+    if(v<lo)lo=v; if(v>hi)hi=v;
+  }
+  const sp=Math.max((hi-lo)/7,1e-6);
+  for(let py=0;py<H;py+=step) for(let px=0;px<W;px+=step){
+    const X=S.x+(px-cx)/PX, Y=S.y-(py-cy)/PX;
+    const b=Math.floor((F.f(X,Y)-lo)/sp), b2=Math.floor((F.f(X+step/PX,Y)-lo)/sp),
+          b3=Math.floor((F.f(X,Y-step/PX)-lo)/sp);
+    const c=colorAt(2*(F.f(X,Y)-lo)/Math.max(hi-lo,1e-6)-1);
+    dctx.fillStyle=(b!==b2||b!==b3)?"rgba(150,180,230,.55)"
+      :`rgba(${c.r*80|0},${c.g*80|0},${c.b*100|0},.85)`;
+    dctx.fillRect(px,py,step,step);
+  }
+  const arrow=(vx,vy,color,scale,label)=>{
+    const L=Math.hypot(vx,vy); if(L<1e-6) return;
+    const ex=cx+vx*scale*PX, ey=cy-vy*scale*PX, ang=Math.atan2(-vy,vx);
+    dctx.strokeStyle=color; dctx.fillStyle=color; dctx.lineWidth=3.2; dctx.lineCap="round";
+    dctx.beginPath(); dctx.moveTo(cx,cy); dctx.lineTo(ex,ey); dctx.stroke();
+    dctx.beginPath(); dctx.moveTo(ex,ey);
+    dctx.lineTo(ex-13*Math.cos(ang-0.4), ey-13*Math.sin(ang-0.4));
+    dctx.lineTo(ex-13*Math.cos(ang+0.4), ey-13*Math.sin(ang+0.4));
+    dctx.closePath(); dctx.fill();
+    dctx.font='600 15px "IBM Plex Mono", monospace';
+    dctx.fillText(label, ex+8*Math.cos(ang), ey+8*Math.sin(ang)+5);
+  };
+  // arco del ángulo
+  if(S.ng>1e-6&&S.nv>1e-6){
+    const a1=Math.atan2(-S.gy,S.gx), a2=Math.atan2(-S.dy,S.dx);
+    dctx.strokeStyle="rgba(232,238,251,.5)"; dctx.lineWidth=1.6;
+    dctx.beginPath(); dctx.arc(cx,cy,44,a1,a2,((a2-a1+2*Math.PI)%(2*Math.PI))>Math.PI);
+    dctx.stroke();
+    dctx.fillStyle="rgba(232,238,251,.75)"; dctx.font='500 14px "IBM Plex Mono", monospace';
+    const am=(a1+a2)/2;
+    dctx.fillText(`${(Math.acos(Math.max(-1,Math.min(1,S.cos)))*180/Math.PI).toFixed(0)}°`,
+      cx+62*Math.cos(am)-11, cy+62*Math.sin(am)+5);
+  }
+  const k=Math.min(1.0, 0.75/Math.max(S.ng,S.nv,1e-6));
+  arrow(S.gx,S.gy,"#ff5d8f",k,"∇f");
+  arrow(S.dx,S.dy,"#3fd0f5",k,"r′");
+  dctx.fillStyle="#ffc857"; dctx.beginPath(); dctx.arc(cx,cy,5,0,7); dctx.fill();
+}
+
+const plot=document.getElementById("plot"), pctx=plot.getContext("2d");
+let gSamples=[];
+function sampleG(){
+  gSamples=[];
+  for(let i=0;i<=260;i++){
+    const tt=C.t0+(C.t1-C.t0)*i/260, [x,y]=C.r(tt);
+    gSamples.push([tt,F.f(x,y)]);
+  }
+}
+function drawPlot(){
+  const W=plot.width,H=plot.height,pad=26;
+  pctx.fillStyle="#0e1526"; pctx.fillRect(0,0,W,H);
+  let lo=Math.min(...gSamples.map(p=>p[1])), hi=Math.max(...gSamples.map(p=>p[1]));
+  if(hi-lo<1e-3){ lo-=0.5; hi+=0.5; }
+  const mx=(hi-lo)*0.15; lo-=mx; hi+=mx;
+  const X=tt=>pad+(W-2*pad)*(tt-C.t0)/(C.t1-C.t0);
+  const Y=v =>H-pad-(H-2*pad)*(v-lo)/(hi-lo);
+  if(lo<0&&hi>0){ pctx.strokeStyle="#22304d"; pctx.lineWidth=1;
+    pctx.beginPath(); pctx.moveTo(pad,Y(0)); pctx.lineTo(W-pad,Y(0)); pctx.stroke(); }
+  pctx.strokeStyle="#ffc857"; pctx.lineWidth=2.4; pctx.beginPath();
+  gSamples.forEach((p,i)=> i?pctx.lineTo(X(p[0]),Y(p[1])):pctx.moveTo(X(p[0]),Y(p[1])));
+  pctx.stroke();
+  // recta tangente: pendiente g′ en unidades del gráfico
+  const sx=(W-2*pad)/(C.t1-C.t0), sy=(H-2*pad)/(hi-lo);
+  const px=X(t), py=Y(S.gv), dxp=70, dyp=-S.gp*(dxp/sx)*sy;
+  pctx.strokeStyle="rgba(94,230,168,.95)"; pctx.lineWidth=2;
+  pctx.beginPath(); pctx.moveTo(px-dxp,py-dyp); pctx.lineTo(px+dxp,py+dyp); pctx.stroke();
+  pctx.fillStyle="#e8eefb"; pctx.beginPath(); pctx.arc(px,py,4.5,0,7); pctx.fill();
+  pctx.fillStyle="#5d719a"; pctx.font='500 13px "IBM Plex Mono", monospace';
+  pctx.fillText("t",W-pad+4,H-pad+5);
+}
+
+const fmt=v=>(v>=0?" ":"")+v.toFixed(2);
+function updateReadout(){
+  document.getElementById("mGrad").textContent=`(${fmt(S.gx)}, ${fmt(S.gy)})  ‖·‖=${S.ng.toFixed(2)}`;
+  document.getElementById("mVel").textContent =`(${fmt(S.dx)}, ${fmt(S.dy)})  ‖·‖=${S.nv.toFixed(2)}`;
+  document.getElementById("mAng").textContent =
+    `${(Math.acos(Math.max(-1,Math.min(1,S.cos)))*180/Math.PI).toFixed(1)}°   cos θ=${fmt(S.cos)}`;
+  document.getElementById("mG").textContent  = fmt(S.gv);
+  document.getElementById("mGp").textContent = fmt(S.gp);
+  document.getElementById("decomp").innerHTML =
+    `<b style="color:var(--lift)">${fmt(S.gp)}</b> = ${S.ng.toFixed(2)} · ${S.nv.toFixed(2)} · ${fmt(S.cos)}`;
+  const bar=document.getElementById("bar"), maxv=Math.max(S.ng*S.nv,1e-6), w=Math.abs(S.gp)/maxv*50;
+  bar.style.width=w+"%";
+  bar.style.left=(S.gp>=0?50:50-w)+"%";
+  bar.style.background=Math.abs(S.gp)<0.02?"var(--ok)":"var(--lift)";
+}
+
+/* ---------------- controles ---------------- */
+function buildSeg(el,items,onPick,active){
+  el.innerHTML="";
+  items.forEach((it,i)=>{
+    const b=document.createElement("button");
+    b.textContent=it.name; b.setAttribute("aria-pressed", i===active);
+    b.onclick=()=>{ [...el.children].forEach(c=>c.setAttribute("aria-pressed","false"));
+      b.setAttribute("aria-pressed","true"); onPick(i); };
+    el.appendChild(b);
+  });
+}
+buildSeg(document.getElementById("segF"),FIELDS,i=>{ F=FIELDS[i]; rebuildField(); sampleG(); },0);
+buildSeg(document.getElementById("segC"),CURVES,i=>{
+  C=CURVES[i]; t=C.t0; rebuildCurve(); sampleG(); syncSlider(); },0);
+
+const slider=document.getElementById("tSlider"), playBtn=document.getElementById("play");
+function syncSlider(){ slider.value=1000*(t-C.t0)/(C.t1-C.t0); }
+slider.addEventListener("input",()=>{ t=C.t0+(C.t1-C.t0)*slider.value/1000; playing=false; playBtn.textContent="▶"; });
+playBtn.onclick=()=>{ playing=!playing; playBtn.textContent=playing?"❚❚":"▶"; };
+playBtn.textContent = playing?"❚❚":"▶";
+document.getElementById("tip").innerHTML = TIPS[Math.floor(Math.random()*TIPS.length)];
+
+/* órbita de cámara */
+let rad=9.2, th=0.9, ph=1.02, drag=false, lx=0, ly=0;
+function place(){ camera.position.set(rad*Math.sin(ph)*Math.cos(th), rad*Math.cos(ph)+0.4,
+  rad*Math.sin(ph)*Math.sin(th)); camera.lookAt(0,0,0); }
+renderer.domElement.addEventListener("pointerdown",e=>{drag=true;lx=e.clientX;ly=e.clientY;
+  renderer.domElement.setPointerCapture(e.pointerId);});
+addEventListener("pointerup",()=>drag=false);
+addEventListener("pointermove",e=>{ if(!drag)return;
+  th-=(e.clientX-lx)*0.008; ph=Math.max(0.12,Math.min(1.52,ph-(e.clientY-ly)*0.006));
+  lx=e.clientX; ly=e.clientY; place(); });
+renderer.domElement.addEventListener("wheel",e=>{ e.preventDefault();
+  rad=Math.max(4.5,Math.min(18,rad+e.deltaY*0.006)); place(); },{passive:false});
+
+function resize(){
+  const w=stage.clientWidth,h=stage.clientHeight;
+  renderer.setSize(w,h); camera.aspect=w/h; camera.updateProjectionMatrix();
+  const dw=dial.parentElement.clientWidth;
+  [dial,plot].forEach(c=>{ const r=c.height/c.width; c.style.width=dw+"px"; c.style.height=(dw*r)+"px"; });
+}
+addEventListener("resize",resize);
+
+/* bucle */
+let last=performance.now();
+function loop(now){
+  const dt=Math.min((now-last)/1000,0.05); last=now;
+  if(playing){ t+=dt*(C.t1-C.t0)*0.14; if(t>C.t1) t=C.t0; syncSlider(); }
+  computeState(); updateScene(); updateReadout(); drawDial(); drawPlot();
+  renderer.render(scene,camera);
+  requestAnimationFrame(loop);
+}
+
+rebuildField(); sampleG(); t=C.t0; syncSlider(); place(); resize();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
