@@ -252,3 +252,79 @@ $$Dh(a)=\begin{pmatrix} 1+3s^2t & 1+s^3\\[4pt] 2st+t^2-2s & s^2+2st\end{pmatrix}
 
 **Idéntica a la ruta 1.** Multiplicar las dos Jacobianas equivale a componer y derivar, pero sin tener que expandir la composición.
 
+### La notación de Leibniz *es* la matriz Jacobiana
+
+La idea central: todo el "lío de nombres" de la notación de Leibniz —$\frac{\partial x}{\partial s}$, $\frac{\partial x}{\partial t}$, etc.— no es más que el producto de matrices Jacobianas escrito **entrada por entrada**. Son el mismo objeto a dos niveles de zoom.
+
+#### El montaje
+
+Un campo vectorial $g$ que arma las variables intermedias:
+
+$$g:\mathbb{R}^2\to\mathbb{R}^2,\qquad g(s,t)=\big(\,\underbrace{s+t^2}_{g_1},\;\underbrace{st}_{g_2}\,\big)$$
+
+A la salida de $g_1$ la llamamos $x$, y a la de $g_2$ la llamamos $y$:
+
+$$x=g_1(s,t)=s+t^2,\qquad y=g_2(s,t)=st$$
+
+$x$ e $y$ **no son variables independientes**: son nombres para los resultados de $g$. Por eso $\frac{\partial x}{\partial s}$ y $\frac{\partial g_1}{\partial s}$ son lo mismo.
+
+Un campo escalar $f$ que consume esas variables intermedias:
+
+$$f:\mathbb{R}^2\to\mathbb{R},\qquad f(x,y)=x^2 y$$
+
+Y la composición que queremos derivar:
+
+$$h=f\circ g:\mathbb{R}^2\to\mathbb{R},\qquad h(s,t)=f\big(g(s,t)\big)$$
+
+El flujo completo de un punto:
+
+$$(s,t)\ \xrightarrow{\;g\;}\ (x,y)=\big(s+t^2,\ st\big)\ \xrightarrow{\;f\;}\ x^2y\ =\ h(s,t)$$
+
+#### Las derivadas "sueltas" son la Jacobiana de $g$
+
+Las cuatro derivadas que hacían ruido son simplemente las cuatro casillas de $Dg$:
+
+$$Dg(s,t)=\begin{pmatrix} \dfrac{\partial x}{\partial s} & \dfrac{\partial x}{\partial t}\\[8pt] \dfrac{\partial y}{\partial s} & \dfrac{\partial y}{\partial t}\end{pmatrix}=\begin{pmatrix} \dfrac{\partial g_1}{\partial s} & \dfrac{\partial g_1}{\partial t}\\[8pt] \dfrac{\partial g_2}{\partial s} & \dfrac{\partial g_2}{\partial t}\end{pmatrix}=\begin{pmatrix} 1 & 2t\\ t & s\end{pmatrix}$$
+
+Escribirlas con nombres $x,y$ en vez de $g_1,g_2$ es lo único que las hacía parecer un enjambre desordenado.
+
+#### Del lado de $f$: su Jacobiana es el gradiente
+
+Al ser $f$ un campo escalar, su Jacobiana es una sola fila:
+
+$$Df=\begin{pmatrix} \dfrac{\partial f}{\partial x} & \dfrac{\partial f}{\partial y}\end{pmatrix}=\begin{pmatrix} 2xy & x^2\end{pmatrix}$$
+
+#### La revelación: las dos ecuaciones de Leibniz son una multiplicación de matrices
+
+Poniendo las dos derivadas de $h$ como una fila, $Dh = Df \cdot Dg$:
+
+$$\underbrace{\begin{pmatrix} \dfrac{\partial h}{\partial s} & \dfrac{\partial h}{\partial t}\end{pmatrix}}_{Dh}=\underbrace{\begin{pmatrix} 2xy & x^2\end{pmatrix}}_{Df}\underbrace{\begin{pmatrix} 1 & 2t\\ t & s\end{pmatrix}}_{Dg}$$
+
+Haciendo fila-por-columna:
+
+- primera columna: $2xy\cdot 1 + x^2\cdot t \;=\; \dfrac{\partial h}{\partial s}$
+- segunda columna: $2xy\cdot 2t + x^2\cdot s \;=\; \dfrac{\partial h}{\partial t}$
+
+Que son **exactamente** las ecuaciones (8.27) de Apostol:
+
+$$\frac{\partial h}{\partial s}=\frac{\partial f}{\partial x}\frac{\partial x}{\partial s}+\frac{\partial f}{\partial y}\frac{\partial y}{\partial s},\qquad \frac{\partial h}{\partial t}=\frac{\partial f}{\partial x}\frac{\partial x}{\partial t}+\frac{\partial f}{\partial y}\frac{\partial y}{\partial t}$$
+
+#### Tabla de traducción
+
+| Notación $D$ (Apostol) | Notación $\partial$ (Leibniz) | Quién es realmente | Valor aquí |
+|---|---|---|---|
+| $D_1 f$ | $\dfrac{\partial f}{\partial x}$ | $f$ derivada respecto a su 1ª entrada | $2xy$ |
+| $D_2 f$ | $\dfrac{\partial f}{\partial y}$ | $f$ derivada respecto a su 2ª entrada | $x^2$ |
+| $D_1 g_1$ | $\dfrac{\partial x}{\partial s}$ | $g_1$ (o sea $x$) respecto a $s$ | $1$ |
+| $D_2 g_1$ | $\dfrac{\partial x}{\partial t}$ | $g_1$ (o sea $x$) respecto a $t$ | $2t$ |
+| $D_1 g_2$ | $\dfrac{\partial y}{\partial s}$ | $g_2$ (o sea $y$) respecto a $s$ | $t$ |
+| $D_2 g_2$ | $\dfrac{\partial y}{\partial t}$ | $g_2$ (o sea $y$) respecto a $t$ | $s$ |
+
+La columna $\partial$ y la columna $D$ son el mismo objeto con distinto disfraz.
+
+#### La conclusión
+
+- La notación de Leibniz ($\frac{\partial f}{\partial x}\frac{\partial x}{\partial s} + \dots$) = escribir el producto de matrices **entrada por entrada, a mano**.
+- La forma matricial ($Dh = Df\,Dg$) = las mismas ecuaciones **empaquetadas**.
+
+Son el mismo objeto a dos niveles de zoom. Leibniz obliga a deletrear cada casilla con nombres propios; la Jacobiana lo dice todo de golpe. Una vez que sabes que $\frac{\partial x}{\partial s}$ no es más que una casilla de $Dg$, la notación deja de ser un enjambre y pasa a ser un producto matricial escrito componente a componente.
