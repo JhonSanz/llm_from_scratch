@@ -154,39 +154,93 @@ tal y como dice el teorema
 
 Igual que hicimos con el gradiente, evaluemos $J_F$ en un punto concreto, $(x,y)=(1,1)$
 
-$$J_F(1,1)=\begin{pmatrix}2\cdot1\cdot1 & 1^2 \\ 1 & 2\cdot1\end{pmatrix}=\begin{pmatrix}2 & 1\\ 1 & 2\end{pmatrix}$$
+$$D_F(1,1)=\begin{pmatrix}2\cdot1\cdot1 & 1^2 \\ 1 & 2\cdot1\end{pmatrix}=\begin{pmatrix}2 & 1\\ 1 & 2\end{pmatrix}$$
 
-Ahora veamos qué hace $J_F(1,1)$ como transformación lineal, aplicándola sobre los vectores de la base $e_1=(1,0)$ y $e_2=(0,1)$
+Ahora veamos qué hace $D_F(1,1)$ como transformación lineal, aplicándola sobre los vectores de la base $e_1=(1,0)$ y $e_2=(0,1)$
 
-$$J_F(1,1)\begin{pmatrix}1\\0\end{pmatrix}=\begin{pmatrix}2\\1\end{pmatrix} \qquad J_F(1,1)\begin{pmatrix}0\\1\end{pmatrix}=\begin{pmatrix}1\\2\end{pmatrix}$$
+$$D_F(1,1)\begin{pmatrix}1\\0\end{pmatrix}=\begin{pmatrix}2\\1\end{pmatrix} \qquad D_F(1,1)\begin{pmatrix}0\\1\end{pmatrix}=\begin{pmatrix}1\\2\end{pmatrix}$$
 
-esto no es casualidad: las columnas de $J_F(a)$ **son** las imágenes de $e_1$ y $e_2$, es decir $\partial F/\partial x$ y $\partial F/\partial y$ evaluadas en $a$. Multiplicar por $J_F(a)$ es preguntar "si me muevo una unidad en $x$, o una unidad en $y$, ¿a dónde va a parar la salida de $F$?"
+esto no es casualidad: las columnas de $D_F(a)$ **son** las imágenes de $e_1$ y $e_2$, es decir $\partial F/\partial x$ y $\partial F/\partial y$ evaluadas en $a$. Multiplicar por $D_F(a)$ es preguntar "si me muevo una unidad en $x$, o una unidad en $y$, ¿a dónde va a parar la salida de $F$?"
 
 ### El gradiente y $r'(t)$ ya eran Jacobianas
 
 Con esto podemos releer todo lo que hicimos arriba con la cúpula y la espiral: nunca salimos del concepto de Jacobiana, solo estábamos en casos particulares donde una de las dimensiones es $1$
 
-- $f:\mathbb{R}^2\to\mathbb{R}$ (la cúpula) tiene $m=1$, entonces $J_f(a)$ es una matriz de $1\times2$: una sola fila, que es exactamente $\nabla f(a)$
+- $f:\mathbb{R}^2\to\mathbb{R}$ (la cúpula) tiene $m=1$, entonces $D_f(a)$ es una matriz de $1\times2$: una sola fila, que es exactamente $\nabla f(a)$
 - $r:\mathbb{R}\to\mathbb{R}^2$ (la espiral) tiene $n=1$, entonces $J_r(t)$ es una matriz de $2\times1$: una sola columna, que es exactamente $r'(t)$
 
-## La regla de la cadena general con Jacobianas
+## La regla de la cadena campos vectoriales
 
 
+![regla_cadena_vectoriales_1](img/regla_cadena_vectoriales_1.png)
 
+y es la misma idea que antes, tomamos el resultado de $g$ para componer $f$ haciendo énfasis en la suposición de que ambas son diferenciables en su respectivo dominio
 
+![regla_cadena_vectoriales_2](img/regla_cadena_vectoriales_2.png)
+
+> La diferencial es una transformación lineal, y componer transformaciones lineales equivale a multiplicar sus matrices
 
 ---
 
+### Entonces esto queda así para campos escalares
+
 El teorema 8.8 que usamos para calcular $g'(\pi/3)$ no es un caso aislado, es la instancia más chica de la regla de la cadena general
 
-$$J_{G\circ F}(a) = J_G\big(F(a)\big)\cdot J_F(a)$$
+$$J_{G\circ F}(a) = J_G\big(F(a)\big)\cdot D_F(a)$$
 
 Reescribamos lo que ya calculamos en forma matricial para verlo
 
-$$J_f(a)=\nabla f(a)=(0.335103,\;0) \quad (1\times2) \qquad J_r(\pi/3)=r'(\pi/3)=\begin{pmatrix}-1\\-\pi\end{pmatrix} \quad (2\times1)$$
+$$D_f(a)=\nabla f(a)=(0.335103,\;0) \quad (1\times2) \qquad J_r(\pi/3)=r'(\pi/3)=\begin{pmatrix}-1\\-\pi\end{pmatrix} \quad (2\times1)$$
 
 $$J_{f\circ r}(\pi/3) = J_f(a)\cdot J_r(\pi/3) = (0.335103,\;0)\begin{pmatrix}-1\\-\pi\end{pmatrix} = -0.335103$$
 
 que es el mismo $g'(\pi/3)$ que ya habíamos obtenido — multiplicar una matriz $1\times2$ por una $2\times1$ da una matriz $1\times1$, o sea un escalar, y el producto matricial colapsa al producto punto que usamos antes
 
-Esto es justo lo que hace autograd al encadenar capas: cada función (cada capa) tiene su propia Jacobiana, y la Jacobiana de toda la cadena es simplemente el producto de las Jacobianas de cada eslabón, en orden
+### Y así para campos vectoriales
+
+Ejemplo con dos campos vectoriales, calculado por dos rutas para comprobar que coinciden: multiplicando Jacobianas vs. componiendo y derivando directamente.
+
+Se toma un espacio intermedio de dimensión distinta para que las matrices no sean cuadradas y se aprecie el "encaje":
+
+$$g:\mathbb{R}^2\to\mathbb{R}^3,\qquad g(s,t)=\big(\,s+t,\;\;st,\;\;s^2\,\big)$$
+
+$$f:\mathbb{R}^3\to\mathbb{R}^2,\qquad f(x,y,z)=\big(\,x+yz,\;\;xy-z\,\big)$$
+
+La composición $h=f\circ g:\mathbb{R}^2\to\mathbb{R}^2$. Aquí $p=2$, $n=3$, $m=2$.
+
+#### Ruta 1: multiplicar las Jacobianas
+
+**Jacobiana de $g$** (tamaño $3\times 2$), derivando cada componente respecto a $s$ y $t$:
+
+$$Dg(a)=\begin{pmatrix} 1 & 1\\ t & s\\ 2s & 0\end{pmatrix}$$
+
+**Jacobiana de $f$** (tamaño $2\times 3$), respecto a $x,y,z$:
+
+$$Df=\begin{pmatrix} 1 & z & y\\ y & x & -1\end{pmatrix}$$
+
+Paso clave: hay que evaluar $Df$ en $b=g(a)$, es decir sustituir $x=s+t,\;y=st,\;z=s^2$ osea metemos los valores en las casillas donde esté cada una de las variables $x$, $y$ o $z$ asi: 
+
+$$Df(b)=\begin{pmatrix} 1 & s^2 & st\\ st & s+t & -1\end{pmatrix}$$
+
+Producto $Dh(a)=Df(b)\,Dg(a)$, que es $(2\times 3)(3\times 2)=2\times 2$. La dimensión interna $n=3$ es sobre la que se suma:
+
+$$Dh(a)=\begin{pmatrix} 1 & s^2 & st\\ st & s+t & -1\end{pmatrix}\begin{pmatrix} 1 & 1\\ t & s\\ 2s & 0\end{pmatrix}=\begin{pmatrix} 1+3s^2t & 1+s^3\\[4pt] 2st+t^2-2s & s^2+2st\end{pmatrix}$$
+
+(por ejemplo, la entrada superior izquierda es fila 1 · columna 1: $1\cdot 1 + s^2\cdot t + st\cdot 2s = 1+3s^2t$).
+
+#### Ruta 2: componer primero y derivar después
+
+Sustituyendo $g$ dentro de $f$ se obtiene $h$ explícitamente:
+
+$$h_1=x+yz=(s+t)+(st)(s^2)=s+t+s^3t$$
+
+$$h_2=xy-z=(s+t)(st)-s^2=s^2t+st^2-s^2$$
+
+Derivando directamente:
+
+$$\frac{\partial h_1}{\partial s}=1+3s^2t,\quad \frac{\partial h_1}{\partial t}=1+s^3,\quad \frac{\partial h_2}{\partial s}=2st+t^2-2s,\quad \frac{\partial h_2}{\partial t}=s^2+2st$$
+
+$$Dh(a)=\begin{pmatrix} 1+3s^2t & 1+s^3\\[4pt] 2st+t^2-2s & s^2+2st\end{pmatrix}$$
+
+**Idéntica a la ruta 1.** Multiplicar las dos Jacobianas equivale a componer y derivar, pero sin tener que expandir la composición.
+
