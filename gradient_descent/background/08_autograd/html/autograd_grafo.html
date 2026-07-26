@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grafo de autograd · L = (a·b + c)·d</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0e1119;
+    --ink-2:#151a26;
+    --panel:#1b2130;
+    --panel-line:#2b3446;
+    --text:#e8edf6;
+    --muted:#7f8ba3;
+    --fwd:#ffb454;      /* dato: fluye hacia adelante */
+    --fwd-dim:#3a2f1e;
+    --bwd:#4fd6e6;      /* gradiente: fluye hacia atrás */
+    --bwd-dim:#16323a;
+    --active:#c6a6ff;   /* nodo en proceso */
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:
+      radial-gradient(1200px 600px at 70% -10%, #1a2233 0%, transparent 60%),
+      var(--ink);
+    color:var(--text);
+    font-family:"Space Grotesk",system-ui,sans-serif;
+    min-height:100vh;
+    padding:32px 20px 56px;
+  }
+  .wrap{max-width:940px;margin:0 auto}
+  header{margin-bottom:22px}
+  .eyebrow{
+    font-family:"JetBrains Mono",monospace;
+    font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 8px;
+  }
+  h1{
+    font-size:clamp(26px,4vw,40px);font-weight:700;margin:0;line-height:1.05;
+    letter-spacing:-.01em;
+  }
+  h1 .fn{font-family:"JetBrains Mono",monospace;font-weight:500;color:var(--fwd)}
+  .sub{color:var(--muted);margin:10px 0 0;font-size:15px;max-width:60ch}
+
+  .legend{display:flex;gap:20px;flex-wrap:wrap;margin:20px 0 14px;font-size:13px}
+  .legend span{display:inline-flex;align-items:center;gap:8px;color:var(--muted);
+    font-family:"JetBrains Mono",monospace}
+  .dot{width:11px;height:11px;border-radius:50%}
+  .dot.f{background:var(--fwd);box-shadow:0 0 10px var(--fwd)}
+  .dot.b{background:var(--bwd);box-shadow:0 0 10px var(--bwd)}
+  .dot.a{background:var(--active);box-shadow:0 0 10px var(--active)}
+
+  .stage{
+    background:linear-gradient(180deg,var(--ink-2),#0f1420);
+    border:1px solid var(--panel-line);
+    border-radius:16px;
+    padding:8px;
+    position:relative;
+    overflow:hidden;
+  }
+  .stage::before{ /* grid */
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;
+    background-image:
+      linear-gradient(var(--panel-line) 1px,transparent 1px),
+      linear-gradient(90deg,var(--panel-line) 1px,transparent 1px);
+    background-size:28px 28px;
+    -webkit-mask-image:radial-gradient(120% 100% at 50% 0,#000 40%,transparent 100%);
+            mask-image:radial-gradient(120% 100% at 50% 0,#000 40%,transparent 100%);
+  }
+  svg{display:block;width:100%;height:auto;position:relative;z-index:1}
+
+  /* nodes */
+  .node rect{
+    fill:var(--panel);stroke:var(--panel-line);stroke-width:1.5;
+    transition:stroke .3s, filter .3s;
+  }
+  .node.active rect{stroke:var(--active);filter:drop-shadow(0 0 10px rgba(198,166,255,.5))}
+  .sym{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:19px;fill:var(--text)}
+  .op{font-family:"JetBrains Mono",monospace;font-size:11px;fill:var(--muted)}
+  .val{font-family:"JetBrains Mono",monospace;font-size:13px;font-weight:500}
+  .val.data{fill:var(--fwd)}
+  .val.grad{fill:var(--bwd)}
+  .val.empty{fill:#3c465a}
+  .lbl{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.08em;fill:var(--muted)}
+
+  /* edges */
+  .edge{fill:none;stroke:var(--panel-line);stroke-width:2;transition:stroke .3s}
+  .edge.fwd{stroke:var(--fwd);opacity:.55}
+  .edge.bwd{stroke:var(--bwd);opacity:.9}
+
+  .controls{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 0;align-items:center}
+  button{
+    font-family:"Space Grotesk",sans-serif;font-size:14px;font-weight:600;
+    color:var(--ink);background:var(--fwd);border:none;border-radius:9px;
+    padding:11px 18px;cursor:pointer;transition:transform .12s, background .2s, opacity .2s;
+  }
+  button.ghost{background:transparent;color:var(--text);border:1px solid var(--panel-line)}
+  button.bwd{background:var(--bwd)}
+  button:hover:not(:disabled){transform:translateY(-1px)}
+  button:disabled{opacity:.35;cursor:not-allowed}
+  button:focus-visible{outline:2px solid var(--active);outline-offset:2px}
+
+  .status{
+    margin-top:18px;background:var(--ink-2);border:1px solid var(--panel-line);
+    border-left:3px solid var(--active);border-radius:10px;padding:14px 16px;
+    min-height:64px;
+  }
+  .status .step{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+  .status .msg{margin:0;font-size:15px;line-height:1.5}
+  .status code{font-family:"JetBrains Mono",monospace;color:var(--bwd);
+    background:rgba(79,214,230,.1);padding:1px 6px;border-radius:5px;font-size:13px}
+  .status code.f{color:var(--fwd);background:rgba(255,180,84,.1)}
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important}
+  }
+  @media (max-width:560px){
+    .val{font-size:11px}.sym{font-size:16px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Grafo computacional · retropropagación</p>
+    <h1>Cómo autograd deriva <span class="fn">L = (a·b + c)·d</span></h1>
+    <p class="sub">La misma función, vista como un grafo de operaciones. El dato fluye hacia adelante; el gradiente, hacia atrás. Avanza paso a paso y observa cómo cada nodo reparte su gradiente a las entradas.</p>
+  </header>
+
+  <div class="legend">
+    <span><i class="dot f"></i> dato (forward)</span>
+    <span><i class="dot b"></i> gradiente (backward)</span>
+    <span><i class="dot a"></i> nodo en proceso</span>
+  </div>
+
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 900 470" role="img" aria-label="Grafo computacional de L igual a (a por b más c) por d">
+      <defs>
+        <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+          <path d="M1,1 L8,4.5 L1,8" fill="none" stroke="var(--panel-line)" stroke-width="1.5"/>
+        </marker>
+      </defs>
+      <g id="edges"></g>
+      <g id="nodes"></g>
+      <g id="pulses"></g>
+    </svg>
+  </div>
+
+  <div class="controls">
+    <button id="forward">▶ Forward (calcular datos)</button>
+    <button id="back" class="bwd" disabled>◀ Retropropagar un paso</button>
+    <button id="reset" class="ghost">Reiniciar</button>
+  </div>
+
+  <div class="status" aria-live="polite">
+    <p class="step" id="statusStep">Estado inicial</p>
+    <p class="msg" id="statusMsg">Solo se conocen las entradas <code class="f">a=2</code>, <code class="f">b=−3</code>, <code class="f">c=10</code>, <code class="f">d=−2</code>. Pulsa <b>Forward</b> para propagar los datos por el grafo.</p>
+  </div>
+</div>
+
+<script>
+const NS="http://www.w3.org/2000/svg";
+const W=116, H=62; // node box
+
+// node centers
+const N = {
+  a:{x:80,  y:60,  sym:"a", op:"input", data:2},
+  b:{x:80,  y:160, sym:"b", op:"input", data:-3},
+  c:{x:80,  y:300, sym:"c", op:"input", data:10},
+  d:{x:80,  y:410, sym:"d", op:"input", data:-2},
+  e:{x:340, y:110, sym:"e", op:"a · b",  data:-6},
+  f:{x:580, y:210, sym:"f", op:"e + c",  data:4},
+  L:{x:810, y:300, sym:"L", op:"f · d",  data:-8},
+};
+const EDGES = [
+  ["a","e"],["b","e"],
+  ["e","f"],["c","f"],
+  ["f","L"],["d","L"],
+];
+
+// backward plan: each step processes one node, pushing grads to its inputs
+const PLAN = [
+  { step:"Semilla", node:"L",
+    sets:{ L:1 }, edges:[],
+    msg:`Punto de partida: <code>∂L/∂L = 1</code>. El gradiente nace en la salida con valor 1.` },
+  { step:"Nodo L = f · d", node:"L",
+    sets:{ f:-2, d:4 }, edges:[["f","L"],["d","L"]],
+    msg:`Producto: cada factor recibe el otro. <code>∂L/∂f = d = −2</code> y <code>∂L/∂d = f = 4</code>.` },
+  { step:"Nodo f = e + c", node:"f",
+    sets:{ e:-2, c:-2 }, edges:[["e","f"],["c","f"]],
+    msg:`Suma: reparte el gradiente sin cambiarlo. <code>∂L/∂e = ∂L/∂f · 1 = −2</code> y <code>∂L/∂c = −2</code>.` },
+  { step:"Nodo e = a · b", node:"e",
+    sets:{ a:6, b:-4 }, edges:[["a","e"],["b","e"]],
+    msg:`Producto: <code>∂L/∂a = ∂L/∂e · b = (−2)(−3) = 6</code> y <code>∂L/∂b = ∂L/∂e · a = (−2)(2) = −4</code>.` },
+];
+
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const fmt = v => (v<0? "−"+Math.abs(v): ""+v);
+
+const edgesG=document.getElementById("edges");
+const nodesG=document.getElementById("nodes");
+const pulsesG=document.getElementById("pulses");
+const edgePaths={};
+let backIdx=0, forwardDone=false;
+
+// build edges
+function edgeKey(s,t){return s+"_"+t}
+EDGES.forEach(([s,t])=>{
+  const S=N[s],T=N[t];
+  const x1=S.x+W/2, y1=S.y, x2=T.x-W/2, y2=T.y;
+  const mx=(x1+x2)/2;
+  const d=`M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`;
+  const p=document.createElementNS(NS,"path");
+  p.setAttribute("d",d); p.setAttribute("class","edge");
+  p.setAttribute("marker-end","url(#arrow)");
+  edgesG.appendChild(p);
+  edgePaths[edgeKey(s,t)]=p;
+});
+
+// build nodes
+const nodeEls={};
+for(const k in N){
+  const n=N[k];
+  const g=document.createElementNS(NS,"g");
+  g.setAttribute("class","node");
+  g.setAttribute("transform",`translate(${n.x-W/2},${n.y-H/2})`);
+  g.innerHTML=`
+    <rect width="${W}" height="${H}" rx="11"></rect>
+    <text class="sym" x="14" y="26">${n.sym}</text>
+    <text class="op"  x="34" y="26">${n.op}</text>
+    <text class="lbl" x="14" y="42">data</text>
+    <text class="lbl" x="14" y="55">grad</text>
+    <text class="val data"  data-role="data" x="${W-14}" y="42" text-anchor="end">·</text>
+    <text class="val grad"  data-role="grad" x="${W-14}" y="55" text-anchor="end">·</text>
+  `;
+  nodesG.appendChild(g);
+  nodeEls[k]={g, data:g.querySelector('[data-role="data"]'), grad:g.querySelector('[data-role="grad"]')};
+}
+
+// show input data from start
+["a","b","c","d"].forEach(k=>{ nodeEls[k].data.textContent=fmt(N[k].data); });
+
+function pulse(pathEl, dir, color, done){
+  if(reduce){ done&&done(); return; }
+  const len=pathEl.getTotalLength();
+  const dot=document.createElementNS(NS,"circle");
+  dot.setAttribute("r","5"); dot.setAttribute("fill",color);
+  dot.setAttribute("filter",`drop-shadow(0 0 6px ${color})`);
+  pulsesG.appendChild(dot);
+  const dur=750; let start=null;
+  function frame(ts){
+    if(!start) start=ts;
+    let t=(ts-start)/dur; if(t>1)t=1;
+    const at = dir>0 ? t : 1-t;
+    const pt=pathEl.getPointAtLength(at*len);
+    dot.setAttribute("cx",pt.x); dot.setAttribute("cy",pt.y);
+    if(t<1) requestAnimationFrame(frame);
+    else { dot.remove(); done&&done(); }
+  }
+  requestAnimationFrame(frame);
+}
+
+function setStatus(step,msg){
+  document.getElementById("statusStep").textContent=step;
+  document.getElementById("statusMsg").innerHTML=msg;
+}
+
+// FORWARD
+document.getElementById("forward").addEventListener("click",()=>{
+  if(forwardDone) return;
+  forwardDone=true;
+  document.getElementById("forward").disabled=true;
+  // reveal e,f,L in order with pulses
+  const order=[
+    {k:"e", ins:[["a","e"],["b","e"]]},
+    {k:"f", ins:[["e","f"],["c","f"]]},
+    {k:"L", ins:[["f","L"],["d","L"]]},
+  ];
+  let i=0;
+  function next(){
+    if(i>=order.length){
+      document.getElementById("back").disabled=false;
+      setStatus("Forward completo",
+        `Datos propagados: <code class="f">e=−6</code>, <code class="f">f=4</code>, <code class="f">L=−8</code>. Ahora pulsa <b>Retropropagar</b> para calcular el gradiente hacia atrás.`);
+      return;
+    }
+    const {k,ins}=order[i++];
+    ins.forEach(([s,t])=>edgePaths[edgeKey(s,t)].classList.add("fwd"));
+    let pending=ins.length;
+    ins.forEach(([s,t])=>{
+      pulse(edgePaths[edgeKey(s,t)],+1,getComputedStyle(document.body).getPropertyValue("--fwd").trim(),()=>{
+        if(--pending===0){
+          nodeEls[k].data.textContent=fmt(N[k].data);
+          ins.forEach(([s,t])=>edgePaths[edgeKey(s,t)].classList.remove("fwd"));
+          setTimeout(next, reduce?0:120);
+        }
+      });
+    });
+  }
+  setStatus("Forward","Propagando datos de izquierda a derecha…");
+  next();
+});
+
+// BACKWARD (step)
+document.getElementById("back").addEventListener("click",()=>{
+  if(backIdx>=PLAN.length) return;
+  const P=PLAN[backIdx++];
+  // clear previous active
+  Object.values(nodeEls).forEach(n=>n.g.classList.remove("active"));
+  nodeEls[P.node].g.classList.add("active");
+  const bwd=getComputedStyle(document.body).getPropertyValue("--bwd").trim();
+
+  const applySets=()=>{
+    for(const k in P.sets){
+      nodeEls[k].grad.textContent=fmt(P.sets[k]);
+    }
+  };
+
+  if(P.edges.length===0){
+    applySets();
+  }else{
+    P.edges.forEach(([s,t])=>edgePaths[edgeKey(s,t)].classList.add("bwd"));
+    let pending=P.edges.length;
+    P.edges.forEach(([s,t])=>{
+      // gradient flows target -> source (backward): dir -1 along the s->t path
+      pulse(edgePaths[edgeKey(s,t)],-1,bwd,()=>{
+        nodeEls[s].grad.textContent=fmt(P.sets[s]);
+        if(--pending===0){
+          setTimeout(()=>P.edges.forEach(([s,t])=>edgePaths[edgeKey(s,t)].classList.remove("bwd")),400);
+        }
+      });
+    });
+    // seed target grad immediately if listed
+    for(const k in P.sets){ if(!P.edges.some(e=>e[0]===k)) nodeEls[k].grad.textContent=fmt(P.sets[k]); }
+  }
+
+  setStatus(P.step+"  ·  paso "+backIdx+"/"+PLAN.length, P.msg);
+
+  if(backIdx>=PLAN.length){
+    document.getElementById("back").disabled=true;
+    setTimeout(()=>{
+      Object.values(nodeEls).forEach(n=>n.g.classList.remove("active"));
+      setStatus("Backward completo · ∇L = (6, −4, −2, 4)",
+        `Gradiente listo: <code>∂L/∂a=6</code>, <code>∂L/∂b=−4</code>, <code>∂L/∂c=−2</code>, <code>∂L/∂d=4</code>. Coincide con derivar a mano <code class="f">(bd, ad, d, ab+c)</code>.`);
+    }, 900);
+  }
+});
+
+// RESET
+document.getElementById("reset").addEventListener("click",()=>{
+  backIdx=0; forwardDone=false;
+  document.getElementById("forward").disabled=false;
+  document.getElementById("back").disabled=true;
+  Object.entries(nodeEls).forEach(([k,n])=>{
+    n.g.classList.remove("active");
+    n.grad.textContent="·";
+    n.data.textContent=(["a","b","c","d"].includes(k))?fmt(N[k].data):"·";
+  });
+  Object.values(edgePaths).forEach(p=>p.classList.remove("fwd","bwd"));
+  pulsesG.innerHTML="";
+  setStatus("Estado inicial",
+    `Solo se conocen las entradas <code class="f">a=2</code>, <code class="f">b=−3</code>, <code class="f">c=10</code>, <code class="f">d=−2</code>. Pulsa <b>Forward</b> para propagar los datos por el grafo.`);
+});
+</script>
+</body>
+</html>

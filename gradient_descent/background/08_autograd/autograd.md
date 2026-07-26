@@ -84,7 +84,7 @@ finalmente apliquemos la regla de la cadena, porque queremos obtener la variaci�
 
 recordemos el teorema 8.8
 
-$$g'(t) = \nabla f(a) \cdot r'(t), \quad \text{donde } a = r(t)$$
+$$g'(t) = \nabla f(a) \cdot r'(t) \quad \text{donde } a = r(t)$$
 
 necesitamos entonces $r'(t)$
 
@@ -112,11 +112,11 @@ $$f(x,y)=x^2 y.$$
 
 Gradiente:
 
-$$\nabla f=\big(2xy,\;x^2\big).$$
+$$\nabla f=\big(2xy, x^2 \big)$$
 
 Derivada como producto escalar (fórmula 8.9 / caso escalar):
 
-$$f'(a;y)=\nabla f(a)\cdot y=\sum_{k=1}^{n} D_k f(a)\,y_k.$$
+$$f'(a;y)=\nabla f(a)\cdot y=\sum_{k=1}^{n} D_k f(a)y_k$$
 
 Aquí $T_a:\mathbb{R}^2\to\mathbb{R}$ y su "matriz" es la única fila $\nabla f(a)$. El resultado es **un escalar**.
 
@@ -124,15 +124,15 @@ Aquí $T_a:\mathbb{R}^2\to\mathbb{R}$ y su "matriz" es la única fila $\nabla f(
 
 Se extiende $f$ pegándole una segunda componente de salida, dejando la primera idéntica:
 
-$$F(x,y)=\big(\underbrace{x^2 y}_{F_1},\;\underbrace{x+y^2}_{F_2}\big).$$
+$$F(x,y)=\big(\underbrace{x^2 y}_{F_1},\underbrace{x+y^2}_{F_2}\big)$$
 
 Aqui calculamos dos gradientes:
 
-$$\nabla F_1=\big(2xy,\;x^2\big),\qquad \nabla F_2=\big(1,\;2y\big).$$
+$$\nabla F_1=\big(2xy, x^2\big),\qquad \nabla F_2=\big(1, 2y\big)$$
 
 Derivada como apilamiento de $m$ productos escalares (fórmula 8.18):
 
-$$F'(a;y)=\big(\nabla F_1(a)\cdot y,\;\nabla F_2(a)\cdot y\big)=\sum_{k=1}^{m}\big(\nabla F_k(a)\cdot y\big)\,e_k.$$
+$$F'(a;y)=\big(\nabla F_1(a)\cdot y, \nabla F_2(a)\cdot y\big)=\sum_{k=1}^{m}\big(\nabla F_k(a)\cdot y\big)e_k.$$
 
 El resultado es **un vector de $\mathbb{R}^m$**.
 
@@ -140,7 +140,7 @@ El resultado es **un vector de $\mathbb{R}^m$**.
 
 Las filas de la Jacobiana son los gradientes de cada componente:
 
-$$D_F(a)=\begin{pmatrix}\nabla F_1(a)\\[2pt]\nabla F_2(a)\end{pmatrix},\qquad F'(a;y)=D_F(a)\,y.$$
+$$D_F(a)=\begin{pmatrix}\nabla F_1(a)\\[2pt]\nabla F_2(a)\end{pmatrix} \qquad F'(a;y)=D_F(a)y$$
 
 entonces queda
 
@@ -186,9 +186,9 @@ y es la misma idea que antes, tomamos el resultado de $g$ para componer $f$ haci
 
 Volvamos a las dos funciones que veníamos componiendo desde el principio del documento, la cúpula y la espiral
 
-$$f:\mathbb{R}^2\to\mathbb{R}, \qquad f(x,y) = 1.4-0.16(x^2+y^2)$$
+$$f:\mathbb{R}^2\to\mathbb{R} \qquad f(x,y) = 1.4-0.16(x^2+y^2)$$
 
-$$r:\mathbb{R}\to\mathbb{R}^2, \qquad r(t) = (t\cos 3t,\ t\sin 3t)$$
+$$r:\mathbb{R}\to\mathbb{R}^2 \qquad r(t) = (t\cos 3t, t\sin 3t)$$
 
 su composición es $g = f\circ r:\mathbb{R}\to\mathbb{R}$, la que llamamos $g(t)=f[r(t)]$ desde el principio. El teorema 8.8 que usamos para calcular $g'(\pi/3)$ no es un caso aislado, es la instancia más chica posible de la regla de la cadena general
 
@@ -198,9 +198,9 @@ donde en general $F:\mathbb{R}^p\to\mathbb{R}^n$ y $G:\mathbb{R}^n\to\mathbb{R}^
 
 reescribamos lo que ya calculamos en forma matricial para verlo, sustituyendo $F=r$ y $G=f$ en la fórmula
 
-$$D_f(a)=\nabla f(a)=(0.335103,\;0) \quad (1\times2) \qquad D_r(\pi/3)=r'(\pi/3)=\begin{pmatrix}-1\\-\pi\end{pmatrix} \quad (2\times1)$$
+$$D_f(a)=\nabla f(a)=(0.335103, 0) \quad (1\times2) \qquad D_r(\pi/3)=r'(\pi/3)=\begin{pmatrix}-1\\-\pi\end{pmatrix} \quad (2\times1)$$
 
-$$D_{f\circ r}(\pi/3) = D_f(a)\cdot D_r(\pi/3) = (0.335103,\;0)\begin{pmatrix}-1\\-\pi\end{pmatrix} = -0.335103$$
+$$D_{f\circ r}(\pi/3) = D_f(a)\cdot D_r(\pi/3) = (0.335103, 0)\begin{pmatrix}-1\\-\pi\end{pmatrix} = -0.335103$$
 
 que es el mismo $g'(\pi/3)$ que ya habíamos obtenido. La dimensión intermedia $n=2$ (la salida de $r$, que es la misma entrada que espera $f$) es sobre la que se suma en el producto matricial: con $n=2$ términos, multiplicar una matriz $1\times2$ por una $2\times1$ da una matriz $1\times1$, o sea un escalar, y el producto matricial colapsa exactamente al producto punto que usamos en el teorema 8.8
 
@@ -210,9 +210,9 @@ Ejemplo con dos campos vectoriales, calculado por dos rutas para comprobar que c
 
 Se toma un espacio intermedio de dimensión distinta para que las matrices no sean cuadradas y se aprecie el "encaje":
 
-$$g:\mathbb{R}^2\to\mathbb{R}^3,\qquad g(s,t)=\big(\,s+t,\;\;st,\;\;s^2\,\big)$$
+$$g:\mathbb{R}^2\to\mathbb{R}^3,\qquad g(s,t)=\big(s+t, st, s^2\big)$$
 
-$$f:\mathbb{R}^3\to\mathbb{R}^2,\qquad f(x,y,z)=\big(\,x+yz,\;\;xy-z\,\big)$$
+$$f:\mathbb{R}^3\to\mathbb{R}^2,\qquad f(x,y,z)=\big(x+yz, xy-z\big)$$
 
 La composición $h=f\circ g:\mathbb{R}^2\to\mathbb{R}^2$. Aquí $p=2$, $n=3$, $m=2$.
 
@@ -226,11 +226,11 @@ $$Dg(a)=\begin{pmatrix} 1 & 1\\ t & s\\ 2s & 0\end{pmatrix}$$
 
 $$Df=\begin{pmatrix} 1 & z & y\\ y & x & -1\end{pmatrix}$$
 
-Paso clave: hay que evaluar $Df$ en $b=g(a)$, es decir sustituir $x=s+t,\;y=st,\;z=s^2$ osea metemos los valores en las casillas donde esté cada una de las variables $x$, $y$ o $z$ asi: 
+Paso clave: hay que evaluar $Df$ en $b=g(a)$, es decir sustituir $x=s+t, y=st, z=s^2$ osea metemos los valores en las casillas donde esté cada una de las variables $x$, $y$ o $z$ asi: 
 
 $$Df(b)=\begin{pmatrix} 1 & s^2 & st\\ st & s+t & -1\end{pmatrix}$$
 
-Producto $Dh(a)=Df(b)\,Dg(a)$, que es $(2\times 3)(3\times 2)=2\times 2$. La dimensión interna $n=3$ es sobre la que se suma:
+Producto $Dh(a)=Df(b)Dg(a)$, que es $(2\times 3)(3\times 2)=2\times 2$. La dimensión interna $n=3$ es sobre la que se suma:
 
 $$Dh(a)=\begin{pmatrix} 1 & s^2 & st\\ st & s+t & -1\end{pmatrix}\begin{pmatrix} 1 & 1\\ t & s\\ 2s & 0\end{pmatrix}=\begin{pmatrix} 1+3s^2t & 1+s^3\\[4pt] 2st+t^2-2s & s^2+2st\end{pmatrix}$$
 
@@ -260,7 +260,7 @@ La idea central: todo el "lío de nombres" de la notación de Leibniz —$\frac{
 
 Un campo vectorial $g$ que arma las variables intermedias:
 
-$$g:\mathbb{R}^2\to\mathbb{R}^2,\qquad g(s,t)=\big(\,\underbrace{s+t^2}_{g_1},\;\underbrace{st}_{g_2}\,\big)$$
+$$g:\mathbb{R}^2\to\mathbb{R}^2,\qquad g(s,t)=\big(\underbrace{s+t^2}_{g_1}, \underbrace{st}_{g_2}\big)$$
 
 A la salida de $g_1$ la llamamos $x$, y a la de $g_2$ la llamamos $y$:
 
@@ -278,7 +278,7 @@ $$h=f\circ g:\mathbb{R}^2\to\mathbb{R},\qquad h(s,t)=f\big(g(s,t)\big)$$
 
 El flujo completo de un punto:
 
-$$(s,t)\ \xrightarrow{\;g\;}\ (x,y)=\big(s+t^2,\ st\big)\ \xrightarrow{\;f\;}\ x^2y\ =\ h(s,t)$$
+$$(s,t) \xrightarrow{ g } (x,y)=\big(s+t^2, st\big) \xrightarrow{ f } x^2y = h(s,t)$$
 
 #### Las derivadas "sueltas" son la Jacobiana de $g$
 
@@ -302,8 +302,8 @@ $$\underbrace{\begin{pmatrix} \dfrac{\partial h}{\partial s} & \dfrac{\partial h
 
 Haciendo fila-por-columna:
 
-- primera columna: $2xy\cdot 1 + x^2\cdot t \;=\; \dfrac{\partial h}{\partial s}$
-- segunda columna: $2xy\cdot 2t + x^2\cdot s \;=\; \dfrac{\partial h}{\partial t}$
+- primera columna: $2xy\cdot 1 + x^2\cdot t  =  \dfrac{\partial h}{\partial s}$
+- segunda columna: $2xy\cdot 2t + x^2\cdot s  =  \dfrac{\partial h}{\partial t}$
 
 Que son **exactamente** las ecuaciones (8.27) de Apostol:
 
@@ -325,6 +325,100 @@ La columna $\partial$ y la columna $D$ son el mismo objeto con distinto disfraz.
 #### La conclusión
 
 - La notación de Leibniz ($\frac{\partial f}{\partial x}\frac{\partial x}{\partial s} + \dots$) = escribir el producto de matrices **entrada por entrada, a mano**.
-- La forma matricial ($Dh = Df\,Dg$) = las mismas ecuaciones **empaquetadas**.
+- La forma matricial ($Dh = DfDg$) = las mismas ecuaciones **empaquetadas**.
 
 Son el mismo objeto a dos niveles de zoom. Leibniz obliga a deletrear cada casilla con nombres propios; la Jacobiana lo dice todo de golpe. Una vez que sabes que $\frac{\partial x}{\partial s}$ no es más que una casilla de $Dg$, la notación deja de ser un enjambre y pasa a ser un producto matricial escrito componente a componente.
+
+# Autograd POR FIIIIINNNNN
+
+Objetivo: comprobar que el paso hacia atrás (`backward`) de PyTorch calcula lo mismo que derivar a mano. Se usa el ejemplo de Karpathy. Orden: primero el gradiente a mano, luego autograd, al final las conclusiones.
+
+La pérdida es una función escalar de cuatro variables:
+
+$$L:\mathbb{R}^4\to\mathbb{R},\qquad L(a,b,c,d)=(ab+c)d=abd+cd$$
+
+Por ser escalar ($m=1$), su derivada es un **gradiente**: una fila con las cuatro parciales.
+
+Valores del ejemplo: $a=2, b=-3, c=10, d=-2$
+
+#### 1.1 Derivar 
+
+Se deriva $L=abd+cd$ respecto a cada variable, tratando las demás como constantes:
+
+$$\frac{\partial L}{\partial a}=bd \qquad
+\frac{\partial L}{\partial b}=ad \qquad
+\frac{\partial L}{\partial c}=d \qquad
+\frac{\partial L}{\partial d}=ab+c$$
+
+El gradiente explícito, todavía sin números, es:
+
+$$\nabla L(a,b,c,d)=\big(bd,ad,d,ab+c\big)$$
+
+#### 1.2 Reemplazar valores
+
+Ahora se sustituye $a=2,\ b=-3,\ c=10,\ d=-2$:
+
+$$\frac{\partial L}{\partial a}=bd=(-3)(-2)=6$$
+$$\frac{\partial L}{\partial b}=ad=(2)(-2)=-4$$
+$$\frac{\partial L}{\partial c}=d=-2$$
+$$\frac{\partial L}{\partial d}=ab+c=(2)(-3)+10=4$$
+
+**Resultado a mano:**
+
+$$\nabla L(2,-3,10,-2)=(6, -4, -2, 4)$$
+
+---
+
+#### Parte 2 — El proceso de autograd (descomposición en operaciones)
+
+Autograd llega al mismo gradiente, pero **no** deriva la fórmula cerrada. En su lugar hace lo que hace Karpathy en el video: parte $L$ en operaciones elementales, guarda cada resultado intermedio como una variable, y aplica la regla de la cadena nodo por nodo hacia atrás. Esa es la diferencia esencial con la Parte 1.
+
+
+#### Backward = regla de la cadena sobre una composición gigante
+
+La duda que resuelve esta nota: la regla de la cadena habla de **funciones compuestas**, pero en el grafo de autograd no se ve ninguna composición explícita. ¿Dónde está?
+
+Los paréntesis son el mapa de la composición. Leídos de dentro hacia afuera, muestran tres operaciones anidadas:
+
+$$L=\underbrace{\Big(\;\underbrace{(\;\underbrace{a\cdot b}_{1.\ \text{producto}}\;)+c}_{2.\ \text{suma}}\;\Big)\cdot d}_{3.\ \text{producto}}$$
+
+Esa anidación de paréntesis **es** la composición: cada capa es una función que envuelve a la anterior.
+
+#### Derivar la fórmula gigante respecto a $a$
+
+Se aplica la regla de la cadena capa por capa, de afuera hacia adentro. Nombrando el interior como $\text{algo}=(a\cdot b)+c$:
+
+- **Capa externa:** $L=(\text{algo})\cdot d$. Derivada respecto a su interior: $\dfrac{\partial L}{\partial(\text{algo})}=d$.
+- **Capa media:** $\text{algo}=(a\cdot b)+c$. Derivada respecto a $(a\cdot b)$: $\dfrac{\partial(\text{algo})}{\partial(a\cdot b)}=1$.
+- **Capa interna:** $a\cdot b$. Derivada respecto a $a$: $\dfrac{\partial(a\cdot b)}{\partial a}=b$.
+
+La regla de la cadena: **multiplicar las derivadas de todas las capas atravesadas** para ir de $L$ hasta $a$:
+
+$$\frac{\partial L}{\partial a}=\underbrace{d}_{\text{externa}}\cdot\underbrace{1}_{\text{media (suma)}}\cdot\underbrace{b}_{\text{interna (producto)}}=d\cdot 1\cdot b = d\,b.$$
+
+#### esos factores son los nodos del grafo
+
+Cada factor del producto es la derivada local de un nodo que el gradiente atravesó en su camino de vuelta:
+
+$$\frac{\partial L}{\partial a}=\underbrace{d}_{\substack{\text{nodo }L=f\cdot d\\ \partial L/\partial f}}\cdot\underbrace{1}_{\substack{\text{nodo }f=e+c\\ \partial f/\partial e}}\cdot\underbrace{b}_{\substack{\text{nodo }e=a\cdot b\\ \partial e/\partial a}}$$
+
+El backward del grafo va acumulando este producto **un factor a la vez**:
+
+1. arranca en $L$ con $1$;
+2. cruza el nodo producto $L=f\cdot d$ → multiplica por $d$ → lleva $d$;
+3. cruza el nodo suma $f=e+c$ → multiplica por $1$ → sigue con $d$;
+4. cruza el nodo producto $e=a\cdot b$ → multiplica por $b$ → llega con $d\,b$.
+
+El grafo **es** la fórmula gigante, y el backward **es** derivar esa fórmula con la regla de la cadena — pero sin escribirla ni expandirla. Solo se necesita la derivada local de cada operación y multiplicarlas en cadena mientras se retrocede.
+
+#### El resto de las variables
+
+Contando qué capas atraviesa cada entrada desde $L$:
+
+$$\frac{\partial L}{\partial b}=d\cdot 1\cdot a=d\,a\qquad(\text{externa}\cdot\text{suma}\cdot\text{producto, con }\partial(ab)/\partial b=a)$$
+
+$$\frac{\partial L}{\partial c}=d\cdot 1=d\qquad(c\text{ solo atraviesa la suma y el producto externo})$$
+
+$$\frac{\partial L}{\partial d}=(a\cdot b)+c=f\qquad(d\text{ es factor directo de la capa externa: deriva a lo que multiplica})$$
+
+**Patrón clave:** el número de factores en cada gradiente es el número de nodos entre esa entrada y $L$. $a$ y $b$ están al fondo (tres capas → tres factores); $c$ está más cerca (dos capas); $d$ multiplica directo a la salida (una capa). El grafo hace visible esa "distancia" como el camino que recorre el gradiente; la fórmula gigante la hace visible como capas de paréntesis anidados.
