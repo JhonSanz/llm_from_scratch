@@ -277,11 +277,23 @@ $$
 Producto $Dh(a)=Df(b)Dg(a)$, que es $(2\times 3)(3\times 2)=2\times 2$. La dimensión interna $n=3$ es sobre la que se suma:
 
 $$
-Dh(a)=
-\begin{pmatrix} 1 & s^2 & st \\ st & s+t & -1 \end{pmatrix}
-\begin{pmatrix} 1 & 1 \\ t & s \\ 2s & 0 \end{pmatrix}
+Dh(a)=\begin{pmatrix}
+1 & s^2 & st \\
+st & s+t & -1
+\end{pmatrix}
+
+\begin{pmatrix}
+1 & 1 \\
+t & s \\
+2s & 0
+\end{pmatrix}
+
 =
-\begin{pmatrix} 1+3s^2t & 1+s^3 \\ 2st+t^2-2s & s^2+2st \end{pmatrix}
+
+\begin{pmatrix}
+1+3s^2t & 1+s^3 \\
+2st+t^2-2s & s^2+2st
+\end{pmatrix}
 $$
 
 (por ejemplo, la entrada superior izquierda es fila 1 · columna 1: $1\cdot 1 + s^2\cdot t + st\cdot 2s = 1+3s^2t$).
