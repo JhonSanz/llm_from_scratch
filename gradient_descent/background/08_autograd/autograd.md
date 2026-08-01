@@ -382,15 +382,20 @@ Los paréntesis son el mapa de la composición. Leídos de dentro hacia afuera, 
 
 $$L=\underbrace{\Big(\;\underbrace{(\;\underbrace{a\cdot b}_{1.\ \text{producto}}\;)+c}_{2.\ \text{suma}}\;\Big)\cdot d}_{3.\ \text{producto}}$$
 
+vamos a nombrar estos elementos para tener una guía visual
+
+$$L=\Big(\;\underbrace{(\;\underbrace{a\cdot b}_{\text{martha}}\;)+c}_{\text{pepe}}\;\Big)\cdot d$$
+
+
 Esa anidación de paréntesis **es** la composición: cada capa es una función que envuelve a la anterior.
 
-#### Derivar la fórmula gigante respecto a $a$
+### Derivar la fórmula gigante respecto a 🚨 $a$ 🚨
 
-Se aplica la regla de la cadena capa por capa, de afuera hacia adentro. Nombrando el interior como $\text{algo}=(a\cdot b)+c$:
+Se aplica la regla de la cadena capa por capa, de afuera hacia adentro.
 
-- **Capa externa:** $L=(\text{algo})\cdot d$. Derivada respecto a su interior: $\dfrac{\partial L}{\partial(\text{algo})}=d$.
-- **Capa media:** $\text{algo}=(a\cdot b)+c$. Derivada respecto a $(a\cdot b)$: $\dfrac{\partial(\text{algo})}{\partial(a\cdot b)}=1$.
-- **Capa interna:** $a\cdot b$. Derivada respecto a $a$: $\dfrac{\partial(a\cdot b)}{\partial a}=b$.
+- **Capa externa:** $L=(\text{pepe})\cdot d$. Derivada respecto a su interior: $\dfrac{\partial L}{\partial(\text{pepe})}=d$.
+- **Capa media:** $\text{pepe}= \text{martha} + c$. Entonces: $\dfrac{\partial(\text{pepe})}{\partial(\text{martha})}=1$.
+- **Capa interna:** $\text{martha} = a \cdot b$. Entonces: $\dfrac{\partial(\text{martha})}{\partial a}=b$.
 
 La regla de la cadena: **multiplicar las derivadas de todas las capas atravesadas** para ir de $L$ hasta $a$:
 
@@ -400,25 +405,139 @@ $$\frac{\partial L}{\partial a}=\underbrace{d}_{\text{externa}}\cdot\underbrace{
 
 Cada factor del producto es la derivada local de un nodo que el gradiente atravesó en su camino de vuelta:
 
-$$\frac{\partial L}{\partial a}=\underbrace{d}_{\substack{\text{nodo }L=f\cdot d\\ \partial L/\partial f}}\cdot\underbrace{1}_{\substack{\text{nodo }f=e+c\\ \partial f/\partial e}}\cdot\underbrace{b}_{\substack{\text{nodo }e=a\cdot b\\ \partial e/\partial a}}$$
+$$\frac{\partial L}{\partial a}=\underbrace{d}_{\substack{\text{nodo }L=pepe\cdot d\\ \partial L/\partial pepe}}\cdot\underbrace{1}_{\substack{\text{nodo }pepe=martha+c\\ \partial pepe/\partial martha}}\cdot\underbrace{b}_{\substack{\text{nodo }martha=a\cdot b\\ \partial martha/\partial a}}$$
 
 El backward del grafo va acumulando este producto **un factor a la vez**:
 
 1. arranca en $L$ con $1$;
-2. cruza el nodo producto $L=f\cdot d$ → multiplica por $d$ → lleva $d$;
-3. cruza el nodo suma $f=e+c$ → multiplica por $1$ → sigue con $d$;
-4. cruza el nodo producto $e=a\cdot b$ → multiplica por $b$ → llega con $d\,b$.
+2. cruza el nodo producto $L=pepe\cdot d$ → multiplica por $d$ → lleva $d$;
+3. cruza el nodo suma $pepe=martha+c$ → multiplica por $1$ → sigue con $d$;
+4. cruza el nodo producto $martha=a\cdot b$ → multiplica por $b$ → llega con $d\,b$.
 
 El grafo **es** la fórmula gigante, y el backward **es** derivar esa fórmula con la regla de la cadena — pero sin escribirla ni expandirla. Solo se necesita la derivada local de cada operación y multiplicarlas en cadena mientras se retrocede.
 
-#### El resto de las variables
+![backward_jacobian_1.jpeg](img/backward_jacobian_1.jpeg)
 
-Contando qué capas atraviesa cada entrada desde $L$:
+![backward_jacobian_2.jpeg](img/backward_jacobian_2.jpeg)
 
-$$\frac{\partial L}{\partial b}=d\cdot 1\cdot a=d\,a\qquad(\text{externa}\cdot\text{suma}\cdot\text{producto, con }\partial(ab)/\partial b=a)$$
 
-$$\frac{\partial L}{\partial c}=d\cdot 1=d\qquad(c\text{ solo atraviesa la suma y el producto externo})$$
+---
 
-$$\frac{\partial L}{\partial d}=(a\cdot b)+c=f\qquad(d\text{ es factor directo de la capa externa: deriva a lo que multiplica})$$
+# De una fórmula escalar fea a un grafo con fan-out (y por qué eso es backprop)
 
-**Patrón clave:** el número de factores en cada gradiente es el número de nodos entre esa entrada y $L$. $a$ y $b$ están al fondo (tres capas → tres factores); $c$ está más cerca (dos capas); $d$ multiplica directo a la salida (una capa). El grafo hace visible esa "distancia" como el camino que recorre el gradiente; la fórmula gigante la hace visible como capas de paréntesis anidados.
+En los apuntes anteriores vimos dos ejemplos de autograd: el escalar de Karpathy ($L=(ab+c)d$), Acá cerramos con el caso de un grafo con nodos vectoriales **y** fan-out explícito.
+
+La idea que lo ordena todo: **no imponemos los campos vectoriales desde afuera; los descubrimos factorizando una fórmula escalar fea.** Igual que un `common subexpression elimination` en código.
+
+---
+
+## Paso 1 — El campo escalar feo, tal cual
+
+Arrancamos desde el monstruo aplanado, un $L:\mathbb{R}^2\to\mathbb{R}$ honesto y horrible:
+
+$$L(x_1,x_2)=\tfrac12\Big[(x_1^2+x_2^2)^2+x_1^4x_2^4+(x_1^2-x_2^2)^2+x_1^8\Big]$$
+
+Se puede derivar simbólicamente respecto a $x_1$ y $x_2$, sin problema. Pero **fijate cuánto se repite $x_1^2$ y $x_2^2$**: aparecen en los cuatro términos. Esa repetición es el olor a que hay estructura escondida.
+
+Si derivás esta fórmula a lo bestia, re-derivás $x_1^2$ una y otra vez en cada término. Eso tiene nombre: *expression swell* — las derivadas de subexpresiones repetidas se recalculan una y otra vez, y la expresión explota.
+
+---
+
+## Paso 2 — Los campos vectoriales *emergen* de factorizar
+
+Aplicamos `common subexpression elimination`: cada subexpresión repetida le ponemos nombre y la sacamos afuera. Y al hacerlo, los nombres se agrupan solos en vectores.
+
+Primero, lo que aparece en *todos* los términos: $x_1^2$ y $x_2^2$. Los bautizamos juntos:
+
+$$u=(x_1^2,\ x_2^2)\quad\Longrightarrow\quad f_1(x)=(x_1^2,\ x_2^2)$$
+
+Ahí nació el primer campo vectorial, no porque lo impusimos, sino porque esas dos subexpresiones aparecían pegadas. Ahora, adentro de $L$ vemos dos bloques que solo dependen de $u$:
+
+$$p=(u_1+u_2,\ u_1u_2)\quad\Longrightarrow\quad f_2(u)=(u_1+u_2,\ u_1u_2)$$
+
+$$q=(u_1-u_2,\ u_1^2)\quad\Longrightarrow\quad f_3(u)=(u_1-u_2,\ u_1^2)$$
+
+Y lo que queda afuera envolviendo todo es la loss:
+
+$$L=\tfrac12(\|p\|^2+\|q\|^2)\quad\Longrightarrow\quad \ell(p,q)=\tfrac12(\|p\|^2+\|q\|^2)$$
+
+La fórmula fea se reescribió sola como un grafo con **fan-out en $u$**. Los campos vectoriales no vinieron de afuera: son las cajas que quedan cuando factorizás lo repetido.
+
+### El montaje resultante
+
+$$
+x \xrightarrow{\ f_1\ } u
+\begin{cases}
+\xrightarrow{\ f_2\ } p \\[4pt]
+\xrightarrow{\ f_3\ } q
+\end{cases}
+\xrightarrow{\ \ell\ } L
+$$
+
+El nodo $u$ tiene **dos consumidores** ($f_2$ y $f_3$). Esa bifurcación *es* la repetición de $x_1^2, x_2^2$ en la fórmula, ahora hecha explícita.
+
+---
+
+## Paso 3 — Backprop sobre esa estructura
+
+Ahora que $L$ es un grafo, no derivamos el monstruo: recorremos de atrás hacia adelante, multiplicando la Jacobiana local de cada nodo, y **en $u$ sumamos las dos ramas** (el fan-out). Trabajamos en $x=(1,2)$.
+
+### Forward (guardar cada nodo)
+
+$$u=f_1(1,2)=(1,\ 4)$$
+$$p=f_2(1,4)=(1+4,\ 1\cdot4)=(5,\ 4)$$
+$$q=f_3(1,4)=(1-4,\ 1^2)=(-3,\ 1)$$
+$$L=\tfrac12(5^2+4^2+(-3)^2+1^2)=\tfrac12(25+16+9+1)=25.5$$
+
+### Jacobianas locales
+
+$$Df_1=\begin{pmatrix}2x_1&0\\0&2x_2\end{pmatrix}\xrightarrow{x=(1,2)}\begin{pmatrix}2&0\\0&4\end{pmatrix}$$
+
+$$Df_2=\begin{pmatrix}1&1\\u_2&u_1\end{pmatrix}\xrightarrow{u=(1,4)}\begin{pmatrix}1&1\\4&1\end{pmatrix}$$
+
+$$Df_3=\begin{pmatrix}1&-1\\2u_1&0\end{pmatrix}\xrightarrow{u=(1,4)}\begin{pmatrix}1&-1\\2&0\end{pmatrix}$$
+
+Loss (escalar, gradiente respecto a cada rama):
+
+$$\frac{\partial L}{\partial p}=p=(5,\ 4)\qquad \frac{\partial L}{\partial q}=q=(-3,\ 1)$$
+
+### El backward — acá aparece el reparto
+
+Las dos ramas bajan por separado hasta $u$, y **en $u$ se suman**. Ese es exactamente el efecto que veíamos con Karpathy, ahora con matrices.
+
+**Rama $p$** (baja por $f_2$):
+
+$$\frac{\partial L}{\partial u}\Big|_{\text{vía }p}=\underbrace{(5,4)}_{\partial L/\partial p}\underbrace{\begin{pmatrix}1&1\\4&1\end{pmatrix}}_{Df_2}=(5+16,\ 5+4)=(21,\ 9)$$
+
+**Rama $q$** (baja por $f_3$):
+
+$$\frac{\partial L}{\partial u}\Big|_{\text{vía }q}=\underbrace{(-3,1)}_{\partial L/\partial q}\underbrace{\begin{pmatrix}1&-1\\2&0\end{pmatrix}}_{Df_3}=(-3+2,\ 3+0)=(-1,\ 3)$$
+
+**El reparto se junta en $u$ — se suman las dos contribuciones:**
+
+$$\frac{\partial L}{\partial u}=(21,9)+(-1,3)=(20,\ 12)$$
+
+Esta es la regla que faltaba ver con matrices: **cuando un nodo alimenta varias ramas, su gradiente es la suma de lo que le baja por cada rama.** En Karpathy esto pasaba en cada nodo interno (la suma repartía a $e$ y $c$); acá pasa en $u$, y cada contribución viene de un producto fila-por-matriz.
+
+**Último nodo** (cruza $f_1$ hacia $x$):
+
+$$\frac{\partial L}{\partial x}=(20,12)\begin{pmatrix}2&0\\0&4\end{pmatrix}=(40,\ 48)$$
+
+---
+
+## Verificación por la otra ruta
+
+Componemos explícito y derivamos, para comprobar. Con $u=(x_1^2,x_2^2)$:
+
+$$p=(u_1+u_2,\ u_1u_2)=(x_1^2+x_2^2,\ x_1^2x_2^2)$$
+$$q=(u_1-u_2,\ u_1^2)=(x_1^2-x_2^2,\ x_1^4)$$
+
+$$L=\tfrac12\big[(x_1^2+x_2^2)^2+(x_1^2x_2^2)^2+(x_1^2-x_2^2)^2+(x_1^4)^2\big]$$
+
+Derivando respecto a $x_1$ y evaluando en $(1,2)$:
+
+$$\frac{\partial L}{\partial x_1}=(x_1^2+x_2^2)(2x_1)+(x_1^2x_2^2)(2x_1x_2^2)+(x_1^2-x_2^2)(2x_1)+x_1^4(4x_1^3)$$
+
+En $(1,2)$: $=5\cdot2+4\cdot8+(-3)\cdot2+1\cdot4=10+32-6+4=40\ \checkmark$
+
+Coincide con el backward.
