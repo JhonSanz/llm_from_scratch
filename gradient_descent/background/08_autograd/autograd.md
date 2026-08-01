@@ -140,23 +140,23 @@ El resultado es **un vector de $\mathbb{R}^m$**.
 
 Las filas de la Jacobiana son los gradientes de cada componente:
 
-$$
+```math
 D_F(a)=\begin{pmatrix}
 \nabla F_1(a) \\
 \nabla F_2(a)
 \end{pmatrix}
 \qquad
 F'(a;y)=D_F(a)y
-$$
+```
 
 entonces queda
 
-$$
+```math
 D_F(a)=\begin{pmatrix}
 2xy & x^2 \\
 1 & 2y
 \end{pmatrix}
-$$
+```
 
 tal y como dice el teorema
 
@@ -166,19 +166,19 @@ tal y como dice el teorema
 
 Igual que hicimos con el gradiente, evaluemos $D_F$ en un punto concreto, $(x,y)=(1,1)$
 
-$$
+```math
 D_F(1,1)=\begin{pmatrix} 2\cdot1\cdot1 & 1^2 \\ 1 & 2\cdot1 \end{pmatrix}
 =
 \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}
-$$
+```
 
 Ahora veamos qué hace $D_F(1,1)$ como transformación lineal, aplicándola sobre los vectores de la base $e_1=(1,0)$ y $e_2=(0,1)$
 
-$$
+```math
 D_F(1,1)\begin{pmatrix} 1 \\ 0 \end{pmatrix}=\begin{pmatrix} 2 \\ 1 \end{pmatrix}
 \qquad
 D_F(1,1)\begin{pmatrix} 0 \\ 1 \end{pmatrix}=\begin{pmatrix} 1 \\ 2 \end{pmatrix}
-$$
+```
 
 esto no es casualidad: las columnas de $D_F(a)$ **son** las imágenes de $e_1$ y $e_2$, es decir $\partial F/\partial x$ y $\partial F/\partial y$ evaluadas en $a$. Multiplicar por $D_F(a)$ es preguntar "si me muevo una unidad en $x$, o una unidad en $y$, ¿a dónde va a parar la salida de $F$?"
 
@@ -218,17 +218,17 @@ donde en general $F:\mathbb{R}^p\to\mathbb{R}^n$ y $G:\mathbb{R}^n\to\mathbb{R}^
 
 reescribamos lo que ya calculamos en forma matricial para verlo, sustituyendo $F=r$ y $G=f$ en la fórmula
 
-$$
+```math
 D_f(a)=\nabla f(a)=(0.335103, 0) \quad (1\times2)
 \qquad
 D_r(\pi/3)=r'(\pi/3)=\begin{pmatrix} -1 \\ -\pi \end{pmatrix} \quad (2\times1)
-$$
+```
 
-$$
+```math
 D_{f\circ r}(\pi/3) = D_f(a)\cdot D_r(\pi/3)
 = (0.335103, 0)\begin{pmatrix} -1 \\ -\pi \end{pmatrix}
 = -0.335103
-$$
+```
 
 que es el mismo $g'(\pi/3)$ que ya habíamos obtenido. La dimensión intermedia $n=2$ (la salida de $r$, que es la misma entrada que espera $f$) es sobre la que se suma en el producto matricial: con $n=2$ términos, multiplicar una matriz $1\times2$ por una $2\times1$ da una matriz $1\times1$, o sea un escalar, y el producto matricial colapsa exactamente al producto punto que usamos en el teorema 8.8
 
@@ -248,35 +248,35 @@ La composición $h=f\circ g:\mathbb{R}^2\to\mathbb{R}^2$. Aquí $p=2$, $n=3$, $m
 
 **Jacobiana de $g$** (tamaño $3\times 2$), derivando cada componente respecto a $s$ y $t$:
 
-$$
+```math
 Dg(a)=\begin{pmatrix}
 1 & 1 \\
 t & s \\
 2s & 0
 \end{pmatrix}
-$$
+```
 
 **Jacobiana de $f$** (tamaño $2\times 3$), respecto a $x,y,z$:
 
-$$
+```math
 Df=\begin{pmatrix}
 1 & z & y \\
 y & x & -1
 \end{pmatrix}
-$$
+```
 
 Paso clave: hay que evaluar $Df$ en $b=g(a)$, es decir sustituir $x=s+t, y=st, z=s^2$ osea metemos los valores en las casillas donde esté cada una de las variables $x$, $y$ o $z$ asi: 
 
-$$
+```math
 Df(b)=\begin{pmatrix}
 1 & s^2 & st \\
 st & s+t & -1
 \end{pmatrix}
-$$
+```
 
 Producto $Dh(a)=Df(b)Dg(a)$, que es $(2\times 3)(3\times 2)=2\times 2$. La dimensión interna $n=3$ es sobre la que se suma:
 
-$$
+```math
 Dh(a)=\begin{pmatrix}
 1 & s^2 & st \\
 st & s+t & -1
@@ -291,7 +291,7 @@ t & s \\
 1+3s^2t & 1+s^3 \\
 2st+t^2-2s & s^2+2st
 \end{pmatrix}
-$$
+```
 
 (por ejemplo, la entrada superior izquierda es fila 1 · columna 1: $1\cdot 1 + s^2\cdot t + st\cdot 2s = 1+3s^2t$).
 
@@ -307,12 +307,12 @@ Derivando directamente:
 
 $$\frac{\partial h_1}{\partial s}=1+3s^2t,\quad \frac{\partial h_1}{\partial t}=1+s^3,\quad \frac{\partial h_2}{\partial s}=2st+t^2-2s,\quad \frac{\partial h_2}{\partial t}=s^2+2st$$
 
-$$
+```math
 Dh(a)=\begin{pmatrix}
 1+3s^2t & 1+s^3 \\
 2st+t^2-2s & s^2+2st
 \end{pmatrix}
-$$
+```
 
 **Idéntica a la ruta 1.** Multiplicar las dos Jacobianas equivale a componer y derivar, pero sin tener que expandir la composición.
 
@@ -348,14 +348,14 @@ $$(s,t) \xrightarrow{ g } (x,y)=\big(s+t^2, st\big) \xrightarrow{ f } x^2y = h(s
 
 Las cuatro derivadas que hacían ruido son simplemente las cuatro casillas de $Dg$:
 
-$$
+```math
 Dg(s,t)=
 \begin{pmatrix} \dfrac{\partial x}{\partial s} & \dfrac{\partial x}{\partial t} \\[8pt] \dfrac{\partial y}{\partial s} & \dfrac{\partial y}{\partial t} \end{pmatrix}
 =
 \begin{pmatrix} \dfrac{\partial g_1}{\partial s} & \dfrac{\partial g_1}{\partial t} \\[8pt] \dfrac{\partial g_2}{\partial s} & \dfrac{\partial g_2}{\partial t} \end{pmatrix}
 =
 \begin{pmatrix} 1 & 2t \\ t & s \end{pmatrix}
-$$
+```
 
 Escribirlas con nombres $x,y$ en vez de $g_1,g_2$ es lo único que las hacía parecer un enjambre desordenado.
 
@@ -363,22 +363,22 @@ Escribirlas con nombres $x,y$ en vez de $g_1,g_2$ es lo único que las hacía pa
 
 Al ser $f$ un campo escalar, su Jacobiana es una sola fila:
 
-$$
+```math
 Df=\begin{pmatrix} \dfrac{\partial f}{\partial x} & \dfrac{\partial f}{\partial y} \end{pmatrix}
 =
 \begin{pmatrix} 2xy & x^2 \end{pmatrix}
-$$
+```
 
 #### La revelación: las dos ecuaciones de Leibniz son una multiplicación de matrices
 
 Poniendo las dos derivadas de $h$ como una fila, $Dh = Df \cdot Dg$:
 
-$$
+```math
 \underbrace{\begin{pmatrix} \dfrac{\partial h}{\partial s} & \dfrac{\partial h}{\partial t} \end{pmatrix}}_{Dh}
 =
 \underbrace{\begin{pmatrix} 2xy & x^2 \end{pmatrix}}_{Df}
 \underbrace{\begin{pmatrix} 1 & 2t \\ t & s \end{pmatrix}}_{Dg}
-$$
+```
 
 Haciendo fila-por-columna:
 
@@ -545,14 +545,14 @@ La fórmula fea se reescribió sola como un grafo con **fan-out en $u$**. Los ca
 
 ### El montaje resultante
 
-$$
+```math
 x \xrightarrow{\ f_1\ } u
 \begin{cases}
 \xrightarrow{\ f_2\ } p \\[4pt]
 \xrightarrow{\ f_3\ } q
 \end{cases}
 \xrightarrow{\ \ell\ } L
-$$
+```
 
 El nodo $u$ tiene **dos consumidores** ($f_2$ y $f_3$). Esa bifurcación *es* la repetición de $x_1^2, x_2^2$ en la fórmula, ahora hecha explícita.
 
@@ -571,23 +571,23 @@ $$L=\tfrac12(5^2+4^2+(-3)^2+1^2)=\tfrac12(25+16+9+1)=25.5$$
 
 ### Jacobianas locales
 
-$$
+```math
 Df_1=\begin{pmatrix} 2x_1 & 0 \\ 0 & 2x_2 \end{pmatrix}
 \xrightarrow{x=(1,2)}
 \begin{pmatrix} 2 & 0 \\ 0 & 4 \end{pmatrix}
-$$
+```
 
-$$
+```math
 Df_2=\begin{pmatrix} 1 & 1 \\ u_2 & u_1 \end{pmatrix}
 \xrightarrow{u=(1,4)}
 \begin{pmatrix} 1 & 1 \\ 4 & 1 \end{pmatrix}
-$$
+```
 
-$$
+```math
 Df_3=\begin{pmatrix} 1 & -1 \\ 2u_1 & 0 \end{pmatrix}
 \xrightarrow{u=(1,4)}
 \begin{pmatrix} 1 & -1 \\ 2 & 0 \end{pmatrix}
-$$
+```
 
 Loss (escalar, gradiente respecto a cada rama):
 
@@ -599,19 +599,19 @@ Las dos ramas bajan por separado hasta $u$, y **en $u$ se suman**. Ese es exacta
 
 **Rama $p$** (baja por $f_2$):
 
-$$
+```math
 \frac{\partial L}{\partial u}\Big|_{\text{vía }p}
 =\underbrace{(5,4)}_{\partial L/\partial p}\underbrace{\begin{pmatrix} 1 & 1 \\ 4 & 1 \end{pmatrix}}_{Df_2}
 =(5+16,\ 5+4)=(21,\ 9)
-$$
+```
 
 **Rama $q$** (baja por $f_3$):
 
-$$
+```math
 \frac{\partial L}{\partial u}\Big|_{\text{vía }q}
 =\underbrace{(-3,1)}_{\partial L/\partial q}\underbrace{\begin{pmatrix} 1 & -1 \\ 2 & 0 \end{pmatrix}}_{Df_3}
 =(-3+2,\ 3+0)=(-1,\ 3)
-$$
+```
 
 **El reparto se junta en $u$ — se suman las dos contribuciones:**
 
@@ -621,9 +621,9 @@ Esta es la regla que faltaba ver con matrices: **cuando un nodo alimenta varias 
 
 **Último nodo** (cruza $f_1$ hacia $x$):
 
-$$
+```math
 \frac{\partial L}{\partial x}=(20,12)\begin{pmatrix} 2 & 0 \\ 0 & 4 \end{pmatrix}=(40,\ 48)
-$$
+```
 
 ---
 
