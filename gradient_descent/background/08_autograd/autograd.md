@@ -281,15 +281,12 @@ Dh(a)=\begin{pmatrix}
 1 & s^2 & st \\
 st & s+t & -1
 \end{pmatrix}
-
 \begin{pmatrix}
 1 & 1 \\
 t & s \\
 2s & 0
 \end{pmatrix}
-
 =
-
 \begin{pmatrix}
 1+3s^2t & 1+s^3 \\
 2st+t^2-2s & s^2+2st
