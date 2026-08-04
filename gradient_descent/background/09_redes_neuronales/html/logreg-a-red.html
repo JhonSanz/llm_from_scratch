@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>De regresión logística a red neuronal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e13;--panel:#12171f;--panel-2:#0f141b;--line:#212a35;--line-soft:#1a222c;
+    --ink:#dfe6ee;--muted:#8794a3;--muted-2:#5d6875;--accent:#c084fc;--in:#22d3ee;--out:#fb923c;
+    --shadow:0 1px 0 rgba(255,255,255,.03),0 18px 44px -22px rgba(0,0,0,.9);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Space Grotesk",system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1060px;margin:0 auto;padding:30px 22px 52px}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted-2);margin:0 0 10px}
+  h1{font-size:clamp(24px,4vw,38px);line-height:1.03;margin:0;font-weight:600;letter-spacing:-.02em}
+  h1 .em{color:var(--accent)}
+
+  .card{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);
+    border-radius:16px;box-shadow:var(--shadow)}
+  .diagram{margin-top:22px;padding:8px 8px 0}
+  svg#net{width:100%;height:auto;display:block}
+
+  .stagebar{display:flex;align-items:center;gap:12px;padding:14px 18px;border-top:1px solid var(--line-soft);margin-top:4px}
+  .dots{display:flex;gap:7px;flex:1}
+  .dot{flex:none;width:9px;height:9px;border-radius:50%;background:var(--line);transition:.2s;cursor:pointer}
+  .dot.on{background:var(--accent);box-shadow:0 0 10px var(--accent)}
+  .dot.done{background:#4a3d63}
+  .stagetitle{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--accent);font-weight:600;letter-spacing:.02em;min-width:180px;text-align:right}
+
+  .ctrls{display:flex;gap:9px;align-items:center;margin-top:16px;flex-wrap:wrap}
+  .ctrls button{font-family:inherit;font-size:13.5px;font-weight:600;color:var(--ink);background:#0c1119;
+    border:1px solid var(--line);padding:11px 16px;border-radius:11px;cursor:pointer;transition:.14s}
+  .ctrls button:hover:not(:disabled){border-color:#374553;background:#111823}
+  .ctrls button:disabled{opacity:.35;cursor:not-allowed}
+  .ctrls .play{background:var(--accent);color:#0b0e13;border-color:var(--accent)}
+  .ctrls .play:hover{filter:brightness(1.08)}
+  .spacer{flex:1}
+  .slider-wrap{display:flex;align-items:center;gap:12px;opacity:0;pointer-events:none;transition:.25s;
+    background:#0c1119;border:1px solid var(--line);border-radius:11px;padding:8px 14px}
+  .slider-wrap.show{opacity:1;pointer-events:auto}
+  .slider-wrap .lbl{font-size:12.5px;color:var(--muted)}
+  .slider-wrap .val{font-family:"JetBrains Mono",monospace;color:var(--accent);font-weight:600;font-size:14px}
+  #nslider{-webkit-appearance:none;appearance:none;width:120px;height:4px;border-radius:4px;background:var(--line);outline:none}
+  #nslider::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid #0b0e13}
+  #nslider::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid #0b0e13}
+
+  .readout{display:grid;grid-template-columns:1.15fr 1fr;gap:16px;margin-top:18px}
+  @media(max-width:720px){.readout{grid-template-columns:1fr}}
+  .rcard{padding:18px 20px}
+  .rcard h3{margin:0 0 10px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2);font-weight:600;font-family:"JetBrains Mono",monospace}
+  .cap{font-size:14.5px;line-height:1.6;color:var(--ink);transition:opacity .25s}
+  .cap b{color:var(--accent);font-weight:600}
+  .math{font-family:"JetBrains Mono",monospace;font-size:14.5px;line-height:1.85;color:var(--ink);transition:opacity .25s}
+  .math .mut{color:var(--muted)}
+  .math .k{color:var(--accent)}
+  .math .hl{background:rgba(192,132,252,.14);border-radius:4px;padding:1px 4px}
+  sub,sup{font-size:.72em}
+  .matrix{display:inline-flex;align-items:center;gap:6px;vertical-align:middle;margin:6px 0}
+  .matrix .br{font-size:34px;color:var(--muted-2);font-weight:300}
+  .matrix .rows{display:flex;flex-direction:column;gap:3px}
+  .matrix .rows .row{padding:2px 10px;border-radius:5px;font-size:12px;letter-spacing:.05em}
+
+  .foot{margin-top:24px;color:var(--muted-2);font-size:12.5px;line-height:1.6;max-width:78ch}
+  .foot code{font-family:"JetBrains Mono",monospace;color:var(--muted);background:#0e141c;padding:1px 6px;border-radius:5px;font-size:11.5px}
+  .foot b{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">logistic regression → deep neural network</p>
+  <h1>Una neurona <span class="em">es</span> una regresión logística.<br>Una red es <span class="em">muchas</span>, encadenadas.</h1>
+
+  <div class="card diagram">
+    <svg id="net" viewBox="0 0 980 580" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="stagebar">
+      <div class="dots" id="dots"></div>
+      <div class="stagetitle" id="stagetitle">Regresión logística</div>
+    </div>
+  </div>
+
+  <div class="ctrls">
+    <button id="prev">← Anterior</button>
+    <button id="play" class="play">▶ Reproducir</button>
+    <button id="next">Siguiente →</button>
+    <div class="spacer"></div>
+    <div class="slider-wrap" id="sliderwrap">
+      <span class="lbl">Neuronas ocultas</span>
+      <input id="nslider" type="range" min="1" max="6" step="1" value="3">
+      <span class="val" id="nval">3</span>
+    </div>
+  </div>
+
+  <div class="readout">
+    <div class="card rcard"><h3>Qué está pasando</h3><div class="cap" id="cap">—</div></div>
+    <div class="card rcard"><h3>La hipótesis</h3><div class="math" id="math">—</div></div>
+  </div>
+
+  <p class="foot">
+    El mismo objeto, muchos dibujos. Cada neurona hace <code>g(θᵀ·entrada)</code>; los <b>θ son sus conexiones</b>.
+    Al apilar neuronas, cada una aporta una fila a <code>Θ⁽ˡ⁾</code>. Al apilar <b>capas</b>, la salida de una es la
+    entrada de la siguiente y cada capa estrena su propia <code>Θ⁽ˡ⁾</code>: la recursión <code>a⁽ˡ⁺¹⁾=g(Θ⁽ˡ⁾a⁽ˡ⁾)</code>
+    repetida. Con <b>K salidas</b>, la última capa son K regresiones logísticas en paralelo y el costo suma el log
+    loss sobre las K. (Cada capa lleva además una unidad de sesgo <code>a₀⁽ˡ⁾=1</code>, omitida aquí por claridad.)
+  </p>
+</div>
+
+<script>
+"use strict";
+const INX=150, OXcol=800, MIDY=280, MAXL=2, MAXN=6, MAXK=3;
+const inputY=[130,225,320,415];
+const hue=[265,198,34,152,320,96];
+const outHue=[28,45,12];
+const clamp=(v,a,b)=>v<a?a:v>b?b:v;
+const lerp=(a,b,t)=>a+(b-a)*t;
+
+// ---------- descriptor por etapa ----------
+let cur=0, nS4=3, playing=false, playTimer=null;
+const TITLES=["Regresión logística","Una neurona","Una capa: Θ como matriz","Red neuronal","Más neuronas","Varias capas (profundidad)","Varias salidas (K clases)"];
+const NST=7;
+function desc(){ // {L, widths[], K}
+  switch(cur){
+    case 0: return {L:1,widths:[1],K:1};
+    case 1: return {L:1,widths:[1],K:1};
+    case 2: return {L:1,widths:[3],K:1};
+    case 3: return {L:1,widths:[3],K:1};
+    case 4: return {L:1,widths:[nS4],K:1};
+    case 5: return {L:2,widths:[3,3],K:1};
+    case 6: return {L:1,widths:[3],K:3};
+  }
+}
+const outNeuronsActive=()=>cur>=3;
+function colX(c,L){ return INX+(OXcol-INX)*(c+1)/(L+1); }
+function spreadY(i,n,center,maxsp){center=center==null?MIDY:center;maxsp=maxsp||115;
+  if(n<=1)return center; const sp=Math.min(maxsp,300/(n-1)); return center-(n-1)*sp/2+i*sp;}
+
+// ---------- estado tween ----------
+const S={
+  hid:Array.from({length:MAXL},()=>Array.from({length:MAXN},()=>({x:colX(0,1),y:MIDY,op:0}))),
+  out:Array.from({length:MAXK},()=>({x:OXcol,y:MIDY,op:0})),
+  sigma:{x:colX(0,1)-46,y:MIDY,op:1}, g:{x:colX(0,1)+54,y:MIDY,op:1},
+};
+function ease(){
+  const d=desc(),k=0.16;
+  for(let l=0;l<MAXL;l++)for(let j=0;j<MAXN;j++){
+    const s=S.hid[l][j];
+    const active=(l<d.L && j<d.widths[l] && cur>=1);
+    const tx=colX(l,d.L), ty=spreadY(Math.min(j,(d.widths[l]||1)-1), d.widths[l]||1);
+    s.x+=(tx-s.x)*k; s.y+=(ty-s.y)*k; s.op+=((active?1:0)-s.op)*k;
+  }
+  for(let m=0;m<MAXK;m++){const s=S.out[m];
+    const active=outNeuronsActive() && m<d.K;
+    s.y+=(spreadY(m,d.K,MIDY,120)-s.y)*k; s.op+=((active?1:0)-s.op)*k;}
+  const lr=(cur===0)?1:0;
+  S.sigma.x+=((cur===0?colX(0,1)-46:colX(0,d.L))-S.sigma.x)*k; S.sigma.op+=(lr-S.sigma.op)*k;
+  S.g.x+=((cur===0?colX(0,1)+54:colX(0,d.L))-S.g.x)*k; S.g.op+=(lr-S.g.op)*k;
+}
+
+// ---------- helpers svg ----------
+function edge(x1,y1,x2,y2,color,op,w){ if(op<0.01)return"";
+  const mx=(x1+x2)/2;
+  return `<path d="M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}" fill="none" stroke="${color}" stroke-width="${w||1.6}" opacity="${op.toFixed(3)}"/>`;}
+function txt(x,y,str,size,color,op,anchor,weight){ if(op<0.01)return"";
+  return `<text x="${x}" y="${y}" text-anchor="${anchor||'middle'}" font-family="JetBrains Mono,monospace" font-size="${size}" font-weight="${weight||400}" fill="${color}" opacity="${op.toFixed(3)}">${str}</text>`;}
+function thetaBadge(xA,xB,sup,op){ if(op<0.02)return"";
+  const x=(xA+xB)/2, y=64;
+  return `<rect x="${x-24}" y="${y-16}" width="48" height="26" rx="7" fill="#140f1e" stroke="#c084fc" stroke-width="1.3" opacity="${(op*.9).toFixed(3)}"/>`+
+    txt(x,y+3,`Θ<tspan baseline-shift="super" font-size="8">(${sup})</tspan>`,13,'#c084fc',op,'middle',600);}
+
+// ---------- render ----------
+function render(){
+  const d=desc(); let s="";
+  const L=d.L;
+
+  // --- Θ badges (una por cada bloque de conexiones) ---
+  if(cur>=2) s+=thetaBadge(INX, S.hid[0][0].x, 1, S.hid[0][0].op);
+  for(let c=0;c<L-1;c++) s+=thetaBadge(S.hid[c][0].x, S.hid[c+1][0].x, c+2, Math.min(S.hid[c][0].op,S.hid[c+1][0].op));
+  if(outNeuronsActive()) s+=thetaBadge(S.hid[L-1][0].x, OXcol, L+1, S.out[0].op);
+
+  // --- aristas modo LR (etapa 0) ---
+  for(let i=0;i<4;i++) s+=edge(INX+22,inputY[i],S.sigma.x-24,S.sigma.y,'#3a4657',S.sigma.op,1.6);
+  s+=edge(S.sigma.x+24,S.sigma.y,S.g.x-24,S.g.y,'#3a4657',S.sigma.op,1.8);
+  s+=edge(S.g.x+24,S.g.y,OXcol-6,MIDY,'#3a4657',S.g.op*(cur===0?1:0),1.8);
+
+  // --- input -> col0 ---
+  for(let j=0;j<MAXN;j++){const h=S.hid[0][j];if(h.op<0.01)continue;
+    const col=`hsla(${hue[j]},80%,68%,`;
+    for(let i=0;i<4;i++) s+=edge(INX+22,inputY[i],h.x-24,h.y,col+(0.5*h.op)+')',h.op,1.4);}
+  // --- col c -> col c+1 ---
+  for(let c=0;c<L-1;c++)for(let j=0;j<MAXN;j++){const a=S.hid[c][j];if(a.op<0.01)continue;
+    for(let i2=0;i2<MAXN;i2++){const b=S.hid[c+1][i2];if(b.op<0.01)continue;
+      const o=Math.min(a.op,b.op);
+      s+=edge(a.x+24,a.y,b.x-24,b.y,`hsla(${hue[i2]},80%,68%,${(0.5*o).toFixed(3)})`,o,1.4);}}
+  // --- last hidden -> outputs (o etiquetas de activación) ---
+  const last=L-1;
+  if(outNeuronsActive()){
+    for(let j=0;j<MAXN;j++){const a=S.hid[last][j];if(a.op<0.01)continue;
+      for(let m=0;m<MAXK;m++){const o2=Math.min(a.op,S.out[m].op);if(o2<0.01)continue;
+        s+=edge(a.x+24,a.y,OXcol-24,S.out[m].y,`hsla(${outHue[m]},90%,60%,${(0.55*o2).toFixed(3)})`,o2,1.5);}}
+  } else {
+    for(let j=0;j<MAXN;j++){const a=S.hid[last][j];const o=a.op*(1-S.out[0].op);if(o<0.02)continue;
+      s+=edge(a.x+24,a.y,OXcol-46,a.y,'#3a4657',o,1.5);}
+  }
+
+  // --- θ labels (solo con 1 neurona en 1 capa) ---
+  const oneNeuron=(L===1 && d.widths[0]===1);
+  const thetaOp=oneNeuron?Math.max(S.sigma.op,S.hid[0][0].op):0;
+  if(thetaOp>0.02){const hx=S.hid[0][0].op>0.3?S.hid[0][0].x:S.sigma.x;
+    for(let i=0;i<4;i++){const tx=lerp(INX+22,hx-24,0.6),ty=lerp(inputY[i],MIDY,0.6)-6;
+      s+=txt(tx,ty,`θ<tspan baseline-shift="sub" font-size="9">${i}</tspan>`,13,'#c084fc',thetaOp,'middle',600);}}
+
+  // --- nodos de entrada ---
+  const inLabels=['x₀','x₁','x₂','x₃'], inSubs=['=1',' ',' ',' '];
+  for(let i=0;i<4;i++){
+    s+=`<circle cx="${INX}" cy="${inputY[i]}" r="20" fill="#0f1620" stroke="#22d3ee" stroke-width="2"/>`;
+    s+=txt(INX,inputY[i]+(i===0?-1:5),inLabels[i],15,'#bfeff7',1,'middle',600);
+    if(i===0)s+=txt(INX,inputY[i]+12,'sesgo',8,'#5d8f97',1);}
+
+  // --- cajas Σ y g (etapa 0) ---
+  if(S.sigma.op>0.02){
+    s+=`<rect x="${S.sigma.x-24}" y="${S.sigma.y-22}" width="48" height="44" rx="9" fill="#0f1620" stroke="#c084fc" stroke-width="2" opacity="${S.sigma.op.toFixed(3)}"/>`;
+    s+=txt(S.sigma.x,S.sigma.y+7,'Σ',22,'#dfe6ee',S.sigma.op,'middle',600);
+    s+=txt(S.sigma.x,S.sigma.y-30,'z=θᵀx',11,'#8794a3',S.sigma.op);}
+  if(S.g.op>0.02){
+    s+=`<rect x="${S.g.x-24}" y="${S.g.y-22}" width="48" height="44" rx="9" fill="#0f1620" stroke="#c084fc" stroke-width="2" opacity="${S.g.op.toFixed(3)}"/>`;
+    s+=txt(S.g.x,S.g.y+6,'g(z)',13,'#dfe6ee',S.g.op,'middle',600);
+    s+=txt(S.g.x,S.g.y-30,'sigmoide',11,'#8794a3',S.g.op);}
+
+  // --- neuronas ocultas ---
+  for(let l=0;l<MAXL;l++)for(let j=0;j<MAXN;j++){const h=S.hid[l][j];if(h.op<0.02)continue;
+    const c=`hsl(${hue[j]},80%,68%)`;
+    s+=`<circle cx="${h.x}" cy="${h.y}" r="21" fill="#12101a" stroke="${c}" stroke-width="2.4" opacity="${h.op.toFixed(3)}"/>`;
+    s+=txt(h.x,h.y+5,'g',15,c,h.op,'middle',600);}
+
+  // --- neuronas de salida ---
+  for(let m=0;m<MAXK;m++){const o=S.out[m];if(o.op<0.02)continue;
+    const c=`hsl(${outHue[m]},90%,62%)`;
+    s+=`<circle cx="${OXcol}" cy="${o.y}" r="21" fill="#1a1206" stroke="${c}" stroke-width="2.4" opacity="${o.op.toFixed(3)}"/>`;
+    s+=txt(OXcol,o.y+5,'g',15,c,o.op,'middle',600);}
+
+  // --- etiquetas de salida ---
+  if(cur===0){ s+=txt(OXcol+22,MIDY+5,'h<tspan baseline-shift="sub" font-size="9">θ</tspan>(x)',15,'#fb923c',S.g.op,'start',600); }
+  else if(outNeuronsActive()){
+    for(let m=0;m<MAXK;m++){const o=S.out[m];if(o.op<0.03)continue;
+      const lab=(d.K===1)?'h<tspan baseline-shift="sub" font-size="9">Θ</tspan>(x)':`h<tspan baseline-shift="sub" font-size="9">${m+1}</tspan>`;
+      s+=txt(OXcol+26,o.y+5,lab,14,`hsl(${outHue[m]},90%,68%)`,o.op,'start',600);}}
+  else {
+    for(let j=0;j<MAXN;j++){const h=S.hid[last][j];const o=h.op*(1-S.out[0].op);if(o<0.03)continue;
+      const lab=oneNeuron?'a=h<tspan baseline-shift="sub" font-size="9">θ</tspan>(x)':`a<tspan baseline-shift="sub" font-size="9">${j+1}</tspan>`;
+      s+=txt(OXcol-40,h.y+4,lab,13,`hsl(${hue[j]},80%,72%)`,o,'start',600);}}
+
+  // --- rótulos de columna ---
+  s+=txt(INX,500,'entradas x',12,'#5d6875',1);
+  for(let l=0;l<L;l++){const anyop=Math.max(...S.hid[l].map(h=>h.op));
+    const lbl=L===1?(cur===1?'1 neurona':'capa oculta'):('capa oculta '+(l+1));
+    s+=txt(S.hid[l][0].x,500,cur===0?'':lbl,12,'#5d6875',anyop);}
+  s+=txt(OXcol,500,outNeuronsActive()?(d.K>1?'K salidas':'salida'):'',12,'#5d6875',Math.max(...S.out.map(o=>o.op),cur===0?0:0));
+
+  document.getElementById('net').innerHTML=s;
+}
+
+// ---------- textos ----------
+const CAPS=[
+ `En regresión logística combinas las entradas <b>x</b> con los pesos <b>θ</b> (la suma <b>z=θᵀx</b>) y aplicas la sigmoide. Los θ son los parámetros que aprendes.`,
+ `Colapsa la suma y la sigmoide en un nodo: <b>eso es una neurona</b>. Misma matemática, otro dibujo. Los <b>θ son las conexiones</b> que entran a la neurona.`,
+ `Clona la neurona: cada copia tiene su <b>propio θ</b>. Apilar esos vectores como filas da la matriz <b>Θ⁽¹⁾</b>, una fila por neurona.`,
+ `Las activaciones a⁽²⁾ alimentan una <b>neurona de salida</b> — otra regresión logística. La red es una <b>composición</b> de ellas.`,
+ `Agrega neuronas a la capa: más filas en <b>Θ⁽¹⁾</b>, más rectas combinándose, frontera más flexible.`,
+ `Apila capas: la salida de una capa es la <b>entrada</b> de la siguiente, y cada capa estrena su <b>propia Θ⁽ˡ⁾</b>. Es la misma recursión repetida — nada se comparte entre capas.`,
+ `Para <b>K clases</b>, la capa de salida tiene <b>K neuronas</b>: K regresiones logísticas en paralelo. h<sub>Θ</sub>(x)∈ℝ<sup>K</sup>, y el costo suma el log loss sobre las K salidas.`
+];
+function mathHTML(){
+  const d=desc();
+  if(cur===0||cur===1)
+    return `<span class="k">h(x)</span> = g(<span class="k">θ</span>ᵀx)<br>
+      <span class="mut">= g( θ<sub>0</sub>x<sub>0</sub> + θ<sub>1</sub>x<sub>1</sub> + θ<sub>2</sub>x<sub>2</sub> + θ<sub>3</sub>x<sub>3</sub> )</span>
+      ${cur===1?'<br><br><span class="mut">1 neurona → a = g(θᵀx)</span>':''}`;
+  if(cur===2){
+    let rows='';for(let j=0;j<3;j++)rows+=`<div class="row" style="background:hsla(${hue[j]},70%,60%,.16);color:hsl(${hue[j]},80%,75%)">— θ⁽¹⁾<sub>${j+1}</sub> —</div>`;
+    return `<span class="k">a⁽²⁾</span> = g( <span class="k">Θ⁽¹⁾</span> x )
+      <div class="matrix"><span class="br">[</span><div class="rows">${rows}</div><span class="br">]</span>
+      <span class="mut" style="margin-left:8px">fila = neurona</span></div>`;}
+  if(cur===3||cur===4)
+    return `<span class="mut">oculta:</span> a⁽²⁾ = g( <span class="k">Θ⁽¹⁾</span> x )<br>
+      <span class="mut">salida:</span> h(x) = g( <span class="k">Θ⁽²⁾</span> a⁽²⁾ )<br><br>
+      <span class="k">h(x)</span> = g( Θ⁽²⁾ · g( Θ⁽¹⁾ x ) )
+      ${cur===4?`<br><span class="mut">Θ⁽¹⁾ tiene ${nS4} filas</span>`:''}`;
+  if(cur===5)
+    return `a⁽²⁾ = g( <span class="k">Θ⁽¹⁾</span> x )<br>
+      a⁽³⁾ = g( <span class="k">Θ⁽²⁾</span> <span class="hl">a⁽²⁾</span> )<br>
+      h(x) = g( <span class="k">Θ⁽³⁾</span> <span class="hl">a⁽³⁾</span> )<br><br>
+      <span class="mut">en general:</span><br>
+      <span class="k">a⁽ˡ⁺¹⁾</span> = g( Θ⁽ˡ⁾ a⁽ˡ⁾ )<br>
+      <span class="mut">Θ⁽ˡ⁾ nueva por capa</span>`;
+  // cur 6
+  return `h(x) ∈ ℝ<sup>K</sup> &nbsp;<span class="mut">(K neuronas de salida)</span><br>
+    <span class="k">h(x)<sub>k</sub></span> = g( θ⁽ᴸ⁾<sub>k</sub> · a )<br><br>
+    <span class="mut">costo:</span><br>
+    J = −(1/m) ΣΣ<sub>k</sub> [ y<sub>k</sub> log h<sub>k</sub> + (1−y<sub>k</sub>) log(1−h<sub>k</sub>) ]<br>
+    <span class="mut">K regresiones logísticas en paralelo</span>`;
+}
+function updateText(){
+  const cap=document.getElementById('cap'), math=document.getElementById('math');
+  cap.style.opacity=0; math.style.opacity=0;
+  setTimeout(()=>{cap.innerHTML=CAPS[cur];math.innerHTML=mathHTML();cap.style.opacity=1;math.style.opacity=1;},130);
+  document.getElementById('stagetitle').textContent=TITLES[cur];
+  document.querySelectorAll('#dots .dot').forEach((dd,i)=>{dd.classList.toggle('on',i===cur);dd.classList.toggle('done',i<cur);});
+  document.getElementById('prev').disabled=(cur===0);
+  document.getElementById('next').disabled=(cur===NST-1);
+  document.getElementById('sliderwrap').classList.toggle('show',cur===4);
+}
+
+// ---------- navegación ----------
+function goto(i){cur=clamp(i,0,NST-1);updateText();}
+function next(){if(cur<NST-1)goto(cur+1);}
+function prev(){goto(cur-1);}
+function stopPlay(){playing=false;clearInterval(playTimer);document.getElementById('play').textContent='▶ Reproducir';}
+function startPlay(){ if(cur===NST-1)goto(0);
+  playing=true;document.getElementById('play').textContent='❚❚ Pausa';clearInterval(playTimer);
+  playTimer=setInterval(()=>{ if(cur<NST-1)next(); else stopPlay(); },3500);}
+document.getElementById('play').addEventListener('click',()=>playing?stopPlay():startPlay());
+document.getElementById('next').addEventListener('click',()=>{stopPlay();next();});
+document.getElementById('prev').addEventListener('click',()=>{stopPlay();prev();});
+document.getElementById('nslider').addEventListener('input',e=>{nS4=+e.target.value;document.getElementById('nval').textContent=nS4;if(cur===4)updateText();});
+const dotsEl=document.getElementById('dots');
+for(let i=0;i<NST;i++){const dd=document.createElement('div');dd.className='dot';dd.title=TITLES[i];
+  dd.addEventListener('click',()=>{stopPlay();goto(i);});dotsEl.appendChild(dd);}
+
+function loop(){ ease(); render(); requestAnimationFrame(loop); }
+updateText(); loop();
+</script>
+</body>
+</html>
