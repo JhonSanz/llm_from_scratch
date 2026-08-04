@@ -47,6 +47,8 @@ $$a^{(2)} = g(z^{(2)})$$
 
 donde $g$ es la misma función sigmoide de siempre, $g(z) = \frac{1}{1+e^{-z}}$, aplicada elemento a elemento.
 
+$$\mathbf{g}:\mathbb{R}^n\to\mathbb{R}^n, \qquad \mathbf{g}(z)=\big(g(z_1),\,g(z_2),\,\dots,\,g(z_n)\big)$$
+
 Explícitamente, cada neurona de la capa oculta es una regresión logística que recibe como entrada el vector $x$ completo:
 
 $$a_1^{(2)} = g(\Theta_{10}^{(1)} x_0 + \Theta_{11}^{(1)} x_1 + \Theta_{12}^{(1)} x_2 + \Theta_{13}^{(1)} x_3)$$
@@ -56,6 +58,8 @@ $$a_2^{(2)} = g(\Theta_{20}^{(1)} x_0 + \Theta_{21}^{(1)} x_1 + \Theta_{22}^{(1)
 $$a_3^{(2)} = g(\Theta_{30}^{(1)} x_0 + \Theta_{31}^{(1)} x_1 + \Theta_{32}^{(1)} x_2 + \Theta_{33}^{(1)} x_3)$$
 
 Cada fila de $\Theta^{(1)}$ es, ni más ni menos, un vector $\theta$ como el que usábamos en logistic regression. La diferencia es que ahora tenemos **tres fronteras de decisión lineales en paralelo** en lugar de una sola.
+
+> Esto no es mas que un producto matriz-vector pero con nombres intermedios, esto complica un poco la notación pero luego es necesario para el backprop
 
 Y para llegar a la salida repetimos el mismo paso, pero ahora usando las activaciones de la capa oculta como "features" de entrada:
 
@@ -68,6 +72,8 @@ $$h_\Theta(x) = g(\Theta_{10}^{(2)} a_0^{(2)} + \Theta_{11}^{(2)} a_1^{(2)} + \T
 Este proceso de ir calculando $a^{(2)}, a^{(3)}, \dots$ hacia adelante se llama **forward propagation**.
 
 Vale la pena recalcar que si nuestra red tiene unicamente una salida, para esa neurona la matriz $\Theta$ se reduce a un vector. Encontraremos otra matriz $\Theta$ en la última capa para el caso de una red con varias salidas, ya que allí se solapan los vectores generando la matiz
+
+para no confundir esto mas de lo necesario simplemente hay que recordar siempre la regresión logística, estamos armando una linea recta con unos parámetros, solamente que aquí tenemos varias regresiones dibujadas como neuronas
 
 > **La hipótesis de una red neuronal es una composición de regresiones logísticas.** Cada capa aprende sus propias "fronteras de decisión lineales" sobre la salida de la capa anterior, y al combinarlas se pueden formar fronteras de decisión no lineales y arbitrariamente complejas.
 
