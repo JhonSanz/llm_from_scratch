@@ -31,6 +31,19 @@ Pero lo que de verdad mide si alguien aprendió álgebra no es *S*, sino *D*: la
 
 
 ### El objeto que medimos es un *score*, no una decisión
+
+Recordando un poco la regresión logística y los análisis que hicimos, vimos que el objetivo de todo fue decir "el ejemplo tiene X probabilidad de pertenecer a la clase A", teniendo en cuenta la frontera de decisión, la cual tenia una influencia directa con la función sigmoide, después de ajustar la recta lográbamos aplanar con la sigmoide y obtener la probabilidad
+
+El problema es que `0.5` desde la probabilidad no nos clasifica nada. Entonces, cual es la diferencia entre tener un ejemplo con score `0.51` y otro `0.9`? ambos están por encima del umbral para considerar que "es mas probable que pertenezca a la clase A". Sin embargo el modelo está obviamente mas convencido de la segunda, y es por eso que debemos valorar ese "nivel de convencimiento"
+
+Así que la solución es poner un valor para decir "de aquí para allá lo considero fraude"
+
+El score tiene dos cualidades que son totalmente independientes entre sí:
+
+- **Ordenar bien**: ¿el modelo tiende a darles score más alto a los fraudes de verdad que a las transacciones legítimas?, no importa el valor exacto, importa el orden.
+- **Que el número sea una probabilidad creíble**: si el modelo dice 0.8, ¿de verdad alrededor de 8 de cada 10 de esos casos resultan ser fraude?
+
+
 ### La matriz de confusión: TP, FP, FN, TN
 ### El umbral de decisión es una perilla, no un dato
 
