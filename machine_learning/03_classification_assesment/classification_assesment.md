@@ -32,19 +32,34 @@ Pero lo que de verdad mide si alguien aprendió álgebra no es *S*, sino *D*: la
 
 ### El objeto que medimos es un *score*, no una decisión
 
-Recordando un poco la regresión logística y los análisis que hicimos, vimos que el objetivo de todo fue decir "el ejemplo tiene X probabilidad de pertenecer a la clase A", teniendo en cuenta la frontera de decisión, la cual tenia una influencia directa con la función sigmoide, después de ajustar la recta lográbamos aplanar con la sigmoide y obtener la probabilidad
+Recordando la regresión logística: el modelo nunca dice directamente "esto es fraude". Lo que hace es ajustar una recta y aplanarla con la sigmoide para obtener un número entre 0 y 1 (un **score**), que interpretamos como "qué tan probable es que este ejemplo sea fraude". La decisión ("es fraude" / "no es fraude") es un paso aparte, se obtiene comparando ese score contra un umbral, típicamente `0.5`.
 
-El problema es que `0.5` desde la probabilidad no nos clasifica nada. Entonces, cual es la diferencia entre tener un ejemplo con score `0.51` y otro `0.9`? ambos están por encima del umbral para considerar que "es mas probable que pertenezca a la clase A". Sin embargo el modelo está obviamente mas convencido de la segunda, y es por eso que debemos valorar ese "nivel de convencimiento"
+Ahí está el punto clave, el modelo no produce una decisión sino un **score**, y la decisión es algo que nosotros le imponemos después. Si evaluamos a Ignasio mirando solo la decisión final, perdemos información. Un ejemplo con score `0.51` y otro con `0.9` caen del mismo lado del umbral (a ambos el modelo los llama "fraude") pero el segundo lo dice con muchísima más **confianza** que el primero. Si solo miramos la etiqueta final, esa diferencia desaparece, y esa diferencia es justo lo que nos dice si el modelo entendió el problema o apenas está **adivinando** cerca del borde.
 
-Así que la solución es poner un valor para decir "de aquí para allá lo considero fraude"
+Por eso, antes de hablar de umbrales y decisiones, conviene evaluar el score en sí mismo. El score tiene dos cualidades que son totalmente independientes entre sí:
 
-El score tiene dos cualidades que son totalmente independientes entre sí:
+- **Ordenar bien**: ¿el modelo tiende a darles score más alto a los fraudes de verdad que a las transacciones legítimas? No importa el valor exacto que le ponga a cada ejemplo, importa que el orden relativo sea el correcto. Un modelo que le da `0.05` a los fraudes y `0.02` a las transacciones legítimas ordena perfecto, aunque ningún score individual "parezca" alto.
+- **Que el número sea una probabilidad creíble**: si el modelo dice `0.8`, ¿de verdad, entre todos los casos donde dijo algo cercano a `0.8`, alrededor de 8 de cada 10 resultan ser fraude? Un modelo puede ordenar perfecto y aun así estar mal calibrado — por ejemplo, si sistemáticamente dice `0.95` cuando la tasa real ronda el 60%.
 
-- **Ordenar bien**: ¿el modelo tiende a darles score más alto a los fraudes de verdad que a las transacciones legítimas?, no importa el valor exacto, importa el orden.
-- **Que el número sea una probabilidad creíble**: si el modelo dice 0.8, ¿de verdad alrededor de 8 de cada 10 de esos casos resultan ser fraude?
+Son independientes porque un modelo puede tener una de las dos sin la otra: puede ordenar de maravilla mientras sus números están sistemáticamente desviados, o puede tener números creíbles en promedio pero un orden mediocre. Vamos a volver a esta distinción más adelante — ordenar bien es lo que miden ROC y PR-AUC (Parte 3), y que el número sea creíble es lo que mide la calibración (Parte 4).
 
 
 ### La matriz de confusión: TP, FP, FN, TN
+
+Ya vimos que el score se convierte en decisión al compararlo contra un umbral. Una vez Ignasio tiene esa decisión para cada transacción, puede cruzarla contra la verdad (lo que la transacción *realmente* era) y le salen cuatro casos posibles:
+
+| | Real: Fraude | Real: Legítima |
+|---|---|---|
+| **Predicho: Fraude** | True Positive (TP) | False Positive (FP) |
+| **Predicho: Legítima** | False Negative (FN) | True Negative (TN) |
+
+- **True Positive (TP)**: era fraude, el modelo dijo fraude. Acierto — el fraude queda atrapado.
+- **True Negative (TN)**: era legítima, el modelo dijo legítima. Acierto — a un cliente honesto no lo molestan.
+- **False Positive (FP)**: era legítima, pero el modelo dijo fraude. Falsa alarma — a un cliente honesto le bloquean la tarjeta sin razón.
+- **False Negative (FN)**: era fraude, pero el modelo dijo legítima. El peor caso para la Empresa Feliz — el fraude pasa como si nada.
+
+Esta matriz es la materia prima de casi todo lo que viene: precision, recall, F1 y accuracy (Parte 2) no son más que distintas formas de combinar estos cuatro números. Pero ojo — la matriz completa depende de un umbral fijo. Si Ignasio mueve el umbral, algunos TP se le vuelven FN, algunos TN se le vuelven FP, y la matriz cambia entera. De eso trata la siguiente sección.
+
 ### El umbral de decisión es una perilla, no un dato
 
 ## Parte 2 — Métricas a UN umbral fijo (un punto)
