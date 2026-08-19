@@ -10,7 +10,7 @@ Por lo cual, lo que sigue son los conceptos fundamentales y mas importantes para
 
 ## Parte 1 — Los cimientos
 
-### ¿Qué significa "generalizar"?
+### 1.1 ¿Qué significa "generalizar"?
 
 En la "Escuela Feliz" dos estudiantes de octavo grado cursan por primera vez álgebra 1, una materia que suele ser retadora para todos los estudiantes. El estudiante A tiene la costumbre de aprenderse de memoria todos los ejercicios que el profesor propone, mientras que el estudiante W intenta entender el por qué de todos los procesos y trucos aritméticos que se enseñan en la clase
 
@@ -30,7 +30,7 @@ Pero lo que de verdad mide si alguien aprendió álgebra no es *S*, sino *D*: la
 **Generalizar es lograr que el true risk sea bajo, y no solo el empirical risk.** El segundo corte —con preguntas nuevas que conservan el espíritu de los talleres— es precisamente un intento del profesor de estimar el true risk: tomar una segunda muestra que el estudiante no vio y usarla para descubrir quién entendió y quién solo memorizó. Ese es, exactamente, el papel que van a cumplir los **test data** (datos de prueba) con el modelo de Ignasio.
 
 
-### El objeto que medimos es un *score*, no una decisión
+### 1.2 El objeto que medimos es un *score*, no una decisión
 
 Recordando la regresión logística: el modelo nunca dice directamente "esto es fraude". Lo que hace es ajustar una recta y aplanarla con la sigmoide para obtener un número entre 0 y 1 (un **score**), que interpretamos como "qué tan probable es que este ejemplo sea fraude". La decisión ("es fraude" / "no es fraude") es un paso aparte, se obtiene comparando ese score contra un umbral, típicamente `0.5`.
 
@@ -44,7 +44,7 @@ Por eso, antes de hablar de umbrales y decisiones, conviene evaluar el score en 
 Son independientes porque un modelo puede tener una de las dos sin la otra: puede ordenar de maravilla mientras sus números están sistemáticamente desviados, o puede tener números creíbles en promedio pero un orden mediocre. Vamos a volver a esta distinción más adelante — ordenar bien es lo que miden ROC y PR-AUC (Parte 3), y que el número sea creíble es lo que mide la calibración (Parte 4).
 
 
-### La matriz de confusión: TP, FP, FN, TN
+### 1.3 La matriz de confusión: TP, FP, FN, TN
 
 Ya vimos que el score se convierte en decisión al compararlo contra un umbral. Una vez Ignasio tiene esa decisión para cada transacción, puede cruzarla contra la verdad (lo que la transacción *realmente* era) y le salen cuatro casos posibles:
 
@@ -60,7 +60,29 @@ Ya vimos que el score se convierte en decisión al compararlo contra un umbral. 
 
 Esta matriz es la materia prima de casi todo lo que viene: precision, recall, F1 y accuracy (Parte 2) no son más que distintas formas de combinar estos cuatro números. Pero ojo — la matriz completa depende de un umbral fijo. Si Ignasio mueve el umbral, algunos TP se le vuelven FN, algunos TN se le vuelven FP, y la matriz cambia entera. De eso trata la siguiente sección.
 
-### El umbral de decisión es una perilla, no un dato
+### 1.4 El umbral de decisión es una perilla, no un dato
+
+Ya vimos que el score y la decisión son cosas distintas, y que la decisión sale de comparar el score contra un umbral. Lo que falta aclarar es qué tan arbitrario es ese umbral: `0.5` no es una ley matemática ni algo que el modelo "aprendió" durante el entrenamiento — es apenas la convención por defecto. Nada en la sigmoide obliga a cortar ahí, y moverlo no le toca ni un peso al modelo: los de Ignasio ya quedaron fijos cuando terminó de entrenar. El umbral es puro post-proceso, tan fácil de cambiar como una línea de código en producción.
+
+Y cuando lo movés, la matriz de confusión entera cambia con él. Supongamos que Ignasio tiene estas transacciones con sus scores:
+
+| Transacción | Score | Real |
+|---|---|---|
+| A | 0.20 | Legítima |
+| B | 0.35 | Legítima |
+| C | 0.55 | Legítima |
+| D | 0.60 | Fraude |
+| E | 0.80 | Fraude |
+
+Con umbral `0.5`, C, D y E se marcan "fraude": C es un **FP** (era legítima), D y E son **TP**. A y B son **TN**. Resultado: 2 TP, 1 FP, 0 FN, 2 TN.
+
+Si Ignasio baja el umbral a `0.3`, ahora B también cruza la línea y se marca "fraude": sigue siendo **FP** (era legítima). La matriz pasa a 2 TP, 2 FP, 0 FN, 1 TN — atrapó lo mismo pero generó una falsa alarma más.
+
+Si en cambio lo sube a `0.7`, D deja de marcarse "fraude" y se vuelve **FN** (era fraude y se le escapó). La matriz pasa a 1 TP, 1 FP, 1 FN, 3 TN — menos falsas alarmas, pero ahora se le fue un fraude real.
+
+Ningún score cambió. El modelo es exactamente el mismo modelo. Lo único que cambió fue la posición de la perilla, y eso alcanzó para mover FP, FN, TP y TN de lugar. Por eso no tiene sentido decir "mi modelo tiene 90% de precision" sin aclarar a qué umbral — es como reportar la velocidad de un auto sin decir en qué marcha.
+
+¿Y quién decide dónde poner la perilla? No la estadística — el negocio. Bajar el umbral favorece recall (atrapar más fraude) a costa de molestar más clientes honestos; subirlo favorece precision (menos falsas alarmas) a costa de dejar pasar más fraude. Cuál de los dos errores le sale más caro a la Empresa Feliz es exactamente el tema de la Parte 6 (matriz de costos, selección de umbral). Por ahora, lo importante es entender que el umbral es una decisión aparte del modelo, no una propiedad suya.
 
 ## Parte 2 — Métricas a UN umbral fijo (un punto)
 
