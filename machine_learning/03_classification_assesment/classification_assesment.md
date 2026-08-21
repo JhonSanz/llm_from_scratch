@@ -86,8 +86,40 @@ Ningún score cambió. El modelo es exactamente el mismo modelo. Lo único que c
 
 ## Parte 2 — Métricas a UN umbral fijo (un punto)
 
-### Precision
-### Recall
+### 2.1 Precision
+
+Retomemos la matriz de confusión de la sección 1.3. Con umbral `0.5`, Ignasio tenía 2 TP, 1 FP, 0 FN y 2 TN. La pregunta que responde **precision** es puntual: de todas las veces que el modelo gritó "¡fraude!", ¿cuántas veces tenía razón?
+
+```
+precision = TP / (TP + FP)
+```
+
+En el ejemplo, el modelo marcó "fraude" tres veces (C, D, E) y acertó en dos (D, E): precision = 2/3 ≈ 0.67. Dicho en criollo, dos de cada tres alarmas son reales; la tercera es un cliente honesto al que le bloquearon la tarjeta sin motivo.
+
+Precision solo mira la fila "Predicho: Fraude" de la matriz. Le da igual cuántos fraudes reales existen en total o cuántos se le escaparon al modelo — eso es asunto del recall, que viene en la siguiente sección. Precision contesta una pregunta distinta: cuando el modelo actúa, ¿qué tan confiable es esa acción?
+
+Por qué le importa a la Empresa Feliz: cada FP es un cliente real al que le rechazan la compra, que llama a soporte enojado y que quizás se cambia de banco. Si precision es baja, la alarma del modelo deja de ser creíble — tanto para los clientes como para el equipo humano que revisa cada caso marcado. Con suficiente volumen de transacciones, un precision bajo puede enterrar a ese equipo en falsas alarmas.
+
+Vale la pena notar un caso extremo: un modelo tramposo que casi nunca dice "fraude" — solo en el único caso donde está segurísimo — puede lograr precision de 1.0 sin atrapar casi ningún fraude real. Precision alta no significa "atrapa mucho fraude"; significa "cuando actúa, no se equivoca". Que tan seguido actúa (y qué tanto fraude real atrapa) es justo lo que mide recall.
+
+### 2.2 Recall
+
+Si precision mira la fila "Predicho: Fraude", **recall** mira la columna "Real: Fraude". La pregunta cambia de bando: de todos los fraudes que de verdad ocurrieron, ¿cuántos atrapó el modelo?
+
+```
+recall = TP / (TP + FN)
+```
+
+Con el umbral `0.5` del ejemplo de 1.4, Ignasio tenía 2 TP y 0 FN: recall = 2/2 = 1.0. El modelo atrapó el 100% de los fraudes reales — nada se le escapó. Eso, a pesar de que su precision era apenas 0.67. Ahí está la primera pista de que ambas métricas miden cosas distintas: se puede tener recall perfecto con precision mediocre, y viceversa.
+
+Ahora recordemos qué pasaba si Ignasio subía el umbral a `0.7` (también en 1.4): la matriz cambiaba a 1 TP, 1 FP, 1 FN, 3 TN. D — que sí era fraude — dejó de cruzar la línea y se volvió FN. recall = 1/(1+1) = 0.5. De un plumazo, subir la perilla para ganar precision le costó la mitad del recall: ahora se le escapa uno de cada dos fraudes reales.
+
+Recall le da igual cuántas falsas alarmas genera el modelo; solo le importa no dejar pasar fraude real. Por eso a veces se le llama **sensitivity** o **true positive rate** — es la misma cantidad con otro nombre, y va a reaparecer en la Parte 3 cuando hablemos de la curva ROC.
+
+Por qué le importa a la Empresa Feliz: cada FN es un fraude que pasó como transacción normal — plata que se pierde, y potencialmente un cliente que descubre después que le robaron y culpa al banco por no haberlo detectado. Si el costo de un fraude no detectado es mucho mayor que el costo de molestar a un cliente honesto (algo muy plausible en fraude financiero), Ignasio va a querer un recall alto aunque eso le cueste precision — y de ahí sale, otra vez, la pregunta del umbral correcto que retomamos en la Parte 6.
+
+Igual que con precision, hay un caso extremo que conviene tener en mente: un modelo tramposo que marca *todas* las transacciones como fraude logra recall de 1.0 perfecto — nunca deja pasar un fraude real, porque nunca deja pasar nada. Por supuesto, su precision sería pésima (bombardeando a todo cliente honesto con falsas alarmas). Ningún extremo sirve solo: se necesita ambas métricas a la vez, y de esa tensión trata la siguiente sección.
+
 ### La tensión precision–recall   (por qué no podés maximizar las dos)
 ### F1   (y por qué media armónica y no promedio normal)
 ### Accuracy y por qué miente con clases desbalanceadas
