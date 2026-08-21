@@ -62,9 +62,9 @@ Esta matriz es la materia prima de casi todo lo que viene: precision, recall, F1
 
 ### 1.4 El umbral de decisión es una perilla, no un dato
 
-Ya vimos que el score y la decisión son cosas distintas, y que la decisión sale de comparar el score contra un umbral. Lo que falta aclarar es qué tan arbitrario es ese umbral: `0.5` no es una ley matemática ni algo que el modelo "aprendió" durante el entrenamiento — es apenas la convención por defecto. Nada en la sigmoide obliga a cortar ahí, y moverlo no le toca ni un peso al modelo: los de Ignasio ya quedaron fijos cuando terminó de entrenar. El umbral es puro post-proceso, tan fácil de cambiar como una línea de código en producción.
+Ya vimos que el score y la decisión son cosas distintas, y que la decisión sale de comparar el score contra un umbral. Lo que falta aclarar es qué tan arbitrario es ese umbral. El `0.5` es apenas la convención por defecto, el umbral es puro post-proceso, tan fácil de cambiar como una línea de código
 
-Y cuando lo movés, la matriz de confusión entera cambia con él. Supongamos que Ignasio tiene estas transacciones con sus scores:
+Y al moverlo la matriz de confusión entera cambia con él. Supongamos que Ignasio tiene estas transacciones con sus scores:
 
 | Transacción | Score | Real |
 |---|---|---|
@@ -80,9 +80,9 @@ Si Ignasio baja el umbral a `0.3`, ahora B también cruza la línea y se marca "
 
 Si en cambio lo sube a `0.7`, D deja de marcarse "fraude" y se vuelve **FN** (era fraude y se le escapó). La matriz pasa a 1 TP, 1 FP, 1 FN, 3 TN — menos falsas alarmas, pero ahora se le fue un fraude real.
 
-Ningún score cambió. El modelo es exactamente el mismo modelo. Lo único que cambió fue la posición de la perilla, y eso alcanzó para mover FP, FN, TP y TN de lugar. Por eso no tiene sentido decir "mi modelo tiene 90% de precision" sin aclarar a qué umbral — es como reportar la velocidad de un auto sin decir en qué marcha.
+Ningún score cambió. El modelo es exactamente el mismo modelo. Lo único que cambió fue la posición de la perilla, y eso alcanzó para mover FP, FN, TP y TN de lugar. Por eso no tiene sentido decir "mi modelo tiene 90% de precision" sin aclarar a qué umbral
 
-¿Y quién decide dónde poner la perilla? No la estadística — el negocio. Bajar el umbral favorece recall (atrapar más fraude) a costa de molestar más clientes honestos; subirlo favorece precision (menos falsas alarmas) a costa de dejar pasar más fraude. Cuál de los dos errores le sale más caro a la Empresa Feliz es exactamente el tema de la Parte 6 (matriz de costos, selección de umbral). Por ahora, lo importante es entender que el umbral es una decisión aparte del modelo, no una propiedad suya.
+¿Y quién decide dónde poner la perilla? prácticamente el negocio. Bajar el umbral favorece recall (atrapar más fraude) a costa de molestar más clientes honestos; subirlo favorece precision (menos falsas alarmas) a costa de dejar pasar más fraude. Cuál de los dos errores le sale más caro a la Empresa Feliz es exactamente el tema de la Parte 6 (matriz de costos, selección de umbral). Por ahora, lo importante es entender que el umbral es una decisión aparte del modelo, no una propiedad suya.
 
 ## Parte 2 — Métricas a UN umbral fijo (un punto)
 
