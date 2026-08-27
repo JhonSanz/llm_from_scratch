@@ -121,8 +121,60 @@ Por qué le importa a la Empresa Feliz: cada FN es un fraude que pasó como tran
 Igual que con precision, hay un caso extremo que conviene tener en mente: un modelo tramposo que marca *todas* las transacciones como fraude logra recall de 1.0 perfecto — nunca deja pasar un fraude real, porque nunca deja pasar nada. Por supuesto, su precision sería pésima (bombardeando a todo cliente honesto con falsas alarmas). Ningún extremo sirve solo: se necesita ambas métricas a la vez, y de esa tensión trata la siguiente sección.
 
 ### La tensión precision–recall   (por qué no podés maximizar las dos)
+
+Ya se asomó en las dos secciones anteriores: al mover el umbral de 0.5 a 0.7, Ignasio ganó precision pero perdió recall. No fue mala suerte con ese ejemplo puntual — es estructural, y vale la pena entender por qué.
+
+Pensemos en la perilla del umbral (1.4) barriendo desde 0 hasta 1. En el extremo `umbral = 0`, el modelo marca *todo* como fraude: recall = 1.0 (ningún fraude se le escapa, porque nada se le escapa) pero precision es mala, tan mala como sea el porcentaje de fraude real en los datos. En el extremo opuesto, `umbral = 1`, el modelo no marca *nada* como fraude: no genera ni un solo FP, así que precision es perfecta (o indefinida, por no dividir por cero), pero recall se derrumba a 0, porque no atrapó ni un fraude.
+
+Entre esos dos extremos, cada vez que Ignasio sube el umbral un poquito, algún caso que antes cruzaba la línea deja de cruzarla. Ese caso era, antes del movimiento, o un TP o un FP (era algo que el modelo marcaba "fraude"). Si era un FP, al sacarlo la precision sube. Si era un TP, al sacarlo se convierte en FN y el recall baja. En la práctica los scores están mezclados — ni todos los casos que se caen al subir el umbral son FP, ni todos son TP —, y por eso lo típico es que subir el umbral mueva ambas cosas a la vez: sube la precision (se eliminan más FP de los que se convierten TP→FN) y baja el recall (los TP que se pierden). Bajar el umbral hace exactamente lo simétrico.
+
+Esto no es una limitación de Ignasio ni de su modelo en particular: es geométrico. TP y FP viven del mismo lado de la línea (el lado "predicho fraude"), así que cualquier movimiento de la línea los afecta a los dos juntos. No existe un umbral mágico que maximice precision y recall simultáneamente, salvo en el caso irreal de un clasificador perfecto que separe las dos clases sin ningún solapamiento de scores.
+
+Por eso "mi modelo tiene 95% de precision" y "mi modelo tiene 95% de recall" son afirmaciones incompletas si no se dice a qué umbral, y por eso comparar dos modelos mirando solo una de las dos métricas es tramposo: alguien pudo simplemente mover la perilla. Lo que hace falta es una forma de resumir el compromiso entre ambas en un solo número (F1, siguiente sección) o, mejor todavía, una forma de comparar modelos sin comprometerse a ningún umbral en particular (la curva PR de la Parte 3).
+
 ### F1   (y por qué media armónica y no promedio normal)
+
+Ignasio quiere reportarle un solo número a su jefe, no un par de números que se mueven en direcciones opuestas cada vez que toca la perilla del umbral. La tentación obvia es promediarlos: `(precision + recall) / 2`. Esa tentación es una trampa, y vale la pena ver por qué con números.
+
+Imaginemos un modelo tramposo — el mismo del final de 2.2 — que marca *todas* las transacciones como fraude. Ya vimos que recall = 1.0 (nunca deja pasar un fraude real) pero precision es pésima: si el 1% de las transacciones son fraude, precision ronda 0.01. El promedio normal (**media aritmética**) de estos dos números es `(0.01 + 1.0) / 2 = 0.505`. Un 50% suena a "más o menos aceptable" — y es completamente falso, porque ese modelo es inútil: bloquea a todo el mundo.
+
+El problema de la media aritmética es que un número alto puede "tapar" a uno bajo. Para que el resumen sea honesto, hace falta una media que castigue fuerte cuando cualquiera de los dos valores es malo, no que los deje compensarse. Esa es la **media armónica**, y así se define **F1**:
+
+```
+F1 = 2 · (precision · recall) / (precision + recall)
+```
+
+Con el ejemplo del modelo tramposo: `F1 = 2 · (0.01 · 1.0) / (0.01 + 1.0) ≈ 0.0198`. Ahí sí queda claro que el modelo es malo — la media armónica se acerca mucho al valor más bajo de los dos, no al promedio. Es matemáticamente así porque la media armónica es dominada por el término más pequeño (si un denominador se dispara porque uno de los valores es chiquito, todo el resultado se hunde). En cambio, cuando precision y recall son parecidos entre sí, F1 se acerca bastante a la media aritmética — la diferencia solo se nota (y solo importa) cuando uno de los dos está cojo.
+
+Con los números reales de Ignasio a umbral `0.5` (precision ≈ 0.67, recall = 1.0): `F1 = 2 · (0.67 · 1.0) / (0.67 + 1.0) ≈ 0.80`. Un número honesto, ni tan optimista como recall solo, ni tan pesimista como precision sola.
+
+Dos advertencias para no usar F1 en piloto automático:
+
+- F1 sigue siendo una métrica **a un umbral fijo** — hereda todo el problema de la sección 1.4. Cambiar el umbral cambia precision y recall, y por lo tanto cambia F1. "Mi modelo tiene F1 de 0.8" sigue siendo incompleto sin decir a qué umbral.
+- F1 le da el mismo peso a precision y a recall, como si a la Empresa Feliz le doliera igual un FP que un FN. Casi nunca es así (ver Parte 6, matriz de costos) — cuando un tipo de error pesa más que el otro, existe **F-beta**, una variante de F1 que pondera uno de los dos más que el otro. No entramos en el detalle acá, pero conviene saber que F1 es un caso particular (el balanceado) de una familia más amplia.
+
 ### Accuracy y por qué miente con clases desbalanceadas
+
+Antes de meternos con precision, recall y F1, la métrica más obvia que a cualquiera se le ocurre es **accuracy**: ¿qué fracción de todas las predicciones fueron correctas?
+
+```
+accuracy = (TP + TN) / (TP + FP + FN + TN)
+```
+
+Con la matriz de umbral `0.5` de 1.4 (2 TP, 1 FP, 0 FN, 2 TN): accuracy = 4/5 = 0.8. Suena razonable, y en ese ejemplo de juguete no miente. El problema aparece cuando las clases están desbalanceadas — y el fraude es el ejemplo de manual de desbalance: en un banco real, el fraude puede ser el 0.5% o el 1% de las transacciones, no la mitad como en el ejemplo de Ignasio.
+
+Supongamos 10,000 transacciones reales, con solo 100 (1%) de fraude. Ignasio entrena un modelo perezoso que aprendió a decir "legítima" siempre, para toda transacción, sin mirar ni un solo feature. Su matriz de confusión: 0 TP, 0 FP, 100 FN, 9,900 TN.
+
+```
+accuracy = (0 + 9900) / 10000 = 0.99
+```
+
+**99% de accuracy**, y el modelo no detectó ni un solo fraude. Si Ignasio le muestra ese número a su jefe sin contexto, parece un modelo brillante. Pero recall = 0/(0+100) = 0, y precision ni siquiera está definida (0/0, nunca predijo "fraude"). El número que más brilla es justo el que menos dice la verdad.
+
+¿Por qué pasa esto? Porque accuracy cuenta *todos* los aciertos por igual, y cuando una clase es abrumadoramente mayoritaria, basta con acertarle a la clase mayoritaria para inflar el número — sin importar qué tan mal le vaya en la clase que de verdad importa. Los 9,900 TN "ahogan" a los 100 FN en el promedio. Con clases balanceadas (50/50, como en el ejemplo de juguete de 1.4) este efecto no se nota, porque ninguna clase puede esconderse detrás de la otra; con clases desbalanceadas, la clase minoritaria — casi siempre la que le interesa detectar a Ignasio — puede desaparecer del número final.
+
+La lección práctica: accuracy solo es un resumen confiable cuando las clases están razonablemente balanceadas. En fraude, spam, detección de enfermedades raras, o cualquier problema donde lo que buscás es raro por definición, accuracy es casi un antipatrón — precision, recall y F1, calculados sobre la clase positiva, cuentan una historia mucho más honesta. Y por qué exactamente ese 1% de prevalencia afecta a precision pero no a recall es justo el tema de la siguiente sección.
+
 ### El base rate / prevalencia   (por qué precision se mueve con la prevalencia y recall no)
 
 ## Parte 3 — Métricas que barren TODOS los umbrales (una curva)
