@@ -1,0 +1,161 @@
+<h2 class="sr-only">Explicador interactivo: una perilla de temperatura aplica una transformación monótona a los 20 scores de Ignasio, empujándolos hacia los extremos sin cambiar el orden; el AUC permanece fijo mientras el reliability diagram y el ECE muestran cómo se rompe la calibración.</h2>
+
+<div style="padding:0.5rem 0;">
+
+  <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:0.6rem;">
+    <button id="play" style="width:auto; padding:0 14px; height:36px; display:inline-flex; align-items:center; gap:8px;"><i class="ti ti-player-play" aria-hidden="true"></i><span id="playlbl">Animar</span></button>
+    <label style="font-size:14px; color:var(--text-secondary);">Temperatura</label>
+    <input type="range" id="temp" min="0.4" max="4" step="0.1" value="1" style="flex:1; min-width:150px;" />
+    <span id="tempout" style="font-family:var(--font-mono); font-size:15px; font-weight:500; min-width:52px; text-align:right;">×1.0</span>
+  </div>
+
+  <div style="font-size:12px; color:var(--text-muted); margin-bottom:6px;">Scores transricos: <span style="color:#0F6E56;">●</span> fraude real · <span style="color:#185FA5;">●</span> legítima real — al mover la perilla nunca se cruzan</div>
+  <svg id="strip" viewBox="0 0 640 96" style="width:100%; height:auto; display:block; margin-bottom:0.8rem;" role="img" aria-hidden="true"></svg>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; align-items:start;">
+    <div>
+      <div style="font-size:13px; font-weight:500; margin-bottom:2px;">Reliability diagram</div>
+      <div style="font-size:11px; color:var(--text-muted); margin-bottom:4px;">confianza → · fracción real ↑ · diagonal = calibrado</div>
+      <svg id="rel" viewBox="0 0 300 300" style="width:100%; height:auto; display:block;" role="img" aria-hidden="true"></svg>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+      <div style="background:var(--surface-1); border-radius:8px; padding:10px 12px;">
+        <div style="font-size:12px; color:var(--text-secondary);">AUC (ranking)</div>
+        <div id="mAUC" style="font-size:22px; font-weight:500; color:#0F6E56;">—</div>
+        <div style="font-size:11px; color:var(--text-muted);">no se mueve</div>
+      </div>
+      <div style="background:var(--surface-1); border-radius:8px; padding:10px 12px;">
+        <div style="font-size:12px; color:var(--text-secondary);">ECE</div>
+        <div id="mECE" style="font-size:22px; font-weight:500; color:#993C1D;">—</div>
+        <div style="font-size:11px; color:var(--text-muted);">0 = perfecto</div>
+      </div>
+      <div style="background:var(--surface-1); border-radius:8px; padding:10px 12px;">
+        <div style="font-size:12px; color:var(--text-secondary);">Brier</div>
+        <div id="mBrier" style="font-size:22px; font-weight:500; color:#854F0B;">—</div>
+        <div style="font-size:11px; color:var(--text-muted);">mezcla ambas</div>
+      </div>
+      <div style="background:var(--surface-1); border-radius:8px; padding:10px 12px;">
+        <div style="font-size:12px; color:var(--text-secondary);">Modelo</div>
+        <div id="mLbl" style="font-size:18px; font-weight:500;">M1</div>
+        <div style="font-size:11px; color:var(--text-muted);">×1.0 = original</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="story" style="margin-top:0.9rem; font-size:14px; line-height:1.6; color:var(--text-secondary); border-left:2px solid var(--border-accent); padding-left:12px; border-radius:0;"></div>
+
+</div>
+
+<script>
+(function(){
+  var frauds=[0.93,0.85,0.79,0.70,0.62,0.54,0.47,0.36];
+  var legits=[0.66,0.58,0.50,0.43,0.37,0.31,0.26,0.20,0.15,0.10,0.06,0.02];
+  var base=[]; frauds.forEach(function(s){base.push({s:s,y:1});}); legits.forEach(function(s){base.push({s:s,y:0});});
+
+  function logit(p){return Math.log(p/(1-p));}
+  function sig(x){return 1/(1+Math.exp(-x));}
+  function tf(p,T){return sig(T*logit(p));}
+
+  function auc(pts){
+    var f=pts.filter(function(d){return d.y===1;}), l=pts.filter(function(d){return d.y===0;});
+    var c=0;
+    f.forEach(function(a){ l.forEach(function(b){ if(a.s>b.s)c+=1; else if(a.s===b.s)c+=0.5; }); });
+    return c/(f.length*l.length);
+  }
+  function bins(pts){
+    var edges=[0,0.25,0.5,0.75,1.0001], out=[];
+    for(var i=0;i<4;i++){
+      var lo=edges[i],hi=edges[i+1];
+      var grp=pts.filter(function(d){return d.s>=lo && d.s<hi;});
+      if(grp.length===0){out.push(null);continue;}
+      var conf=grp.reduce(function(a,d){return a+d.s;},0)/grp.length;
+      var obs=grp.reduce(function(a,d){return a+d.y;},0)/grp.length;
+      out.push({n:grp.length,conf:conf,obs:obs});
+    }
+    return out;
+  }
+  function ece(bs,N){ var e=0; bs.forEach(function(b){ if(b)e+=(b.n/N)*Math.abs(b.conf-b.obs); }); return e; }
+  function brier(pts){ return pts.reduce(function(a,d){return a+(d.s-d.y)*(d.s-d.y);},0)/pts.length; }
+
+  var PADL=42,PADB=38,PADT=14,PADR=14,W=300,Hh=300;
+  var plotW=W-PADL-PADR, plotH=Hh-PADT-PADB;
+  function px(x){return PADL+x*plotW;} function py(y){return PADT+(1-y)*plotH;}
+
+  function drawRel(bs){
+    var svg=document.getElementById('rel');
+    var h='';
+    h+='<rect x="'+PADL+'" y="'+PADT+'" width="'+plotW+'" height="'+plotH+'" fill="var(--surface-1)" stroke="var(--border)" stroke-width="1"></rect>';
+    for(var g=0;g<=1.0001;g+=0.25){
+      h+='<line x1="'+px(g)+'" y1="'+py(0)+'" x2="'+px(g)+'" y2="'+py(1)+'" stroke="var(--border)" stroke-width="0.5"></line>';
+      h+='<line x1="'+px(0)+'" y1="'+py(g)+'" x2="'+px(1)+'" y2="'+py(g)+'" stroke="var(--border)" stroke-width="0.5"></line>';
+      h+='<text x="'+px(g)+'" y="'+(py(0)+14)+'" text-anchor="middle" font-size="9" fill="var(--text-muted)">'+g.toFixed(2)+'</text>';
+      h+='<text x="'+(px(0)-6)+'" y="'+(py(g)+3)+'" text-anchor="end" font-size="9" fill="var(--text-muted)">'+g.toFixed(2)+'</text>';
+    }
+    h+='<line x1="'+px(0)+'" y1="'+py(0)+'" x2="'+px(1)+'" y2="'+py(1)+'" stroke="var(--text-muted)" stroke-width="1.2" stroke-dasharray="4 3"></line>';
+    h+='<text x="'+px(0.5)+'" y="'+(Hh-6)+'" text-anchor="middle" font-size="11" fill="var(--text-secondary)">confianza (score medio)</text>';
+    h+='<text transform="translate(11,'+py(0.5)+') rotate(-90)" text-anchor="middle" font-size="11" fill="var(--text-secondary)">fracción real</text>';
+    var pathPts=bs.filter(function(b){return b;});
+    if(pathPts.length>1){
+      h+='<path d="'+pathPts.map(function(b,i){return (i?'L':'M')+px(b.conf).toFixed(1)+' '+py(b.obs).toFixed(1);}).join(' ')+'" fill="none" stroke="#D85A30" stroke-width="1.5"></path>';
+    }
+    bs.forEach(function(b){ if(!b)return;
+      var r=4+b.n*0.9;
+      h+='<circle cx="'+px(b.conf)+'" cy="'+py(b.obs)+'" r="'+r+'" fill="#F0997B" fill-opacity="0.55" stroke="#993C1D" stroke-width="1.5"></circle>';
+    });
+    svg.innerHTML=h;
+  }
+
+  var SW=640,SH=96,sx0=30,sx1=610,sAxis=52;
+  function SX(x){return sx0+x*(sx1-sx0);}
+  function drawStrip(pts){
+    var svg=document.getElementById('strip');
+    var h='';
+    h+='<line x1="'+sx0+'" y1="'+sAxis+'" x2="'+sx1+'" y2="'+sAxis+'" stroke="var(--border-strong)" stroke-width="1"></line>';
+    for(var t=0;t<=1.0001;t+=0.25){
+      h+='<line x1="'+SX(t)+'" y1="'+(sAxis-3)+'" x2="'+SX(t)+'" y2="'+(sAxis+3)+'" stroke="var(--border-strong)" stroke-width="1"></line>';
+      h+='<text x="'+SX(t)+'" y="'+(sAxis+16)+'" text-anchor="middle" font-size="9" fill="var(--text-muted)">'+t.toFixed(2)+'</text>';
+    }
+    pts.forEach(function(d,i){
+      var up=d.y===1;
+      var cy=up? (sAxis-10-(i%3)*8) : (sAxis+10+(i%3)*8);
+      var col=up?'#1D9E75':'#378ADD';
+      h+='<circle cx="'+SX(d.s)+'" cy="'+cy+'" r="5" fill="'+col+'" stroke="var(--surface-2)" stroke-width="1"></circle>';
+    });
+    svg.innerHTML=h;
+  }
+
+  var temp=document.getElementById('temp'), out=document.getElementById('tempout'), story=document.getElementById('story');
+
+  function update(){
+    var T=parseFloat(temp.value); out.textContent='×'+T.toFixed(1);
+    var pts=base.map(function(d){return {s:tf(d.s,T),y:d.y};});
+    var bs=bins(pts);
+    var A=auc(pts), E=ece(bs,pts.length), B=brier(pts);
+    document.getElementById('mAUC').textContent=A.toFixed(3);
+    document.getElementById('mECE').textContent=E.toFixed(3);
+    document.getElementById('mBrier').textContent=B.toFixed(3);
+    var lbl = Math.abs(T-1)<0.06?'M1':(T>1?'M2':'M-frío');
+    document.getElementById('mLbl').textContent=lbl;
+    drawStrip(pts); drawRel(bs);
+
+    var msg;
+    if(Math.abs(T-1)<0.06){
+      msg='Este es el modelo original de Ignasio (M1). Los baldes caen cerca de la diagonal — ECE '+E.toFixed(3)+', un desvío chico. Subí la temperatura para fabricar M2 y ver qué se rompe... y qué no.';
+    } else if(T>1){
+      msg='Sobreconfiado (M2): la perilla empuja los scores hacia 0 y 1, pero <b>ningún punto cruzó a otro</b> — por eso el AUC sigue clavado en '+A.toFixed(3)+'. La calibración, en cambio, se degrada: los baldes se despegan de la diagonal y el ECE trepó a '+E.toFixed(3)+'. Mismo ranking, número mentiroso.';
+    } else {
+      msg='Subconfiado (M-frío): la perilla comprime los scores hacia el centro (0.5). El orden intacto — AUC '+A.toFixed(3)+' — pero ahora el modelo nunca se compromete, y sus baldes también se desvían de la diagonal (ECE '+E.toFixed(3)+').';
+    }
+    story.innerHTML=msg.replace(/<b>/g,'<span style="color:var(--text-primary);font-weight:500;">').replace(/<\/b>/g,'</span>');
+  }
+
+  temp.addEventListener('input',update);
+  var playing=false,dir=1,timer=null;
+  var btn=document.getElementById('play'),lbl=document.getElementById('playlbl');
+  function step(){ var v=parseFloat(temp.value)+dir*0.1; if(v>=4){v=4;dir=-1;}else if(v<=0.4){v=0.4;dir=1;} temp.value=v.toFixed(1); update(); }
+  btn.addEventListener('click',function(){ playing=!playing; btn.querySelector('i').className=playing?'ti ti-player-pause':'ti ti-player-play'; lbl.textContent=playing?'Pausar':'Animar'; if(playing)timer=setInterval(step,110); else clearInterval(timer); });
+
+  update();
+})();
+</script>

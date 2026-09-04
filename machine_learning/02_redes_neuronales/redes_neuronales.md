@@ -158,68 +158,6 @@ $$J(\Theta) = -\frac{1}{m} \sum_{i=1}^{m} \sum_{k=1}^{K} \left[ y_k^{(i)} \log(h
 
 Igual que antes, entre más cerca de cero esté $J(\Theta)$, mejor está clasificando la red. Y la manera de optimizar $\Theta$ sigue siendo gradient descent, solo que la derivada $\frac{\partial J(\Theta)}{\partial \Theta_{ij}^{(l)}}$ ya no se calcula de un solo paso como en logistic regression, sino propagando el error hacia atrás capa por capa (**backpropagation**), aplicando la regla de la cadena repetidamente sobre la derivada de la sigmoide $g'(z) = g(z)(1-g(z))$ que ya dedujimos. Veamos exactamente qué significa eso en términos de Jacobianas.
 
-### Backpropagation es la regla de la cadena de Jacobianas
-
-En autograd.md vimos dos ideas que parecían abstractas: que la Jacobiana de una composición es el producto de las Jacobianas locales ($D_{G\circ F}(a)=D_G(F(a))\cdot D_F(a)$), y que cuando un nodo alimenta a varias ramas (fan-out), su gradiente hacia atrás es la **suma** de lo que baja por cada rama. La red neuronal que acabamos de definir es exactamente ese tipo de grafo. No hace falta ninguna maquinaria nueva, solo aplicar lo mismo.
-
-#### Forward prop, releído como composición
-
-$$x=a^{(1)} \xrightarrow{\ \Theta^{(1)}\ } z^{(2)} \xrightarrow{\ g\ } a^{(2)} \xrightarrow{\ \Theta^{(2)}\ } z^{(3)} \xrightarrow{\ g\ } a^{(3)}=h_\Theta(x) \xrightarrow{\ \text{log loss}\ } J$$
-
-Cada flecha es un eslabón, y $J$ es la composición de todos ellos. La regla de la cadena de autograd.md aplica sin cambios: la Jacobiana de $J$ respecto a $x$ (o respecto a cualquier $\Theta^{(l)}$) es el producto de las Jacobianas locales de cada eslabón, evaluadas en los valores que forward prop ya calculó.
-
-#### Las dos Jacobianas locales ya las conocemos
-
-Lo bonito es que en una red neuronal solo hay dos tipos de eslabón, y a los dos ya les sacamos la Jacobiana en autograd.md:
-
-1. $z^{(l+1)}=\Theta^{(l)}a^{(l)}$ es una **transformación lineal**. En "Jacobiana en un punto" vimos que la Jacobiana de $y=Ax$ es la propia matriz $A$, en cualquier punto. Entonces, sin derivar nada:
-
-$$D\big(z^{(l+1)}\big)\big/D\big(a^{(l)}\big) = \Theta^{(l)}$$
-
-2. $a^{(l+1)}=g(z^{(l+1)})$ aplica la sigmoide **elemento a elemento**, igual que $f_1(x)=(x_1^2,x_2^2)$ en el ejemplo del fan-out. La Jacobiana de una función elemento a elemento siempre es diagonal, porque $\partial g(z_i)/\partial z_j=0$ cuando $i\neq j$:
-
-```math
-D\big(a^{(l+1)}\big)\big/D\big(z^{(l+1)}\big) = \text{diag}\big(g'(z_1^{(l+1)}),\dots,g'(z_{n}^{(l+1)})\big)
-```
-
-usando la misma $g'(z)=g(z)(1-g(z))$ de siempre. Con estas dos piezas —matriz de pesos y diagonal de derivadas de sigmoide— se arma la Jacobiana de toda la red, capa por capa, igual que armamos $Dh=Df\cdot Dg$ en autograd.md.
-
-#### Multiplicar Jacobianas de atrás hacia adelante
-
-Como con Karpathy, no conviene expandir $h_\Theta(x)$ completo (eso es *expression swell*): conviene multiplicar Jacobianas locales de atrás hacia adelante, acumulando el producto. Llamemos $\delta^{(l)}=\dfrac{\partial J}{\partial a^{(l)}}$ al vector fila —la Jacobiana de $J$ respecto a la capa $l$, el mismo tipo de objeto que $\partial L/\partial u$ en el ejemplo del fan-out—.
-
-En la capa de salida, $\delta^{(L)}$ sale directo de derivar el log loss respecto a $h_\Theta(x)=a^{(L)}$. Para las capas anteriores, se multiplica por las dos Jacobianas locales de arriba:
-
-$$\delta^{(l)} = \delta^{(l+1)}\cdot \text{diag}\big(g'(z^{(l+1)})\big)\cdot \Theta^{(l)}$$
-
-Escrito en la notación clásica (vector columna, con $.*$ para el producto elemento a elemento en vez de multiplicar por la diagonal), esto es exactamente
-
-$$\delta^{(l)} = \big(\Theta^{(l)}\big)^T\delta^{(l+1)}\ .*\ g'(z^{(l)})$$
-
-la misma ecuación, transpuesta. La $\big(\Theta^{(l)}\big)^T$ que tanta gente memoriza sin saber de dónde sale es, literalmente, la Jacobiana de la capa lineal, usada en la dirección hacia atrás.
-
-#### Y acá aparece el fan-out, otra vez
-
-¿Por qué el backward es una multiplicación matricial y no una suma suelta? Porque cada neurona $a_j^{(l)}$ no alimenta a una sola neurona de la capa $l+1$: alimenta a **todas**, porque $\Theta^{(l)}$ es una matriz densa (cada fila combina las $a_j^{(l)}$ completas, como vimos explícitamente con $a_1^{(2)}, a_2^{(2)}, a_3^{(2)}$ arriba). Es el mismo fan-out del nodo $u$ en autograd.md, donde $u$ alimentaba a $f_2$ y a $f_3$ y su gradiente era la suma de ambas ramas. Acá el fan-out tiene $n_{l+1}$ ramas en vez de 2 (una por cada neurona de la capa siguiente), y el producto fila-por-matriz $\delta^{(l+1)}\cdot\Theta^{(l)}$ ya hace esa suma solo: la entrada $j$ del resultado es $\sum_i \delta_i^{(l+1)}\Theta_{ij}^{(l)}$, la suma de lo que aporta cada neurona de salida $i$ hacia la neurona de entrada $j$.
-
-#### El gradiente que gradient descent realmente usa
-
-$\delta^{(l)}$ es la Jacobiana respecto a las *activaciones*, pero lo que gradient descent actualiza son los *pesos* $\Theta_{ij}^{(l)}$. Como $z_i^{(l+1)}=\sum_j \Theta_{ij}^{(l)}a_j^{(l)}$, la derivada de $z_i^{(l+1)}$ respecto al peso $\Theta_{ij}^{(l)}$ es simplemente $a_j^{(l)}$ (todo lo demás de esa suma es constante respecto a ese peso). Entonces:
-
-$$\frac{\partial J}{\partial \Theta_{ij}^{(l)}} = \underbrace{\Big(\delta_i^{(l+1)}\cdot g'(z_i^{(l+1)})\Big)}_{\text{cuánto le importa a } J \text{ el pre-activación } z_i^{(l+1)}}\cdot\ a_j^{(l)}$$
-
-que es exactamente el gradiente que aparece en la actualización $\Theta^{(l)} := \Theta^{(l)} - \alpha \dfrac{\partial J}{\partial \Theta^{(l)}}$ de gradient descent.
-
-#### El paralelo completo
-
-| autograd.md | redes_neuronales.md |
-|---|---|
-| Nodo $u=f_1(x)$ con fan-out hacia $p=f_2(u)$ y $q=f_3(u)$ | Capa $a^{(l)}$ con fan-out hacia cada neurona de $z^{(l+1)}=\Theta^{(l)}a^{(l)}$ |
-| Jacobianas locales $Df_2$, $Df_3$ | Jacobianas locales $\Theta^{(l)}$ (lineal) y $\text{diag}(g')$ (sigmoide elemento a elemento) |
-| Backward: $\partial L/\partial u = \partial L/\partial p\cdot Df_2 + \partial L/\partial q\cdot Df_3$ | Backward: $\delta^{(l)}=\delta^{(l+1)}\cdot\text{diag}(g'(z^{(l+1)}))\cdot\Theta^{(l)}$ (la suma del fan-out ya viene empaquetada en el producto matricial) |
-| Se evita expandir $L(x_1,x_2)$ completo (expression swell) | Se evita expandir $h_\Theta(x)$ completo — por eso backprop es mucho más barato que derivar la fórmula gigante a mano |
-
-Backpropagation, entonces, no es un algoritmo especial inventado para redes neuronales: es la regla de la cadena de Jacobianas de autograd.md, aplicada al grafo específico que arma una red neuronal (capas lineales $\Theta^{(l)}$ intercaladas con capas de sigmoide elemento a elemento), recorrido de atrás hacia adelante para reusar cálculos, y sumando en cada nodo con fan-out.
 
 ### ¿Cuál es la frontera de decisión?
 
