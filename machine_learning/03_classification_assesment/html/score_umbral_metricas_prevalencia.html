@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Score, umbral y métricas — simulador</title>
+<style>
+  :root{
+    color-scheme: light dark;
+    --bg-page: #ffffff;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4b5563;
+    --text-muted: #8a8f98;
+    --surface-1: #f3f4f6;
+    --surface-2: #e7e9ee;
+    --border-strong: #d1d5db;
+    --border-accent: #6366f1;
+    --bg-warning: #fef3c7;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg-page: #12151c;
+      --text-primary: #f3f4f6;
+      --text-secondary: #b3b8c2;
+      --text-muted: #7c8291;
+      --surface-1: #1f2430;
+      --surface-2: #2a3040;
+      --border-strong: #3a4152;
+      --border-accent: #818cf8;
+      --bg-warning: #4a3f1a;
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg-page); color:var(--text-primary);
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin:0; padding:28px 20px 60px; max-width:880px; margin-inline:auto;
+    line-height:1.4;
+  }
+  h2.sr-only{
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+  button{
+    all:unset; cursor:pointer; box-sizing:border-box;
+    background:var(--surface-2); color:var(--text-primary);
+    border-radius:8px; font-size:14px; text-align:center;
+  }
+  button:hover{ background:var(--border-strong); }
+  input[type="range"]{ accent-color: var(--border-accent); cursor:pointer; }
+  code{ font-family:var(--font-mono); background:var(--surface-1); padding:1px 5px; border-radius:4px; }
+  table{ border-collapse:collapse; }
+</style>
+</head>
+<body>
+
+<h2 class="sr-only">Explicador interactivo: riesgo empírico vs riesgo verdadero, orden vs calibración del score, y el umbral moviéndose sobre 20 transacciones para mostrar en vivo la matriz de confusión, precision, recall, F1, accuracy y el efecto de la prevalencia sobre precision.</h2>
+
+<div style="padding: 0.5rem 0;">
+
+  <!-- ============ 1.1 — riesgo empírico vs riesgo verdadero ============ -->
+  <div style="margin-bottom:28px;">
+    <div style="font-size:12px; letter-spacing:.03em; text-transform:uppercase; color:var(--text-muted); font-weight:600; margin-bottom:8px;">1.1 — Riesgo empírico (S) vs riesgo verdadero (D)</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div style="background:var(--surface-1); border-radius:8px; padding:12px 14px;">
+        <div style="font-size:13px; font-weight:500; margin-bottom:10px;">Estudiante A — memoriza los talleres</div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+          <div style="width:112px; font-size:11px; color:var(--text-muted);">error en S (talleres)</div>
+          <div style="flex:1; background:var(--surface-2); border-radius:4px; height:14px; overflow:hidden;"><div id="barA1" style="height:100%; background:#0F6E56; width:0%; transition:width .8s ease;"></div></div>
+          <div style="width:34px; font-size:11px; text-align:right; font-family:var(--font-mono);">5%</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:112px; font-size:11px; color:var(--text-muted);">error en D (examen)</div>
+          <div style="flex:1; background:var(--surface-2); border-radius:4px; height:14px; overflow:hidden;"><div id="barA2" style="height:100%; background:#A32D2D; width:0%; transition:width .8s ease .1s;"></div></div>
+          <div style="width:34px; font-size:11px; text-align:right; font-family:var(--font-mono);">70%</div>
+        </div>
+      </div>
+      <div style="background:var(--surface-1); border-radius:8px; padding:12px 14px;">
+        <div style="font-size:13px; font-weight:500; margin-bottom:10px;">Estudiante W — entiende el mecanismo</div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+          <div style="width:112px; font-size:11px; color:var(--text-muted);">error en S (talleres)</div>
+          <div style="flex:1; background:var(--surface-2); border-radius:4px; height:14px; overflow:hidden;"><div id="barW1" style="height:100%; background:#0F6E56; width:0%; transition:width .8s ease;"></div></div>
+          <div style="width:34px; font-size:11px; text-align:right; font-family:var(--font-mono);">10%</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:112px; font-size:11px; color:var(--text-muted);">error en D (examen)</div>
+          <div style="flex:1; background:var(--surface-2); border-radius:4px; height:14px; overflow:hidden;"><div id="barW2" style="height:100%; background:#A32D2D; width:0%; transition:width .8s ease .1s;"></div></div>
+          <div style="width:34px; font-size:11px; text-align:right; font-family:var(--font-mono);">15%</div>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:12px; color:var(--text-muted); margin-top:8px;">Los dos tienen bajo error en <i>S</i> (los talleres que ya vieron). Solo W mantiene bajo error en <i>D</i> (preguntas nuevas con el mismo espíritu). Generalizar es que el segundo número sea bajo, no el primero — exactamente lo que <code>test data</code> intenta estimar más abajo.</div>
+  </div>
+
+  <!-- ============ 1.2 — ordenar bien vs número creíble ============ -->
+  <div style="margin-bottom:30px;">
+    <div style="font-size:12px; letter-spacing:.03em; text-transform:uppercase; color:var(--text-muted); font-weight:600; margin-bottom:6px;">1.2 — Ordenar bien no es lo mismo que un número creíble</div>
+    <div style="font-size:13px; color:var(--text-secondary); margin-bottom:10px;">Arrastrá el slider: pasás del Modelo A al Modelo B. Mirá las filas — <b>el orden de arriba hacia abajo nunca cambia</b>, solo la magnitud de cada barra.</div>
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+      <label style="font-size:13px; color:var(--text-secondary); min-width:64px;">Modelo A</label>
+      <input type="range" id="interp" min="0" max="1" step="0.01" value="0" style="flex:1;" />
+      <label style="font-size:13px; color:var(--text-secondary); min-width:64px; text-align:right;">Modelo B</label>
+    </div>
+    <div id="rows12"></div>
+    <div id="story12" style="margin-top:10px; font-size:13px; line-height:1.6; color:var(--text-secondary); border-left:2px solid var(--border-accent); padding-left:12px;"></div>
+  </div>
+
+  <!-- ============ 1.3/1.4/2.1-2.4 — umbral + matriz + metricas ============ -->
+  <div style="margin-bottom:30px;">
+    <div style="font-size:12px; letter-spacing:.03em; text-transform:uppercase; color:var(--text-muted); font-weight:600; margin-bottom:6px;">1.3–2.4 — El umbral mueve la matriz, y con ella precision, recall, F1 y accuracy</div>
+
+    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:0.35rem;">
+      <button id="play" style="width:auto; padding:0 14px; height:36px; display:inline-flex; align-items:center; gap:8px;"><span id="playicon" aria-hidden="true">▶</span><span id="playlbl">Animar</span></button>
+      <label style="font-size:14px; color:var(--text-secondary);">Umbral</label>
+      <input type="range" id="thr" min="0" max="1" step="0.01" value="0.50" style="flex:1; min-width:160px;" />
+      <span id="throut" style="font-family:var(--font-mono); font-size:15px; font-weight:500; min-width:42px; text-align:right;">0.50</span>
+    </div>
+
+    <div style="display:flex; gap:16px; font-size:12px; color:var(--text-secondary); margin-bottom:10px; flex-wrap:wrap;">
+      <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#E24B4A;display:inline-block;"></span>Fraude real</span>
+      <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#378ADD;display:inline-block;"></span>Legítima real</span>
+      <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:14px;height:10px;border-radius:2px;background:var(--bg-warning);display:inline-block;"></span>Zona "predicho fraude"</span>
+    </div>
+
+    <svg id="strip" viewBox="0 0 640 150" style="width:100%; height:auto; display:block;" role="img" aria-hidden="true"></svg>
+
+    <div style="display:grid; grid-template-columns: 1.15fr 1fr; gap:16px; align-items:start; margin-top:0.75rem;">
+
+      <div>
+        <div style="font-size:13px; color:var(--text-secondary); margin-bottom:6px;">Matriz de confusión</div>
+        <table style="width:100%; border-collapse:separate; border-spacing:4px; table-layout:fixed;">
+          <tr>
+            <td style="width:22%;"></td>
+            <td style="font-size:11px; color:var(--text-secondary); text-align:center;">Real: Fraude</td>
+            <td style="font-size:11px; color:var(--text-secondary); text-align:center;">Real: Legítima</td>
+          </tr>
+          <tr>
+            <td style="font-size:11px; color:var(--text-secondary); text-align:right; padding-right:4px;">Pred:<br>Fraude</td>
+            <td id="cTP" style="background:#E1F5EE; border-radius:8px; padding:10px 4px; text-align:center;">
+              <div style="font-size:11px; color:#0F6E56;">TP</div><div id="nTP" style="font-size:22px; font-weight:500; color:#04342C;">0</div><div style="font-size:9px; color:#0F6E56; opacity:.8;">fraude atrapado</div></td>
+            <td id="cFP" style="background:#FAEEDA; border-radius:8px; padding:10px 4px; text-align:center;">
+              <div style="font-size:11px; color:#854F0B;">FP</div><div id="nFP" style="font-size:22px; font-weight:500; color:#412402;">0</div><div style="font-size:9px; color:#854F0B; opacity:.8;">alarma falsa</div></td>
+          </tr>
+          <tr>
+            <td style="font-size:11px; color:var(--text-secondary); text-align:right; padding-right:4px;">Pred:<br>Legítima</td>
+            <td id="cFN" style="background:#FCEBEB; border-radius:8px; padding:10px 4px; text-align:center;">
+              <div style="font-size:11px; color:#A32D2D;">FN</div><div id="nFN" style="font-size:22px; font-weight:500; color:#501313;">0</div><div style="font-size:9px; color:#A32D2D; opacity:.8;">fraude escapado</div></td>
+            <td id="cTN" style="background:#F1EFE8; border-radius:8px; padding:10px 4px; text-align:center;">
+              <div style="font-size:11px; color:#5F5E5A;">TN</div><div id="nTN" style="font-size:22px; font-weight:500; color:#2C2C2A;">0</div><div style="font-size:9px; color:#5F5E5A; opacity:.8;">cliente tranquilo</div></td>
+          </tr>
+        </table>
+      </div>
+
+      <div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
+          <div style="background:var(--surface-1); border-radius:8px; padding:10px 12px;">
+            <div style="font-size:12px; color:var(--text-secondary);">Precision</div>
+            <div id="mP" style="font-size:22px; font-weight:500;">—</div>
+            <div id="mPf" style="font-size:11px; color:var(--text-muted); font-family:var(--font-mono);">TP/(TP+FP)</div>
+          </div>
+          <div style="background:var(--surface-1); border-radius:8px; padding:10px 12px;">
+            <div style="font-size:12px; color:var(--text-secondary);">Recall</div>
+            <div id="mR" style="font-size:22px; font-weight:500;">—</div>
+            <div id="mRf" style="font-size:11px; color:var(--text-muted); font-family:var(--font-mono);">TP/(TP+FN)</div>
+          </div>
+          <div style="background:var(--surface-1); border-radius:8px; padding:10px 12px;">
+            <div style="font-size:12px; color:var(--text-secondary);">F1</div>
+            <div id="mF" style="font-size:22px; font-weight:500;">—</div>
+            <div style="font-size:11px; color:var(--text-muted);">media armónica</div>
+          </div>
+          <div style="background:var(--surface-1); border-radius:8px; padding:10px 12px;">
+            <div style="font-size:12px; color:var(--text-secondary);">Accuracy</div>
+            <div id="mA" style="font-size:22px; font-weight:500;">—</div>
+            <div style="font-size:11px; color:var(--text-muted);">(TP+TN)/todo</div>
+          </div>
+        </div>
+
+        <div style="font-size:11px; color:var(--text-secondary); margin-bottom:4px;">(P+R)/2 vs F1 — por qué no promediar</div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <div style="width:78px; font-size:11px; color:var(--text-muted);">(P+R)/2</div>
+          <div style="flex:1; background:var(--surface-2); border-radius:4px; height:13px; overflow:hidden;"><div id="barAvg" style="height:100%; background:var(--text-muted); width:0%;"></div></div>
+          <div id="valAvg" style="width:42px; font-family:var(--font-mono); font-size:11px; text-align:right;">—</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:78px; font-size:11px; color:var(--text-muted);">F1</div>
+          <div style="flex:1; background:var(--surface-2); border-radius:4px; height:13px; overflow:hidden;"><div id="barF1" style="height:100%; background:#0F6E56; width:0%;"></div></div>
+          <div id="valF1b" style="width:42px; font-family:var(--font-mono); font-size:11px; text-align:right;">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="story" style="margin-top:0.9rem; font-size:14px; line-height:1.6; color:var(--text-secondary); border-left:2px solid var(--border-accent); padding-left:12px; border-radius:0;"></div>
+
+  </div>
+
+  <!-- ============ 2.5 — prevalencia ============ -->
+  <div>
+    <div style="font-size:12px; letter-spacing:.03em; text-transform:uppercase; color:var(--text-muted); font-weight:600; margin-bottom:6px;">2.5 — Prevalencia: mismo modelo, mismo umbral, otra población</div>
+    <div style="font-size:13px; color:var(--text-secondary); margin-bottom:10px;">Recall y FPR quedan fijos por el umbral que elegiste arriba (<span id="rfSummary" style="font-family:var(--font-mono);">—</span>) — no dependen de la población. Movés π (qué tan común es el fraude ahí donde despliegan el modelo) y mirá cómo <b>solo</b> precision se mueve.</div>
+
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+      <label style="font-size:14px; color:var(--text-secondary);">Prevalencia π</label>
+      <input type="range" id="prev" min="0.5" max="50" step="0.5" value="40" style="flex:1;" />
+      <span id="prevout" style="font-family:var(--font-mono); font-size:15px; font-weight:500; min-width:56px; text-align:right;">40.0%</span>
+    </div>
+    <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
+      <button id="jump04" style="width:auto; padding:2px 12px; height:28px; font-size:12px;">π = 40% (set de validación)</button>
+      <button id="jump001" style="width:auto; padding:2px 12px; height:28px; font-size:12px;">π = 1% (producción real)</button>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1.1fr 1fr; gap:16px; align-items:start;">
+      <div>
+        <div style="font-size:12px; color:var(--text-secondary); margin-bottom:6px;">De cada 10,000 transacciones — rojo=TP, azul=FP, gris=sin alarma</div>
+        <svg id="popviz" viewBox="0 0 300 70" style="width:100%; height:auto; display:block;"></svg>
+      </div>
+      <div style="background:var(--surface-1); border-radius:8px; padding:12px 14px;">
+        <div style="font-size:12px; color:var(--text-secondary);">Precision resultante</div>
+        <div id="precOut" style="font-size:26px; font-weight:500;">—</div>
+        <div style="font-size:10px; color:var(--text-muted); font-family:var(--font-mono); margin-bottom:8px;">recall·π / (recall·π + FPR·(1−π))</div>
+        <div style="font-size:12px; color:var(--text-secondary); border-top:1px solid var(--border-strong); padding-top:8px;">Accuracy de un modelo perezoso ("siempre legítima") en esta misma población</div>
+        <div id="lazyAcc" style="font-size:18px; font-weight:500;">—</div>
+      </div>
+    </div>
+    <div id="prevStory" style="margin-top:10px; font-size:13px; line-height:1.6; color:var(--text-secondary); border-left:2px solid var(--border-accent); padding-left:12px;"></div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+
+  // ---------- 1.1 bar animation on mount ----------
+  setTimeout(function(){
+    document.getElementById('barA1').style.width='5%';
+    document.getElementById('barA2').style.width='70%';
+    document.getElementById('barW1').style.width='10%';
+    document.getElementById('barW2').style.width='15%';
+  }, 60);
+
+  // ---------- 1.2 orden vs calibración ----------
+  var data12 = [
+    {id:'t1', y:1, a:0.90, b:0.09},
+    {id:'t2', y:1, a:0.85, b:0.085},
+    {id:'t3', y:1, a:0.70, b:0.07},
+    {id:'t4', y:0, a:0.30, b:0.03},
+    {id:'t5', y:0, a:0.20, b:0.02},
+    {id:'t6', y:0, a:0.10, b:0.01}
+  ];
+  (function renderRows12(){
+    var h='';
+    data12.forEach(function(d,i){
+      h+='<div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">'+
+         '<div style="width:26px; font-size:12px; color:var(--text-muted);">'+d.id+'</div>'+
+         '<div style="width:64px; font-size:11px; color:'+(d.y===1?'#E24B4A':'#378ADD')+';">'+(d.y===1?'Fraude':'Legítima')+'</div>'+
+         '<div style="flex:1; background:var(--surface-1); border-radius:4px; height:16px; overflow:hidden;">'+
+           '<div class="bar12" data-i="'+i+'" style="height:100%; border-radius:4px; background:'+(d.y===1?'#E24B4A':'#378ADD')+'; width:0%;"></div>'+
+         '</div>'+
+         '<div class="val12" data-i="'+i+'" style="width:52px; font-family:var(--font-mono); font-size:12px; text-align:right; color:var(--text-primary);">0.000</div>'+
+       '</div>';
+    });
+    document.getElementById('rows12').innerHTML=h;
+  })();
+  var interp=document.getElementById('interp'), story12=document.getElementById('story12');
+  function update12(){
+    var k=parseFloat(interp.value);
+    data12.forEach(function(d,i){
+      var v=d.a+(d.b-d.a)*k;
+      var pct=Math.max(0,Math.min(100, v/0.95*100));
+      document.querySelector('.bar12[data-i="'+i+'"]').style.width=pct.toFixed(1)+'%';
+      document.querySelector('.val12[data-i="'+i+'"]').textContent=v.toFixed(3);
+    });
+    var msg;
+    if(k<0.15){
+      msg='Estos son los scores del <b>Modelo A</b>: números que "suenan" a fraude (hasta 0.90).';
+    } else if(k>0.85){
+      msg='Ahora son los del <b>Modelo B</b>: el más alto es apenas 0.09 — a simple vista parece que "no encontró nada".';
+    } else {
+      msg='A mitad de camino, los números se van encogiendo — pero fijate que <b>t1 sigue arriba de t2, que sigue arriba de t3</b>, y los tres siguen arriba de t4, t5, t6. El orden nunca se rompe.';
+    }
+    msg+=' El orden relativo (de arriba hacia abajo) es idéntico en las dos puntas del slider — por eso el AUC de ambos modelos es el mismo (1.0), aunque como número, el Modelo B miente sobre qué tan seguro está.';
+    story12.innerHTML=msg.replace(/<b>/g,'<span style="color:var(--text-primary);font-weight:500;">').replace(/<\/b>/g,'</span>');
+  }
+  interp.addEventListener('input', update12);
+  update12();
+
+  // ---------- 1.3/1.4/2.x umbral + matriz + metricas ----------
+  var data = [
+    {s:0.93,y:1},{s:0.85,y:1},{s:0.79,y:1},{s:0.70,y:1},{s:0.62,y:1},{s:0.54,y:1},{s:0.47,y:1},{s:0.36,y:1},
+    {s:0.66,y:0},{s:0.58,y:0},{s:0.50,y:0},{s:0.43,y:0},{s:0.37,y:0},{s:0.31,y:0},{s:0.26,y:0},{s:0.20,y:0},{s:0.15,y:0},{s:0.10,y:0},{s:0.06,y:0},{s:0.02,y:0}
+  ];
+  var P=640,H=150,x0=40,x1=610,axisY=95;
+  var svg=document.getElementById('strip');
+  var thr=document.getElementById('thr'), out=document.getElementById('throut'), story=document.getElementById('story');
+  function X(s){return x0+s*(x1-x0);}
+
+  function baseSVG(){
+    var h='';
+    h+='<rect id="shade" x="0" y="18" width="0" height="'+(H-40)+'" fill="var(--bg-warning)" opacity="0.55"></rect>';
+    h+='<line x1="'+x0+'" y1="'+axisY+'" x2="'+x1+'" y2="'+axisY+'" stroke="var(--border-strong)" stroke-width="1"></line>';
+    for(var t=0;t<=1.0001;t+=0.25){
+      h+='<line x1="'+X(t)+'" y1="'+(axisY-4)+'" x2="'+X(t)+'" y2="'+(axisY+4)+'" stroke="var(--border-strong)" stroke-width="1"></line>';
+      h+='<text x="'+X(t)+'" y="'+(axisY+18)+'" text-anchor="middle" font-size="11" fill="var(--text-muted)">'+t.toFixed(2)+'</text>';
+    }
+    h+='<text x="'+x0+'" y="16" font-size="11" fill="var(--text-muted)">score →</text>';
+    data.forEach(function(d,i){
+      var jitterY = d.y===1 ? (axisY-22-(i%3)*10) : (axisY+16+(i%3)*10);
+      var col = d.y===1 ? '#E24B4A' : '#378ADD';
+      h+='<circle class="dot" data-i="'+i+'" cx="'+X(d.s)+'" cy="'+jitterY+'" r="5.5" fill="'+col+'" stroke="var(--surface-2)" stroke-width="1"></circle>';
+    });
+    h+='<line id="tline" x1="0" y1="8" x2="0" y2="'+(H-14)+'" stroke="var(--text-primary)" stroke-width="2"></line>';
+    h+='<text id="tlbl" x="0" y="8" text-anchor="middle" font-size="11" font-weight="500" fill="var(--text-primary)"></text>';
+    svg.innerHTML=h;
+  }
+  baseSVG();
+
+  function fmt(v){return (v===null)?'—':v.toFixed(2);}
+  function arrow(cur,prev){
+    if(cur===null||prev===null) return '';
+    if(cur>prev+0.001) return ' <span style="color:#0F6E56;font-size:12px;">▲</span>';
+    if(cur<prev-0.001) return ' <span style="color:#A32D2D;font-size:12px;">▼</span>';
+    return '';
+  }
+  var lastPrec=null, lastRec=null;
+
+  function update(){
+    var t=parseFloat(thr.value);
+    out.textContent=t.toFixed(2);
+    var TP=0,FP=0,FN=0,TN=0;
+    data.forEach(function(d){
+      var pred = d.s>=t ? 1:0;
+      if(pred===1 && d.y===1)TP++;
+      else if(pred===1 && d.y===0)FP++;
+      else if(pred===0 && d.y===1)FN++;
+      else TN++;
+    });
+    document.getElementById('nTP').textContent=TP;
+    document.getElementById('nFP').textContent=FP;
+    document.getElementById('nFN').textContent=FN;
+    document.getElementById('nTN').textContent=TN;
+
+    var prec = (TP+FP)>0 ? TP/(TP+FP) : null;
+    var rec  = TP/(TP+FN);   // TP+FN = 8 siempre
+    var fpr  = FP/(FP+TN);   // FP+TN = 12 siempre
+    var f1   = (prec!==null && (prec+rec)>0) ? 2*prec*rec/(prec+rec) : null;
+    var acc  = (TP+TN)/(TP+FP+FN+TN);
+    var avg  = (prec!==null) ? (prec+rec)/2 : null;
+
+    document.getElementById('mP').innerHTML=fmt(prec)+arrow(prec,lastPrec);
+    document.getElementById('mR').innerHTML=fmt(rec)+arrow(rec,lastRec);
+    document.getElementById('mF').textContent=fmt(f1);
+    document.getElementById('mA').textContent=fmt(acc);
+    lastPrec=prec; lastRec=rec;
+
+    document.getElementById('barAvg').style.width=(avg!==null?avg*100:0)+'%';
+    document.getElementById('valAvg').textContent=fmt(avg);
+    document.getElementById('barF1').style.width=(f1!==null?f1*100:0)+'%';
+    document.getElementById('valF1b').textContent=fmt(f1);
+
+    var xt=X(t);
+    var sh=document.getElementById('shade'); sh.setAttribute('x',xt); sh.setAttribute('width',Math.max(0,x1+30-xt));
+    var tl=document.getElementById('tline'); tl.setAttribute('x1',xt); tl.setAttribute('x2',xt);
+    var lb=document.getElementById('tlbl'); lb.setAttribute('x',Math.min(Math.max(xt,24),P-24)); lb.textContent=t.toFixed(2);
+
+    document.querySelectorAll('.dot').forEach(function(c){
+      var d=data[c.getAttribute('data-i')];
+      var pred=d.s>=t?1:0;
+      c.setAttribute('opacity', pred===1?1:0.32);
+      c.setAttribute('r', pred===1?6.5:5);
+    });
+
+    var msg;
+    if(FN===0 && rec===1){
+      msg='Umbral bajo: la red atrapa <b>todos</b> los fraudes (recall '+fmt(rec)+'), pero deja pasar falsas alarmas — precision '+fmt(prec)+'. Los FP son clientes honestos con la tarjeta bloqueada.';
+    } else if(FP===0 && prec===1){
+      msg='Umbral alto: cuando dice "fraude" casi nunca se equivoca (precision '+fmt(prec)+'), pero ya se le escapan '+FN+' fraude(s) reales como FN — recall cae a '+fmt(rec)+'.';
+    } else if(prec===null){
+      msg='Umbral por encima de todos los scores: el modelo nunca dice "fraude" — 0 FP, pero precision queda indefinida (0/0) y recall se derrumba a '+fmt(rec)+'.';
+    } else {
+      msg='Al subir el umbral, algunos TP cruzan de vuelta y se vuelven FN: precision '+fmt(prec)+' tiende a subir mientras recall '+fmt(rec)+' baja. Ese es el compromiso (2.3) — TP y FP viven del mismo lado de la línea, así que no se puede maximizar las dos a la vez.';
+    }
+    story.innerHTML=msg.replace(/<b>/g,'<span style="color:var(--text-primary);font-weight:500;">').replace(/<\/b>/g,'</span>');
+
+    // sincroniza con el widget de prevalencia (2.5)
+    window.sharedRecall = rec;
+    window.sharedFPR = fpr;
+    if(typeof update3==='function') update3();
+  }
+
+  thr.addEventListener('input',update);
+
+  var playing=false, dir=1, timer=null;
+  var btn=document.getElementById('play'), lbl=document.getElementById('playlbl');
+  function step(){
+    var v=parseFloat(thr.value)+dir*0.01;
+    if(v>=1){v=1;dir=-1;} else if(v<=0){v=0;dir=1;}
+    thr.value=v.toFixed(2); update();
+  }
+  var icon=document.getElementById('playicon');
+  btn.addEventListener('click',function(){
+    playing=!playing;
+    icon.textContent = playing?'⏸':'▶';
+    lbl.textContent = playing?'Pausar':'Animar';
+    if(playing){timer=setInterval(step,90);} else {clearInterval(timer);}
+  });
+
+  update();
+
+  // ---------- 2.5 prevalencia ----------
+  var prev=document.getElementById('prev'), prevout=document.getElementById('prevout');
+  var rfSummary=document.getElementById('rfSummary'), precOut=document.getElementById('precOut');
+  var lazyAcc=document.getElementById('lazyAcc'), prevStory=document.getElementById('prevStory');
+  var popviz=document.getElementById('popviz');
+
+  window.update3 = function update3(){
+    var pPct=parseFloat(prev.value);
+    var pi=pPct/100;
+    prevout.textContent=pPct.toFixed(1)+'%';
+    var recall=window.sharedRecall, fpr=window.sharedFPR;
+    if(recall===undefined||fpr===undefined) return;
+    rfSummary.textContent='recall='+recall.toFixed(2)+', FPR='+fpr.toFixed(2);
+
+    var N=10000;
+    var fraudN=Math.round(N*pi);
+    var legitN=N-fraudN;
+    var TP=Math.round(fraudN*recall);
+    var FP=Math.round(legitN*fpr);
+    var prec=(TP+FP)>0 ? TP/(TP+FP) : null;
+    precOut.textContent = prec===null ? '—' : (prec*100).toFixed(1)+'%';
+    lazyAcc.textContent = ((1-pi)*100).toFixed(1)+'% (0 fraudes atrapados)';
+
+    var W=280,x0v=10,y=18;
+    var TPw=W*TP/N, FPw=W*FP/N;
+    var h='';
+    h+='<rect x="'+x0v+'" y="'+y+'" width="'+W+'" height="18" rx="3" fill="var(--surface-2)"></rect>';
+    h+='<rect x="'+x0v+'" y="'+y+'" width="'+TPw.toFixed(2)+'" height="18" rx="3" fill="#E24B4A"></rect>';
+    h+='<rect x="'+(x0v+TPw).toFixed(2)+'" y="'+y+'" width="'+FPw.toFixed(2)+'" height="18" fill="#378ADD"></rect>';
+    h+='<text x="'+x0v+'" y="'+(y+34)+'" font-size="10" fill="var(--text-muted)">TP='+TP+'  ·  FP='+FP+'  ·  fraudes reales='+fraudN+'</text>';
+    popviz.innerHTML=h;
+
+    var msg;
+    if(pPct>=39.5 && pPct<=40.5){
+      msg='π≈40% — el mismo punto que el set de validación de Ignasio (1.4). Con recall '+recall.toFixed(2)+' y FPR '+fpr.toFixed(2)+', precision da '+(prec*100).toFixed(1)+'%.';
+    } else if(pPct<=1.5){
+      msg='π≈1% (fraude real de producción): el mismo modelo, el mismo umbral, dispara '+FP+' falsas alarmas por cada '+TP+' fraudes reales atrapados. Precision se derrumba a '+(prec*100).toFixed(1)+'% aunque recall sigue en '+recall.toFixed(2)+' — nada del modelo cambió, solo la población.';
+    } else {
+      msg='Ni un score ni el umbral cambiaron — solo π. Recall se queda fijo en '+recall.toFixed(2)+' porque solo depende de la clase fraude; precision se mueve porque mezcla ese recall con qué tan grande es la clase legítima alrededor.';
+    }
+    prevStory.textContent=msg;
+  };
+
+  prev.addEventListener('input', update3);
+  document.getElementById('jump04').addEventListener('click', function(){ prev.value=40; update3(); });
+  document.getElementById('jump001').addEventListener('click', function(){ prev.value=1; update3(); });
+  update3();
+
+})();
+</script>
+</body>
+</html>

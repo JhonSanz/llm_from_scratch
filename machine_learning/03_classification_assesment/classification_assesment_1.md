@@ -41,6 +41,70 @@ Por eso, antes de hablar de umbrales y decisiones, conviene evaluar el score en 
 - **Ordenar bien**: ¿el modelo tiende a darles score más alto a los fraudes de verdad que a las transacciones legítimas? No importa el valor exacto que le ponga a cada ejemplo, importa que el orden relativo sea el correcto. Un modelo que le da `0.05` a los fraudes y `0.02` a las transacciones legítimas ordena perfecto, aunque ningún score individual "parezca" alto.
 - **Que el número sea una probabilidad creíble**: si el modelo dice `0.8`, ¿de verdad, entre todos los casos donde dijo algo cercano a `0.8`, alrededor de 8 de cada 10 resultan ser fraude? Un modelo puede ordenar perfecto y aun así estar mal calibrado — por ejemplo, si sistemáticamente dice `0.95` cuando la tasa real ronda el 60%.
 
+
+#### Ejemplo 1 — Ordenar bien
+
+**La pregunta:** ¿el modelo les da score más alto a los fraudes reales que a las transacciones legítimas? No importa el valor exacto, importa el orden relativo.
+
+Tomemos 6 transacciones que ya sabemos qué eran de verdad, y dos modelos que les asignan scores distintos:
+
+| transacción | real     | Modelo A | Modelo B |
+|-------------|----------|----------|----------|
+| t1          | Fraude   | 0.90     | 0.09     |
+| t2          | Fraude   | 0.85     | 0.085    |
+| t3          | Fraude   | 0.70     | 0.07     |
+| t4          | Legítima | 0.30     | 0.03     |
+| t5          | Legítima | 0.20     | 0.02     |
+| t6          | Legítima | 0.10     | 0.01     |
+
+Los dos modelos **ordenan idéntico**: los tres fraudes quedan por encima de las tres legítimas, sin ni un solo cruce. Si armáramos una cola de revisión "de más sospechoso a menos sospechoso", ambos producen exactamente la misma lista. Su AUC sería el mismo (1.0, separación perfecta).
+
+Y sin embargo el **Modelo B nunca dice un número que "parezca" fraude**: su score más alto es `0.09`. A un ojo humano le grita "acá no hay nada", pero el orden relativo es perfecto.
+
+> **La idea:** ordenar bien no depende de la magnitud, depende de quién queda arriba de quién. Un fraude con `0.09` y una legítima con `0.01` está perfectamente ordenado, aunque ningún número supere el `0.5` de rigor.
+
+Esto es lo que miden **ROC / AUC** y **PR / AP**.
+
+#### Ejemplo 2 — Que el número sea una probabilidad creíble (calibración)
+
+**La pregunta:** cuando el modelo dice `0.8`, ¿de verdad, entre todos los casos donde dijo algo cercano a `0.8`, alrededor de 8 de cada 10 resultan ser fraude?
+
+El modelo "dice 80%" en el instante en que le asigna el score `0.8` a una transacción — es lo mismo dicho de dos maneras. Verificar si ese `0.8` era honesto es un paso posterior: juntar todos los casos donde dijo `0.8` y ver qué pasó de verdad.
+
+##### Un solo nivel (el 0.8)
+
+Ignasio junta las 10 transacciones donde el modelo dijo algo cercano a `0.8`:
+
+- **Caso calibrado:** de esas 10, resultaron fraude 8. El modelo dijo "80%" y el 80% real era fraude. El número es creíble.
+- **Caso mal calibrado (sobreconfiado):** de esas 10, resultaron fraude solo 6. El modelo dice `0.8` pero la tasa real ronda el 60%. El número existe igual, pero miente.
+
+##### Todos los niveles a la vez (reliability diagram)
+
+Lo mismo se hace para todo el rango de scores, no solo el 0.8. Como los scores son continuos (`0.8017`, `0.7994`...), no se agrupa por valor exacto sino por **rangos (baldes)**. Para cada balde se compara lo que el modelo promete contra lo que pasó de verdad:
+
+| balde de score | qué junta       | modelo dice (promedio) | pasó de verdad          |
+|----------------|-----------------|------------------------|-------------------------|
+| [0.0, 0.2)     | los de score bajo | ~0.10                | ¿qué fracción fue fraude? |
+| [0.2, 0.4)     | los del 20-30%  | ~0.30                  | ¿qué fracción fue fraude? |
+| [0.4, 0.6)     | los del medio   | ~0.50                  | ¿qué fracción fue fraude? |
+| [0.6, 0.8)     | los altos       | ~0.70                  | ¿qué fracción fue fraude? |
+| [0.8, 1.0]     | los muy altos   | ~0.90                  | ¿qué fracción fue fraude? |
+
+Un modelo bien calibrado tiene, en **cada** balde, "lo que dice" ≈ "lo que pasó". No solo en el del 0.8 — en todos.
+
+> **Analogía:** un pronosticador que dice "80% de lluvia" ya lo dijo en ese momento. Que sea bueno se sabe después, juntando todos los días que dijo "80%" y viendo si llovió en 8 de cada 10. El modelo es el pronosticador; el score es el "80%"; la calibración es revisar su historial.
+
+Esto es lo que miden el **reliability diagram**, el **ECE** y el **Brier score**.
+
+##### Lo clave: son independientes
+
+- El **Modelo B** del ejemplo 1 ordena impecable, pero sus números (`0.09`, `0.01`) son ridículamente bajos → buena discriminación, mala calibración.
+- Un modelo **sobreconfiado** puede ordenar perfecto y aun así inflar los números (`0.8` cuando es 60%) → buena discriminación, mala calibración.
+- Un modelo que le asigna a **todo** la prevalencia (ej. `0.4` a todas) está bien calibrado en el agregado pero no distingue nada → mala discriminación, buena calibración.
+
+Por eso se miden con herramientas distintas: **ROC/AUC y PR/AP** para el orden, **reliability diagram, ECE y Brier** para la credibilidad del número.
+
+
 Son independientes porque un modelo puede tener una de las dos sin la otra: puede ordenar de maravilla mientras sus números están sistemáticamente desviados, o puede tener números creíbles en promedio pero un orden mediocre. Vamos a volver a esta distinción más adelante — ordenar bien es lo que miden ROC y PR-AUC (Parte 3), y que el número sea creíble es lo que mide la calibración (Parte 4).
 
 
@@ -60,7 +124,7 @@ Ya vimos que el score se convierte en decisión al compararlo contra un umbral. 
 
 Esta matriz es la materia prima de casi todo lo que viene: precision, recall, F1 y accuracy (Parte 2) no son más que distintas formas de combinar estos cuatro números. Pero ojo — la matriz completa depende de un umbral fijo. Si Ignasio mueve el umbral, algunos TP se le vuelven FN, algunos TN se le vuelven FP, y la matriz cambia entera. De eso trata la siguiente sección.
 
-### 1.4 El umbral de decisión es una perilla, no un dato
+### 1.4 El umbral de decisión
 
 Ya vimos que el score y la decisión son cosas distintas, y que la decisión sale de comparar el score contra un umbral. Lo que falta aclarar es qué tan arbitrario es ese umbral. El `0.5` es apenas la convención por defecto, el umbral es puro post-proceso, tan fácil de cambiar como una línea de código
 
@@ -81,6 +145,8 @@ Si Ignasio baja el umbral a `0.35`, hasta el fraude más débil (`0.36`) cruza l
 Si en cambio lo sube a `0.65`, dejan de cruzar la línea cuatro fraudes reales (`0.62`, `0.54`, `0.47`, `0.36`), que se vuelven **FN**. Solo una legítima (`0.66`) sigue marcada como FP. La matriz pasa a 4 TP, 1 FP, 4 FN, 11 TN — casi no genera falsas alarmas, pero ahora se le escapa la mitad del fraude real.
 
 Ningún score cambió entre los tres escenarios. Es el mismo modelo, la misma tabla de 20 transacciones. Lo único que se movió fue la perilla, y eso alcanzó para reacomodar TP, FP, FN y TN por completo. Por eso no tiene sentido decir "mi modelo tiene 90% de precision" sin aclarar a qué umbral — y podés reproducir este mismo recorrido moviendo el umbral en el simulador interactivo de esta sección.
+
+> Simulador interactivo: [html/score_umbral_metricas_prevalencia.html](html/score_umbral_metricas_prevalencia.html). Cubre desde el riesgo empírico vs verdadero (1.1) hasta la prevalencia (2.5): un slider mueve el umbral sobre las mismas 20 transacciones y recalcula en vivo la matriz de confusión, precision, recall, F1 y accuracy; otro slider mueve la prevalencia y muestra cómo se derrumba precision al pasar de validación a producción.
 
 ¿Y quién decide dónde poner la perilla? prácticamente el negocio. Bajar el umbral favorece recall (atrapar más fraude) a costa de molestar más clientes honestos; subirlo favorece precision (menos falsas alarmas) a costa de dejar pasar más fraude. Cuál de los dos errores le sale más caro a la Empresa Feliz es exactamente el tema de la Parte 6 (matriz de costos, selección de umbral). Por ahora, lo importante es entender que el umbral es una decisión aparte del modelo, no una propiedad suya.
 
