@@ -154,7 +154,9 @@ Ningún score cambió entre los tres escenarios. Es el mismo modelo, la misma ta
 
 ### 2.1 Precision
 
-Retomemos la matriz de confusión de la sección 1.4. Con umbral `0.5`, Ignasio tenía 6 TP, 3 FP, 2 FN y 9 TN. La pregunta que responde **precision** es puntual: de todas las veces que el modelo gritó "¡fraude!", ¿cuántas veces tenía razón?
+Retomemos la matriz de confusión de la sección 1.4. Con umbral `0.5`, Ignasio tenía 6 TP, 3 FP, 2 FN y 9 TN. 
+
+> La pregunta que responde **precision** es puntual: de todas las veces que el modelo gritó "¡fraude!", ¿cuántas veces tenía razón?
 
 ```
 precision = TP / (TP + FP)
@@ -162,7 +164,7 @@ precision = TP / (TP + FP)
 
 En el ejemplo, el modelo marcó "fraude" nueve veces (6 TP + 3 FP) y acertó en seis: precision = 6/9 ≈ 0.67. Dicho en criollo, dos de cada tres alarmas son reales; la tercera es un cliente honesto al que le bloquearon la tarjeta sin motivo.
 
-Precision solo mira la fila "Predicho: Fraude" de la matriz. Le da igual cuántos fraudes reales existen en total o cuántos se le escaparon al modelo — eso es asunto del recall, que viene en la siguiente sección. Precision contesta una pregunta distinta: cuando el modelo actúa, ¿qué tan confiable es esa acción?
+> Cuando el modelo actúa, ¿qué tan confiable es esa acción?
 
 Por qué le importa a la Empresa Feliz: cada FP es un cliente real al que le rechazan la compra, que llama a soporte enojado y que quizás se cambia de banco. Si precision es baja, la alarma del modelo deja de ser creíble — tanto para los clientes como para el equipo humano que revisa cada caso marcado. Con suficiente volumen de transacciones, un precision bajo puede enterrar a ese equipo en falsas alarmas.
 
@@ -170,7 +172,9 @@ Vale la pena notar un caso extremo: un modelo tramposo que casi nunca dice "frau
 
 ### 2.2 Recall
 
-Si precision mira la fila "Predicho: Fraude", **recall** mira la columna "Real: Fraude". La pregunta cambia de bando: de todos los fraudes que de verdad ocurrieron, ¿cuántos atrapó el modelo?
+Si precision mira la fila "Predicho: Fraude", **recall** mira la columna "Real: Fraude". 
+
+> La pregunta cambia de bando: de todos los fraudes que de verdad ocurrieron, ¿cuántos atrapó el modelo?
 
 ```
 recall = TP / (TP + FN)
@@ -180,7 +184,7 @@ Con el umbral `0.5` del ejemplo de 1.4, Ignasio tenía 6 TP y 2 FN: recall = 6/8
 
 Ahora recordemos qué pasaba si Ignasio subía el umbral a `0.65` (también en 1.4): la matriz cambiaba a 4 TP, 1 FP, 4 FN, 11 TN. Los fraudes con score `0.62`, `0.54`, `0.47` y `0.36` dejaron de cruzar la línea y se volvieron FN. recall = 4/8 = 0.5. De un plumazo, subir la perilla para ganar precision (subió de 0.67 a 0.8) le costó la mitad del recall: ahora se le escapa uno de cada dos fraudes reales.
 
-Recall le da igual cuántas falsas alarmas genera el modelo; solo le importa no dejar pasar fraude real. Por eso a veces se le llama **sensitivity** o **true positive rate** — es la misma cantidad con otro nombre, y va a reaparecer en la Parte 3 cuando hablemos de la curva ROC.
+> Recall le da igual cuántas falsas alarmas genera el modelo; solo le importa no dejar pasar fraude real. Por eso a veces se le llama **sensitivity** o **true positive rate** — es la misma cantidad con otro nombre, y va a reaparecer en la Parte 3 cuando hablemos de la curva ROC.
 
 Por qué le importa a la Empresa Feliz: cada FN es un fraude que pasó como transacción normal — plata que se pierde, y potencialmente un cliente que descubre después que le robaron y culpa al banco por no haberlo detectado. Si el costo de un fraude no detectado es mucho mayor que el costo de molestar a un cliente honesto (algo muy plausible en fraude financiero), Ignasio va a querer un recall alto aunque eso le cueste precision — y de ahí sale, otra vez, la pregunta del umbral correcto que retomamos en la Parte 6.
 
@@ -221,7 +225,9 @@ Dos advertencias para no usar F1 en piloto automático:
 
 ### Accuracy y por qué miente con clases desbalanceadas
 
-Antes de meternos con precision, recall y F1, la métrica más obvia que a cualquiera se le ocurre es **accuracy**: ¿qué fracción de todas las predicciones fueron correctas?
+Antes de meternos con precision, recall y F1, la métrica más obvia que a cualquiera se le ocurre es **accuracy**: 
+
+> ¿qué fracción de todas las predicciones fueron correctas?
 
 ```
 accuracy = (TP + TN) / (TP + FP + FN + TN)
