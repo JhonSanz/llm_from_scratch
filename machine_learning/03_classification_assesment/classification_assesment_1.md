@@ -2,7 +2,7 @@
 
 Supongamos un investigador/ingeniero ML llamado Ignasio en una empresa ficticia llamada la "Empresa Feliz". Ignasio tiene la tarea de entrenar un modelo que clasifique correctamente transacciones como fraudulentas o legítimas.
 
-Para ello se le suministran permisos de acceso en base de datos para consultar transacciones historicas. Ignasio está feliz porque usó pytorch para crear su MLP con el módulo `n.n`, sin embargo después de un entrenamiento de varios días con su pc encendido consumiendo electricidad con su RTX 5070 viene una pregunta muy importante y fundamental: **¿Esto si está aprendiendo al clasificar?**
+Para ello se le suministran permisos de acceso en base de datos para consultar transacciones historicas. Ignasio está feliz porque usó pytorch para crear su MLP con el módulo `n.n`, sin embargo después de un entrenamiento de varios días con su pc encendido consumiendo electricidad con su RTX 5070 viene una pregunta muy importante y fundamental: **¿Esto si está aprendiendo a clasificar?**
 
 Específicamente, los algoritmos de clasificación como los MLP, random forest, SVM etc tiene una clara función y es que basado en los datos de entrenamiento, los "engranajes internos" del algoritmo se acomodan para **generalizar** los datos, y ante uno nuevo totalmente desconocido es capaz de reconocer los patrones y decir a qué categoría es propable que pertenezca
 
@@ -249,9 +249,23 @@ accuracy = (0 + 9900) / 10000 = 0.99
 
 La lección práctica: accuracy solo es un resumen confiable cuando las clases están razonablemente balanceadas. En fraude, spam, detección de enfermedades raras, o cualquier problema donde lo que buscás es raro por definición, accuracy es casi un antipatrón — precision, recall y F1, calculados sobre la clase positiva, cuentan una historia mucho más honesta. Y por qué exactamente ese 1% de prevalencia afecta a precision pero no a recall es justo el tema de la siguiente sección.
 
+### FPR (false positive rate)   — el espejo de recall
+
+Recall (2.2) mira la columna "Real: Fraude" de la matriz de confusión (1.3) y responde "de los fraudes reales, ¿cuántos atrapé?". Existe una pregunta igual de válida mirando la otra columna, "Real: Legítima": de los clientes honestos reales, ¿a cuántos les disparé una falsa alarma? Esa pregunta la responde el **false positive rate (FPR)**:
+
+```
+FPR = FP / (FP + TN)
+```
+
+Con la matriz de Ignasio a umbral `0.5` (3 FP, 9 TN): FPR = 3/12 = 0.25. Uno de cada cuatro clientes honestos recibe una alarma que no merecía.
+
+FPR es una métrica de pleno derecho, tan legítima como recall — no un subproducto ni un paso intermedio. Nada impide reportarla sola: "a umbral 0.5, FPR = 25%" es un número de negocio tan válido como "recall = 0.75". Su complemento, `1 − FPR = TN/(FP+TN)`, tiene incluso nombre propio: **specificity** (o *true negative rate*), muy usada en medicina junto a *sensitivity* (que es, otra vez, recall con otro nombre).
+
+Dicho eso, FPR va a aparecer acá sobre todo en dos roles que se explican en lo que sigue: es la pieza que, junto con recall, permite ver exactamente de dónde sale la dependencia de precision con la prevalencia (próxima sección), y es el eje horizontal de la curva ROC (Parte 3).
+
 ### El base rate / prevalencia   (por qué precision se mueve con la prevalencia y recall no)
 
-El **base rate** (o **prevalencia**) es simplemente qué fracción de la población real es positiva: `prevalencia = (TP + FN) / total`. En el set de validación de 1.4 era 8/20 = 0.4 (40% fraude); en la Empresa Feliz de verdad, probablemente ronda el 1% o menos. Esa diferencia no es un detalle menor — cambia por completo cuánto se puede confiar en precision, y no le hace nada a recall. Vale la pena ver exactamente por qué.
+El **base rate** (o **prevalencia**) es simplemente qué fracción de la población real es positiva: `prevalencia = (TP + FN) / total`. De acá en adelante la vamos a denotar con la letra griega **π** (la misma convención que usa el teorema de Bayes para la probabilidad base de una condición en la población). En el set de validación de 1.4 era π = 8/20 = 0.4 (40% fraude); en la Empresa Feliz de verdad, π probablemente ronda el 1% o menos. Esa diferencia no es un detalle menor — cambia por completo cuánto se puede confiar en precision, y no le hace nada a recall. Vale la pena ver exactamente por qué.
 
 Mirá de nuevo las fórmulas:
 
@@ -264,13 +278,23 @@ precision = TP / (TP + FP)
 
 `precision`, en cambio, tiene FP en el denominador, y los FP salen de la clase negativa — que es enorme cuando el fraude es raro. Ese es el mecanismo: si las legítimas son 9 de cada 10 transacciones (o 99 de cada 100, o 999 de cada 1000), hasta una tasa de falsos positivos chiquita sobre esa masa gigante genera un número absoluto de FP que puede superar por mucho a los TP, que salen de una clase minúscula.
 
-Para verlo con precisión, conviene separar precision en dos ingredientes: recall (qué tan bien atrapa el fraude) y **FPR** (*false positive rate* = `FP / (FP + TN)`, qué tan seguido dispara una falsa alarma sobre una transacción legítima). Con esos dos y la prevalencia π, precision queda así:
+Ojo: lo que sigue no es una nueva definición de precision — es la misma `precision = TP/(TP+FP)` de siempre, reescrita en otras variables. Si `total` es el número de transacciones, entonces `TP+FN` (todo el fraude real) es por definición `π·total`, y `FP+TN` (todas las legítimas reales) es `(1−π)·total`. Sustituyendo:
+
+```
+TP = recall · (π · total)          [porque recall = TP / (TP+FN)]
+FP = FPR   · ((1 − π) · total)     [porque FPR   = FP / (FP+TN)]
+
+precision = TP / (TP + FP)
+          = (recall · π · total) / (recall · π · total + FPR · (1 − π) · total)
+```
+
+El `total` se cancela arriba y abajo, y queda:
 
 ```
 precision = (recall · π) / (recall · π + FPR · (1 − π))
 ```
 
-Es la misma cuenta que el teorema de Bayes para "probabilidad de estar enfermo dado un test positivo" — y no es casualidad, es exactamente el mismo problema. `recall` y `FPR` son propiedades del modelo a un umbral dado (no cambian si cambia la población); π es propiedad de *dónde* lo despliegues. La fórmula muestra en blanco y negro que precision mezcla las dos cosas, mientras que recall depende solo de la primera.
+Mismo número de siempre, calculado con los mismos TP y FP — la fórmula de la sección 2.1 (`TP/(TP+FP)`) sigue siendo válida y da exactamente este mismo resultado. Lo único que cambió es qué variables usamos para expresarlo: en vez de tres conteos de un dataset puntual (TP, FP), ahora son tres cantidades separables — recall y FPR (propiedades del modelo a un umbral dado, no cambian si cambia la población) y π (propiedad de *dónde* se despliega el modelo). Es la misma cuenta que el teorema de Bayes para "probabilidad de estar enfermo dado un test positivo" — y no es casualidad, es exactamente el mismo problema. La fórmula muestra en blanco y negro que precision mezcla las dos cosas, mientras que recall depende solo de la primera.
 
 Apliquémoslo a Ignasio. En su set de validación de 1.4, a umbral `0.5` tenía recall = 0.75 y FPR = 3/12 = 0.25 (3 FP sobre 12 legítimas). Ahí la prevalencia era 0.4, y su precision fue 0.67. Ahora imaginemos que ese mismo modelo, con ese mismo umbral — ni un score cambia — se despliega en producción, donde el fraude real es apenas 1% de las transacciones (π = 0.01):
 
@@ -288,6 +312,8 @@ La lección práctica para Ignasio: un precision medido en un set de validación
 
 
 ## Parte 3 — Métricas que barren TODOS los umbrales (una curva)
+
+> Simulador interactivo: [html/roc_pr_calibracion.html](html/roc_pr_calibracion.html). Continúa el simulador de la Parte 1-2 con el mismo ejemplo de 20 transacciones: un umbral compartido recorre a la vez la curva ROC y la curva PR (Parte 3), un slider de prevalencia muestra por qué la curva PR se derrumba en producción mientras ROC se queda clavado, y una transformación de temperatura separa visualmente discriminación de calibración con su reliability diagram, ECE y Brier en vivo (Parte 4).
 
 ### ROC y AUC
 

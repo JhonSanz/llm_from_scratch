@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ROC, PR y calibración — simulador</title>
+<style>
+  :root{
+    color-scheme: light dark;
+    --bg-page: #ffffff;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4b5563;
+    --text-muted: #8a8f98;
+    --surface-1: #f3f4f6;
+    --surface-2: #e7e9ee;
+    --border-strong: #d1d5db;
+    --border-accent: #6366f1;
+    --bg-warning: #fef3c7;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg-page: #12151c;
+      --text-primary: #f3f4f6;
+      --text-secondary: #b3b8c2;
+      --text-muted: #7c8291;
+      --surface-1: #1f2430;
+      --surface-2: #2a3040;
+      --border-strong: #3a4152;
+      --border-accent: #818cf8;
+      --bg-warning: #4a3f1a;
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg-page); color:var(--text-primary);
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin:0; padding:28px 20px 60px; max-width:920px; margin-inline:auto;
+    line-height:1.4;
+  }
+  h2.sr-only{
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+  button{
+    all:unset; cursor:pointer; box-sizing:border-box;
+    background:var(--surface-2); color:var(--text-primary);
+    border-radius:8px; font-size:14px; text-align:center;
+  }
+  button:hover{ background:var(--border-strong); }
+  button.active{ background:var(--border-accent); color:#fff; }
+  input[type="range"]{ accent-color: var(--border-accent); cursor:pointer; }
+  code{ font-family:var(--font-mono); background:var(--surface-1); padding:1px 5px; border-radius:4px; }
+  table{ border-collapse:collapse; width:100%; }
+  .sectitle{ font-size:12px; letter-spacing:.03em; text-transform:uppercase; color:var(--text-muted); font-weight:600; margin-bottom:6px; }
+  .subtitle{ font-size:13px; color:var(--text-secondary); margin-bottom:10px; }
+  .story{ margin-top:0.75rem; font-size:13px; line-height:1.6; color:var(--text-secondary); border-left:2px solid var(--border-accent); padding-left:12px; }
+  .card{ background:var(--surface-1); border-radius:8px; padding:10px 12px; }
+  .stat{ font-size:22px; font-weight:500; }
+  .statlbl{ font-size:12px; color:var(--text-secondary); }
+  .statfmla{ font-size:10px; color:var(--text-muted); font-family:var(--font-mono); }
+  section{ margin-bottom:38px; padding-bottom:6px; border-bottom:1px solid var(--border-strong); }
+  section:last-of-type{ border-bottom:none; }
+</style>
+</head>
+<body>
+
+<h2 class="sr-only">Explicador interactivo, continuación: la curva ROC y su AUC, la curva Precision-Recall y su Average Precision, cómo se comportan ROC y PR cuando cambia la prevalencia, la diferencia entre discriminación (orden) y calibración (número creíble) mediante una transformación de temperatura, y el reliability diagram con ECE y Brier score — todo sobre las mismas 20 transacciones de Ignasio.</h2>
+
+<p class="subtitle" style="margin-bottom:26px;">Continuación de <a href="score_umbral_metricas_prevalencia.html" style="color:var(--border-accent);">score_umbral_metricas_prevalencia.html</a> (que cubre 1.1 a 2.5). Este simulador cubre <b>Parte 3</b> (ROC/AUC, PR/AP, ROC vs PR bajo prevalencia) y <b>Parte 4</b> (discriminación vs calibración, reliability diagram, ECE, Brier), con las mismas 20 transacciones.</p>
+
+<!-- ============ PARTE 3a — ROC / AUC y PR / AP ============ -->
+<section>
+  <div class="sectitle">Parte 3 — ROC/AUC y PR/AP: la misma perilla, dos curvas</div>
+  <div class="subtitle">Movés el umbral (igual que en 1.4) y mirás cómo el punto recorre <b>dos</b> curvas a la vez. Cada curva resume <i>todos</i> los umbrales en una sola forma — por eso ninguna de las dos depende de dónde pongas la perilla.</div>
+
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+    <label style="font-size:14px; color:var(--text-secondary);">Umbral</label>
+    <input type="range" id="thr3" min="0" max="1" step="0.01" value="0.50" style="flex:1;" />
+    <span id="thr3out" style="font-family:var(--font-mono); font-size:15px; font-weight:500; min-width:42px; text-align:right;">0.50</span>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+    <div>
+      <svg id="rocSvg" viewBox="0 0 300 300" style="width:100%; height:auto; display:block;"></svg>
+      <div style="text-align:center; font-size:12px; color:var(--text-secondary); margin-top:2px;">ROC — TPR (recall) vs FPR</div>
+    </div>
+    <div>
+      <svg id="prSvg" viewBox="0 0 300 300" style="width:100%; height:auto; display:block;"></svg>
+      <div style="text-align:center; font-size:12px; color:var(--text-secondary); margin-top:2px;">Precision–Recall</div>
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-top:12px;">
+    <div class="card"><div class="statlbl">Recall (TPR)</div><div class="stat" id="v3rec">—</div></div>
+    <div class="card"><div class="statlbl">FPR</div><div class="stat" id="v3fpr">—</div></div>
+    <div class="card"><div class="statlbl">Precision</div><div class="stat" id="v3prec">—</div></div>
+    <div class="card"><div class="statlbl">AUC (fijo)</div><div class="stat" id="v3auc" style="color:#0F6E56;">—</div></div>
+    <div class="card"><div class="statlbl">AP (fijo)</div><div class="stat" id="v3ap" style="color:#0F6E56;">—</div></div>
+  </div>
+
+  <div class="story" id="story3a"></div>
+</section>
+
+<!-- ============ PARTE 3b — ROC vs PR bajo prevalencia ============ -->
+<section>
+  <div class="sectitle">Parte 3 — ROC vs PR bajo prevalencia (cuál mirar cuando el fraude es rarísimo)</div>
+  <div class="subtitle">El modelo y el umbral no cambian. Lo único que se mueve es <b>π</b> (qué tan común es el fraude donde se despliega). La curva ROC (izquierda) queda <b>clavada</b> — no usa π. La curva PR (derecha) se derrumba a medida que π baja.</div>
+
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+    <label style="font-size:14px; color:var(--text-secondary);">Prevalencia π</label>
+    <input type="range" id="pi3" min="0.5" max="50" step="0.5" value="40" style="flex:1;" />
+    <span id="pi3out" style="font-family:var(--font-mono); font-size:15px; font-weight:500; min-width:56px; text-align:right;">40.0%</span>
+  </div>
+  <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
+    <button id="piJump40" style="width:auto; padding:2px 12px; height:28px; font-size:12px;">π = 40% (validación)</button>
+    <button id="piJump01" style="width:auto; padding:2px 12px; height:28px; font-size:12px;">π = 1% (producción real)</button>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+    <div>
+      <svg id="rocSvgFixed" viewBox="0 0 300 300" style="width:100%; height:auto; display:block;"></svg>
+      <div style="text-align:center; font-size:12px; color:var(--text-secondary); margin-top:2px;">ROC — no se entera de que π cambió</div>
+    </div>
+    <div>
+      <svg id="prSvgPi" viewBox="0 0 300 300" style="width:100%; height:auto; display:block;"></svg>
+      <div style="text-align:center; font-size:12px; color:var(--text-secondary); margin-top:2px;">PR — gris punteado: la de validación (π=40%)</div>
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px;">
+    <div class="card">
+      <div class="statlbl">AUC-ROC (no depende de π)</div>
+      <div class="stat" id="v3bauc" style="color:#0F6E56;">—</div>
+    </div>
+    <div class="card">
+      <div class="statlbl">AP a esta π</div>
+      <div class="stat" id="v3bap">—</div>
+    </div>
+  </div>
+
+  <div class="story" id="story3b"></div>
+</section>
+
+<!-- ============ PARTE 4a — discriminación vs calibración (temperatura) ============ -->
+<section>
+  <div class="sectitle">Parte 4 — Discriminación vs calibración: transformación de temperatura</div>
+  <div class="subtitle">La perilla de <b>temperatura</b> empuja los scores hacia los extremos con una transformación estrictamente monótona (M1 → M2 del documento) — el orden nunca cambia. Con el botón podés en cambio ver <b>M3</b>: un modelo que le asigna 0.4 a todo, el caso simétrico (calibrado, pero sin discriminación).</div>
+
+  <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:10px;">
+    <label style="font-size:14px; color:var(--text-secondary);">Temperatura</label>
+    <input type="range" id="temp4" min="1" max="3" step="0.05" value="1" style="flex:1; min-width:160px;" />
+    <span id="temp4out" style="font-family:var(--font-mono); font-size:15px; font-weight:500; min-width:42px; text-align:right;">×1.00</span>
+    <button id="m3toggle" style="width:auto; padding:0 14px; height:32px;">Ver M3 (predice 0.4 siempre)</button>
+  </div>
+
+  <svg id="stripSvg" viewBox="0 0 640 90" style="width:100%; height:auto; display:block;"></svg>
+  <div style="display:flex; gap:16px; font-size:12px; color:var(--text-secondary); margin:6px 0 14px; flex-wrap:wrap;">
+    <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#E24B4A;display:inline-block;"></span>Fraude real</span>
+    <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#378ADD;display:inline-block;"></span>Legítima real</span>
+  </div>
+
+  <table style="font-size:12px; margin-bottom:14px;">
+    <tr style="color:var(--text-secondary);">
+      <td style="padding:4px 8px;">transacción</td><td style="padding:4px 8px;">score original</td><td style="padding:4px 8px;">score transformado</td>
+    </tr>
+    <tr id="rowT1"><td style="padding:4px 8px; color:#E24B4A;">Fraude 0.36</td><td style="padding:4px 8px; font-family:var(--font-mono);">0.360</td><td id="rowT1v" style="padding:4px 8px; font-family:var(--font-mono);">—</td></tr>
+    <tr id="rowT2"><td style="padding:4px 8px; color:#E24B4A;">Fraude 0.62</td><td style="padding:4px 8px; font-family:var(--font-mono);">0.620</td><td id="rowT2v" style="padding:4px 8px; font-family:var(--font-mono);">—</td></tr>
+    <tr id="rowT3"><td style="padding:4px 8px; color:#378ADD;">Legítima 0.66</td><td style="padding:4px 8px; font-family:var(--font-mono);">0.660</td><td id="rowT3v" style="padding:4px 8px; font-family:var(--font-mono);">—</td></tr>
+  </table>
+
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:6px;">
+    <div class="card"><div class="statlbl">AUC (¿cambió?)</div><div class="stat" id="v4auc" style="color:#0F6E56;">—</div></div>
+    <div class="card"><div class="statlbl">ECE</div><div class="stat" id="v4ece">—</div></div>
+    <div class="card"><div class="statlbl">Brier</div><div class="stat" id="v4brier">—</div></div>
+  </div>
+
+  <div class="story" id="story4a" style="margin-bottom:16px;"></div>
+
+  <div class="sectitle" style="margin-top:20px;">Reliability diagram — confianza (lo que dice) vs observado (lo que pasó)</div>
+  <div id="relRows"></div>
+</section>
+
+<script>
+(function(){
+
+  var COLOR_FRAUD='#E24B4A', COLOR_LEGIT='#378ADD', COLOR_GOOD='#0F6E56', COLOR_BAD='#A32D2D';
+
+  var baseData = [
+    {s:0.93,y:1},{s:0.85,y:1},{s:0.79,y:1},{s:0.70,y:1},{s:0.62,y:1},{s:0.54,y:1},{s:0.47,y:1},{s:0.36,y:1},
+    {s:0.66,y:0},{s:0.58,y:0},{s:0.50,y:0},{s:0.43,y:0},{s:0.37,y:0},{s:0.31,y:0},{s:0.26,y:0},{s:0.20,y:0},{s:0.15,y:0},{s:0.10,y:0},{s:0.06,y:0},{s:0.02,y:0}
+  ];
+
+  // ---------- generic curve math (grouped by tied score, so M3's 20-way tie gives AUC=0.5) ----------
+  function computeCurves(dataset){
+    var sorted = dataset.slice().sort(function(a,b){return b.s-a.s;});
+    var P=0,N=0;
+    dataset.forEach(function(d){ if(d.y===1)P++; else N++; });
+    var steps=[]; var tp=0, fp=0, i=0;
+    while(i<sorted.length){
+      var j=i, gTP=0, gFP=0;
+      while(j<sorted.length && sorted[j].s===sorted[i].s){
+        if(sorted[j].y===1) gTP++; else gFP++;
+        j++;
+      }
+      tp+=gTP; fp+=gFP;
+      steps.push({recall:tp/P, fpr:fp/N, precision:tp/(tp+fp), isTPstep:gTP>0});
+      i=j;
+    }
+    var rocPts=[{fpr:0,tpr:0}].concat(steps.map(function(st){return {fpr:st.fpr,tpr:st.recall};}));
+    var auc=0;
+    for(var k=1;k<rocPts.length;k++){
+      var dx=rocPts[k].fpr-rocPts[k-1].fpr;
+      var avgy=(rocPts[k].tpr+rocPts[k-1].tpr)/2;
+      auc+=dx*avgy;
+    }
+    var ap=0, prevRecall=0;
+    steps.forEach(function(st){
+      if(st.isTPstep){ ap += (st.recall-prevRecall)*st.precision; prevRecall=st.recall; }
+    });
+    return {steps:steps, rocPts:rocPts, auc:auc, ap:ap, P:P, N:N};
+  }
+
+  function matrixAt(dataset,u){
+    var TP=0,FP=0,FN=0,TN=0;
+    dataset.forEach(function(d){
+      var pred = d.s>=u ? 1:0;
+      if(pred===1 && d.y===1)TP++;
+      else if(pred===1 && d.y===0)FP++;
+      else if(pred===0 && d.y===1)FN++;
+      else TN++;
+    });
+    return {TP:TP,FP:FP,FN:FN,TN:TN, tpr:TP/(TP+FN), fpr:FP/(FP+TN), precision:(TP+FP)>0?TP/(TP+FP):null};
+  }
+
+  function prPointsForPi(steps,pi){
+    return steps.map(function(st){
+      var denom = st.recall*pi + st.fpr*(1-pi);
+      return {recall:st.recall, precision: denom>0 ? (st.recall*pi)/denom : 1};
+    });
+  }
+  function apForPi(steps,pi){
+    var ap=0, prevRecall=0;
+    steps.forEach(function(st){
+      if(st.isTPstep){
+        var denom = st.recall*pi + st.fpr*(1-pi);
+        var prec = denom>0 ? (st.recall*pi)/denom : 1;
+        ap += (st.recall-prevRecall)*prec; prevRecall=st.recall;
+      }
+    });
+    return ap;
+  }
+
+  var curvesBase = computeCurves(baseData);
+  var refThresholds=[0.50,0.65,0.35].map(function(u){
+    var m=matrixAt(baseData,u);
+    return {u:u, fpr:m.fpr, tpr:m.tpr, precision:m.precision, recall:m.tpr};
+  });
+
+  // ---------- unit-square plot helpers (0..1 x 0..1), used by ROC and PR ----------
+  var PX0=44,PX1=280,PY0=256,PY1=20;
+  function px(v){return PX0+v*(PX1-PX0);}
+  function py(v){return PY0-v*(PY0-PY1);}
+  function unitFrame(xlabel,ylabel){
+    var s='';
+    s+='<line x1="'+PX0+'" y1="'+PY0+'" x2="'+PX1+'" y2="'+PY0+'" stroke="var(--border-strong)"/>';
+    s+='<line x1="'+PX0+'" y1="'+PY0+'" x2="'+PX0+'" y2="'+PY1+'" stroke="var(--border-strong)"/>';
+    for(var t=0;t<=1.0001;t+=0.25){
+      var xx=px(t), yy=py(t);
+      s+='<line x1="'+xx+'" y1="'+PY0+'" x2="'+xx+'" y2="'+(PY0+4)+'" stroke="var(--border-strong)"/>';
+      s+='<text x="'+xx+'" y="'+(PY0+16)+'" text-anchor="middle" font-size="9" fill="var(--text-muted)">'+t.toFixed(2)+'</text>';
+      s+='<line x1="'+(PX0-4)+'" y1="'+yy+'" x2="'+PX0+'" y2="'+yy+'" stroke="var(--border-strong)"/>';
+      s+='<text x="'+(PX0-7)+'" y="'+(yy+3)+'" text-anchor="end" font-size="9" fill="var(--text-muted)">'+t.toFixed(2)+'</text>';
+    }
+    s+='<text x="'+((PX0+PX1)/2)+'" y="278" text-anchor="middle" font-size="11" fill="var(--text-secondary)">'+xlabel+'</text>';
+    s+='<text x="12" y="'+((PY0+PY1)/2)+'" text-anchor="middle" font-size="11" fill="var(--text-secondary)" transform="rotate(-90 12,'+((PY0+PY1)/2)+')">'+ylabel+'</text>';
+    return s;
+  }
+  function pathD(points,xkey,ykey){
+    return points.map(function(p,idx){ return (idx===0?'M':'L')+px(p[xkey]).toFixed(1)+','+py(p[ykey]).toFixed(1); }).join(' ');
+  }
+
+  // ---------- Section 3a: ROC + PR with shared threshold dot ----------
+  var thr3=document.getElementById('thr3'), thr3out=document.getElementById('thr3out');
+  var rocSvg=document.getElementById('rocSvg'), prSvg=document.getElementById('prSvg');
+
+  function renderROC(svgEl, curves, refs, dot){
+    var s=unitFrame('FPR','TPR');
+    s+='<line x1="'+px(0)+'" y1="'+py(0)+'" x2="'+px(1)+'" y2="'+py(1)+'" stroke="var(--text-muted)" stroke-dasharray="4 4"/>';
+    s+='<path d="'+pathD(curves.rocPts,'fpr','tpr')+'" fill="none" stroke="'+COLOR_GOOD+'" stroke-width="2.5"/>';
+    refs.forEach(function(r){
+      s+='<circle cx="'+px(r.fpr).toFixed(1)+'" cy="'+py(r.tpr).toFixed(1)+'" r="4" fill="var(--bg-page)" stroke="var(--text-muted)" stroke-width="1.5"/>';
+    });
+    if(dot) s+='<circle cx="'+px(dot.fpr).toFixed(1)+'" cy="'+py(dot.tpr).toFixed(1)+'" r="6.5" fill="var(--border-accent)" stroke="var(--bg-page)" stroke-width="1.5"/>';
+    svgEl.innerHTML=s;
+  }
+  function renderPR(svgEl, prPts, refs, dot, baselineY){
+    var s=unitFrame('Recall','Precision');
+    if(baselineY!==undefined) s+='<line x1="'+px(0)+'" y1="'+py(baselineY)+'" x2="'+px(1)+'" y2="'+py(baselineY)+'" stroke="var(--text-muted)" stroke-dasharray="4 4"/>';
+    s+='<path d="'+pathD(prPts,'recall','precision')+'" fill="none" stroke="'+COLOR_GOOD+'" stroke-width="2.5"/>';
+    refs.forEach(function(r){
+      s+='<circle cx="'+px(r.recall).toFixed(1)+'" cy="'+py(r.precision).toFixed(1)+'" r="4" fill="var(--bg-page)" stroke="var(--text-muted)" stroke-width="1.5"/>';
+    });
+    if(dot) s+='<circle cx="'+px(dot.recall).toFixed(1)+'" cy="'+py(dot.precision).toFixed(1)+'" r="6.5" fill="var(--border-accent)" stroke="var(--bg-page)" stroke-width="1.5"/>';
+    svgEl.innerHTML=s;
+  }
+
+  var prPtsBase=[{recall:0,precision:1}].concat(curvesBase.steps.map(function(st){return {recall:st.recall,precision:st.precision};}));
+
+  function update3a(){
+    var u=parseFloat(thr3.value);
+    thr3out.textContent=u.toFixed(2);
+    var m=matrixAt(baseData,u);
+    document.getElementById('v3rec').textContent=m.tpr.toFixed(2);
+    document.getElementById('v3fpr').textContent=m.fpr.toFixed(2);
+    document.getElementById('v3prec').textContent= m.precision===null?'—':m.precision.toFixed(2);
+    document.getElementById('v3auc').textContent=curvesBase.auc.toFixed(3);
+    document.getElementById('v3ap').textContent=curvesBase.ap.toFixed(3);
+
+    var dotROC={fpr:m.fpr,tpr:m.tpr};
+    var dotPR = m.precision===null? null : {recall:m.tpr, precision:m.precision};
+    renderROC(rocSvg, curvesBase, refThresholds, dotROC);
+    renderPR(prSvg, prPtsBase, refThresholds, dotPR);
+
+    var msg;
+    var near = refThresholds.filter(function(r){return Math.abs(r.u-u)<0.01;})[0];
+    if(near){
+      msg='Este es exactamente el punto de umbral '+near.u.toFixed(2)+' que viste en el simulador anterior (1.4): (FPR, TPR) = ('+near.fpr.toFixed(3)+', '+near.tpr.toFixed(3)+') en la curva ROC, y (recall, precision) = ('+near.recall.toFixed(3)+', '+near.precision.toFixed(3)+') en la curva PR. Es el mismo umbral, ahora ubicado sobre ambas curvas en vez de descrito como un punto suelto.';
+    } else {
+      msg='Al mover la perilla, el punto recorre las dos curvas completas — pero las curvas en sí <b>no cambian</b>, solo la posición del punto sobre ellas. AUC (≈'+curvesBase.auc.toFixed(3)+') y AP (≈'+curvesBase.ap.toFixed(3)+') resumen cada curva entera, sin comprometerse a ningún umbral.';
+    }
+    document.getElementById('story3a').innerHTML=msg.replace(/<b>/g,'<span style="color:var(--text-primary);font-weight:500;">').replace(/<\/b>/g,'</span>');
+  }
+  thr3.addEventListener('input', update3a);
+  update3a();
+
+  // ---------- Section 3b: ROC vs PR bajo prevalencia ----------
+  var pi3=document.getElementById('pi3'), pi3out=document.getElementById('pi3out');
+  var rocSvgFixed=document.getElementById('rocSvgFixed'), prSvgPi=document.getElementById('prSvgPi');
+
+  function update3b(){
+    var pPct=parseFloat(pi3.value);
+    var pi=pPct/100;
+    pi3out.textContent=pPct.toFixed(1)+'%';
+
+    renderROC(rocSvgFixed, curvesBase, refThresholds, null);
+
+    var adjPts=[{recall:0,precision:1}].concat(prPointsForPi(curvesBase.steps,pi));
+    var s=unitFrame('Recall','Precision');
+    s+='<path d="'+pathD(prPtsBase,'recall','precision')+'" fill="none" stroke="var(--text-muted)" stroke-width="1.5" stroke-dasharray="3 3"/>';
+    s+='<path d="'+pathD(adjPts,'recall','precision')+'" fill="none" stroke="'+COLOR_BAD+'" stroke-width="2.5"/>';
+    prSvgPi.innerHTML=s;
+
+    var ap=apForPi(curvesBase.steps,pi);
+    document.getElementById('v3bauc').textContent=curvesBase.auc.toFixed(3);
+    document.getElementById('v3bap').textContent=ap.toFixed(3);
+
+    var msg;
+    if(pPct>=39.5 && pPct<=40.5){
+      msg='π≈40% — el set de validación de Ignasio. Acá la curva roja coincide con la de referencia (son la misma): AP≈'+ap.toFixed(3)+', muy cerca del AUC-ROC ('+curvesBase.auc.toFixed(3)+').';
+    } else if(pPct<=1.5){
+      msg='π≈1% (producción real): mismo modelo, mismo umbral, ni un score cambiado — pero la curva PR se derrumba (AP≈'+ap.toFixed(3)+' contra ≈'+curvesBase.ap.toFixed(3)+' en validación). El panel de la izquierda ni se entera: AUC-ROC sigue clavado en '+curvesBase.auc.toFixed(3)+', un espejismo de estabilidad.';
+    } else {
+      msg='Ni un score ni el umbral cambiaron — solo π. La curva ROC (izquierda) es idéntica a como era en validación; la curva PR (derecha) se aleja de la de referencia (gris punteada) a medida que el fraude se vuelve más raro.';
+    }
+    document.getElementById('story3b').textContent=msg;
+  }
+  pi3.addEventListener('input', update3b);
+  document.getElementById('piJump40').addEventListener('click', function(){ pi3.value=40; update3b(); });
+  document.getElementById('piJump01').addEventListener('click', function(){ pi3.value=1; update3b(); });
+  update3b();
+
+  // ---------- Section 4a: temperatura + M3 + reliability/ECE/Brier ----------
+  function tempTransform(s,T){
+    var l=Math.log(s/(1-s));
+    return 1/(1+Math.exp(-T*l));
+  }
+  function transformDataset(T){
+    return baseData.map(function(d){ return {s:tempTransform(d.s,T), y:d.y}; });
+  }
+  var m3Data = baseData.map(function(d){ return {s:0.4, y:d.y}; });
+
+  function reliabilityBuckets(dataset){
+    var buckets=[0,1,2,3].map(function(){ return {n:0,sumS:0,sumY:0}; });
+    dataset.forEach(function(d){
+      var idx=Math.min(3, Math.floor(d.s/0.25));
+      buckets[idx].n++; buckets[idx].sumS+=d.s; buckets[idx].sumY+=d.y;
+    });
+    return buckets.map(function(b){ return {n:b.n, conf: b.n? b.sumS/b.n : null, obs: b.n? b.sumY/b.n : null}; });
+  }
+  function eceOf(buckets,total){
+    var e=0;
+    buckets.forEach(function(b){ if(b.n>0) e += (b.n/total)*Math.abs(b.conf-b.obs); });
+    return e;
+  }
+  function brierOf(dataset){
+    var sum=0;
+    dataset.forEach(function(d){ sum += (d.s-d.y)*(d.s-d.y); });
+    return sum/dataset.length;
+  }
+
+  var temp4=document.getElementById('temp4'), temp4out=document.getElementById('temp4out');
+  var m3toggle=document.getElementById('m3toggle');
+  var stripSvg=document.getElementById('stripSvg');
+  var m3active=false;
+
+  function renderStrip(dataset){
+    var x0=40,x1=600;
+    function X(v){ return x0+v*(x1-x0); }
+    var s='';
+    s+='<line x1="'+x0+'" y1="45" x2="'+x1+'" y2="45" stroke="var(--border-strong)"/>';
+    for(var t=0;t<=1.0001;t+=0.25){
+      s+='<line x1="'+X(t)+'" y1="41" x2="'+X(t)+'" y2="49" stroke="var(--border-strong)"/>';
+      s+='<text x="'+X(t)+'" y="66" text-anchor="middle" font-size="10" fill="var(--text-muted)">'+t.toFixed(2)+'</text>';
+    }
+    dataset.forEach(function(d,i){
+      var jitter = d.y===1 ? -14-(i%3)*6 : 14+(i%3)*6;
+      var col = d.y===1 ? COLOR_FRAUD : COLOR_LEGIT;
+      s+='<circle cx="'+X(d.s).toFixed(1)+'" cy="'+(45+jitter)+'" r="5" fill="'+col+'" stroke="var(--surface-2)" stroke-width="1"/>';
+    });
+    stripSvg.innerHTML=s;
+  }
+
+  function renderReliability(buckets, total){
+    var labels=['[0, 0.25)','[0.25, 0.50)','[0.50, 0.75)','[0.75, 1.0]'];
+    var h='';
+    buckets.forEach(function(b,i){
+      var confPct = b.conf===null?0:b.conf*100;
+      var obsPct = b.obs===null?0:b.obs*100;
+      h+='<div style="margin-bottom:10px;">';
+      h+='<div style="font-size:11px; color:var(--text-muted); margin-bottom:3px;">'+labels[i]+'  ·  n='+b.n+'</div>';
+      h+='<div style="display:flex; align-items:center; gap:8px; margin-bottom:3px;">';
+      h+='<div style="width:78px; font-size:11px; color:var(--text-muted);">confianza</div>';
+      h+='<div style="flex:1; background:var(--surface-2); border-radius:4px; height:13px; overflow:hidden;"><div style="height:100%; background:'+COLOR_GOOD+'; width:'+confPct.toFixed(1)+'%;"></div></div>';
+      h+='<div style="width:48px; font-family:var(--font-mono); font-size:11px; text-align:right;">'+(b.conf===null?'—':b.conf.toFixed(3))+'</div>';
+      h+='</div>';
+      h+='<div style="display:flex; align-items:center; gap:8px;">';
+      h+='<div style="width:78px; font-size:11px; color:var(--text-muted);">observado</div>';
+      h+='<div style="flex:1; background:var(--surface-2); border-radius:4px; height:13px; overflow:hidden;"><div style="height:100%; background:var(--border-accent); width:'+obsPct.toFixed(1)+'%;"></div></div>';
+      h+='<div style="width:48px; font-family:var(--font-mono); font-size:11px; text-align:right;">'+(b.obs===null?'—':b.obs.toFixed(3))+'</div>';
+      h+='</div></div>';
+    });
+    document.getElementById('relRows').innerHTML=h;
+  }
+
+  function update4(){
+    var T=parseFloat(temp4.value);
+    temp4out.textContent='×'+T.toFixed(2);
+    temp4.disabled=m3active;
+
+    var dataset = m3active ? m3Data : transformDataset(T);
+    renderStrip(dataset);
+
+    var t1=dataset[7], t2=dataset[4], t3=dataset[8]; // 0.36 fraud, 0.62 fraud, 0.66 legit (indices per baseData order)
+    document.getElementById('rowT1v').textContent=t1.s.toFixed(3);
+    document.getElementById('rowT2v').textContent=t2.s.toFixed(3);
+    document.getElementById('rowT3v').textContent=t3.s.toFixed(3);
+
+    var curves = computeCurves(dataset);
+    var buckets = reliabilityBuckets(dataset);
+    var ece = eceOf(buckets, dataset.length);
+    var brier = brierOf(dataset);
+
+    document.getElementById('v4auc').textContent=curves.auc.toFixed(3);
+    document.getElementById('v4ece').textContent=ece.toFixed(3);
+    document.getElementById('v4brier').textContent=brier.toFixed(3);
+    renderReliability(buckets, dataset.length);
+
+    var msg;
+    if(m3active){
+      msg='<b>M3</b> le asigna 0.4 a las 20 transacciones por igual. AUC cae a '+curves.auc.toFixed(3)+' (moneda al aire — no hay ningún par fraude/legítima donde uno quede arriba del otro, todos empatan). Y sin embargo su calibración en el agregado es razonable: como el 40% de los datos son fraude de verdad, "decir 0.4 siempre" no está tan lejos en cada balde donde cae algo — mirá los buckets de abajo, aunque solo uno tiene datos (todo cae en el mismo balde). Calibración sin discriminación.';
+    } else if(Math.abs(T-1)<0.01){
+      msg='Este es <b>M1</b>, el modelo original de Ignasio. AUC≈'+curves.auc.toFixed(3)+', ECE≈'+ece.toFixed(3)+' — el reliability diagram está razonablemente cerca de la diagonal en los cuatro baldes.';
+    } else {
+      msg='La transformación de temperatura es estrictamente monótona: <b>el orden nunca cambia</b>, por eso AUC sigue en '+curves.auc.toFixed(3)+' (idéntico a M1). Pero mirá la tabla: el fraude real de score 0.36 ahora "dice" '+t1.s.toFixed(3)+', y la legítima de 0.66 ahora "dice" '+t3.s.toFixed(3)+' — los números se volvieron mentirosos. El reliability diagram se aleja de la diagonal y ECE sube a '+ece.toFixed(3)+' (era ≈0.088 en M1). Discriminación intacta, calibración cada vez peor.';
+    }
+    document.getElementById('story4a').innerHTML=msg.replace(/<b>/g,'<span style="color:var(--text-primary);font-weight:500;">').replace(/<\/b>/g,'</span>');
+  }
+
+  temp4.addEventListener('input', update4);
+  m3toggle.addEventListener('click', function(){
+    m3active=!m3active;
+    m3toggle.classList.toggle('active', m3active);
+    m3toggle.textContent = m3active ? 'Volver a M1 / M2 (temperatura)' : 'Ver M3 (predice 0.4 siempre)';
+    update4();
+  });
+  update4();
+
+})();
+</script>
+</body>
+</html>
