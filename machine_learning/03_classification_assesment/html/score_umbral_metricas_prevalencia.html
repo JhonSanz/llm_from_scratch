@@ -158,34 +158,26 @@
             <div style="font-size:12px; color:var(--text-secondary);">Precision</div>
             <div id="mP" style="font-size:22px; font-weight:500;">—</div>
             <div id="mPf" style="font-size:11px; color:var(--text-muted); font-family:var(--font-mono);">TP/(TP+FP)</div>
+            <div style="font-size:10.5px; color:var(--text-muted); font-style:italic; margin-top:3px;">De lo que marqué "fraude", ¿cuánto acerté?</div>
           </div>
           <div style="background:var(--surface-1); border-radius:8px; padding:10px 12px;">
             <div style="font-size:12px; color:var(--text-secondary);">Recall</div>
             <div id="mR" style="font-size:22px; font-weight:500;">—</div>
             <div id="mRf" style="font-size:11px; color:var(--text-muted); font-family:var(--font-mono);">TP/(TP+FN)</div>
-          </div>
-          <div style="background:var(--surface-1); border-radius:8px; padding:10px 12px;">
-            <div style="font-size:12px; color:var(--text-secondary);">F1</div>
-            <div id="mF" style="font-size:22px; font-weight:500;">—</div>
-            <div style="font-size:11px; color:var(--text-muted);">media armónica</div>
+            <div style="font-size:10.5px; color:var(--text-muted); font-style:italic; margin-top:3px;">De los fraudes reales, ¿cuántos atrapé?</div>
           </div>
           <div style="background:var(--surface-1); border-radius:8px; padding:10px 12px;">
             <div style="font-size:12px; color:var(--text-secondary);">Accuracy</div>
             <div id="mA" style="font-size:22px; font-weight:500;">—</div>
             <div style="font-size:11px; color:var(--text-muted);">(TP+TN)/todo</div>
+            <div style="font-size:10.5px; color:var(--text-muted); font-style:italic; margin-top:3px;">¿Qué fracción de todas las predicciones fue correcta?</div>
           </div>
-        </div>
-
-        <div style="font-size:11px; color:var(--text-secondary); margin-bottom:4px;">(P+R)/2 vs F1 — por qué no promediar</div>
-        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-          <div style="width:78px; font-size:11px; color:var(--text-muted);">(P+R)/2</div>
-          <div style="flex:1; background:var(--surface-2); border-radius:4px; height:13px; overflow:hidden;"><div id="barAvg" style="height:100%; background:var(--text-muted); width:0%;"></div></div>
-          <div id="valAvg" style="width:42px; font-family:var(--font-mono); font-size:11px; text-align:right;">—</div>
-        </div>
-        <div style="display:flex; align-items:center; gap:8px;">
-          <div style="width:78px; font-size:11px; color:var(--text-muted);">F1</div>
-          <div style="flex:1; background:var(--surface-2); border-radius:4px; height:13px; overflow:hidden;"><div id="barF1" style="height:100%; background:#0F6E56; width:0%;"></div></div>
-          <div id="valF1b" style="width:42px; font-family:var(--font-mono); font-size:11px; text-align:right;">—</div>
+          <div style="background:var(--surface-1); border-radius:8px; padding:10px 12px;">
+            <div style="font-size:12px; color:var(--text-secondary);">FPR (false positive rate)</div>
+            <div id="mFPR" style="font-size:22px; font-weight:500;">—</div>
+            <div style="font-size:11px; color:var(--text-muted); font-family:var(--font-mono);">FP/(FP+TN)</div>
+            <div style="font-size:10.5px; color:var(--text-muted); font-style:italic; margin-top:3px;">De los clientes honestos, ¿a cuántos alarmé sin razón?</div>
+          </div>
         </div>
       </div>
     </div>
@@ -321,7 +313,7 @@
     if(cur<prev-0.001) return ' <span style="color:#A32D2D;font-size:12px;">▼</span>';
     return '';
   }
-  var lastPrec=null, lastRec=null;
+  var lastPrec=null, lastRec=null, lastFPR=null;
 
   function update(){
     var t=parseFloat(thr.value);
@@ -342,20 +334,13 @@
     var prec = (TP+FP)>0 ? TP/(TP+FP) : null;
     var rec  = TP/(TP+FN);   // TP+FN = 8 siempre
     var fpr  = FP/(FP+TN);   // FP+TN = 12 siempre
-    var f1   = (prec!==null && (prec+rec)>0) ? 2*prec*rec/(prec+rec) : null;
     var acc  = (TP+TN)/(TP+FP+FN+TN);
-    var avg  = (prec!==null) ? (prec+rec)/2 : null;
 
     document.getElementById('mP').innerHTML=fmt(prec)+arrow(prec,lastPrec);
     document.getElementById('mR').innerHTML=fmt(rec)+arrow(rec,lastRec);
-    document.getElementById('mF').textContent=fmt(f1);
     document.getElementById('mA').textContent=fmt(acc);
-    lastPrec=prec; lastRec=rec;
-
-    document.getElementById('barAvg').style.width=(avg!==null?avg*100:0)+'%';
-    document.getElementById('valAvg').textContent=fmt(avg);
-    document.getElementById('barF1').style.width=(f1!==null?f1*100:0)+'%';
-    document.getElementById('valF1b').textContent=fmt(f1);
+    document.getElementById('mFPR').innerHTML=fmt(fpr)+arrow(fpr,lastFPR);
+    lastPrec=prec; lastRec=rec; lastFPR=fpr;
 
     var xt=X(t);
     var sh=document.getElementById('shade'); sh.setAttribute('x',xt); sh.setAttribute('width',Math.max(0,x1+30-xt));
