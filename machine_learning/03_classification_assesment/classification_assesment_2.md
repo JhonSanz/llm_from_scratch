@@ -2,7 +2,7 @@
 
 ## Parte 5 — El mundo de verificación / detección
 
-### Clasificación vs verificación   (por qué este bloque es OTRO setting, no fraude)
+### Clasificación vs verificación   (por qué este bloque es OTRO setting, no interesado/no_interesado)
 ### FAR, FRR y EER
 ### DET curve
 

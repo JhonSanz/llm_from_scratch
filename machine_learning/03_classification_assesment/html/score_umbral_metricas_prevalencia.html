@@ -55,7 +55,7 @@
 </head>
 <body>
 
-<h2 class="sr-only">Explicador interactivo: riesgo empírico vs riesgo verdadero, orden vs calibración del score, y el umbral moviéndose sobre 20 transacciones para mostrar en vivo la matriz de confusión, precision, recall, F1, accuracy y el efecto de la prevalencia sobre precision.</h2>
+<h2 class="sr-only">Explicador interactivo: riesgo empírico vs riesgo verdadero, orden vs calibración del score, y el umbral moviéndose sobre 20 clientes (clase positiva: no_interesado) para mostrar en vivo la matriz de confusión, precision, recall, F1, accuracy y el efecto de la prevalencia sobre precision.</h2>
 
 <div style="padding: 0.5rem 0;">
 
@@ -118,9 +118,9 @@
     </div>
 
     <div style="display:flex; gap:16px; font-size:12px; color:var(--text-secondary); margin-bottom:10px; flex-wrap:wrap;">
-      <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#E24B4A;display:inline-block;"></span>Fraude real</span>
-      <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#378ADD;display:inline-block;"></span>Legítima real</span>
-      <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:14px;height:10px;border-radius:2px;background:var(--bg-warning);display:inline-block;"></span>Zona "predicho fraude"</span>
+      <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#E24B4A;display:inline-block;"></span>no_interesado real</span>
+      <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#378ADD;display:inline-block;"></span>interesado real</span>
+      <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:14px;height:10px;border-radius:2px;background:var(--bg-warning);display:inline-block;"></span>Zona "predicho no_interesado"</span>
     </div>
 
     <svg id="strip" viewBox="0 0 640 150" style="width:100%; height:auto; display:block;" role="img" aria-hidden="true"></svg>
@@ -132,22 +132,22 @@
         <table style="width:100%; border-collapse:separate; border-spacing:4px; table-layout:fixed;">
           <tr>
             <td style="width:22%;"></td>
-            <td style="font-size:11px; color:var(--text-secondary); text-align:center;">Real: Fraude</td>
-            <td style="font-size:11px; color:var(--text-secondary); text-align:center;">Real: Legítima</td>
+            <td style="font-size:11px; color:var(--text-secondary); text-align:center;">Pred: no_interesado</td>
+            <td style="font-size:11px; color:var(--text-secondary); text-align:center;">Pred: interesado</td>
           </tr>
           <tr>
-            <td style="font-size:11px; color:var(--text-secondary); text-align:right; padding-right:4px;">Pred:<br>Fraude</td>
+            <td style="font-size:11px; color:var(--text-secondary); text-align:right; padding-right:4px;">Real:<br>no_interesado</td>
             <td id="cTP" style="background:#E1F5EE; border-radius:8px; padding:10px 4px; text-align:center;">
-              <div style="font-size:11px; color:#0F6E56;">TP</div><div id="nTP" style="font-size:22px; font-weight:500; color:#04342C;">0</div><div style="font-size:9px; color:#0F6E56; opacity:.8;">fraude atrapado</div></td>
-            <td id="cFP" style="background:#FAEEDA; border-radius:8px; padding:10px 4px; text-align:center;">
-              <div style="font-size:11px; color:#854F0B;">FP</div><div id="nFP" style="font-size:22px; font-weight:500; color:#412402;">0</div><div style="font-size:9px; color:#854F0B; opacity:.8;">alarma falsa</div></td>
+              <div style="font-size:11px; color:#0F6E56;">TP</div><div id="nTP" style="font-size:22px; font-weight:500; color:#04342C;">0</div><div style="font-size:9px; color:#0F6E56; opacity:.8;">no_interesado detectado</div></td>
+            <td id="cFN" style="background:#FCEBEB; border-radius:8px; padding:10px 4px; text-align:center;">
+              <div style="font-size:11px; color:#A32D2D;">FN</div><div id="nFN" style="font-size:22px; font-weight:500; color:#501313;">0</div><div style="font-size:9px; color:#A32D2D; opacity:.8;">dinero gastado en vano</div></td>
           </tr>
           <tr>
-            <td style="font-size:11px; color:var(--text-secondary); text-align:right; padding-right:4px;">Pred:<br>Legítima</td>
-            <td id="cFN" style="background:#FCEBEB; border-radius:8px; padding:10px 4px; text-align:center;">
-              <div style="font-size:11px; color:#A32D2D;">FN</div><div id="nFN" style="font-size:22px; font-weight:500; color:#501313;">0</div><div style="font-size:9px; color:#A32D2D; opacity:.8;">fraude escapado</div></td>
+            <td style="font-size:11px; color:var(--text-secondary); text-align:right; padding-right:4px;">Real:<br>interesado</td>
+            <td id="cFP" style="background:#FAEEDA; border-radius:8px; padding:10px 4px; text-align:center;">
+              <div style="font-size:11px; color:#854F0B;">FP</div><div id="nFP" style="font-size:22px; font-weight:500; color:#412402;">0</div><div style="font-size:9px; color:#854F0B; opacity:.8;">interesado dejado ir</div></td>
             <td id="cTN" style="background:#F1EFE8; border-radius:8px; padding:10px 4px; text-align:center;">
-              <div style="font-size:11px; color:#5F5E5A;">TN</div><div id="nTN" style="font-size:22px; font-weight:500; color:#2C2C2A;">0</div><div style="font-size:9px; color:#5F5E5A; opacity:.8;">cliente tranquilo</div></td>
+              <div style="font-size:11px; color:#5F5E5A;">TN</div><div id="nTN" style="font-size:22px; font-weight:500; color:#2C2C2A;">0</div><div style="font-size:9px; color:#5F5E5A; opacity:.8;">interesado contactado</div></td>
           </tr>
         </table>
       </div>
@@ -158,13 +158,13 @@
             <div style="font-size:12px; color:var(--text-secondary);">Precision</div>
             <div id="mP" style="font-size:22px; font-weight:500;">—</div>
             <div id="mPf" style="font-size:11px; color:var(--text-muted); font-family:var(--font-mono);">TP/(TP+FP)</div>
-            <div style="font-size:10.5px; color:var(--text-muted); font-style:italic; margin-top:3px;">De lo que marqué "fraude", ¿cuánto acerté?</div>
+            <div style="font-size:10.5px; color:var(--text-muted); font-style:italic; margin-top:3px;">De los que dije "no_interesado", ¿cuántos acerté? (columna)</div>
           </div>
           <div style="background:var(--surface-1); border-radius:8px; padding:10px 12px;">
             <div style="font-size:12px; color:var(--text-secondary);">Recall</div>
             <div id="mR" style="font-size:22px; font-weight:500;">—</div>
             <div id="mRf" style="font-size:11px; color:var(--text-muted); font-family:var(--font-mono);">TP/(TP+FN)</div>
-            <div style="font-size:10.5px; color:var(--text-muted); font-style:italic; margin-top:3px;">De los fraudes reales, ¿cuántos atrapé?</div>
+            <div style="font-size:10.5px; color:var(--text-muted); font-style:italic; margin-top:3px;">De los no_interesado reales, ¿cuántos detecté? (fila)</div>
           </div>
           <div style="background:var(--surface-1); border-radius:8px; padding:10px 12px;">
             <div style="font-size:12px; color:var(--text-secondary);">Accuracy</div>
@@ -176,7 +176,7 @@
             <div style="font-size:12px; color:var(--text-secondary);">FPR (false positive rate)</div>
             <div id="mFPR" style="font-size:22px; font-weight:500;">—</div>
             <div style="font-size:11px; color:var(--text-muted); font-family:var(--font-mono);">FP/(FP+TN)</div>
-            <div style="font-size:10.5px; color:var(--text-muted); font-style:italic; margin-top:3px;">De los clientes honestos, ¿a cuántos alarmé sin razón?</div>
+            <div style="font-size:10.5px; color:var(--text-muted); font-style:italic; margin-top:3px;">De los interesados reales, ¿a cuántos dejé ir?</div>
           </div>
         </div>
       </div>
@@ -189,7 +189,7 @@
   <!-- ============ 2.5 — prevalencia ============ -->
   <div>
     <div style="font-size:12px; letter-spacing:.03em; text-transform:uppercase; color:var(--text-muted); font-weight:600; margin-bottom:6px;">2.5 — Prevalencia: mismo modelo, mismo umbral, otra población</div>
-    <div style="font-size:13px; color:var(--text-secondary); margin-bottom:10px;">Recall y FPR quedan fijos por el umbral que elegiste arriba (<span id="rfSummary" style="font-family:var(--font-mono);">—</span>) — no dependen de la población. Movés π (qué tan común es el fraude ahí donde despliegan el modelo) y mirá cómo <b>solo</b> precision se mueve.</div>
+    <div style="font-size:13px; color:var(--text-secondary); margin-bottom:10px;">Recall y FPR quedan fijos por el umbral que elegiste arriba (<span id="rfSummary" style="font-family:var(--font-mono);">—</span>) — no dependen de la población. Movés π (qué tan común es no_interesado ahí donde despliegan el modelo) y mirá cómo <b>solo</b> precision se mueve.</div>
 
     <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
       <label style="font-size:14px; color:var(--text-secondary);">Prevalencia π</label>
@@ -198,19 +198,19 @@
     </div>
     <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
       <button id="jump04" style="width:auto; padding:2px 12px; height:28px; font-size:12px;">π = 40% (set de validación)</button>
-      <button id="jump001" style="width:auto; padding:2px 12px; height:28px; font-size:12px;">π = 1% (producción real)</button>
+      <button id="jump001" style="width:auto; padding:2px 12px; height:28px; font-size:12px;">π = 1% (producción: clientes fieles)</button>
     </div>
 
     <div style="display:grid; grid-template-columns:1.1fr 1fr; gap:16px; align-items:start;">
       <div>
-        <div style="font-size:12px; color:var(--text-secondary); margin-bottom:6px;">De cada 10,000 transacciones — rojo=TP, azul=FP, gris=sin alarma</div>
+        <div style="font-size:12px; color:var(--text-secondary); margin-bottom:6px;">De cada 10,000 clientes — rojo=TP, azul=FP, gris=predicho interesado</div>
         <svg id="popviz" viewBox="0 0 300 70" style="width:100%; height:auto; display:block;"></svg>
       </div>
       <div style="background:var(--surface-1); border-radius:8px; padding:12px 14px;">
         <div style="font-size:12px; color:var(--text-secondary);">Precision resultante</div>
         <div id="precOut" style="font-size:26px; font-weight:500;">—</div>
         <div style="font-size:10px; color:var(--text-muted); font-family:var(--font-mono); margin-bottom:8px;">recall·π / (recall·π + FPR·(1−π))</div>
-        <div style="font-size:12px; color:var(--text-secondary); border-top:1px solid var(--border-strong); padding-top:8px;">Accuracy de un modelo perezoso ("siempre legítima") en esta misma población</div>
+        <div style="font-size:12px; color:var(--text-secondary); border-top:1px solid var(--border-strong); padding-top:8px;">Accuracy de un modelo perezoso ("siempre interesado") en esta misma población</div>
         <div id="lazyAcc" style="font-size:18px; font-weight:500;">—</div>
       </div>
     </div>
@@ -232,19 +232,19 @@
 
   // ---------- 1.2 orden vs calibración ----------
   var data12 = [
-    {id:'t1', y:1, a:0.90, b:0.09},
-    {id:'t2', y:1, a:0.85, b:0.085},
-    {id:'t3', y:1, a:0.70, b:0.07},
-    {id:'t4', y:0, a:0.30, b:0.03},
-    {id:'t5', y:0, a:0.20, b:0.02},
-    {id:'t6', y:0, a:0.10, b:0.01}
+    {id:'c1', y:1, a:0.90, b:0.09},
+    {id:'c2', y:1, a:0.85, b:0.085},
+    {id:'c3', y:1, a:0.70, b:0.07},
+    {id:'c4', y:0, a:0.30, b:0.03},
+    {id:'c5', y:0, a:0.20, b:0.02},
+    {id:'c6', y:0, a:0.10, b:0.01}
   ];
   (function renderRows12(){
     var h='';
     data12.forEach(function(d,i){
       h+='<div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">'+
          '<div style="width:26px; font-size:12px; color:var(--text-muted);">'+d.id+'</div>'+
-         '<div style="width:64px; font-size:11px; color:'+(d.y===1?'#E24B4A':'#378ADD')+';">'+(d.y===1?'Fraude':'Legítima')+'</div>'+
+         '<div style="width:92px; font-size:11px; color:'+(d.y===1?'#E24B4A':'#378ADD')+';">'+(d.y===1?'no_interesado':'interesado')+'</div>'+
          '<div style="flex:1; background:var(--surface-1); border-radius:4px; height:16px; overflow:hidden;">'+
            '<div class="bar12" data-i="'+i+'" style="height:100%; border-radius:4px; background:'+(d.y===1?'#E24B4A':'#378ADD')+'; width:0%;"></div>'+
          '</div>'+
@@ -264,11 +264,11 @@
     });
     var msg;
     if(k<0.15){
-      msg='Estos son los scores del <b>Modelo A</b>: números que "suenan" a fraude (hasta 0.90).';
+      msg='Estos son los scores del <b>Modelo A</b>: números que "suenan" a no_interesado (hasta 0.90).';
     } else if(k>0.85){
       msg='Ahora son los del <b>Modelo B</b>: el más alto es apenas 0.09 — a simple vista parece que "no encontró nada".';
     } else {
-      msg='A mitad de camino, los números se van encogiendo — pero fijate que <b>t1 sigue arriba de t2, que sigue arriba de t3</b>, y los tres siguen arriba de t4, t5, t6. El orden nunca se rompe.';
+      msg='A mitad de camino, los números se van encogiendo — pero fijate que <b>c1 sigue arriba de c2, que sigue arriba de c3</b>, y los tres siguen arriba de c4, c5, c6. El orden nunca se rompe.';
     }
     msg+=' El orden relativo (de arriba hacia abajo) es idéntico en las dos puntas del slider — por eso el AUC de ambos modelos es el mismo (1.0), aunque como número, el Modelo B miente sobre qué tan seguro está.';
     story12.innerHTML=msg.replace(/<b>/g,'<span style="color:var(--text-primary);font-weight:500;">').replace(/<\/b>/g,'</span>');
@@ -356,11 +356,11 @@
 
     var msg;
     if(FN===0 && rec===1){
-      msg='Umbral bajo: la red atrapa <b>todos</b> los fraudes (recall '+fmt(rec)+'), pero deja pasar falsas alarmas — precision '+fmt(prec)+'. Los FP son clientes honestos con la tarjeta bloqueada.';
+      msg='Umbral bajo ("yes man"): el modelo detecta <b>todos</b> los no_interesado (recall '+fmt(rec)+'), no se gasta en ninguno — pero precision cae a '+fmt(prec)+'. Los FP son clientes interesados que dejamos ir sin oferta.';
     } else if(FP===0 && prec===1){
-      msg='Umbral alto: cuando dice "fraude" casi nunca se equivoca (precision '+fmt(prec)+'), pero ya se le escapan '+FN+' fraude(s) reales como FN — recall cae a '+fmt(rec)+'.';
+      msg='Umbral alto ("cauteloso"): cuando dice "no_interesado" casi nunca se equivoca (precision '+fmt(prec)+'), pero ya se le escapan '+FN+' no_interesado(s) reales como FN, en los que se gasta campaña — recall cae a '+fmt(rec)+'.';
     } else if(prec===null){
-      msg='Umbral por encima de todos los scores: el modelo nunca dice "fraude" — 0 FP, pero precision queda indefinida (0/0) y recall se derrumba a '+fmt(rec)+'.';
+      msg='Umbral por encima de todos los scores: el modelo nunca dice "no_interesado" — 0 FP, pero precision queda indefinida (0/0) y recall se derrumba a '+fmt(rec)+'.';
     } else {
       msg='Al subir el umbral, algunos TP cruzan de vuelta y se vuelven FN: precision '+fmt(prec)+' tiende a subir mientras recall '+fmt(rec)+' baja. Ese es el compromiso (2.3) — TP y FP viven del mismo lado de la línea, así que no se puede maximizar las dos a la vez.';
     }
@@ -412,7 +412,7 @@
     var FP=Math.round(legitN*fpr);
     var prec=(TP+FP)>0 ? TP/(TP+FP) : null;
     precOut.textContent = prec===null ? '—' : (prec*100).toFixed(1)+'%';
-    lazyAcc.textContent = ((1-pi)*100).toFixed(1)+'% (0 fraudes atrapados)';
+    lazyAcc.textContent = ((1-pi)*100).toFixed(1)+'% (0 no_interesado detectados)';
 
     var W=280,x0v=10,y=18;
     var TPw=W*TP/N, FPw=W*FP/N;
@@ -420,16 +420,16 @@
     h+='<rect x="'+x0v+'" y="'+y+'" width="'+W+'" height="18" rx="3" fill="var(--surface-2)"></rect>';
     h+='<rect x="'+x0v+'" y="'+y+'" width="'+TPw.toFixed(2)+'" height="18" rx="3" fill="#E24B4A"></rect>';
     h+='<rect x="'+(x0v+TPw).toFixed(2)+'" y="'+y+'" width="'+FPw.toFixed(2)+'" height="18" fill="#378ADD"></rect>';
-    h+='<text x="'+x0v+'" y="'+(y+34)+'" font-size="10" fill="var(--text-muted)">TP='+TP+'  ·  FP='+FP+'  ·  fraudes reales='+fraudN+'</text>';
+    h+='<text x="'+x0v+'" y="'+(y+34)+'" font-size="10" fill="var(--text-muted)">TP='+TP+'  ·  FP='+FP+'  ·  no_interesado reales='+fraudN+'</text>';
     popviz.innerHTML=h;
 
     var msg;
     if(pPct>=39.5 && pPct<=40.5){
       msg='π≈40% — el mismo punto que el set de validación de Ignasio (1.4). Con recall '+recall.toFixed(2)+' y FPR '+fpr.toFixed(2)+', precision da '+(prec*100).toFixed(1)+'%.';
     } else if(pPct<=1.5){
-      msg='π≈1% (fraude real de producción): el mismo modelo, el mismo umbral, dispara '+FP+' falsas alarmas por cada '+TP+' fraudes reales atrapados. Precision se derrumba a '+(prec*100).toFixed(1)+'% aunque recall sigue en '+recall.toFixed(2)+' — nada del modelo cambió, solo la población.';
+      msg='π≈1% (producción sobre clientes fieles): el mismo modelo, el mismo umbral, deja ir a '+FP+' clientes interesados por cada '+TP+' no_interesado reales detectados. Precision se derrumba a '+(prec*100).toFixed(1)+'% aunque recall sigue en '+recall.toFixed(2)+' — nada del modelo cambió, solo la población.';
     } else {
-      msg='Ni un score ni el umbral cambiaron — solo π. Recall se queda fijo en '+recall.toFixed(2)+' porque solo depende de la clase fraude; precision se mueve porque mezcla ese recall con qué tan grande es la clase legítima alrededor.';
+      msg='Ni un score ni el umbral cambiaron — solo π. Recall se queda fijo en '+recall.toFixed(2)+' porque solo depende de la clase no_interesado; precision se mueve porque mezcla ese recall con qué tan grande es la clase interesado alrededor.';
     }
     prevStory.textContent=msg;
   };

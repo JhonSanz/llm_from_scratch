@@ -1,3 +1,3 @@
-- **Precision**: De todas las veces que el modelo gritó "¡fraude!", ¿cuántas veces tenía razón?. Cuando el modelo actúa, ¿qué tan confiable es esa acción?
-- **Recall**: De todos los fraudes que de verdad ocurrieron, ¿cuántos atrapó el modelo?. le da igual cuántas falsas alarmas genera el modelo; solo le importa no dejar pasar fraude real. Por eso a veces se le llama **sensitivity** o **true positive rate**
-- **F1**: Ignasio quiere reportarle un solo número a su jefe, no un par de números que se mueven en direcciones opuestas 
+- **Precision**: De todas las veces que el modelo dijo "no_interesado", ¿cuántas veces tenía razón?. Cuando el modelo descarta a un cliente, ¿qué tan confiable es esa decisión? Solo mira la columna de la matriz (mi predicción).
+- **Recall**: De todos los clientes que de verdad eran no_interesado, ¿cuántos detectó el modelo?. le da igual cuántos clientes interesados deje ir por error; solo le importa no gastar presupuesto en un no_interesado real. Solo mira la fila de la matriz (datos reales). Por eso a veces se le llama **sensitivity** o **true positive rate**
+- **F1**: Ignasio quiere reportarle un solo número a su jefe, no un par de números que se mueven en direcciones opuestas

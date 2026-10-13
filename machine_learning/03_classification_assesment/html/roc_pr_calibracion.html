@@ -65,9 +65,9 @@
 </head>
 <body>
 
-<h2 class="sr-only">Explicador interactivo, continuación: la curva ROC y su AUC, la curva Precision-Recall y su Average Precision, cómo se comportan ROC y PR cuando cambia la prevalencia, la diferencia entre discriminación (orden) y calibración (número creíble) mediante una transformación de temperatura, y el reliability diagram con ECE y Brier score — todo sobre las mismas 20 transacciones de Ignasio.</h2>
+<h2 class="sr-only">Explicador interactivo, continuación: la curva ROC y su AUC, la curva Precision-Recall y su Average Precision, cómo se comportan ROC y PR cuando cambia la prevalencia, la diferencia entre discriminación (orden) y calibración (número creíble) mediante una transformación de temperatura, y el reliability diagram con ECE y Brier score — todo sobre los mismos 20 clientes de Ignasio (clase positiva: no_interesado).</h2>
 
-<p class="subtitle" style="margin-bottom:26px;">Continuación de <a href="score_umbral_metricas_prevalencia.html" style="color:var(--border-accent);">score_umbral_metricas_prevalencia.html</a> (que cubre 1.1 a 2.5). Este simulador cubre <b>Parte 3</b> (ROC/AUC, PR/AP, ROC vs PR bajo prevalencia) y <b>Parte 4</b> (discriminación vs calibración, reliability diagram, ECE, Brier), con las mismas 20 transacciones.</p>
+<p class="subtitle" style="margin-bottom:26px;">Continuación de <a href="score_umbral_metricas_prevalencia.html" style="color:var(--border-accent);">score_umbral_metricas_prevalencia.html</a> (que cubre 1.1 a 2.5). Este simulador cubre <b>Parte 3</b> (ROC/AUC, PR/AP, ROC vs PR bajo prevalencia) y <b>Parte 4</b> (discriminación vs calibración, reliability diagram, ECE, Brier), con los mismos 20 clientes (<b>interesado</b> / <b>no_interesado</b>, clase positiva: no_interesado).</p>
 
 <!-- ============ PARTE 3a — ROC / AUC y PR / AP ============ -->
 <section>
@@ -104,8 +104,8 @@
 
 <!-- ============ PARTE 3b — ROC vs PR bajo prevalencia ============ -->
 <section>
-  <div class="sectitle">Parte 3 — ROC vs PR bajo prevalencia (cuál mirar cuando el fraude es rarísimo)</div>
-  <div class="subtitle">El modelo y el umbral no cambian. Lo único que se mueve es <b>π</b> (qué tan común es el fraude donde se despliega). La curva ROC (izquierda) queda <b>clavada</b> — no usa π. La curva PR (derecha) se derrumba a medida que π baja.</div>
+  <div class="sectitle">Parte 3 — ROC vs PR bajo prevalencia (cuál mirar cuando no_interesado es rarísimo)</div>
+  <div class="subtitle">El modelo y el umbral no cambian. Lo único que se mueve es <b>π</b> (qué tan común es no_interesado donde se despliega). La curva ROC (izquierda) queda <b>clavada</b> — no usa π. La curva PR (derecha) se derrumba a medida que π baja.</div>
 
   <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
     <label style="font-size:14px; color:var(--text-secondary);">Prevalencia π</label>
@@ -114,7 +114,7 @@
   </div>
   <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
     <button id="piJump40" style="width:auto; padding:2px 12px; height:28px; font-size:12px;">π = 40% (validación)</button>
-    <button id="piJump01" style="width:auto; padding:2px 12px; height:28px; font-size:12px;">π = 1% (producción real)</button>
+    <button id="piJump01" style="width:auto; padding:2px 12px; height:28px; font-size:12px;">π = 1% (producción: clientes fieles)</button>
   </div>
 
   <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
@@ -156,17 +156,17 @@
 
   <svg id="stripSvg" viewBox="0 0 640 90" style="width:100%; height:auto; display:block;"></svg>
   <div style="display:flex; gap:16px; font-size:12px; color:var(--text-secondary); margin:6px 0 14px; flex-wrap:wrap;">
-    <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#E24B4A;display:inline-block;"></span>Fraude real</span>
-    <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#378ADD;display:inline-block;"></span>Legítima real</span>
+    <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#E24B4A;display:inline-block;"></span>no_interesado real</span>
+    <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#378ADD;display:inline-block;"></span>interesado real</span>
   </div>
 
   <table style="font-size:12px; margin-bottom:14px;">
     <tr style="color:var(--text-secondary);">
-      <td style="padding:4px 8px;">transacción</td><td style="padding:4px 8px;">score original</td><td style="padding:4px 8px;">score transformado</td>
+      <td style="padding:4px 8px;">cliente</td><td style="padding:4px 8px;">score original</td><td style="padding:4px 8px;">score transformado</td>
     </tr>
-    <tr id="rowT1"><td style="padding:4px 8px; color:#E24B4A;">Fraude 0.36</td><td style="padding:4px 8px; font-family:var(--font-mono);">0.360</td><td id="rowT1v" style="padding:4px 8px; font-family:var(--font-mono);">—</td></tr>
-    <tr id="rowT2"><td style="padding:4px 8px; color:#E24B4A;">Fraude 0.62</td><td style="padding:4px 8px; font-family:var(--font-mono);">0.620</td><td id="rowT2v" style="padding:4px 8px; font-family:var(--font-mono);">—</td></tr>
-    <tr id="rowT3"><td style="padding:4px 8px; color:#378ADD;">Legítima 0.66</td><td style="padding:4px 8px; font-family:var(--font-mono);">0.660</td><td id="rowT3v" style="padding:4px 8px; font-family:var(--font-mono);">—</td></tr>
+    <tr id="rowT1"><td style="padding:4px 8px; color:#E24B4A;">no_interesado 0.36</td><td style="padding:4px 8px; font-family:var(--font-mono);">0.360</td><td id="rowT1v" style="padding:4px 8px; font-family:var(--font-mono);">—</td></tr>
+    <tr id="rowT2"><td style="padding:4px 8px; color:#E24B4A;">no_interesado 0.62</td><td style="padding:4px 8px; font-family:var(--font-mono);">0.620</td><td id="rowT2v" style="padding:4px 8px; font-family:var(--font-mono);">—</td></tr>
+    <tr id="rowT3"><td style="padding:4px 8px; color:#378ADD;">interesado 0.66</td><td style="padding:4px 8px; font-family:var(--font-mono);">0.660</td><td id="rowT3v" style="padding:4px 8px; font-family:var(--font-mono);">—</td></tr>
   </table>
 
   <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:6px;">
@@ -359,9 +359,9 @@
     if(pPct>=39.5 && pPct<=40.5){
       msg='π≈40% — el set de validación de Ignasio. Acá la curva roja coincide con la de referencia (son la misma): AP≈'+ap.toFixed(3)+', muy cerca del AUC-ROC ('+curvesBase.auc.toFixed(3)+').';
     } else if(pPct<=1.5){
-      msg='π≈1% (producción real): mismo modelo, mismo umbral, ni un score cambiado — pero la curva PR se derrumba (AP≈'+ap.toFixed(3)+' contra ≈'+curvesBase.ap.toFixed(3)+' en validación). El panel de la izquierda ni se entera: AUC-ROC sigue clavado en '+curvesBase.auc.toFixed(3)+', un espejismo de estabilidad.';
+      msg='π≈1% (producción sobre clientes fieles): mismo modelo, mismo umbral, ni un score cambiado — pero la curva PR se derrumba (AP≈'+ap.toFixed(3)+' contra ≈'+curvesBase.ap.toFixed(3)+' en validación). El panel de la izquierda ni se entera: AUC-ROC sigue clavado en '+curvesBase.auc.toFixed(3)+', un espejismo de estabilidad.';
     } else {
-      msg='Ni un score ni el umbral cambiaron — solo π. La curva ROC (izquierda) es idéntica a como era en validación; la curva PR (derecha) se aleja de la de referencia (gris punteada) a medida que el fraude se vuelve más raro.';
+      msg='Ni un score ni el umbral cambiaron — solo π. La curva ROC (izquierda) es idéntica a como era en validación; la curva PR (derecha) se aleja de la de referencia (gris punteada) a medida que no_interesado se vuelve más raro.';
     }
     document.getElementById('story3b').textContent=msg;
   }
@@ -451,7 +451,7 @@
     var dataset = m3active ? m3Data : transformDataset(T);
     renderStrip(dataset);
 
-    var t1=dataset[7], t2=dataset[4], t3=dataset[8]; // 0.36 fraud, 0.62 fraud, 0.66 legit (indices per baseData order)
+    var t1=dataset[7], t2=dataset[4], t3=dataset[8]; // 0.36 no_interesado, 0.62 no_interesado, 0.66 interesado (indices per baseData order)
     document.getElementById('rowT1v').textContent=t1.s.toFixed(3);
     document.getElementById('rowT2v').textContent=t2.s.toFixed(3);
     document.getElementById('rowT3v').textContent=t3.s.toFixed(3);
@@ -468,11 +468,11 @@
 
     var msg;
     if(m3active){
-      msg='<b>M3</b> le asigna 0.4 a las 20 transacciones por igual. AUC cae a '+curves.auc.toFixed(3)+' (moneda al aire — no hay ningún par fraude/legítima donde uno quede arriba del otro, todos empatan). Y sin embargo su calibración en el agregado es razonable: como el 40% de los datos son fraude de verdad, "decir 0.4 siempre" no está tan lejos en cada balde donde cae algo — mirá los buckets de abajo, aunque solo uno tiene datos (todo cae en el mismo balde). Calibración sin discriminación.';
+      msg='<b>M3</b> le asigna 0.4 a los 20 clientes por igual. AUC cae a '+curves.auc.toFixed(3)+' (moneda al aire — no hay ningún par no_interesado/interesado donde uno quede arriba del otro, todos empatan). Y sin embargo su calibración en el agregado es razonable: como el 40% de los datos son no_interesado de verdad, "decir 0.4 siempre" no está tan lejos en cada balde donde cae algo — mirá los buckets de abajo, aunque solo uno tiene datos (todo cae en el mismo balde). Calibración sin discriminación.';
     } else if(Math.abs(T-1)<0.01){
       msg='Este es <b>M1</b>, el modelo original de Ignasio. AUC≈'+curves.auc.toFixed(3)+', ECE≈'+ece.toFixed(3)+' — el reliability diagram está razonablemente cerca de la diagonal en los cuatro baldes.';
     } else {
-      msg='La transformación de temperatura es estrictamente monótona: <b>el orden nunca cambia</b>, por eso AUC sigue en '+curves.auc.toFixed(3)+' (idéntico a M1). Pero mirá la tabla: el fraude real de score 0.36 ahora "dice" '+t1.s.toFixed(3)+', y la legítima de 0.66 ahora "dice" '+t3.s.toFixed(3)+' — los números se volvieron mentirosos. El reliability diagram se aleja de la diagonal y ECE sube a '+ece.toFixed(3)+' (era ≈0.088 en M1). Discriminación intacta, calibración cada vez peor.';
+      msg='La transformación de temperatura es estrictamente monótona: <b>el orden nunca cambia</b>, por eso AUC sigue en '+curves.auc.toFixed(3)+' (idéntico a M1). Pero mirá la tabla: el no_interesado real de score 0.36 ahora "dice" '+t1.s.toFixed(3)+', y el interesado de 0.66 ahora "dice" '+t3.s.toFixed(3)+' — los números se volvieron mentirosos. El reliability diagram se aleja de la diagonal y ECE sube a '+ece.toFixed(3)+' (era ≈0.088 en M1). Discriminación intacta, calibración cada vez peor.';
     }
     document.getElementById('story4a').innerHTML=msg.replace(/<b>/g,'<span style="color:var(--text-primary);font-weight:500;">').replace(/<\/b>/g,'</span>');
   }
